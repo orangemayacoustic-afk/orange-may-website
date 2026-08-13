@@ -122,7 +122,17 @@ export default {
         const { results } =
           await env.DB
             .prepare(`
-              SELECT *
+              SELECT
+                id,
+                event_date,
+                venue,
+                location,
+                start_time,
+                end_time,
+                note,
+                event_type,
+                public_url,
+                created_at
               FROM events
               WHERE event_date >= date('now')
               ORDER BY event_date ASC, start_time ASC
@@ -207,7 +217,17 @@ export default {
         const { results } =
           await env.DB
             .prepare(`
-              SELECT *
+              SELECT
+                id,
+                event_date,
+                venue,
+                location,
+                start_time,
+                end_time,
+                note,
+                event_type,
+                public_url,
+                created_at
               FROM events
               ORDER BY event_date ASC, start_time ASC
             `)
@@ -250,9 +270,11 @@ export default {
                 location,
                 start_time,
                 end_time,
-                note
+                note,
+                event_type,
+                public_url
               )
-              VALUES (?, ?, ?, ?, ?, ?)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             `)
             .bind(
               validation.data.event_date,
@@ -260,7 +282,9 @@ export default {
               validation.data.location,
               validation.data.start_time,
               validation.data.end_time,
-              validation.data.note
+              validation.data.note,
+              validation.data.event_type,
+              validation.data.public_url
             )
             .run();
 
@@ -352,7 +376,9 @@ export default {
                 location = ?,
                 start_time = ?,
                 end_time = ?,
-                note = ?
+                note = ?,
+                event_type = ?,
+                public_url = ?
               WHERE id = ?
             `)
             .bind(
@@ -362,6 +388,8 @@ export default {
               validation.data.start_time,
               validation.data.end_time,
               validation.data.note,
+              validation.data.event_type,
+              validation.data.public_url,
               id
             )
             .run();
@@ -557,6 +585,16 @@ function validateEvent(
       body.note
     );
 
+  const event_type =
+    normalizeEventType(
+      body.event_type
+    );
+
+  const public_url =
+    cleanOptional(
+      body.public_url
+    );
+
   if (!event_date) {
     return {
       ok: false,
@@ -616,6 +654,29 @@ function validateEvent(
     };
   }
 
+  if (
+    start_time &&
+    end_time &&
+    end_time < start_time
+  ) {
+    return {
+      ok: false,
+      error:
+        "End time cannot be earlier than start time"
+    };
+  }
+
+  if (
+    public_url &&
+    !isValidHttpUrl(public_url)
+  ) {
+    return {
+      ok: false,
+      error:
+        "Invalid public URL"
+    };
+  }
+
   return {
     ok: true,
 
@@ -625,9 +686,59 @@ function validateEvent(
       location,
       start_time,
       end_time,
-      note
+      note,
+      event_type,
+      public_url
     }
   };
+}
+
+
+// =========================================================
+// EVENT TYPE
+// =========================================================
+
+function normalizeEventType(
+  value
+) {
+  const allowedTypes = [
+    "PUBLIC",
+    "GUESTS_ONLY",
+    "PRIVATE"
+  ];
+
+  const type =
+    String(
+      value || "PUBLIC"
+    )
+      .trim()
+      .toUpperCase();
+
+  return allowedTypes.includes(type)
+    ? type
+    : "PUBLIC";
+}
+
+
+// =========================================================
+// URL VALIDATION
+// =========================================================
+
+function isValidHttpUrl(
+  value
+) {
+  try {
+    const url =
+      new URL(value);
+
+    return (
+      url.protocol === "http:" ||
+      url.protocol === "https:"
+    );
+
+  } catch {
+    return false;
+  }
 }
 
 
