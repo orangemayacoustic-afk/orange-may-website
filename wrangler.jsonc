@@ -6,7 +6,14 @@
 
   "assets": {
     "directory": "./public",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/admin",
+      "/admin.html",
+      "/login.html",
+      "/api/admin/*",
+      "/api/auth/*"
+    ]
   },
 
   "d1_databases": [
