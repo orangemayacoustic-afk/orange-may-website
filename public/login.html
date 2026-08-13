@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Orange May Admin Login</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #ff6a00;
+      --cream: #f5f0e8;
+      --black: #11100f;
+      --grey: #77716a;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 24px;
+
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(255,106,0,.22),
+          transparent 40%
+        ),
+        var(--black);
+
+      color: white;
+
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .login {
+      width: min(100%, 430px);
+    }
+
+    .brand {
+      margin-bottom: 42px;
+
+      font-size: .75rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+
+      font-size: clamp(3rem, 12vw, 5rem);
+      line-height: .85;
+      letter-spacing: -.06em;
+      text-transform: uppercase;
+    }
+
+    h1 span {
+      color: var(--orange);
+    }
+
+    p {
+      margin: 0 0 40px;
+
+      color: rgba(255,255,255,.6);
+      line-height: 1.5;
+    }
+
+    form {
+      display: grid;
+      gap: 18px;
+    }
+
+    label {
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+
+      color: rgba(255,255,255,.6);
+    }
+
+    input {
+      width: 100%;
+
+      padding: 16px 0;
+
+      border: 0;
+      border-bottom: 1px solid rgba(255,255,255,.3);
+
+      background: transparent;
+      color: white;
+
+      outline: none;
+
+      font-size: 16px;
+    }
+
+    input:focus {
+      border-color: var(--orange);
+    }
+
+    button {
+      margin-top: 12px;
+
+      min-height: 52px;
+
+      border: 0;
+      border-radius: 999px;
+
+      background: var(--orange);
+      color: white;
+
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+
+      cursor: pointer;
+    }
+
+    .status {
+      min-height: 22px;
+
+      margin-top: 8px;
+
+      color: rgba(255,255,255,.7);
+
+      font-size: .85rem;
+    }
+
+    .back {
+      display: inline-block;
+
+      margin-top: 34px;
+
+      color: rgba(255,255,255,.55);
+
+      font-size: .75rem;
+      font-weight: 800;
+
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="login">
+
+    <div class="brand">
+      ORANGE MAY
+    </div>
+
+    <h1>
+      Admin<br>
+      <span>Login</span>
+    </h1>
+
+    <p>
+      Enter the admin password to manage upcoming shows.
+    </p>
+
+    <form id="loginForm">
+
+      <div>
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+          autofocus
+        >
+      </div>
+
+      <button type="submit">
+        Log in →
+      </button>
+
+      <div
+        id="status"
+        class="status"
+      ></div>
+
+    </form>
+
+    <a
+      href="/"
+      class="back"
+    >
+      ← Back to website
+    </a>
+
+  </main>
+
+  <script>
+    const form =
+      document.getElementById("loginForm");
+
+    const status =
+      document.getElementById("status");
+
+    form.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+        const password =
+          document.getElementById("password").value;
+
+        status.textContent =
+          "Checking...";
+
+        try {
+          const response =
+            await fetch(
+              "/api/auth/login",
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify({
+                    password
+                  })
+              }
+            );
+
+          if (!response.ok) {
+            status.textContent =
+              "Incorrect password.";
+
+            return;
+          }
+
+          window.location.href =
+            "/admin.html";
+
+        } catch {
+          status.textContent =
+            "Unable to log in.";
+        }
+      }
+    );
+  </script>
+
+</body>
+</html>
