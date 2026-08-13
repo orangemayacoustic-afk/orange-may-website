@@ -6,6 +6,165 @@ export default {
 
     try {
       // =====================================================
+      // AUTH - LOGIN
+      // =====================================================
+
+      if (
+        pathname === "/api/auth/login" &&
+        method === "POST"
+      ) {
+        const body = await request.json();
+
+        const password =
+          String(body.password || "");
+
+        if (
+          !password ||
+          password !== env.ADMIN_PASSWORD
+        ) {
+          return json(
+            {
+              error: "Invalid password"
+            },
+            401
+          );
+        }
+
+        const response =
+          json({
+            success: true
+          });
+
+        response.headers.append(
+          "Set-Cookie",
+          createSessionCookie(
+            env.ADMIN_SESSION_TOKEN
+          )
+        );
+
+        return response;
+      }
+
+      // =====================================================
+      // AUTH - LOGOUT
+      // =====================================================
+
+      if (
+        pathname === "/api/auth/logout" &&
+        method === "POST"
+      ) {
+        const response =
+          json({
+            success: true
+          });
+
+        response.headers.append(
+          "Set-Cookie",
+          clearSessionCookie()
+        );
+
+        return response;
+      }
+
+      // =====================================================
+      // LOGIN PAGE
+      // =====================================================
+
+      if (
+        pathname === "/login" ||
+        pathname === "/login.html"
+      ) {
+        if (
+          isAdminAuthenticated(
+            request,
+            env
+          )
+        ) {
+          return Response.redirect(
+            new URL(
+              "/admin.html",
+              request.url
+            ),
+            302
+          );
+        }
+
+        const loginRequest =
+          new Request(
+            new URL(
+              "/login.html",
+              request.url
+            ),
+            request
+          );
+
+        return env.ASSETS.fetch(
+          loginRequest
+        );
+      }
+
+      // =====================================================
+      // ADMIN PAGE
+      // =====================================================
+
+      if (
+        pathname === "/admin" ||
+        pathname === "/admin.html"
+      ) {
+        if (
+          !isAdminAuthenticated(
+            request,
+            env
+          )
+        ) {
+          return Response.redirect(
+            new URL(
+              "/login.html",
+              request.url
+            ),
+            302
+          );
+        }
+
+        const adminRequest =
+          new Request(
+            new URL(
+              "/admin.html",
+              request.url
+            ),
+            request
+          );
+
+        return env.ASSETS.fetch(
+          adminRequest
+        );
+      }
+
+      // =====================================================
+      // PROTECT ALL ADMIN API ROUTES
+      // =====================================================
+
+      if (
+        pathname.startsWith(
+          "/api/admin/"
+        )
+      ) {
+        if (
+          !isAdminAuthenticated(
+            request,
+            env
+          )
+        ) {
+          return json(
+            {
+              error: "Unauthorized"
+            },
+            401
+          );
+        }
+      }
+
+      // =====================================================
       // PUBLIC EVENTS
       // =====================================================
 
@@ -13,41 +172,54 @@ export default {
         pathname === "/api/events" &&
         method === "GET"
       ) {
-        const { results } = await env.DB
-          .prepare(`
-            SELECT *
-            FROM events
-            WHERE event_date >= date('now')
-            ORDER BY event_date ASC, start_time ASC
-          `)
-          .all();
+        const { results } =
+          await env.DB
+            .prepare(`
+              SELECT *
+              FROM events
+              WHERE event_date >= date('now')
+              ORDER BY event_date ASC, start_time ASC
+            `)
+            .all();
 
         return json(results);
       }
 
       // =====================================================
-      // CONTACT FORM
+      // CONTACT
       // =====================================================
 
       if (
         pathname === "/api/contact" &&
         method === "POST"
       ) {
-        const body = await request.json();
+        const body =
+          await request.json();
 
         const name =
-          String(body.name || "").trim();
+          String(
+            body.name || ""
+          ).trim();
 
         const email =
-          String(body.email || "").trim();
+          String(
+            body.email || ""
+          ).trim();
 
         const message =
-          String(body.message || "").trim();
+          String(
+            body.message || ""
+          ).trim();
 
-        if (!name || !email || !message) {
+        if (
+          !name ||
+          !email ||
+          !message
+        ) {
           return json(
             {
-              error: "Missing required fields"
+              error:
+                "Missing required fields"
             },
             400
           );
@@ -78,20 +250,21 @@ export default {
       }
 
       // =====================================================
-      // ADMIN - GET ALL EVENTS
+      // ADMIN - GET EVENTS
       // =====================================================
 
       if (
         pathname === "/api/admin/events" &&
         method === "GET"
       ) {
-        const { results } = await env.DB
-          .prepare(`
-            SELECT *
-            FROM events
-            ORDER BY event_date ASC, start_time ASC
-          `)
-          .all();
+        const { results } =
+          await env.DB
+            .prepare(`
+              SELECT *
+              FROM events
+              ORDER BY event_date ASC, start_time ASC
+            `)
+            .all();
 
         return json(results);
       }
@@ -104,7 +277,8 @@ export default {
         pathname === "/api/admin/events" &&
         method === "POST"
       ) {
-        const body = await request.json();
+        const body =
+          await request.json();
 
         const validation =
           validateEvent(body);
@@ -112,46 +286,50 @@ export default {
         if (!validation.ok) {
           return json(
             {
-              error: validation.error
+              error:
+                validation.error
             },
             400
           );
         }
 
-        const result = await env.DB
-          .prepare(`
-            INSERT INTO events
-            (
-              event_date,
-              venue,
-              location,
-              start_time,
-              end_time,
-              note
+        const result =
+          await env.DB
+            .prepare(`
+              INSERT INTO events
+              (
+                event_date,
+                venue,
+                location,
+                start_time,
+                end_time,
+                note
+              )
+              VALUES (?, ?, ?, ?, ?, ?)
+            `)
+            .bind(
+              validation.data.event_date,
+              validation.data.venue,
+              validation.data.location,
+              validation.data.start_time,
+              validation.data.end_time,
+              validation.data.note
             )
-            VALUES (?, ?, ?, ?, ?, ?)
-          `)
-          .bind(
-            validation.data.event_date,
-            validation.data.venue,
-            validation.data.location,
-            validation.data.start_time,
-            validation.data.end_time,
-            validation.data.note
-          )
-          .run();
+            .run();
 
         return json(
           {
             success: true,
-            id: result.meta?.last_row_id
+            id:
+              result.meta
+                ?.last_row_id
           },
           201
         );
       }
 
       // =====================================================
-      // ADMIN - UPDATE / DELETE
+      // ADMIN - EVENT BY ID
       // =====================================================
 
       const adminEventMatch =
@@ -161,23 +339,27 @@ export default {
 
       if (adminEventMatch) {
         const id =
-          Number(adminEventMatch[1]);
+          Number(
+            adminEventMatch[1]
+          );
 
-        if (!Number.isInteger(id) || id <= 0) {
+        if (
+          !Number.isInteger(id) ||
+          id <= 0
+        ) {
           return json(
             {
-              error: "Invalid event ID"
+              error:
+                "Invalid event ID"
             },
             400
           );
         }
 
-        // -------------------------------------------------
-        // UPDATE EVENT
-        // -------------------------------------------------
-
+        // UPDATE
         if (method === "PUT") {
-          const body = await request.json();
+          const body =
+            await request.json();
 
           const validation =
             validateEvent(body);
@@ -185,25 +367,28 @@ export default {
           if (!validation.ok) {
             return json(
               {
-                error: validation.error
+                error:
+                  validation.error
               },
               400
             );
           }
 
-          const existing = await env.DB
-            .prepare(`
-              SELECT id
-              FROM events
-              WHERE id = ?
-            `)
-            .bind(id)
-            .first();
+          const existing =
+            await env.DB
+              .prepare(`
+                SELECT id
+                FROM events
+                WHERE id = ?
+              `)
+              .bind(id)
+              .first();
 
           if (!existing) {
             return json(
               {
-                error: "Event not found"
+                error:
+                  "Event not found"
               },
               404
             );
@@ -237,24 +422,23 @@ export default {
           });
         }
 
-        // -------------------------------------------------
-        // DELETE EVENT
-        // -------------------------------------------------
-
+        // DELETE
         if (method === "DELETE") {
-          const existing = await env.DB
-            .prepare(`
-              SELECT id
-              FROM events
-              WHERE id = ?
-            `)
-            .bind(id)
-            .first();
+          const existing =
+            await env.DB
+              .prepare(`
+                SELECT id
+                FROM events
+                WHERE id = ?
+              `)
+              .bind(id)
+              .first();
 
           if (!existing) {
             return json(
               {
-                error: "Event not found"
+                error:
+                  "Event not found"
               },
               404
             );
@@ -275,17 +459,20 @@ export default {
       }
 
       // =====================================================
-      // STATIC WEBSITE
+      // STATIC ASSETS
       // =====================================================
 
-      return env.ASSETS.fetch(request);
+      return env.ASSETS.fetch(
+        request
+      );
 
     } catch (error) {
       console.error(error);
 
       return json(
         {
-          error: "Internal server error"
+          error:
+            "Internal server error"
         },
         500
       );
@@ -295,75 +482,185 @@ export default {
 
 
 // =========================================================
+// AUTH
+// =========================================================
+
+function isAdminAuthenticated(
+  request,
+  env
+) {
+  if (
+    !env.ADMIN_SESSION_TOKEN
+  ) {
+    return false;
+  }
+
+  const cookies =
+    parseCookies(
+      request.headers.get(
+        "Cookie"
+      ) || ""
+    );
+
+  return (
+    cookies.orange_may_admin ===
+    env.ADMIN_SESSION_TOKEN
+  );
+}
+
+
+function createSessionCookie(
+  token
+) {
+  return [
+    `orange_may_admin=${token}`,
+    "Path=/",
+    "HttpOnly",
+    "Secure",
+    "SameSite=Strict",
+    "Max-Age=28800"
+  ].join("; ");
+}
+
+
+function clearSessionCookie() {
+  return [
+    "orange_may_admin=",
+    "Path=/",
+    "HttpOnly",
+    "Secure",
+    "SameSite=Strict",
+    "Max-Age=0"
+  ].join("; ");
+}
+
+
+function parseCookies(
+  cookieHeader
+) {
+  const cookies = {};
+
+  cookieHeader
+    .split(";")
+    .forEach(cookie => {
+      const separator =
+        cookie.indexOf("=");
+
+      if (separator === -1) {
+        return;
+      }
+
+      const key =
+        cookie
+          .slice(0, separator)
+          .trim();
+
+      const value =
+        cookie
+          .slice(separator + 1)
+          .trim();
+
+      cookies[key] =
+        value;
+    });
+
+  return cookies;
+}
+
+
+// =========================================================
 // EVENT VALIDATION
 // =========================================================
 
-function validateEvent(body) {
+function validateEvent(
+  body
+) {
   const event_date =
-    String(body.event_date || "").trim();
+    String(
+      body.event_date || ""
+    ).trim();
 
   const venue =
-    String(body.venue || "").trim();
+    String(
+      body.venue || ""
+    ).trim();
 
   const location =
-    String(body.location || "").trim();
+    String(
+      body.location || ""
+    ).trim();
 
   const start_time =
-    cleanOptional(body.start_time);
+    cleanOptional(
+      body.start_time
+    );
 
   const end_time =
-    cleanOptional(body.end_time);
+    cleanOptional(
+      body.end_time
+    );
 
   const note =
-    cleanOptional(body.note);
+    cleanOptional(
+      body.note
+    );
 
   if (!event_date) {
     return {
       ok: false,
-      error: "Date is required"
+      error:
+        "Date is required"
     };
   }
 
   if (!venue) {
     return {
       ok: false,
-      error: "Venue is required"
+      error:
+        "Venue is required"
     };
   }
 
   if (!location) {
     return {
       ok: false,
-      error: "Location is required"
+      error:
+        "Location is required"
     };
   }
 
   if (
-    !/^\d{4}-\d{2}-\d{2}$/.test(event_date)
+    !/^\d{4}-\d{2}-\d{2}$/
+      .test(event_date)
   ) {
     return {
       ok: false,
-      error: "Invalid date"
+      error:
+        "Invalid date"
     };
   }
 
   if (
     start_time &&
-    !/^\d{2}:\d{2}$/.test(start_time)
+    !/^\d{2}:\d{2}$/
+      .test(start_time)
   ) {
     return {
       ok: false,
-      error: "Invalid start time"
+      error:
+        "Invalid start time"
     };
   }
 
   if (
     end_time &&
-    !/^\d{2}:\d{2}$/.test(end_time)
+    !/^\d{2}:\d{2}$/
+      .test(end_time)
   ) {
     return {
       ok: false,
-      error: "Invalid end time"
+      error:
+        "Invalid end time"
     };
   }
 
@@ -386,15 +683,22 @@ function validateEvent(body) {
 // HELPERS
 // =========================================================
 
-function cleanOptional(value) {
+function cleanOptional(
+  value
+) {
   const result =
-    String(value || "").trim();
+    String(
+      value || ""
+    ).trim();
 
   return result || null;
 }
 
 
-function json(data, status = 200) {
+function json(
+  data,
+  status = 200
+) {
   return new Response(
     JSON.stringify(data),
     {
