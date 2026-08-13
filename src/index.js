@@ -15,6 +15,6 @@ export default {
       return Response.json(results);
     }
 
-    return new Response("Orange May website is online!");
+    return new Response("Orange May website is online! 🎸");
   },
 };
