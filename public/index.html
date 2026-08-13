@@ -2301,144 +2301,220 @@
   }
 
   function renderPublicEvent(event) {
-    const date =
-      new Date(
-        event.event_date +
-        "T12:00:00"
-      );
+  const date =
+    new Date(
+      event.event_date +
+      "T12:00:00"
+    );
 
-    const day =
-      String(
-        date.getDate()
-      ).padStart(2, "0");
+  const day =
+    String(
+      date.getDate()
+    ).padStart(2, "0");
 
-    const month =
-      monthNames[currentLanguage]
-        [date.getMonth()];
+  const month =
+    monthNames[currentLanguage]
+      [date.getMonth()];
 
-    const type =
-      event.event_type ||
-      "PUBLIC";
+  const type =
+    event.event_type ||
+    "PUBLIC";
 
-    const isPrivate =
-      type === "PRIVATE";
+  const isPrivate =
+    type === "PRIVATE";
 
-    const isGuestsOnly =
-      type === "GUESTS_ONLY";
+  const isGuestsOnly =
+    type === "GUESTS_ONLY";
 
-    const venue =
-      isPrivate
-        ? (
-            currentLanguage === "it"
-              ? "Evento privato"
-              : "Private Event"
-          )
-        : event.venue;
 
-    const time =
-      event.start_time
-        ? event.end_time
-          ? `${event.start_time} – ${event.end_time}`
-          : event.start_time
-        : "";
+  /* ============================================
+     VENUE
+  ============================================ */
 
-    let badges = "";
+  const venue =
+    isPrivate
+      ? (
+          currentLanguage === "it"
+            ? "Evento privato"
+            : "Private Event"
+        )
+      : event.venue;
 
-    if (isGuestsOnly) {
-      badges += `
-        <span class="event-badge guests">
-          ${
-            currentLanguage === "it"
-              ? "Solo ospiti"
-              : "Guests only"
-          }
-        </span>
-      `;
-    }
 
-    if (isPrivate) {
-      badges += `
-        <span class="event-badge private">
-          ${
-            currentLanguage === "it"
-              ? "Evento privato"
-              : "Private event"
-          }
-        </span>
-      `;
-    }
+  /* ============================================
+     TIME
+  ============================================ */
 
-    const badgesBlock =
-      badges
-        ? `<div class="event-badges">${badges}</div>`
-        : "";
+  const time =
+    event.start_time
+      ? event.end_time
+        ? `${event.start_time} – ${event.end_time}`
+        : event.start_time
+      : "";
 
-    const noteBlock =
-      event.note
-        ? `
-          <div class="event-note-text">
-            ${escapeHtml(event.note)}
-          </div>
-        `
-        : "";
 
-    const infoLink =
-      (
-        type === "PUBLIC" &&
-        event.public_url
-      )
-        ? `
-          <a
-            href="${escapeAttribute(event.public_url)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="event-info-link"
-          >
-            ${
-              currentLanguage === "it"
-                ? "Maggiori info ↗"
-                : "More info ↗"
-            }
-          </a>
-        `
-        : "";
+  /* ============================================
+     BADGES
+  ============================================ */
 
-    return `
-      <article class="event">
+  let badges = "";
 
-        <div class="event-date">
-          <span class="event-day">
-            ${day}
-          </span>
-
-          <span class="event-month">
-            ${month}
-          </span>
-        </div>
-
-        <div>
-          <div class="event-venue">
-            ${escapeHtml(venue)}
-          </div>
-
-          ${badgesBlock}
-          ${noteBlock}
-          ${infoLink}
-        </div>
-
-        <div class="event-location">
-          ${escapeHtml(
-            event.location || ""
-          )}
-        </div>
-
-        <div class="event-time">
-          ${escapeHtml(time)}
-        </div>
-
-      </article>
+  if (isGuestsOnly) {
+    badges = `
+      <span class="event-badge guests">
+        ${
+          currentLanguage === "it"
+            ? "Solo ospiti"
+            : "Guests only"
+        }
+      </span>
     `;
   }
+
+  if (isPrivate) {
+    badges = `
+      <span class="event-badge private">
+        ${
+          currentLanguage === "it"
+            ? "Evento privato"
+            : "Private event"
+        }
+      </span>
+    `;
+  }
+
+  const badgesBlock =
+    badges
+      ? `
+        <div class="event-badges">
+          ${badges}
+        </div>
+      `
+      : "";
+
+
+  /* ============================================
+     NOTE
+
+     Ignoriamo le vecchie note che usavamo
+     per indicare il tipo di evento.
+  ============================================ */
+
+  const rawNote =
+    String(
+      event.note || ""
+    ).trim();
+
+  const legacyNotes = [
+    "PRIVATE EVENT",
+    "PRIVATE",
+    "GUESTS ONLY",
+    "ONLY GUESTS",
+    "SOLO OSPITI",
+    "EVENTO PRIVATO"
+  ];
+
+  const showNote =
+    rawNote &&
+    !legacyNotes.includes(
+      rawNote.toUpperCase()
+    );
+
+  const noteBlock =
+    showNote
+      ? `
+        <div class="event-note-text">
+          ${escapeHtml(rawNote)}
+        </div>
+      `
+      : "";
+
+
+  /* ============================================
+     PUBLIC LINK
+  ============================================ */
+
+  const infoLink =
+    (
+      type === "PUBLIC" &&
+      event.public_url
+    )
+      ? `
+        <a
+          href="${escapeAttribute(event.public_url)}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="event-info-link"
+        >
+          ${
+            currentLanguage === "it"
+              ? "Info ↗"
+              : "More info ↗"
+          }
+        </a>
+      `
+      : "";
+
+
+  /* ============================================
+     RESULT
+  ============================================ */
+
+  return `
+    <article class="event">
+
+      <div class="event-date">
+
+        <span class="event-day">
+          ${day}
+        </span>
+
+        <span class="event-month">
+          ${month}
+        </span>
+
+      </div>
+
+
+      <div class="event-content">
+
+        <div class="event-venue">
+          ${escapeHtml(venue)}
+        </div>
+
+        ${badgesBlock}
+
+        ${noteBlock}
+
+      </div>
+
+
+      <div class="event-location">
+        ${escapeHtml(
+          event.location || ""
+        )}
+      </div>
+
+
+      <div class="event-right">
+
+        ${
+          time
+            ? `
+              <div class="event-time">
+                ${escapeHtml(time)}
+              </div>
+            `
+            : ""
+        }
+
+        ${infoLink}
+
+      </div>
+
+    </article>
+  `;
+}
 
   function getEventEnd(event) {
     const endTime =
