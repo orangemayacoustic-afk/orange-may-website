@@ -247,6 +247,19 @@
     <a href="/" class="btn btn-dark">
       View website
     </a>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+  <a href="/" class="btn btn-dark">
+    View website
+  </a>
+
+  <button
+    id="logoutButton"
+    class="btn btn-delete"
+    type="button"
+  >
+    Logout
+  </button>
+</div>
   </header>
 
 
@@ -624,6 +637,23 @@
 
 
   loadEvents();
+  document
+  .getElementById("logoutButton")
+  .addEventListener(
+    "click",
+    async () => {
+
+      await fetch(
+        "/api/auth/logout",
+        {
+          method: "POST"
+        }
+      );
+
+      window.location.href =
+        "/login.html";
+    }
+  );
 </script>
 
 </body>
