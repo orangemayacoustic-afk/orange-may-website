@@ -608,262 +608,235 @@
     }
 
     /* =====================================================
-   SHOWS
-===================================================== */
+       SHOWS
+    ===================================================== */
 
-#shows {
-  padding: 125px 0 135px;
-  background: var(--cream);
-}
+    #shows {
+      padding: 95px 0 115px;
+      background: var(--cream);
+    }
 
-.section-header {
-  display: grid;
-  grid-template-columns: 170px minmax(0, 1fr);
-  gap: 55px;
-  align-items: end;
-  margin-bottom: 58px;
-}
+    .section-header {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 55px;
+      align-items: end;
+      margin-bottom: 42px;
+    }
 
-.section-title {
-  max-width: 1000px;
+    .section-title {
+      max-width: 1000px;
 
-  font-size: clamp(3.8rem, 7vw, 7rem);
-  font-weight: 900;
-  line-height: .84;
-  letter-spacing: -.065em;
+      font-size: clamp(3.8rem, 6vw, 6.2rem);
+      font-weight: 900;
+      line-height: .84;
+      letter-spacing: -.065em;
 
-  text-transform: uppercase;
-}
+      text-transform: uppercase;
+    }
 
-.events-list {
-  border-top: 2px solid var(--black);
-}
+    .events-list {
+      border-top: 2px solid var(--black);
+    }
 
+    .event {
+      position: relative;
 
-/* SINGLE EVENT */
+      display: grid;
+      grid-template-columns:
+        105px
+        minmax(250px, 1.5fr)
+        minmax(170px, .75fr)
+        minmax(120px, .55fr);
 
-.event {
-  position: relative;
+      gap: 32px;
+      align-items: center;
 
-  display: grid;
-  grid-template-columns:
-    115px
-    minmax(250px, 1.5fr)
-    minmax(170px, .75fr)
-    minmax(120px, .55fr);
+      min-height: 128px;
+      padding: 22px 0;
 
-  gap: 34px;
-  align-items: center;
+      border-bottom: 1px solid var(--line);
 
-  min-height: 150px;
-  padding: 27px 0;
+      overflow: hidden;
 
-  border-bottom: 1px solid var(--line);
+      transition:
+        padding .25s ease,
+        background .25s ease;
+    }
 
-  overflow: hidden;
+    .event::before {
+      content: "";
 
-  transition:
-    padding .25s ease,
-    background .25s ease;
-}
+      position: absolute;
+      inset: 0 auto 0 0;
 
-.event::before {
-  content: "";
+      width: 0;
 
-  position: absolute;
-  inset: 0 auto 0 0;
+      background: var(--orange);
 
-  width: 0;
+      transition: width .25s ease;
+    }
 
-  background: var(--orange);
+    .event:hover {
+      padding-left: 14px;
+      padding-right: 14px;
 
-  transition: width .25s ease;
-}
+      background: rgba(255, 106, 0, .045);
+    }
 
-.event:hover {
-  padding-left: 16px;
-  padding-right: 16px;
+    .event:hover::before {
+      width: 4px;
+    }
 
-  background: rgba(255, 106, 0, .045);
-}
+    .event-date {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
-.event:hover::before {
-  width: 4px;
-}
+    .event-day {
+      font-size: 3.25rem;
+      font-weight: 900;
+      line-height: .78;
+      letter-spacing: -.06em;
+    }
 
+    .event-month {
+      margin-top: 10px;
 
-/* DATE */
+      color: var(--orange);
 
-.event-date {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .19em;
+      text-transform: uppercase;
+    }
 
-.event-day {
-  font-size: 3.65rem;
-  font-weight: 900;
-  line-height: .78;
-  letter-spacing: -.06em;
-}
+    .event-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
 
-.event-month {
-  margin-top: 10px;
+      min-width: 0;
+    }
 
-  color: var(--orange);
+    .event-venue {
+      max-width: 100%;
 
-  font-size: .68rem;
-  font-weight: 900;
-  letter-spacing: .19em;
-  text-transform: uppercase;
-}
+      font-size: clamp(1.55rem, 2.35vw, 2.3rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.035em;
 
+      overflow-wrap: anywhere;
+    }
 
-/* MAIN INFO */
+    .event-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
 
-.event-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+      margin-top: 12px;
+    }
 
-  min-width: 0;
-}
+    .event-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
 
-.event-venue {
-  max-width: 100%;
+      min-height: 25px;
 
-  font-size: clamp(1.55rem, 2.5vw, 2.45rem);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -.035em;
+      padding: 0 10px;
 
-  overflow-wrap: anywhere;
-}
+      border-radius: 999px;
 
+      font-size: .55rem;
+      font-weight: 900;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
 
-/* BADGES */
+    .event-badge.guests {
+      background: #ffead1;
+      color: #8a4700;
+    }
 
-.event-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
+    .event-note-text {
+      max-width: 520px;
 
-  margin-top: 13px;
-}
+      margin-top: 10px;
 
-.event-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+      color: var(--grey);
 
-  min-height: 26px;
+      font-size: .82rem;
+      line-height: 1.4;
+    }
 
-  padding: 0 10px;
+    .event-location {
+      align-self: center;
 
-  border-radius: 999px;
+      color: #5f5a54;
 
-  font-size: .56rem;
-  font-weight: 900;
-  letter-spacing: .11em;
-  text-transform: uppercase;
-}
+      font-size: .92rem;
+      font-weight: 600;
+      line-height: 1.4;
 
-.event-badge.guests {
-  background: #ffead1;
-  color: #8a4700;
-}
+      overflow-wrap: anywhere;
+    }
 
-.event-badge.private {
-  background: var(--black);
-  color: var(--cream);
-}
+    .event-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
 
+      gap: 10px;
+    }
 
-/* NOTE */
+    .event-time {
+      font-size: .84rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: .01em;
 
-.event-note-text {
-  max-width: 520px;
+      white-space: nowrap;
+    }
 
-  margin-top: 11px;
+    .event-info-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
 
-  color: var(--grey);
+      min-height: 34px;
 
-  font-size: .82rem;
-  line-height: 1.4;
-}
+      padding: 0 13px;
 
+      border: 1px solid var(--black);
+      border-radius: 999px;
 
-/* LOCATION */
+      color: var(--black);
 
-.event-location {
-  align-self: center;
+      font-size: .58rem;
+      font-weight: 900;
+      letter-spacing: .09em;
+      text-transform: uppercase;
 
-  color: var(--grey);
+      transition:
+        background .2s ease,
+        color .2s ease;
+    }
 
-  font-size: .94rem;
-  line-height: 1.4;
+    .event-info-link:hover {
+      background: var(--black);
+      color: white;
+    }
 
-  overflow-wrap: anywhere;
-}
+    .empty {
+      padding: 45px 0;
 
+      color: var(--grey);
 
-/* TIME / CTA */
-
-.event-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-
-  gap: 12px;
-}
-
-.event-time {
-  font-size: .88rem;
-  font-weight: 900;
-  line-height: 1.2;
-
-  white-space: nowrap;
-}
-
-.event-info-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-height: 34px;
-
-  padding: 0 13px;
-
-  border: 1px solid var(--black);
-  border-radius: 999px;
-
-  color: var(--black);
-
-  font-size: .58rem;
-  font-weight: 900;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-
-  transition:
-    background .2s ease,
-    color .2s ease;
-}
-
-.event-info-link:hover {
-  background: var(--black);
-  color: white;
-}
-
-
-/* EMPTY */
-
-.empty {
-  padding: 45px 0;
-
-  color: var(--grey);
-
-  font-size: 1rem;
-}
+      font-size: 1rem;
+    }
 
     /* =====================================================
        CONTACT
@@ -1302,10 +1275,13 @@
       }
 
       #social,
-      #shows,
       #contact,
       #about {
         padding: 70px 0;
+      }
+
+      #shows {
+        padding: 68px 0 78px;
       }
 
       .social-top {
@@ -1348,151 +1324,126 @@
         font-size: .61rem;
       }
 
+      /* SHOWS MOBILE */
+
       .section-header {
         display: block;
         margin-bottom: 34px;
       }
 
       .section-title {
-        margin-top: 12px;
-        font-size: clamp(2.65rem, 12.5vw, 4rem);
+        margin-top: 11px;
+
+        max-width: 100%;
+
+        font-size: clamp(2.9rem, 13.5vw, 4.3rem);
+        line-height: .86;
       }
 
-      /* SHOWS MOBILE */
+      .events-list {
+        border-top-width: 2px;
+      }
 
-.section-header {
-  display: block;
-  margin-bottom: 38px;
-}
+      .event {
+        display: grid;
+        grid-template-columns: 62px minmax(0, 1fr);
 
-.section-title {
-  margin-top: 13px;
+        gap: 15px;
 
-  max-width: 100%;
+        min-height: 0;
 
-  font-size: clamp(3rem, 14vw, 4.5rem);
-  line-height: .86;
-}
+        padding: 23px 0;
 
-.events-list {
-  border-top-width: 2px;
-}
+        align-items: start;
+      }
 
-.event {
-  display: grid;
-  grid-template-columns: 66px minmax(0, 1fr);
+      .event:hover {
+        padding-left: 0;
+        padding-right: 0;
 
-  gap: 16px;
+        background: transparent;
+      }
 
-  min-height: 0;
+      .event:hover::before {
+        width: 0;
+      }
 
-  padding: 25px 0;
+      .event-date {
+        padding-top: 2px;
+      }
 
-  align-items: start;
-}
+      .event-day {
+        font-size: 2.55rem;
+        line-height: .8;
+      }
 
-.event:hover {
-  padding-left: 0;
-  padding-right: 0;
+      .event-month {
+        margin-top: 7px;
 
-  background: transparent;
-}
+        font-size: .57rem;
+        letter-spacing: .16em;
+      }
 
-.event:hover::before {
-  width: 0;
-}
+      .event-content {
+        width: 100%;
+      }
 
+      .event-venue {
+        font-size: clamp(1.25rem, 6.5vw, 1.7rem);
+        line-height: 1.02;
+      }
 
-/* MOBILE DATE */
+      .event-badges {
+        margin-top: 9px;
+      }
 
-.event-date {
-  padding-top: 2px;
-}
+      .event-badge {
+        min-height: 23px;
 
-.event-day {
-  font-size: 2.65rem;
-  line-height: .8;
-}
+        padding: 0 8px;
 
-.event-month {
-  margin-top: 8px;
+        font-size: .49rem;
+      }
 
-  font-size: .58rem;
-  letter-spacing: .16em;
-}
+      .event-note-text {
+        margin-top: 8px;
 
+        font-size: .77rem;
+        line-height: 1.4;
+      }
 
-/* MOBILE CONTENT */
+      .event-location {
+        grid-column: 2;
 
-.event-content {
-  width: 100%;
-}
+        margin-top: -1px;
 
-.event-venue {
-  font-size: clamp(1.32rem, 7vw, 1.8rem);
-  line-height: 1.02;
-}
+        font-size: .81rem;
+        line-height: 1.35;
+      }
 
-.event-badges {
-  margin-top: 10px;
-}
+      .event-right {
+        grid-column: 2;
 
-.event-badge {
-  min-height: 24px;
+        width: 100%;
 
-  padding: 0 9px;
+        align-items: flex-start;
 
-  font-size: .5rem;
-}
+        gap: 10px;
 
+        margin-top: -1px;
+      }
 
-/* LOCATION + TIME */
+      .event-time {
+        font-size: .78rem;
+      }
 
-.event-location {
-  grid-column: 2;
+      .event-info-link {
+        min-height: 32px;
 
-  margin-top: -3px;
+        padding: 0 11px;
 
-  font-size: .82rem;
-  line-height: 1.35;
-}
-
-.event-right {
-  grid-column: 2;
-
-  width: 100%;
-
-  align-items: flex-start;
-
-  gap: 11px;
-
-  margin-top: -2px;
-}
-
-.event-time {
-  font-size: .78rem;
-}
-
-
-/* INFO BUTTON */
-
-.event-info-link {
-  min-height: 33px;
-
-  padding: 0 12px;
-
-  font-size: .55rem;
-}
-
-
-/* NOTE */
-
-.event-note-text {
-  margin-top: 9px;
-
-  font-size: .78rem;
-  line-height: 1.4;
-}
+        font-size: .54rem;
+      }
 
       .contact-grid {
         display: block;
@@ -1581,6 +1532,19 @@
       .contact-title,
       .story-heading {
         font-size: 11.7vw;
+      }
+
+      .event {
+        grid-template-columns: 56px minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .event-day {
+        font-size: 2.3rem;
+      }
+
+      .event-venue {
+        font-size: 1.2rem;
       }
     }
   </style>
@@ -2301,220 +2265,175 @@
   }
 
   function renderPublicEvent(event) {
-  const date =
-    new Date(
-      event.event_date +
-      "T12:00:00"
-    );
+    const date =
+      new Date(
+        event.event_date +
+        "T12:00:00"
+      );
 
-  const day =
-    String(
-      date.getDate()
-    ).padStart(2, "0");
+    const day =
+      String(
+        date.getDate()
+      ).padStart(2, "0");
 
-  const month =
-    monthNames[currentLanguage]
-      [date.getMonth()];
+    const month =
+      monthNames[currentLanguage]
+        [date.getMonth()];
 
-  const type =
-    event.event_type ||
-    "PUBLIC";
+    const type =
+      event.event_type ||
+      "PUBLIC";
 
-  const isPrivate =
-    type === "PRIVATE";
+    const isPrivate =
+      type === "PRIVATE";
 
-  const isGuestsOnly =
-    type === "GUESTS_ONLY";
+    const isGuestsOnly =
+      type === "GUESTS_ONLY";
 
+    const venue =
+      isPrivate
+        ? (
+            currentLanguage === "it"
+              ? "Evento privato"
+              : "Private Event"
+          )
+        : event.venue;
 
-  /* ============================================
-     VENUE
-  ============================================ */
+    const time =
+      event.start_time
+        ? event.end_time
+          ? `${event.start_time} – ${event.end_time}`
+          : event.start_time
+        : "";
 
-  const venue =
-    isPrivate
-      ? (
-          currentLanguage === "it"
-            ? "Evento privato"
-            : "Private Event"
-        )
-      : event.venue;
+    let badges = "";
 
-
-  /* ============================================
-     TIME
-  ============================================ */
-
-  const time =
-    event.start_time
-      ? event.end_time
-        ? `${event.start_time} – ${event.end_time}`
-        : event.start_time
-      : "";
-
-
-  /* ============================================
-     BADGES
-  ============================================ */
-
-  let badges = "";
-
-  if (isGuestsOnly) {
-    badges = `
-      <span class="event-badge guests">
-        ${
-          currentLanguage === "it"
-            ? "Solo ospiti"
-            : "Guests only"
-        }
-      </span>
-    `;
-  }
-
-  if (isPrivate) {
-    badges = `
-      <span class="event-badge private">
-        ${
-          currentLanguage === "it"
-            ? "Evento privato"
-            : "Private event"
-        }
-      </span>
-    `;
-  }
-
-  const badgesBlock =
-    badges
-      ? `
-        <div class="event-badges">
-          ${badges}
-        </div>
-      `
-      : "";
-
-
-  /* ============================================
-     NOTE
-
-     Ignoriamo le vecchie note che usavamo
-     per indicare il tipo di evento.
-  ============================================ */
-
-  const rawNote =
-    String(
-      event.note || ""
-    ).trim();
-
-  const legacyNotes = [
-    "PRIVATE EVENT",
-    "PRIVATE",
-    "GUESTS ONLY",
-    "ONLY GUESTS",
-    "SOLO OSPITI",
-    "EVENTO PRIVATO"
-  ];
-
-  const showNote =
-    rawNote &&
-    !legacyNotes.includes(
-      rawNote.toUpperCase()
-    );
-
-  const noteBlock =
-    showNote
-      ? `
-        <div class="event-note-text">
-          ${escapeHtml(rawNote)}
-        </div>
-      `
-      : "";
-
-
-  /* ============================================
-     PUBLIC LINK
-  ============================================ */
-
-  const infoLink =
-    (
-      type === "PUBLIC" &&
-      event.public_url
-    )
-      ? `
-        <a
-          href="${escapeAttribute(event.public_url)}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="event-info-link"
-        >
+    if (isGuestsOnly) {
+      badges = `
+        <span class="event-badge guests">
           ${
             currentLanguage === "it"
-              ? "Info ↗"
-              : "More info ↗"
+              ? "Solo ospiti"
+              : "Guests only"
           }
-        </a>
-      `
-      : "";
-
-
-  /* ============================================
-     RESULT
-  ============================================ */
-
-  return `
-    <article class="event">
-
-      <div class="event-date">
-
-        <span class="event-day">
-          ${day}
         </span>
+      `;
+    }
 
-        <span class="event-month">
-          ${month}
-        </span>
+    const badgesBlock =
+      badges
+        ? `
+          <div class="event-badges">
+            ${badges}
+          </div>
+        `
+        : "";
 
-      </div>
+    const rawNote =
+      String(
+        event.note || ""
+      ).trim();
 
+    const legacyNotes = [
+      "PRIVATE EVENT",
+      "PRIVATE",
+      "GUESTS ONLY",
+      "ONLY GUESTS",
+      "SOLO OSPITI",
+      "EVENTO PRIVATO"
+    ];
 
-      <div class="event-content">
+    const showNote =
+      rawNote &&
+      !legacyNotes.includes(
+        rawNote.toUpperCase()
+      );
 
-        <div class="event-venue">
-          ${escapeHtml(venue)}
+    const noteBlock =
+      showNote
+        ? `
+          <div class="event-note-text">
+            ${escapeHtml(rawNote)}
+          </div>
+        `
+        : "";
+
+    const infoLink =
+      (
+        type === "PUBLIC" &&
+        event.public_url
+      )
+        ? `
+          <a
+            href="${escapeAttribute(event.public_url)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="event-info-link"
+          >
+            ${
+              currentLanguage === "it"
+                ? "Info ↗"
+                : "More info ↗"
+            }
+          </a>
+        `
+        : "";
+
+    return `
+      <article class="event">
+
+        <div class="event-date">
+
+          <span class="event-day">
+            ${day}
+          </span>
+
+          <span class="event-month">
+            ${month}
+          </span>
+
         </div>
 
-        ${badgesBlock}
 
-        ${noteBlock}
+        <div class="event-content">
 
-      </div>
+          <div class="event-venue">
+            ${escapeHtml(venue)}
+          </div>
+
+          ${badgesBlock}
+
+          ${noteBlock}
+
+        </div>
 
 
-      <div class="event-location">
-        ${escapeHtml(
-          event.location || ""
-        )}
-      </div>
+        <div class="event-location">
+          ${escapeHtml(
+            event.location || ""
+          )}
+        </div>
 
 
-      <div class="event-right">
+        <div class="event-right">
 
-        ${
-          time
-            ? `
-              <div class="event-time">
-                ${escapeHtml(time)}
-              </div>
-            `
-            : ""
-        }
+          ${
+            time
+              ? `
+                <div class="event-time">
+                  ${escapeHtml(time)}
+                </div>
+              `
+              : ""
+          }
 
-        ${infoLink}
+          ${infoLink}
 
-      </div>
+        </div>
 
-    </article>
-  `;
-}
+      </article>
+    `;
+  }
 
   function getEventEnd(event) {
     const endTime =
