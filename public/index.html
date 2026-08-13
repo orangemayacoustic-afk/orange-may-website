@@ -27,6 +27,8 @@
       --black-soft: #191714;
       --grey: #77716a;
       --line: rgba(17, 16, 15, 0.16);
+      --green: #1f6f43;
+      --purple: #5f43a4;
       --max: 1260px;
     }
 
@@ -157,12 +159,6 @@
       font-weight: 900;
       letter-spacing: .08em;
       text-transform: uppercase;
-
-      transition: opacity .2s ease;
-    }
-
-    .nav-links a:hover {
-      opacity: .55;
     }
 
     .language-switcher {
@@ -206,7 +202,7 @@
     }
 
     /* =====================================================
-       HAMBURGER
+       MOBILE MENU
     ===================================================== */
 
     .menu-toggle {
@@ -256,10 +252,6 @@
       top: 20px;
       transform: rotate(-45deg);
     }
-
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
 
     .mobile-menu {
       position: fixed;
@@ -465,14 +457,6 @@
       font-weight: 900;
       letter-spacing: .08em;
       text-transform: uppercase;
-
-      transition:
-        transform .2s ease,
-        background .2s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
     }
 
     .btn-orange {
@@ -558,14 +542,6 @@
       gap: 20px;
 
       border-bottom: 2px solid var(--black);
-
-      transition:
-        padding .22s ease,
-        background .22s ease;
-    }
-
-    .social-link:hover {
-      padding-inline: 15px;
     }
 
     .social-name {
@@ -580,12 +556,6 @@
       flex-shrink: 0;
 
       font-size: clamp(1.9rem, 3.5vw, 3.4rem);
-
-      transition: transform .2s ease;
-    }
-
-    .social-link:hover .social-arrow {
-      transform: translate(5px, -5px);
     }
 
     /* =====================================================
@@ -597,8 +567,6 @@
 
       background: var(--black);
       color: var(--cream);
-
-      border-block: 1px solid rgba(255,255,255,.1);
     }
 
     .ticker-track {
@@ -674,28 +642,17 @@
     }
 
     .event {
-      position: relative;
-
       display: grid;
-      grid-template-columns: 120px minmax(0, 1.35fr) minmax(0, 1fr) 135px;
+      grid-template-columns: 120px minmax(0, 1.3fr) minmax(0, 1fr) 140px;
 
       gap: 26px;
 
       align-items: center;
 
-      min-height: 140px;
+      min-height: 145px;
       padding: 24px 0;
 
       border-bottom: 1px solid var(--line);
-
-      transition:
-        padding .2s ease,
-        background .2s ease;
-    }
-
-    .event:hover {
-      padding-inline: 12px;
-      background: rgba(255,255,255,.42);
     }
 
     .event-date {
@@ -726,25 +683,6 @@
       line-height: 1.05;
     }
 
-    .event-note {
-      display: inline-flex;
-
-      margin-top: 10px;
-
-      padding: 6px 10px;
-
-      border-radius: 999px;
-
-      background: var(--orange);
-      color: white;
-
-      font-size: .58rem;
-      font-weight: 900;
-      letter-spacing: .11em;
-      line-height: 1.2;
-      text-transform: uppercase;
-    }
-
     .event-location {
       color: var(--grey);
 
@@ -756,6 +694,65 @@
 
       font-size: .88rem;
       font-weight: 800;
+    }
+
+    .event-badges {
+      margin-top: 10px;
+
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .event-badge {
+      display: inline-flex;
+      align-items: center;
+
+      min-height: 25px;
+
+      padding: 0 9px;
+
+      border-radius: 999px;
+
+      font-size: .56rem;
+      font-weight: 900;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .event-badge.guests {
+      background: #fff0dc;
+      color: #945000;
+    }
+
+    .event-badge.private {
+      background: #eee9ff;
+      color: var(--purple);
+    }
+
+    .event-note-text {
+      margin-top: 9px;
+
+      max-width: 520px;
+
+      color: var(--grey);
+
+      font-size: .83rem;
+      line-height: 1.4;
+    }
+
+    .event-info-link {
+      display: inline-flex;
+      align-items: center;
+
+      margin-top: 12px;
+
+      color: var(--orange);
+
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
     }
 
     .empty {
@@ -784,27 +781,6 @@
         );
 
       color: white;
-    }
-
-    #contact::before {
-      content: "";
-
-      position: absolute;
-
-      width: 620px;
-      height: 620px;
-
-      right: -270px;
-      top: -280px;
-
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle,
-          rgba(255,106,0,.43),
-          transparent 68%
-        );
     }
 
     .contact-grid {
@@ -873,8 +849,6 @@
       overflow-wrap: anywhere;
     }
 
-    /* FORM */
-
     .contact-form {
       display: grid;
       gap: 18px;
@@ -911,23 +885,13 @@
       font-size: 1rem;
     }
 
-    .field input:focus,
-    .field textarea:focus {
-      border-color: var(--orange);
-    }
-
     .field textarea {
       min-height: 140px;
-
       resize: vertical;
     }
 
     .contact-form .btn {
       border: 0;
-    }
-
-    .form-actions {
-      margin-top: 16px;
     }
 
     .form-message {
@@ -966,9 +930,7 @@
 
     .story-image img {
       aspect-ratio: 1 / 1.08;
-
       object-fit: cover;
-
       filter: grayscale(100%);
     }
 
@@ -1063,20 +1025,12 @@
 
     .image-strip figure {
       min-height: 60vh;
-
       overflow: hidden;
     }
 
     .image-strip img {
       height: 100%;
-
       object-fit: cover;
-
-      transition: transform .8s ease;
-    }
-
-    .image-strip figure:hover img {
-      transform: scale(1.025);
     }
 
     /* =====================================================
@@ -1127,7 +1081,7 @@
     }
 
     /* =====================================================
-       REVEALS
+       REVEAL
     ===================================================== */
 
     .reveal {
@@ -1145,35 +1099,12 @@
     }
 
     /* =====================================================
-       TABLET
-    ===================================================== */
-
-    @media (max-width: 1000px) {
-      .container {
-        width: calc(100% - 54px);
-      }
-
-      .hero-bottom {
-        flex-direction: column;
-        align-items: flex-start;
-
-        gap: 28px;
-      }
-
-      .contact-grid,
-      .story-grid {
-        gap: 55px;
-      }
-    }
-
-    /* =====================================================
        MOBILE
     ===================================================== */
 
     @media (max-width: 700px) {
       .container {
         width: 100%;
-
         padding-left: 18px;
         padding-right: 18px;
       }
@@ -1195,12 +1126,12 @@
         display: none;
       }
 
-      .nav-right {
-        gap: 8px;
-      }
-
       .menu-toggle {
         display: block;
+      }
+
+      .nav-right {
+        gap: 8px;
       }
 
       .language-switcher button {
@@ -1209,8 +1140,6 @@
 
         font-size: .62rem;
       }
-
-      /* HERO */
 
       .hero {
         min-height: 100svh;
@@ -1233,18 +1162,6 @@
         padding-bottom: 28px;
       }
 
-      .hero-eyebrow {
-        margin-bottom: 14px;
-
-        font-size: .57rem;
-        letter-spacing: .14em;
-      }
-
-      .hero-eyebrow::before {
-        width: 24px;
-        height: 2px;
-      }
-
       .hero h1 {
         max-width: 100%;
 
@@ -1254,15 +1171,12 @@
 
       .hero-bottom {
         display: block;
-
         margin-top: 23px;
       }
 
       .hero-description {
         max-width: 310px;
-
         font-size: .96rem;
-        line-height: 1.42;
       }
 
       .hero-actions {
@@ -1278,19 +1192,10 @@
 
       .hero-actions .btn {
         width: 100%;
-
         min-height: 45px;
-
         padding: 0 8px;
-
         font-size: .61rem;
-        line-height: 1.1;
-        text-align: center;
-
-        white-space: normal;
       }
-
-      /* SOCIAL */
 
       #social,
       #shows,
@@ -1306,33 +1211,20 @@
       .social-title {
         margin-top: 7px;
 
-        max-width: 100%;
-
         font-size: clamp(3rem, 14vw, 4.2rem);
         line-height: .84;
       }
 
-      .social-title br {
-        display: none;
-      }
-
       .social-title span {
         display: block;
-
-        max-width: 100%;
       }
 
       .social-copy {
-        max-width: 100%;
-
         margin-top: 30px;
       }
 
       .social-copy p {
-        max-width: 100%;
-
         font-size: .96rem;
-        line-height: 1.5;
       }
 
       .social-links {
@@ -1341,46 +1233,25 @@
 
       .social-link {
         min-height: 74px;
-
-        width: 100%;
       }
 
       .social-name {
-        max-width: calc(100% - 45px);
-
         font-size: clamp(1.7rem, 8.5vw, 2.7rem);
-        line-height: 1;
       }
-
-      .social-arrow {
-        font-size: 1.7rem;
-      }
-
-      /* TICKER */
 
       .ticker-content {
-        gap: 20px;
-
         padding: 15px 10px;
-
         font-size: .61rem;
       }
 
-      /* SHOWS */
-
       .section-header {
         display: block;
-
         margin-bottom: 34px;
       }
 
       .section-title {
-        max-width: 100%;
-
         margin-top: 12px;
-
         font-size: clamp(2.65rem, 12.5vw, 4rem);
-        line-height: .92;
       }
 
       .event {
@@ -1394,12 +1265,6 @@
         padding: 22px 0;
       }
 
-      .event:hover {
-        padding-inline: 0;
-
-        background: transparent;
-      }
-
       .event-day {
         font-size: 2.4rem;
       }
@@ -1409,23 +1274,14 @@
       }
 
       .event-venue {
-        max-width: 100%;
-
         font-size: 1.26rem;
-        line-height: 1.08;
-
         overflow-wrap: anywhere;
       }
 
       .event-location,
       .event-time {
         grid-column: 2;
-
-        max-width: 100%;
-
         margin-top: -6px;
-
-        overflow-wrap: anywhere;
       }
 
       .event-location {
@@ -1434,52 +1290,21 @@
 
       .event-time {
         text-align: left;
-
         font-size: .78rem;
       }
 
-      .event-note {
+      .event-badges,
+      .event-note-text,
+      .event-info-link {
         max-width: 100%;
-
-        white-space: normal;
-
-        font-size: .49rem;
       }
-
-      /* CONTACT */
 
       .contact-grid {
         display: block;
       }
 
       .contact-title {
-        max-width: 100%;
-
         font-size: clamp(2.6rem, 12.5vw, 4rem);
-        line-height: .92;
-      }
-
-      .contact-copy {
-        max-width: 100%;
-
-        margin-top: 25px;
-
-        font-size: .95rem;
-      }
-
-      .direct-contact {
-        width: 100%;
-
-        margin-top: 30px;
-      }
-
-      .direct-contact .btn {
-        width: 100%;
-
-        padding: 13px 14px;
-
-        text-align: center;
-        white-space: normal;
       }
 
       .contact-form {
@@ -1491,12 +1316,6 @@
         font-size: 16px;
       }
 
-      .contact-form .btn {
-        width: 100%;
-      }
-
-      /* STORY */
-
       .story-grid {
         display: block;
       }
@@ -1504,7 +1323,6 @@
       .story-image {
         position: relative;
         top: 0;
-
         margin-bottom: 40px;
       }
 
@@ -1513,35 +1331,8 @@
       }
 
       .story-heading {
-        max-width: 100%;
-
         font-size: clamp(2.55rem, 12vw, 3.85rem);
-        line-height: .93;
       }
-
-      .story-lead {
-        max-width: 100%;
-
-        margin-bottom: 28px;
-
-        font-size: 1.22rem;
-        line-height: 1.45;
-      }
-
-      .story-text {
-        gap: 18px;
-      }
-
-      .story-text p {
-        font-size: .96rem;
-        line-height: 1.64;
-      }
-
-      .story-ending {
-        font-size: clamp(1.4rem, 6.6vw, 2rem);
-      }
-
-      /* IMAGE STRIP */
 
       .image-strip {
         grid-template-columns: 1fr;
@@ -1554,8 +1345,6 @@
       .image-strip img {
         height: auto;
       }
-
-      /* FOOTER */
 
       footer {
         padding: 52px 0 29px;
@@ -1573,15 +1362,7 @@
 
         gap: 15px;
       }
-
-      .footer-links {
-        gap: 12px;
-      }
     }
-
-    /* =====================================================
-       SMALL PHONES
-    ===================================================== */
 
     @media (max-width: 390px) {
       .container {
@@ -1691,10 +1472,6 @@
       rel="noopener noreferrer"
     >
       Facebook ↗
-    </a>
-
-    <a href="mailto:orangemayacoustic@gmail.com">
-      Email ↗
     </a>
 
   </div>
@@ -1969,7 +1746,6 @@
           id="name"
           type="text"
           name="name"
-          autocomplete="name"
           required
         >
       </div>
@@ -1981,7 +1757,6 @@
           id="email"
           type="email"
           name="email"
-          autocomplete="email"
           required
         >
       </div>
@@ -2002,18 +1777,19 @@
         ></textarea>
       </div>
 
-      <div class="form-actions">
-        <button
-          type="submit"
-          class="btn btn-orange"
-          data-en="Send request →"
-          data-it="Invia richiesta →"
-        >
-          Send request →
-        </button>
-      </div>
+      <button
+        type="submit"
+        class="btn btn-orange"
+        data-en="Send request →"
+        data-it="Invia richiesta →"
+      >
+        Send request →
+      </button>
 
-      <div id="formMessage" class="form-message"></div>
+      <div
+        id="formMessage"
+        class="form-message"
+      ></div>
 
     </form>
 
@@ -2032,7 +1808,6 @@
       >
 
       <div class="story-image-caption">
-
         <span>Orange May</span>
 
         <span
@@ -2041,7 +1816,6 @@
         >
           Behind the music
         </span>
-
       </div>
 
     </div>
@@ -2064,7 +1838,9 @@
         >
           It started with family.
         </span>
+
         <br>
+
         <span
           data-en="Then came the music."
           data-it="Poi è arrivata la musica."
@@ -2120,7 +1896,9 @@
         >
           Different places. Different nights.
         </span>
+
         <br>
+
         <span
           data-en="Always live. Always Orange May."
           data-it="Sempre live. Sempre Orange May."
@@ -2223,7 +2001,8 @@
       language
     );
 
-    document.documentElement.lang = language;
+    document.documentElement.lang =
+      language;
 
     document
       .querySelectorAll("[data-en][data-it]")
@@ -2284,7 +2063,7 @@
         await fetch("/api/events");
 
       if (!response.ok) {
-        throw new Error("Unable to load events");
+        throw new Error();
       }
 
       let events =
@@ -2294,17 +2073,9 @@
         new Date();
 
       events =
-        events.filter(event => {
-          const endTime =
-            event.end_time || "23:59";
-
-          const eventEnd =
-            new Date(
-              `${event.event_date}T${endTime}:00`
-            );
-
-          return eventEnd >= now;
-        });
+        events.filter(event =>
+          getEventEnd(event) >= now
+        );
 
       if (!events.length) {
         container.innerHTML =
@@ -2318,70 +2089,9 @@
       }
 
       container.innerHTML =
-        events.map(event => {
-          const date =
-            new Date(
-              event.event_date +
-              "T12:00:00"
-            );
-
-          const day =
-            String(
-              date.getDate()
-            ).padStart(2, "0");
-
-          const month =
-            monthNames[currentLanguage]
-              [date.getMonth()];
-
-          const time =
-            event.start_time
-              ? event.end_time
-                ? `${event.start_time} – ${event.end_time}`
-                : event.start_time
-              : "";
-
-          const note =
-            event.note || "";
-
-          return `
-            <article class="event">
-
-              <div class="event-date">
-                <span class="event-day">
-                  ${day}
-                </span>
-
-                <span class="event-month">
-                  ${month}
-                </span>
-              </div>
-
-              <div>
-                <div class="event-venue">
-                  ${escapeHtml(event.venue)}
-                </div>
-
-                ${
-                  note
-                    ? `<span class="event-note">
-                        ${escapeHtml(note)}
-                       </span>`
-                    : ""
-                }
-              </div>
-
-              <div class="event-location">
-                ${escapeHtml(event.location || "")}
-              </div>
-
-              <div class="event-time">
-                ${escapeHtml(time)}
-              </div>
-
-            </article>
-          `;
-        }).join("");
+        events.map(event =>
+          renderPublicEvent(event)
+        ).join("");
 
     } catch (error) {
       console.error(error);
@@ -2395,11 +2105,163 @@
     }
   }
 
+  function renderPublicEvent(event) {
+    const date =
+      new Date(
+        event.event_date +
+        "T12:00:00"
+      );
+
+    const day =
+      String(
+        date.getDate()
+      ).padStart(2, "0");
+
+    const month =
+      monthNames[currentLanguage]
+        [date.getMonth()];
+
+    const type =
+      event.event_type ||
+      "PUBLIC";
+
+    const isPrivate =
+      type === "PRIVATE";
+
+    const isGuestsOnly =
+      type === "GUESTS_ONLY";
+
+    const venue =
+      isPrivate
+        ? (
+            currentLanguage === "it"
+              ? "Evento privato"
+              : "Private Event"
+          )
+        : event.venue;
+
+    const time =
+      event.start_time
+        ? event.end_time
+          ? `${event.start_time} – ${event.end_time}`
+          : event.start_time
+        : "";
+
+    let badges = "";
+
+    if (isGuestsOnly) {
+      badges += `
+        <span class="event-badge guests">
+          ${
+            currentLanguage === "it"
+              ? "Solo ospiti"
+              : "Guests only"
+          }
+        </span>
+      `;
+    }
+
+    if (isPrivate) {
+      badges += `
+        <span class="event-badge private">
+          ${
+            currentLanguage === "it"
+              ? "Evento privato"
+              : "Private event"
+          }
+        </span>
+      `;
+    }
+
+    const badgesBlock =
+      badges
+        ? `<div class="event-badges">${badges}</div>`
+        : "";
+
+    const noteBlock =
+      event.note
+        ? `
+          <div class="event-note-text">
+            ${escapeHtml(event.note)}
+          </div>
+        `
+        : "";
+
+    const infoLink =
+      (
+        type === "PUBLIC" &&
+        event.public_url
+      )
+        ? `
+          <a
+            href="${escapeAttribute(event.public_url)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="event-info-link"
+          >
+            ${
+              currentLanguage === "it"
+                ? "Maggiori info ↗"
+                : "More info ↗"
+            }
+          </a>
+        `
+        : "";
+
+    return `
+      <article class="event">
+
+        <div class="event-date">
+          <span class="event-day">
+            ${day}
+          </span>
+
+          <span class="event-month">
+            ${month}
+          </span>
+        </div>
+
+        <div>
+          <div class="event-venue">
+            ${escapeHtml(venue)}
+          </div>
+
+          ${badgesBlock}
+          ${noteBlock}
+          ${infoLink}
+        </div>
+
+        <div class="event-location">
+          ${escapeHtml(
+            event.location || ""
+          )}
+        </div>
+
+        <div class="event-time">
+          ${escapeHtml(time)}
+        </div>
+
+      </article>
+    `;
+  }
+
+  function getEventEnd(event) {
+    const endTime =
+      event.end_time ||
+      event.start_time ||
+      "23:59";
+
+    return new Date(
+      `${event.event_date}T${endTime}:00`
+    );
+  }
+
   document
     .getElementById("contactForm")
     .addEventListener(
       "submit",
       async event => {
+
         event.preventDefault();
 
         const form =
@@ -2448,7 +2310,7 @@
               ? "Richiesta inviata. Grazie! Ti ricontatteremo presto."
               : "Request sent. Thank you! We'll get back to you soon.";
 
-        } catch (error) {
+        } catch {
           message.textContent =
             currentLanguage === "it"
               ? "Si è verificato un errore. Puoi riprovare oppure scriverci su WhatsApp."
@@ -2466,7 +2328,9 @@
       .replaceAll("'", "&#039;");
   }
 
-  /* HEADER */
+  function escapeAttribute(value = "") {
+    return escapeHtml(value);
+  }
 
   const header =
     document.getElementById("header");
@@ -2484,8 +2348,6 @@
   );
 
   updateHeader();
-
-  /* MOBILE MENU */
 
   const menuToggle =
     document.getElementById("menuToggle");
@@ -2539,17 +2401,6 @@
       );
     });
 
-  window.addEventListener(
-    "resize",
-    () => {
-      if (window.innerWidth > 700) {
-        closeMobileMenu();
-      }
-    }
-  );
-
-  /* REVEALS */
-
   const observer =
     new IntersectionObserver(
       entries => {
@@ -2575,8 +2426,6 @@
     .forEach(element => {
       observer.observe(element);
     });
-
-  /* YEAR */
 
   document
     .getElementById("currentYear")
