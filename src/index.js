@@ -4,13 +4,6 @@ export default {
     const pathname = url.pathname;
     const method = request.method;
 
-    if (pathname === "/api/debug-auth") {
-  return json({
-    hasPassword: Boolean(env.ADMIN_PASSWORD),
-    hasSessionToken: Boolean(env.ADMIN_SESSION_TOKEN)
-  });
-}
-
     try {
       // =====================================================
       // AUTH - LOGIN
