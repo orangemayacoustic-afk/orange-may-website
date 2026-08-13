@@ -9,14 +9,24 @@
   <style>
     * {
       box-sizing: border-box;
+      min-width: 0;
     }
 
     :root {
       --orange: #ff6a00;
+      --orange-soft: #ffefe3;
       --cream: #f5f0e8;
+      --white: #ffffff;
       --black: #11100f;
+      --black-soft: #1a1816;
       --grey: #77716a;
-      --line: rgba(17,16,15,.15);
+      --line: rgba(17, 16, 15, .14);
+      --red: #b3261e;
+      --green: #1d6f42;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -24,45 +34,88 @@
       background: var(--cream);
       color: var(--black);
       font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
     }
 
     button,
     input,
-    textarea {
+    textarea,
+    select {
       font: inherit;
     }
 
-    .page {
-      width: min(calc(100% - 40px), 1100px);
-      margin: 0 auto;
-      padding: 50px 0 100px;
+    button,
+    select {
+      cursor: pointer;
     }
 
-    header {
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(calc(100% - 56px), 1180px);
+      margin: 0 auto;
+      padding: 38px 0 90px;
+    }
+
+    /* HEADER */
+
+    .topbar {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 55px;
+      align-items: flex-start;
+      gap: 28px;
+      margin-bottom: 42px;
+    }
+
+    .eyebrow {
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 8px;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(2.5rem, 7vw, 5rem);
-      line-height: .9;
+      font-size: clamp(3rem, 7vw, 5.6rem);
+      line-height: .86;
       letter-spacing: -.06em;
+      text-transform: uppercase;
     }
 
-    .orange {
+    h1 span {
       color: var(--orange);
     }
 
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
     .btn {
+      min-height: 44px;
       border: 0;
       border-radius: 999px;
-      padding: 13px 20px;
-      font-weight: 800;
+      padding: 0 17px;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
       cursor: pointer;
+      transition:
+        transform .18s ease,
+        opacity .18s ease,
+        background .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
     }
 
     .btn-primary {
@@ -75,132 +128,432 @@
       color: white;
     }
 
-    .btn-delete {
-      background: transparent;
-      color: #b00020;
-      border: 1px solid #b00020;
+    .btn-light {
+      background: white;
+      color: var(--black);
+      border: 1px solid var(--line);
     }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--red);
+      border: 1px solid rgba(179,38,30,.35);
+    }
+
+    /* STATS */
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 34px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid var(--line);
+      padding: 22px;
+    }
+
+    .stat-label {
+      font-size: .65rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--grey);
+    }
+
+    .stat-number {
+      margin-top: 7px;
+      font-size: 2.4rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+
+    /* TOOLBAR */
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .tabs {
+      display: inline-flex;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px;
+    }
+
+    .tab {
+      border: 0;
+      background: transparent;
+      padding: 10px 15px;
+      border-radius: 999px;
+      font-size: .7rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+
+    .tab.active {
+      background: var(--black);
+      color: white;
+    }
+
+    /* FORM */
 
     .panel {
       background: white;
       border: 1px solid var(--line);
       padding: 28px;
-      margin-bottom: 35px;
+      margin-bottom: 34px;
     }
 
-    .panel h2 {
-      margin-top: 0;
-      font-size: 1.5rem;
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 26px;
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 1.6rem;
+      letter-spacing: -.03em;
+    }
+
+    .panel-subtitle {
+      margin-top: 4px;
+      color: var(--grey);
+      font-size: .9rem;
     }
 
     form {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
     }
 
     .field {
       display: grid;
-      gap: 6px;
+      gap: 7px;
     }
 
     .field.full {
       grid-column: 1 / -1;
     }
 
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      grid-column: 1 / -1;
+    }
+
     label {
-      font-size: .72rem;
-      font-weight: 800;
+      font-size: .67rem;
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: .08em;
+      letter-spacing: .1em;
+      color: #4d4945;
     }
 
     input,
-    textarea {
+    textarea,
+    select {
       width: 100%;
       border: 1px solid var(--line);
       background: var(--cream);
-      padding: 13px;
+      padding: 13px 14px;
+      border-radius: 0;
       outline: none;
+      color: var(--black);
+      font-size: 16px;
     }
 
     input:focus,
-    textarea:focus {
+    textarea:focus,
+    select:focus {
       border-color: var(--orange);
     }
 
     textarea {
-      min-height: 90px;
+      min-height: 100px;
       resize: vertical;
+    }
+
+    .type-picker {
+      grid-column: 1 / -1;
+    }
+
+    .type-options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .type-option {
+      position: relative;
+    }
+
+    .type-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .type-option label {
+      min-height: 74px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: var(--cream);
+      cursor: pointer;
+      transition:
+        border-color .18s ease,
+        background .18s ease;
+    }
+
+    .type-option strong {
+      font-size: .82rem;
+      letter-spacing: .03em;
+    }
+
+    .type-option span {
+      color: var(--grey);
+      font-size: .75rem;
+      line-height: 1.3;
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 400;
+    }
+
+    .type-option input:checked + label {
+      border-color: var(--orange);
+      background: var(--orange-soft);
     }
 
     .form-actions {
       grid-column: 1 / -1;
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
       margin-top: 5px;
     }
 
-    .events-list {
-      border-top: 2px solid var(--black);
-    }
-
-    .event-row {
-      display: grid;
-      grid-template-columns: 100px 1.3fr 1fr 120px auto;
-      gap: 20px;
-      align-items: center;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .event-date {
-      font-weight: 900;
-    }
-
-    .venue {
-      font-weight: 800;
-    }
-
-    .muted {
+    .status {
+      min-height: 22px;
+      margin-top: 14px;
       color: var(--grey);
-      font-size: .9rem;
+      font-size: .86rem;
     }
 
-    .note {
-      display: inline-block;
-      margin-top: 5px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: var(--orange);
-      color: white;
-      font-size: .62rem;
-      font-weight: 800;
+    .status.success {
+      color: var(--green);
     }
 
-    .row-actions {
+    .status.error {
+      color: var(--red);
+    }
+
+    /* EVENTS */
+
+    .events-section-title {
+      margin: 0 0 16px;
+      font-size: 1.35rem;
+    }
+
+    .events-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .event-card {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: center;
+      background: white;
+      border: 1px solid var(--line);
+      padding: 20px;
+    }
+
+    .event-card.past {
+      opacity: .66;
+    }
+
+    .date-box {
       display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .date-day {
+      font-size: 2.6rem;
+      font-weight: 900;
+      line-height: .9;
+      letter-spacing: -.05em;
+    }
+
+    .date-month {
+      margin-top: 5px;
+      color: var(--orange);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .date-year {
+      margin-top: 3px;
+      color: var(--grey);
+      font-size: .7rem;
+    }
+
+    .event-main {
+      display: grid;
+      gap: 7px;
+    }
+
+    .event-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .event-venue {
+      font-size: 1.35rem;
+      font-weight: 900;
+      line-height: 1.05;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 25px;
+      padding: 0 9px;
+      border-radius: 999px;
+      font-size: .57rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+    }
+
+    .badge-public {
+      background: #e6f4ea;
+      color: #1f6f43;
+    }
+
+    .badge-guests {
+      background: #fff0dc;
+      color: #945000;
+    }
+
+    .badge-private {
+      background: #eee9ff;
+      color: #5f43a4;
+    }
+
+    .event-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      color: var(--grey);
+      font-size: .86rem;
+    }
+
+    .event-note {
+      color: #4b4742;
+      font-size: .84rem;
+    }
+
+    .event-link {
+      font-size: .76rem;
+      font-weight: 800;
+      color: var(--orange);
+    }
+
+    .event-actions {
+      display: flex;
+      align-items: center;
       gap: 8px;
     }
 
-    .row-actions button {
-      padding: 8px 11px;
-      font-size: .72rem;
+    .event-actions .btn {
+      min-height: 38px;
+      padding-inline: 13px;
+      font-size: .64rem;
     }
 
-    .status {
-      min-height: 24px;
-      margin-top: 15px;
+    .empty {
+      background: white;
+      border: 1px solid var(--line);
+      padding: 30px;
       color: var(--grey);
     }
 
-    @media (max-width: 750px) {
+    /* MOBILE */
+
+    @media (max-width: 760px) {
       .page {
-        width: calc(100% - 28px);
-        padding-top: 28px;
+        width: 100%;
+        padding: 24px 16px 70px;
       }
 
-      header {
+      .topbar {
+        flex-direction: column;
+        margin-bottom: 30px;
+      }
+
+      .top-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .top-actions .btn {
+        flex: 1;
+      }
+
+      .stats {
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 17px;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+      }
+
+      .toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .tabs {
+        width: 100%;
+      }
+
+      .tab {
+        flex: 1;
+      }
+
+      .panel {
+        padding: 20px 16px;
+      }
+
+      .panel-header {
         align-items: flex-start;
         flex-direction: column;
       }
@@ -210,23 +563,66 @@
       }
 
       .field.full,
+      .field-row,
+      .type-picker,
       .form-actions {
         grid-column: auto;
       }
 
-      .event-row {
-        grid-template-columns: 70px 1fr;
-        gap: 10px 15px;
+      .field-row {
+        grid-template-columns: 1fr 1fr;
       }
 
-      .event-location,
-      .event-time,
-      .row-actions {
+      .type-options {
+        grid-template-columns: 1fr;
+      }
+
+      .form-actions .btn {
+        width: 100%;
+      }
+
+      .event-card {
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: 16px;
+        padding: 18px 14px;
+      }
+
+      .date-day {
+        font-size: 2.2rem;
+      }
+
+      .event-actions {
         grid-column: 2;
+        width: 100%;
+        margin-top: 6px;
       }
 
-      .row-actions {
-        margin-top: 8px;
+      .event-actions .btn {
+        flex: 1;
+      }
+
+      .event-meta {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .event-venue {
+        font-size: 1.18rem;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .page {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .field-row {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -236,36 +632,109 @@
 
 <div class="page">
 
-  <header>
+  <header class="topbar">
+
     <div>
-      <div>ORANGE MAY</div>
+      <div class="eyebrow">Orange May</div>
+
       <h1>
-        ADMIN <span class="orange">PANEL</span>
+        Admin <span>Panel</span>
       </h1>
     </div>
 
-    <a href="/" class="btn btn-dark">
-      View website
-    </a>
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-  <a href="/" class="btn btn-dark">
-    View website
-  </a>
+    <div class="top-actions">
 
-  <button
-    id="logoutButton"
-    class="btn btn-delete"
-    type="button"
-  >
-    Logout
-  </button>
-</div>
+      <a
+        href="/"
+        class="btn btn-light"
+      >
+        View website
+      </a>
+
+      <button
+        id="logoutButton"
+        class="btn btn-dark"
+        type="button"
+      >
+        Logout
+      </button>
+
+    </div>
+
   </header>
 
 
-  <section class="panel">
+  <section class="stats">
 
-    <h2 id="formTitle">Add show</h2>
+    <div class="stat-card">
+      <div class="stat-label">Upcoming</div>
+      <div id="upcomingCount" class="stat-number">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Past</div>
+      <div id="pastCount" class="stat-number">0</div>
+    </div>
+
+  </section>
+
+
+  <div class="toolbar">
+
+    <div class="tabs">
+
+      <button
+        class="tab active"
+        data-filter="upcoming"
+      >
+        Upcoming
+      </button>
+
+      <button
+        class="tab"
+        data-filter="past"
+      >
+        Past
+      </button>
+
+      <button
+        class="tab"
+        data-filter="all"
+      >
+        All
+      </button>
+
+    </div>
+
+    <button
+      id="newShowButton"
+      class="btn btn-primary"
+      type="button"
+    >
+      + Add show
+    </button>
+
+  </div>
+
+
+  <section
+    id="formPanel"
+    class="panel"
+  >
+
+    <div class="panel-header">
+
+      <div>
+        <h2 id="formTitle">
+          Add show
+        </h2>
+
+        <div class="panel-subtitle">
+          Add a new Orange May date.
+        </div>
+      </div>
+
+    </div>
 
     <form id="eventForm">
 
@@ -275,56 +744,174 @@
       >
 
       <div class="field">
-        <label for="eventDate">Date</label>
+
+        <label for="eventDate">
+          Date
+        </label>
+
         <input
           id="eventDate"
           type="date"
           required
         >
+
       </div>
 
+
       <div class="field">
-        <label for="venue">Venue</label>
+
+        <label for="venue">
+          Venue
+        </label>
+
         <input
           id="venue"
           type="text"
           required
         >
+
       </div>
 
-      <div class="field">
-        <label for="location">Location</label>
+
+      <div class="field full">
+
+        <label for="location">
+          Location
+        </label>
+
         <input
           id="location"
           type="text"
           required
         >
+
       </div>
 
-      <div class="field">
-        <label for="startTime">Start time</label>
+
+      <div class="field-row">
+
+        <div class="field">
+
+          <label for="startTime">
+            Start time
+          </label>
+
+          <input
+            id="startTime"
+            type="time"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="endTime">
+            End time
+          </label>
+
+          <input
+            id="endTime"
+            type="time"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="type-picker">
+
+        <label>
+          Event type
+        </label>
+
+        <div class="type-options">
+
+          <div class="type-option">
+
+            <input
+              id="typePublic"
+              type="radio"
+              name="eventType"
+              value="PUBLIC"
+              checked
+            >
+
+            <label for="typePublic">
+              <strong>Public</strong>
+              <span>Open to everyone.</span>
+            </label>
+
+          </div>
+
+
+          <div class="type-option">
+
+            <input
+              id="typeGuests"
+              type="radio"
+              name="eventType"
+              value="GUESTS_ONLY"
+            >
+
+            <label for="typeGuests">
+              <strong>Guests only</strong>
+              <span>Visible online, but not open to the public.</span>
+            </label>
+
+          </div>
+
+
+          <div class="type-option">
+
+            <input
+              id="typePrivate"
+              type="radio"
+              name="eventType"
+              value="PRIVATE"
+            >
+
+            <label for="typePrivate">
+              <strong>Private event</strong>
+              <span>Wedding, private party or private booking.</span>
+            </label>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="field full">
+
+        <label for="publicUrl">
+          Public link
+        </label>
+
         <input
-          id="startTime"
-          type="time"
+          id="publicUrl"
+          type="url"
+          placeholder="https://..."
         >
+
       </div>
 
-      <div class="field">
-        <label for="endTime">End time</label>
-        <input
-          id="endTime"
-          type="time"
-        >
-      </div>
 
-      <div class="field">
-        <label for="note">Note</label>
-        <input
+      <div class="field full">
+
+        <label for="note">
+          Note
+        </label>
+
+        <textarea
           id="note"
-          type="text"
-          placeholder="PRIVATE EVENT / GUESTS ONLY"
-        >
+          placeholder="Optional information about the event"
+        ></textarea>
+
       </div>
+
 
       <div class="form-actions">
 
@@ -338,10 +925,10 @@
         <button
           type="button"
           id="cancelEdit"
-          class="btn btn-dark"
+          class="btn btn-light"
           hidden
         >
-          Cancel
+          Cancel edit
         </button>
 
       </div>
@@ -351,6 +938,7 @@
     <div
       id="status"
       class="status"
+      aria-live="polite"
     ></div>
 
   </section>
@@ -358,13 +946,20 @@
 
   <section>
 
-    <h2>Shows</h2>
+    <h2
+      id="eventsSectionTitle"
+      class="events-section-title"
+    >
+      Upcoming shows
+    </h2>
 
     <div
       id="eventsList"
       class="events-list"
     >
-      Loading...
+      <div class="empty">
+        Loading...
+      </div>
     </div>
 
   </section>
@@ -388,83 +983,316 @@
   const formTitle =
     document.getElementById("formTitle");
 
+  const upcomingCount =
+    document.getElementById("upcomingCount");
+
+  const pastCount =
+    document.getElementById("pastCount");
+
+  const eventsSectionTitle =
+    document.getElementById("eventsSectionTitle");
+
+  const newShowButton =
+    document.getElementById("newShowButton");
+
+  const formPanel =
+    document.getElementById("formPanel");
+
+  let allEvents = [];
+  let currentFilter = "upcoming";
+
 
   async function loadEvents() {
     try {
       const response =
-        await fetch("/api/admin/events");
+        await fetch(
+          "/api/admin/events"
+        );
+
+      if (response.status === 401) {
+        window.location.href =
+          "/login";
+        return;
+      }
 
       if (!response.ok) {
         throw new Error();
       }
 
-      const events =
+      allEvents =
         await response.json();
 
-      if (!events.length) {
-        eventsList.innerHTML =
-          "<p>No shows found.</p>";
-        return;
-      }
-
-      eventsList.innerHTML =
-        events.map(event => `
-          <div class="event-row">
-
-            <div class="event-date">
-              ${escapeHtml(event.event_date)}
-            </div>
-
-            <div>
-              <div class="venue">
-                ${escapeHtml(event.venue)}
-              </div>
-
-              ${
-                event.note
-                  ? `<span class="note">${escapeHtml(event.note)}</span>`
-                  : ""
-              }
-            </div>
-
-            <div class="event-location muted">
-              ${escapeHtml(event.location)}
-            </div>
-
-            <div class="event-time muted">
-              ${escapeHtml(event.start_time || "")}
-              ${
-                event.end_time
-                  ? " – " + escapeHtml(event.end_time)
-                  : ""
-              }
-            </div>
-
-            <div class="row-actions">
-
-              <button
-                class="btn btn-dark"
-                onclick='editEvent(${JSON.stringify(event)})'
-              >
-                Edit
-              </button>
-
-              <button
-                class="btn btn-delete"
-                onclick="deleteEvent(${event.id})"
-              >
-                Delete
-              </button>
-
-            </div>
-
-          </div>
-        `).join("");
+      updateStats();
+      renderEvents();
 
     } catch {
       eventsList.innerHTML =
-        "<p>Unable to load shows.</p>";
+        `<div class="empty">
+          Unable to load shows.
+        </div>`;
     }
+  }
+
+
+  function updateStats() {
+    const now =
+      new Date();
+
+    const upcoming =
+      allEvents.filter(event =>
+        getEventEnd(event) >= now
+      );
+
+    const past =
+      allEvents.filter(event =>
+        getEventEnd(event) < now
+      );
+
+    upcomingCount.textContent =
+      upcoming.length;
+
+    pastCount.textContent =
+      past.length;
+  }
+
+
+  function renderEvents() {
+    const now =
+      new Date();
+
+    let events = [...allEvents];
+
+    if (currentFilter === "upcoming") {
+      events =
+        events.filter(event =>
+          getEventEnd(event) >= now
+        );
+
+      eventsSectionTitle.textContent =
+        "Upcoming shows";
+    }
+
+    if (currentFilter === "past") {
+      events =
+        events
+          .filter(event =>
+            getEventEnd(event) < now
+          )
+          .sort(
+            (a, b) =>
+              getEventEnd(b) -
+              getEventEnd(a)
+          );
+
+      eventsSectionTitle.textContent =
+        "Past shows";
+    }
+
+    if (currentFilter === "all") {
+      eventsSectionTitle.textContent =
+        "All shows";
+    }
+
+    if (!events.length) {
+      eventsList.innerHTML =
+        `<div class="empty">
+          No shows found.
+        </div>`;
+
+      return;
+    }
+
+    eventsList.innerHTML =
+      events
+        .map(event =>
+          createEventCard(
+            event,
+            getEventEnd(event) < now
+          )
+        )
+        .join("");
+  }
+
+
+  function createEventCard(
+    event,
+    isPast
+  ) {
+    const date =
+      new Date(
+        event.event_date +
+        "T12:00:00"
+      );
+
+    const day =
+      String(
+        date.getDate()
+      ).padStart(2, "0");
+
+    const month =
+      date
+        .toLocaleString(
+          "en",
+          {
+            month: "short"
+          }
+        )
+        .toUpperCase();
+
+    const year =
+      date.getFullYear();
+
+    const type =
+      event.event_type || "PUBLIC";
+
+    const badge =
+      getBadge(type);
+
+    const time =
+      event.start_time
+        ? event.end_time
+          ? `${event.start_time} – ${event.end_time}`
+          : event.start_time
+        : "";
+
+    return `
+      <article
+        class="event-card ${isPast ? "past" : ""}"
+      >
+
+        <div class="date-box">
+
+          <span class="date-day">
+            ${day}
+          </span>
+
+          <span class="date-month">
+            ${month}
+          </span>
+
+          <span class="date-year">
+            ${year}
+          </span>
+
+        </div>
+
+
+        <div class="event-main">
+
+          <div class="event-title-row">
+
+            <div class="event-venue">
+              ${escapeHtml(
+                event.venue
+              )}
+            </div>
+
+            ${badge}
+
+          </div>
+
+
+          <div class="event-meta">
+
+            <span>
+              ${escapeHtml(
+                event.location || ""
+              )}
+            </span>
+
+            ${
+              time
+                ? `<span>${escapeHtml(time)}</span>`
+                : ""
+            }
+
+          </div>
+
+
+          ${
+            event.note
+              ? `<div class="event-note">
+                  ${escapeHtml(event.note)}
+                 </div>`
+              : ""
+          }
+
+
+          ${
+            event.public_url
+              ? `<a
+                  href="${escapeAttribute(event.public_url)}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="event-link"
+                >
+                  Open public link ↗
+                </a>`
+              : ""
+          }
+
+        </div>
+
+
+        <div class="event-actions">
+
+          <button
+            class="btn btn-light"
+            type="button"
+            onclick="editEvent(${event.id})"
+          >
+            Edit
+          </button>
+
+          <button
+            class="btn btn-danger"
+            type="button"
+            onclick="deleteEvent(${event.id})"
+          >
+            Delete
+          </button>
+
+        </div>
+
+      </article>
+    `;
+  }
+
+
+  function getBadge(type) {
+    if (type === "PRIVATE") {
+      return `
+        <span class="badge badge-private">
+          Private event
+        </span>
+      `;
+    }
+
+    if (type === "GUESTS_ONLY") {
+      return `
+        <span class="badge badge-guests">
+          Guests only
+        </span>
+      `;
+    }
+
+    return `
+      <span class="badge badge-public">
+        Public
+      </span>
+    `;
+  }
+
+
+  function getEventEnd(event) {
+    const endTime =
+      event.end_time ||
+      event.start_time ||
+      "23:59";
+
+    return new Date(
+      `${event.event_date}T${endTime}:00`
+    );
   }
 
 
@@ -474,27 +1302,56 @@
 
       event.preventDefault();
 
+      clearStatus();
+
       const id =
-        document.getElementById("eventId").value;
+        document
+          .getElementById("eventId")
+          .value;
+
+      const selectedType =
+        document.querySelector(
+          'input[name="eventType"]:checked'
+        )?.value || "PUBLIC";
 
       const data = {
         event_date:
-          document.getElementById("eventDate").value,
+          document
+            .getElementById("eventDate")
+            .value,
 
         venue:
-          document.getElementById("venue").value,
+          document
+            .getElementById("venue")
+            .value,
 
         location:
-          document.getElementById("location").value,
+          document
+            .getElementById("location")
+            .value,
 
         start_time:
-          document.getElementById("startTime").value,
+          document
+            .getElementById("startTime")
+            .value,
 
         end_time:
-          document.getElementById("endTime").value,
+          document
+            .getElementById("endTime")
+            .value,
+
+        event_type:
+          selectedType,
+
+        public_url:
+          document
+            .getElementById("publicUrl")
+            .value,
 
         note:
-          document.getElementById("note").value
+          document
+            .getElementById("note")
+            .value
       };
 
       status.textContent =
@@ -520,45 +1377,109 @@
             }
           );
 
-        if (!response.ok) {
-          throw new Error();
+        if (response.status === 401) {
+          window.location.href =
+            "/login";
+          return;
         }
 
+        if (!response.ok) {
+          const result =
+            await response.json()
+              .catch(() => ({}));
+
+          throw new Error(
+            result.error ||
+            "Unable to save show"
+          );
+        }
+
+        status.className =
+          "status success";
+
         status.textContent =
-          "Saved successfully.";
+          id
+            ? "Show updated successfully."
+            : "Show added successfully.";
 
         resetForm();
+
         await loadEvents();
 
-      } catch {
+      } catch (error) {
+        status.className =
+          "status error";
+
         status.textContent =
-          "Unable to save show.";
+          error.message;
       }
     }
   );
 
 
-  function editEvent(event) {
-    document.getElementById("eventId").value =
-      event.id;
+  function editEvent(id) {
+    const event =
+      allEvents.find(
+        item =>
+          Number(item.id) === Number(id)
+      );
 
-    document.getElementById("eventDate").value =
-      event.event_date || "";
+    if (!event) {
+      return;
+    }
 
-    document.getElementById("venue").value =
-      event.venue || "";
+    document
+      .getElementById("eventId")
+      .value =
+        event.id;
 
-    document.getElementById("location").value =
-      event.location || "";
+    document
+      .getElementById("eventDate")
+      .value =
+        event.event_date || "";
 
-    document.getElementById("startTime").value =
-      event.start_time || "";
+    document
+      .getElementById("venue")
+      .value =
+        event.venue || "";
 
-    document.getElementById("endTime").value =
-      event.end_time || "";
+    document
+      .getElementById("location")
+      .value =
+        event.location || "";
 
-    document.getElementById("note").value =
-      event.note || "";
+    document
+      .getElementById("startTime")
+      .value =
+        event.start_time || "";
+
+    document
+      .getElementById("endTime")
+      .value =
+        event.end_time || "";
+
+    document
+      .getElementById("publicUrl")
+      .value =
+        event.public_url || "";
+
+    document
+      .getElementById("note")
+      .value =
+        event.note || "";
+
+    const type =
+      event.event_type ||
+      "PUBLIC";
+
+    const radio =
+      document.querySelector(
+        `input[name="eventType"][value="${type}"]`
+      );
+
+    if (radio) {
+      radio.checked = true;
+    }
 
     formTitle.textContent =
       "Edit show";
@@ -566,17 +1487,27 @@
     cancelEdit.hidden =
       false;
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
+    formPanel.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
     });
   }
 
 
   async function deleteEvent(id) {
+    const event =
+      allEvents.find(
+        item =>
+          Number(item.id) === Number(id)
+      );
+
+    const name =
+      event?.venue ||
+      "this show";
+
     const confirmed =
       confirm(
-        "Are you sure you want to delete this show?"
+        `Delete "${name}"?`
       );
 
     if (!confirmed) {
@@ -591,6 +1522,12 @@
             method: "DELETE"
           }
         );
+
+      if (response.status === 401) {
+        window.location.href =
+          "/login";
+        return;
+      }
 
       if (!response.ok) {
         throw new Error();
@@ -609,8 +1546,13 @@
   function resetForm() {
     form.reset();
 
-    document.getElementById("eventId").value =
-      "";
+    document
+      .getElementById("eventId")
+      .value = "";
+
+    document
+      .getElementById("typePublic")
+      .checked = true;
 
     formTitle.textContent =
       "Add show";
@@ -620,13 +1562,99 @@
   }
 
 
+  function clearStatus() {
+    status.className =
+      "status";
+
+    status.textContent =
+      "";
+  }
+
+
   cancelEdit.addEventListener(
     "click",
-    resetForm
+    () => {
+      resetForm();
+      clearStatus();
+    }
   );
 
 
-  function escapeHtml(value = "") {
+  newShowButton.addEventListener(
+    "click",
+    () => {
+      resetForm();
+      clearStatus();
+
+      formPanel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      setTimeout(
+        () => {
+          document
+            .getElementById("eventDate")
+            .focus();
+        },
+        400
+      );
+    }
+  );
+
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          document
+            .querySelectorAll(".tab")
+            .forEach(item =>
+              item.classList.remove(
+                "active"
+              )
+            );
+
+          button.classList.add(
+            "active"
+          );
+
+          currentFilter =
+            button.dataset.filter;
+
+          renderEvents();
+        }
+      );
+
+    });
+
+
+  document
+    .getElementById("logoutButton")
+    .addEventListener(
+      "click",
+      async () => {
+
+        await fetch(
+          "/api/auth/logout",
+          {
+            method: "POST"
+          }
+        );
+
+        window.location.href =
+          "/login";
+      }
+    );
+
+
+  function escapeHtml(
+    value = ""
+  ) {
     return String(value)
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
@@ -636,24 +1664,14 @@
   }
 
 
+  function escapeAttribute(
+    value = ""
+  ) {
+    return escapeHtml(value);
+  }
+
+
   loadEvents();
-  document
-  .getElementById("logoutButton")
-  .addEventListener(
-    "click",
-    async () => {
-
-      await fetch(
-        "/api/auth/logout",
-        {
-          method: "POST"
-        }
-      );
-
-      window.location.href =
-        "/login";
-    }
-  );
 </script>
 
 </body>
