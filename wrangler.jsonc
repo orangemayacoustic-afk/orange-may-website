@@ -9,9 +9,6 @@
     "binding": "ASSETS",
     "run_worker_first": [
       "/admin",
-      "/admin.html",
-      "/login",
-      "/login.html",
       "/api/admin/*",
       "/api/auth/*"
     ]
