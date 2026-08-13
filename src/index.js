@@ -30,10 +30,9 @@ export default {
           );
         }
 
-        const response =
-          json({
-            success: true
-          });
+        const response = json({
+          success: true
+        });
 
         response.headers.append(
           "Set-Cookie",
@@ -53,10 +52,9 @@ export default {
         pathname === "/api/auth/logout" &&
         method === "POST"
       ) {
-        const response =
-          json({
-            success: true
-          });
+        const response = json({
+          success: true
+        });
 
         response.headers.append(
           "Set-Cookie",
@@ -67,50 +65,10 @@ export default {
       }
 
       // =====================================================
-      // LOGIN PAGE
-      // =====================================================
-
-      if (
-        pathname === "/login" ||
-        pathname === "/login.html"
-      ) {
-        if (
-          isAdminAuthenticated(
-            request,
-            env
-          )
-        ) {
-          return Response.redirect(
-            new URL(
-              "/admin.html",
-              request.url
-            ),
-            302
-          );
-        }
-
-        const loginRequest =
-          new Request(
-            new URL(
-              "/login.html",
-              request.url
-            ),
-            request
-          );
-
-        return env.ASSETS.fetch(
-          loginRequest
-        );
-      }
-
-      // =====================================================
       // ADMIN PAGE
       // =====================================================
 
-      if (
-        pathname === "/admin" ||
-        pathname === "/admin.html"
-      ) {
+      if (pathname === "/admin") {
         if (
           !isAdminAuthenticated(
             request,
@@ -119,29 +77,18 @@ export default {
         ) {
           return Response.redirect(
             new URL(
-              "/login.html",
+              "/login",
               request.url
             ),
             302
           );
         }
 
-        const adminRequest =
-          new Request(
-            new URL(
-              "/admin.html",
-              request.url
-            ),
-            request
-          );
-
-        return env.ASSETS.fetch(
-          adminRequest
-        );
+        return env.ASSETS.fetch(request);
       }
 
       // =====================================================
-      // PROTECT ALL ADMIN API ROUTES
+      // PROTECT ADMIN API ROUTES
       // =====================================================
 
       if (
@@ -186,7 +133,7 @@ export default {
       }
 
       // =====================================================
-      // CONTACT
+      // CONTACT FORM
       // =====================================================
 
       if (
@@ -250,7 +197,7 @@ export default {
       }
 
       // =====================================================
-      // ADMIN - GET EVENTS
+      // ADMIN - GET ALL EVENTS
       // =====================================================
 
       if (
@@ -321,8 +268,7 @@ export default {
           {
             success: true,
             id:
-              result.meta
-                ?.last_row_id
+              result.meta?.last_row_id
           },
           201
         );
@@ -356,7 +302,10 @@ export default {
           );
         }
 
-        // UPDATE
+        // -------------------------------------------------
+        // UPDATE EVENT
+        // -------------------------------------------------
+
         if (method === "PUT") {
           const body =
             await request.json();
@@ -422,7 +371,10 @@ export default {
           });
         }
 
-        // DELETE
+        // -------------------------------------------------
+        // DELETE EVENT
+        // -------------------------------------------------
+
         if (method === "DELETE") {
           const existing =
             await env.DB
@@ -459,7 +411,7 @@ export default {
       }
 
       // =====================================================
-      // STATIC ASSETS
+      // STATIC WEBSITE
       // =====================================================
 
       return env.ASSETS.fetch(
