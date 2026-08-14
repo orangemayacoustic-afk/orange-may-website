@@ -625,6 +625,569 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* =========================================================
+   ADMIN UI — FINAL RESPONSIVE FIXES
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   GLOBAL SAFETY
+--------------------------------------------------------- */
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.page,
+.panel,
+form,
+.field,
+.field-row,
+.type-picker,
+.type-options,
+.event-card,
+.event-main {
+  min-width: 0;
+}
+
+
+/* ---------------------------------------------------------
+   BUTTONS
+--------------------------------------------------------- */
+
+.btn {
+  min-height: 46px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 18px;
+
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+
+  border-radius: 999px;
+}
+
+/* Corregge soprattutto VIEW WEBSITE che è un <a> */
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.top-actions .btn {
+  min-width: 120px;
+}
+
+
+/* ---------------------------------------------------------
+   FORM SAFETY
+--------------------------------------------------------- */
+
+form {
+  width: 100%;
+  max-width: 100%;
+}
+
+.field {
+  width: 100%;
+  max-width: 100%;
+}
+
+.field-row {
+  width: 100%;
+  max-width: 100%;
+}
+
+input,
+textarea,
+select {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0;
+
+  box-sizing: border-box;
+}
+
+/*
+  Importantissimo per Safari/Chrome mobile:
+  date e time possono mantenere una larghezza intrinseca.
+*/
+input[type="date"],
+input[type="time"],
+input[type="url"],
+input[type="email"],
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Evita che il contenuto interno degli input allarghi il campo */
+input::-webkit-date-and-time-value {
+  min-width: 0;
+  text-align: left;
+}
+
+
+/* ---------------------------------------------------------
+   ADMIN HEADER
+--------------------------------------------------------- */
+
+.topbar {
+  align-items: center;
+}
+
+.topbar > div:first-child {
+  min-width: 0;
+}
+
+h1 {
+  overflow-wrap: normal;
+}
+
+
+/* ---------------------------------------------------------
+   STATS
+--------------------------------------------------------- */
+
+.stats {
+  width: 100%;
+}
+
+.stat-card {
+  min-width: 0;
+}
+
+
+/* ---------------------------------------------------------
+   TOOLBAR
+--------------------------------------------------------- */
+
+.toolbar {
+  width: 100%;
+}
+
+.tabs {
+  max-width: 100%;
+}
+
+
+/* ---------------------------------------------------------
+   PANEL
+--------------------------------------------------------- */
+
+.panel {
+  width: 100%;
+  max-width: 100%;
+
+  overflow: hidden;
+}
+
+
+/* ---------------------------------------------------------
+   EVENT TYPES
+--------------------------------------------------------- */
+
+.type-options {
+  width: 100%;
+}
+
+.type-option,
+.type-option label {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.type-option label {
+  width: 100%;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .page {
+    width: 100%;
+    max-width: 100%;
+
+    padding:
+      30px
+      clamp(18px, 4vw, 32px)
+      75px;
+  }
+
+  h1 {
+    font-size: clamp(3.2rem, 9vw, 5rem);
+  }
+
+  .panel {
+    padding: 24px;
+  }
+
+  form {
+    gap: 16px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
+
+  /* PAGE */
+
+  .page {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
+
+    padding:
+      24px
+      16px
+      65px;
+  }
+
+
+  /* HEADER */
+
+  .topbar {
+    width: 100%;
+
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 24px;
+
+    margin-bottom: 30px;
+  }
+
+  .eyebrow {
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    width: 100%;
+
+    font-size: clamp(2.9rem, 12vw, 4rem);
+    line-height: .88;
+
+    white-space: nowrap;
+  }
+
+  .top-actions {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+  }
+
+  .top-actions .btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+
+  /* STATS */
+
+  .stats {
+    width: 100%;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+    margin-bottom: 34px;
+  }
+
+  .stat-card {
+    width: 100%;
+
+    padding: 17px;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+
+  /* TOOLBAR */
+
+  .toolbar {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 18px;
+  }
+
+  .tabs {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    padding: 4px;
+  }
+
+  .tab {
+    width: 100%;
+
+    padding-left: 5px;
+    padding-right: 5px;
+
+    text-align: center;
+  }
+
+  #newShowButton {
+    align-self: flex-start;
+
+    width: auto;
+    min-width: 0;
+  }
+
+
+  /* PANEL */
+
+  .panel {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 22px 16px;
+
+    margin-left: 0;
+    margin-right: 0;
+
+    overflow: hidden;
+  }
+
+  .panel-header {
+    margin-bottom: 26px;
+  }
+
+  .panel-header h2 {
+    font-size: 1.6rem;
+  }
+
+
+  /* FORM */
+
+  form {
+    width: 100%;
+    max-width: 100%;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+
+    gap: 18px;
+  }
+
+  .field,
+  .field.full,
+  .field-row,
+  .type-picker,
+  .form-actions {
+    grid-column: 1 / -1;
+
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /*
+    Anche gli orari uno sotto l'altro.
+    Su 436px due colonne funzionano, ma su telefoni reali
+    date/time possono creare overflow.
+  */
+  .field-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+
+    gap: 18px;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    padding: 14px 13px;
+
+    font-size: 16px;
+  }
+
+  input[type="date"],
+  input[type="time"] {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+
+  /* EVENT TYPES */
+
+  .type-options {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+
+    gap: 9px;
+  }
+
+  .type-option {
+    width: 100%;
+  }
+
+  .type-option label {
+    width: 100%;
+    min-height: 68px;
+
+    padding: 13px;
+  }
+
+
+  /* FORM BUTTONS */
+
+  .form-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    gap: 9px;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+
+
+  /* EVENT CARDS */
+
+  .event-card {
+    width: 100%;
+
+    grid-template-columns: 62px minmax(0, 1fr);
+
+    gap: 14px;
+
+    padding: 17px 14px;
+  }
+
+  .event-main {
+    width: 100%;
+  }
+
+  .event-title-row {
+    width: 100%;
+  }
+
+  .event-venue {
+    max-width: 100%;
+
+    overflow-wrap: anywhere;
+  }
+
+  .event-meta {
+    width: 100%;
+
+    flex-direction: column;
+
+    gap: 4px;
+  }
+
+  .event-actions {
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+
+    margin-top: 4px;
+  }
+
+  .event-actions .btn {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 390px) {
+
+  .page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  h1 {
+    font-size: clamp(2.65rem, 11.5vw, 3.3rem);
+  }
+
+  .top-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .panel {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .tabs {
+    font-size: .66rem;
+  }
+
+}
   </style>
 </head>
 
