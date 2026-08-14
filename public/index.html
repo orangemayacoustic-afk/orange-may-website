@@ -1743,171 +1743,372 @@
     font-size: 1.85rem;
   }
 }
-    /* =====================================================
-       CONTACT
-    ===================================================== */
+    <section id="contact">
 
-    #contact {
-      position: relative;
+  <div class="container contact-grid">
 
-      padding:
-        120px
-        0;
 
-      overflow: hidden;
+    <!-- LEFT -->
 
-      background:
-        linear-gradient(
-          135deg,
-          #1b1815 0%,
-          #100f0e 65%,
-          #21130b 100%
-        );
+    <div class="reveal">
 
-      color: white;
-    }
+      <div
+        class="section-label"
+        data-en="Contact Orange May"
+        data-it="Contatta Orange May"
+      >
+        Contact Orange May
+      </div>
 
-    .contact-grid {
-      position: relative;
-      z-index: 2;
 
-      display: grid;
+      <h2 class="contact-title">
 
-      grid-template-columns:
-        .9fr
-        1.1fr;
+        <span
+          class="orange"
+          data-en="Get in"
+          data-it="Scrivici."
+        >
+          Get in
+        </span>
 
-      gap: 80px;
-    }
+        <br>
 
-    #contact .section-label {
-      margin-bottom: 22px;
-    }
+        <span
+          data-en="touch."
+          data-it="Siamo qui."
+        >
+          touch.
+        </span>
 
-    .contact-title {
-      max-width: 650px;
+      </h2>
 
-      font-size: clamp(3.2rem,6.2vw,6.3rem);
-      font-weight: 900;
-      line-height: .89;
-      letter-spacing: -.055em;
 
-      text-transform: uppercase;
-    }
+      <p
+        class="contact-copy"
+        data-en="Want to book us, ask something, work together or simply say hi? We'd love to hear from you."
+        data-it="Vuoi organizzare una serata, chiederci qualcosa, collaborare con noi o semplicemente salutarci? Scrivici."
+      >
+        Want to book us, ask something, work together
+        or simply say hi? We'd love to hear from you.
+      </p>
 
-    .contact-title .orange {
-      color: var(--orange);
-    }
 
-    .contact-copy {
-      max-width: 460px;
+      <div class="contact-services">
 
-      margin-top: 30px;
+        <span
+          class="contact-service"
+          data-en="Bookings"
+          data-it="Booking"
+        >
+          Bookings
+        </span>
 
-      color: rgba(255,255,255,.72);
+        <span
+          class="contact-service"
+          data-en="Questions"
+          data-it="Domande"
+        >
+          Questions
+        </span>
 
-      font-size: 1.08rem;
-      line-height: 1.5;
-    }
+        <span
+          class="contact-service"
+          data-en="Collaborations"
+          data-it="Collaborazioni"
+        >
+          Collaborations
+        </span>
 
-    .direct-contact {
-      width: 100%;
+        <span
+          class="contact-service"
+          data-en="Just say hi"
+          data-it="Anche solo un saluto"
+        >
+          Just say hi
+        </span>
 
-      margin-top: 38px;
+      </div>
 
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
 
-      gap: 14px;
-    }
+      <div class="direct-contact">
 
-    .email-link {
-      max-width: 100%;
+        <a
+          id="whatsappLink"
+          href="https://wa.me/393421670308"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-orange"
+          data-en="Message us on WhatsApp ↗"
+          data-it="Scrivici su WhatsApp ↗"
+        >
+          Message us on WhatsApp ↗
+        </a>
 
-      color: rgba(255,255,255,.72);
 
-      border-bottom:
-        1px solid rgba(255,255,255,.35);
+        <a
+          href="mailto:orangemayacoustic@gmail.com"
+          class="email-link"
+        >
+          orangemayacoustic@gmail.com
+        </a>
 
-      padding-bottom: 3px;
+      </div>
 
-      font-size: .82rem;
+    </div>
 
-      overflow-wrap: anywhere;
-    }
 
-    .contact-form {
-      display: grid;
+    <!-- RIGHT -->
 
-      gap: 18px;
-    }
+    <div class="contact-panel reveal">
 
-    .field label {
-      display: block;
+      <div
+        class="contact-kicker"
+        data-en="Send us a message"
+        data-it="Mandaci un messaggio"
+      >
+        Send us a message
+      </div>
 
-      margin-bottom: 7px;
 
-      color: rgba(255,255,255,.56);
+      <div
+        class="contact-panel-heading"
+        data-en="How can we help?"
+        data-it="Cosa hai in mente?"
+      >
+        How can we help?
+      </div>
 
-      font-size: .64rem;
-      font-weight: 900;
-      letter-spacing: .15em;
 
-      text-transform: uppercase;
-    }
+      <div class="contact-intents">
 
-    .field input,
-    .field textarea {
-      width: 100%;
-      max-width: 100%;
+        <button
+          type="button"
+          class="contact-intent"
+          data-intent="BOOKING"
+          data-label-en="Booking"
+          data-label-it="Booking"
+        >
+          Booking
+        </button>
 
-      padding:
-        17px
-        0;
 
-      border: 0;
+        <button
+          type="button"
+          class="contact-intent"
+          data-intent="INFO"
+          data-label-en="Info"
+          data-label-it="Informazioni"
+        >
+          Info
+        </button>
 
-      border-bottom:
-        1px solid rgba(255,255,255,.28);
 
-      border-radius: 0;
+        <button
+          type="button"
+          class="contact-intent"
+          data-intent="COLLABORATION"
+          data-label-en="Collaboration"
+          data-label-it="Collaborazione"
+        >
+          Collaboration
+        </button>
 
-      outline: none;
 
-      background: transparent;
-      color: white;
+        <button
+          type="button"
+          class="contact-intent"
+          data-intent="HELLO"
+          data-label-en="Just saying hi"
+          data-label-it="Solo un saluto"
+        >
+          Just saying hi
+        </button>
 
-      font-size: 1rem;
+      </div>
 
-      transition:
-        border-color .2s ease;
-    }
 
-    .field input:focus,
-    .field textarea:focus {
-      border-color: var(--orange);
-    }
+      <!-- BOOKING DETAILS -->
 
-    .field textarea {
-      min-height: 140px;
+      <div
+        id="bookingDetails"
+        class="booking-details"
+      >
 
-      resize: vertical;
-    }
+        <div
+          class="contact-choice-label"
+          data-en="What are you planning?"
+          data-it="Che tipo di evento?"
+        >
+          What are you planning?
+        </div>
 
-    .contact-form .btn {
-      border: 0;
-    }
 
-    .form-message {
-      min-height: 24px;
+        <div class="booking-types">
 
-      margin-top: 6px;
+          <button
+            type="button"
+            class="booking-type"
+            data-type-en="Hotel"
+            data-type-it="Hotel"
+          >
+            Hotel
+          </button>
 
-      color: rgba(255,255,255,.7);
 
-      font-size: .84rem;
-    }
+          <button
+            type="button"
+            class="booking-type"
+            data-type-en="Venue"
+            data-type-it="Locale"
+          >
+            Venue
+          </button>
+
+
+          <button
+            type="button"
+            class="booking-type"
+            data-type-en="Wedding"
+            data-type-it="Matrimonio"
+          >
+            Wedding
+          </button>
+
+
+          <button
+            type="button"
+            class="booking-type"
+            data-type-en="Private event"
+            data-type-it="Evento privato"
+          >
+            Private Event
+          </button>
+
+
+          <button
+            type="button"
+            class="booking-type"
+            data-type-en="Other"
+            data-type-it="Altro"
+          >
+            Other
+          </button>
+
+        </div>
+
+
+        <div class="field">
+
+          <label
+            for="eventDateContact"
+            data-en="Event date"
+            data-it="Data evento"
+          >
+            Event date
+          </label>
+
+          <input
+            id="eventDateContact"
+            type="date"
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- FORM -->
+
+      <form
+        id="contactForm"
+        class="contact-form"
+      >
+
+
+        <div class="booking-row">
+
+          <div class="field">
+
+            <label
+              for="name"
+              data-en="First & Last Name"
+              data-it="Nome e cognome"
+            >
+              First & Last Name
+            </label>
+
+            <input
+              id="name"
+              type="text"
+              name="name"
+              autocomplete="name"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="email">
+              Email
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              name="email"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="field">
+
+          <label
+            for="message"
+            data-en="Your message"
+            data-it="Il tuo messaggio"
+          >
+            Your message
+          </label>
+
+          <textarea
+            id="message"
+            name="message"
+            required
+          ></textarea>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="btn btn-orange contact-submit"
+          data-en="Send message →"
+          data-it="Invia messaggio →"
+        >
+          Send message →
+        </button>
+
+
+        <div
+          id="formMessage"
+          class="form-message"
+          aria-live="polite"
+        ></div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>
 
 
     /* =====================================================
@@ -3737,32 +3938,178 @@
        WHATSAPP
     ===================================================== */
 
-    function updateWhatsApp() {
+   function updateWhatsApp() {
 
-      const englishMessage =
-        "Hi Orange May! I'd like some information about booking you for an event.";
+  const dateInput =
+    document.getElementById(
+      "eventDateContact"
+    );
 
 
-      const italianMessage =
+  const date =
+    dateInput
+      ? dateInput.value
+      : "";
+
+
+  let message;
+
+
+  if (
+    currentLanguage === "it"
+  ) {
+
+    if (
+      selectedContactIntent ===
+      "BOOKING"
+    ) {
+
+      message =
         "Ciao Orange May! Vorrei avere qualche informazione per una possibile serata o evento.";
 
+    } else if (
+      selectedContactIntent ===
+      "INFO"
+    ) {
 
-      const message =
-        currentLanguage === "it"
-          ? italianMessage
-          : englishMessage;
+      message =
+        "Ciao Orange May! Avrei una domanda da farvi.";
 
+    } else if (
+      selectedContactIntent ===
+      "COLLABORATION"
+    ) {
 
-      document
-        .getElementById(
-          "whatsappLink"
-        )
-        .href =
-          "https://wa.me/393421670308?text=" +
-          encodeURIComponent(
-            message
-          );
+      message =
+        "Ciao Orange May! Vorrei parlarvi di una possibile collaborazione.";
+
+    } else if (
+      selectedContactIntent ===
+      "HELLO"
+    ) {
+
+      message =
+        "Ciao Orange May! Volevo semplicemente scrivervi.";
+
+    } else {
+
+      message =
+        "Ciao Orange May!";
     }
+
+
+    if (
+      selectedBookingType
+    ) {
+
+      message +=
+        ` Tipo di evento: ${selectedBookingType}.`;
+    }
+
+
+    if (
+      selectedContactIntent ===
+      "BOOKING" &&
+      date
+    ) {
+
+      message +=
+        ` Data: ${formatContactDate(date)}.`;
+    }
+
+  } else {
+
+    if (
+      selectedContactIntent ===
+      "BOOKING"
+    ) {
+
+      message =
+        "Hi Orange May! I'd like some information about booking you for an event.";
+
+    } else if (
+      selectedContactIntent ===
+      "INFO"
+    ) {
+
+      message =
+        "Hi Orange May! I have a question for you.";
+
+    } else if (
+      selectedContactIntent ===
+      "COLLABORATION"
+    ) {
+
+      message =
+        "Hi Orange May! I'd like to talk about a possible collaboration.";
+
+    } else if (
+      selectedContactIntent ===
+      "HELLO"
+    ) {
+
+      message =
+        "Hi Orange May! I just wanted to say hi.";
+
+    } else {
+
+      message =
+        "Hi Orange May!";
+    }
+
+
+    if (
+      selectedBookingType
+    ) {
+
+      message +=
+        ` Event type: ${selectedBookingType}.`;
+    }
+
+
+    if (
+      selectedContactIntent ===
+      "BOOKING" &&
+      date
+    ) {
+
+      message +=
+        ` Date: ${formatContactDate(date)}.`;
+    }
+  }
+
+
+  document
+    .getElementById(
+      "whatsappLink"
+    )
+    .href =
+      "https://wa.me/393421670308?text=" +
+      encodeURIComponent(
+        message
+      );
+}
+
+
+function formatContactDate(
+  value
+) {
+
+  if (!value) {
+    return "";
+  }
+
+
+  const [
+    year,
+    month,
+    day
+  ] =
+    value.split("-");
+
+
+  return `${day}/${month}/${year}`;
+}
 
 
     /* =====================================================
@@ -4775,92 +5122,407 @@
       );
     }
 
-
     /* =====================================================
-       CONTACT FORM
-    ===================================================== */
+   CONTACT INTENT
+===================================================== */
 
-    document
-      .getElementById(
-        "contactForm"
-      )
-      .addEventListener(
-        "submit",
-        async event => {
-
-          event.preventDefault();
+let selectedContactIntent = "";
+let selectedBookingType = "";
 
 
-          const form =
-            event.target;
+const bookingDetails =
+  document.getElementById(
+    "bookingDetails"
+  );
 
 
-          const message =
-            document.getElementById(
-              "formMessage"
+document
+  .querySelectorAll(
+    ".contact-intent"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const alreadyActive =
+            button.classList.contains(
+              "active"
             );
 
 
-          message.textContent =
-            currentLanguage === "it"
-              ? "Invio in corso..."
-              : "Sending...";
-
-
-          const data =
-            Object.fromEntries(
-              new FormData(
-                form
-              )
+          document
+            .querySelectorAll(
+              ".contact-intent"
+            )
+            .forEach(
+              item =>
+                item.classList.remove(
+                  "active"
+                )
             );
 
 
-          try {
+          if (alreadyActive) {
 
-            const response =
-              await fetch(
-                "/api/contact",
-                {
-                  method:
-                    "POST",
+            selectedContactIntent = "";
 
-                  headers: {
-                    "Content-Type":
-                      "application/json"
-                  },
+            bookingDetails.classList.remove(
+              "open"
+            );
 
-                  body:
-                    JSON.stringify(
-                      data
-                    )
-                }
-              );
+          } else {
+
+            button.classList.add(
+              "active"
+            );
 
 
-            if (!response.ok) {
-              throw new Error();
-            }
+            selectedContactIntent =
+              button.dataset.intent;
 
 
-            form.reset();
-
-
-            message.textContent =
-              currentLanguage === "it"
-                ? "Richiesta inviata. Grazie! Ti ricontatteremo presto."
-                : "Request sent. Thank you! We'll get back to you soon.";
-
-
-          } catch {
-
-            message.textContent =
-              currentLanguage === "it"
-                ? "Si è verificato un errore. Puoi riprovare oppure scriverci su WhatsApp."
-                : "Something went wrong. Please try again or message us on WhatsApp.";
+            bookingDetails.classList.toggle(
+              "open",
+              selectedContactIntent ===
+              "BOOKING"
+            );
           }
+
+
+          if (
+            selectedContactIntent !==
+            "BOOKING"
+          ) {
+
+            selectedBookingType = "";
+
+
+            document
+              .querySelectorAll(
+                ".booking-type"
+              )
+              .forEach(
+                item =>
+                  item.classList.remove(
+                    "active"
+                  )
+              );
+          }
+
+
+          updateWhatsApp();
 
         }
       );
+
+    }
+  );
+
+
+document
+  .querySelectorAll(
+    ".booking-type"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const alreadyActive =
+            button.classList.contains(
+              "active"
+            );
+
+
+          document
+            .querySelectorAll(
+              ".booking-type"
+            )
+            .forEach(
+              item =>
+                item.classList.remove(
+                  "active"
+                )
+            );
+
+
+          if (alreadyActive) {
+
+            selectedBookingType = "";
+
+          } else {
+
+            button.classList.add(
+              "active"
+            );
+
+
+            selectedBookingType =
+              currentLanguage === "it"
+                ? button.dataset.typeIt
+                : button.dataset.typeEn;
+          }
+
+
+          updateWhatsApp();
+
+        }
+      );
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "eventDateContact"
+  )
+  .addEventListener(
+    "change",
+    updateWhatsApp
+  );
+    
+    /* =====================================================
+   CONTACT FORM
+===================================================== */
+
+document
+  .getElementById(
+    "contactForm"
+  )
+  .addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      const form =
+        event.target;
+
+
+      const messageBox =
+        document.getElementById(
+          "formMessage"
+        );
+
+
+      messageBox.textContent =
+        currentLanguage === "it"
+          ? "Invio in corso..."
+          : "Sending...";
+
+
+      const name =
+        document
+          .getElementById(
+            "name"
+          )
+          .value
+          .trim();
+
+
+      const email =
+        document
+          .getElementById(
+            "email"
+          )
+          .value
+          .trim();
+
+
+      const originalMessage =
+        document
+          .getElementById(
+            "message"
+          )
+          .value
+          .trim();
+
+
+      const date =
+        document
+          .getElementById(
+            "eventDateContact"
+          )
+          .value;
+
+
+      const details = [];
+
+
+      if (
+        selectedContactIntent
+      ) {
+
+        const intentLabels = {
+
+          BOOKING: {
+            en: "Booking",
+            it: "Booking"
+          },
+
+          INFO: {
+            en: "Information",
+            it: "Informazioni"
+          },
+
+          COLLABORATION: {
+            en: "Collaboration",
+            it: "Collaborazione"
+          },
+
+          HELLO: {
+            en: "Just saying hi",
+            it: "Solo un saluto"
+          }
+
+        };
+
+
+        const label =
+          intentLabels[
+            selectedContactIntent
+          ];
+
+
+        details.push(
+          currentLanguage === "it"
+            ? `Motivo del contatto: ${label.it}`
+            : `Reason for contact: ${label.en}`
+        );
+      }
+
+
+      if (
+        selectedContactIntent ===
+        "BOOKING" &&
+        selectedBookingType
+      ) {
+
+        details.push(
+          currentLanguage === "it"
+            ? `Tipo evento: ${selectedBookingType}`
+            : `Event type: ${selectedBookingType}`
+        );
+      }
+
+
+      if (
+        selectedContactIntent ===
+        "BOOKING" &&
+        date
+      ) {
+
+        details.push(
+          currentLanguage === "it"
+            ? `Data evento: ${formatContactDate(date)}`
+            : `Event date: ${formatContactDate(date)}`
+        );
+      }
+
+
+      let finalMessage =
+        originalMessage;
+
+
+      if (
+        details.length
+      ) {
+
+        finalMessage =
+          `${
+            details.join("\n")
+          }\n\n${
+            originalMessage
+          }`;
+      }
+
+
+      try {
+
+        const response =
+          await fetch(
+            "/api/contact",
+            {
+              method:
+                "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+                  name,
+                  email,
+                  message:
+                    finalMessage
+                })
+            }
+          );
+
+
+        if (!response.ok) {
+          throw new Error();
+        }
+
+
+        form.reset();
+
+
+        selectedContactIntent =
+          "";
+
+
+        selectedBookingType =
+          "";
+
+
+        document
+          .querySelectorAll(
+            ".contact-intent, .booking-type"
+          )
+          .forEach(
+            button =>
+              button
+                .classList
+                .remove(
+                  "active"
+                )
+          );
+
+
+        bookingDetails.classList.remove(
+          "open"
+        );
+
+
+        updateWhatsApp();
+
+
+        messageBox.textContent =
+          currentLanguage === "it"
+            ? "Messaggio inviato. Grazie!"
+            : "Message sent. Thank you!";
+
+
+      } catch {
+
+        messageBox.textContent =
+          currentLanguage === "it"
+            ? "Si è verificato un errore. Puoi riprovare oppure scriverci su WhatsApp."
+            : "Something went wrong. Please try again or message us on WhatsApp.";
+      }
+
+    }
+  );
 
 
     /* =====================================================
