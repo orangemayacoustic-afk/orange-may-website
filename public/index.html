@@ -151,9 +151,6 @@
       gap: 28px;
     }
 
-
-    /* LOGO SWITCH */
-
     .nav-logo {
       position: relative;
       z-index: 1200;
@@ -203,9 +200,6 @@
       opacity: 1;
     }
 
-
-    /* NAV */
-
     .nav-right {
       display: flex;
       align-items: center;
@@ -250,9 +244,6 @@
       transform: scaleX(1);
       transform-origin: left;
     }
-
-
-    /* LANGUAGE */
 
     .language-switcher {
       position: relative;
@@ -639,7 +630,6 @@
 
     .social-links {
       margin-top: 68px;
-
       border-top: 2px solid var(--black);
     }
 
@@ -744,7 +734,6 @@
 
     #shows {
       padding: 105px 0 120px;
-
       background: var(--cream);
     }
 
@@ -765,39 +754,310 @@
       font-weight: 900;
       line-height: .84;
       letter-spacing: -.065em;
-
       text-transform: uppercase;
     }
 
     .events-list {
       display: grid;
-      gap: 12px;
+      gap: 14px;
     }
+
+
+    /* NEXT SHOW */
+
+    .next-show {
+      position: relative;
+
+      display: grid;
+      grid-template-columns: 140px minmax(0,1fr) auto;
+      gap: 42px;
+
+      align-items: end;
+
+      padding: 38px;
+
+      background: var(--black);
+      color: white;
+
+      overflow: hidden;
+
+      min-height: 250px;
+    }
+
+    .next-show::after {
+      content: "";
+
+      position: absolute;
+      right: -70px;
+      bottom: -90px;
+
+      width: 260px;
+      height: 260px;
+
+      border: 2px solid rgba(255,106,0,.35);
+      border-radius: 50%;
+    }
+
+    .next-show-label {
+      position: absolute;
+      top: 24px;
+      left: 38px;
+
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      color: var(--orange);
+
+      font-size: .66rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+
+    /* WAVE */
+
+    .mini-wave {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+
+      height: 17px;
+    }
+
+    .mini-wave span {
+      width: 3px;
+
+      background: currentColor;
+      border-radius: 999px;
+
+      animation: wave 1.15s ease-in-out infinite;
+    }
+
+    .mini-wave span:nth-child(1) {
+      height: 7px;
+      animation-delay: 0s;
+    }
+
+    .mini-wave span:nth-child(2) {
+      height: 13px;
+      animation-delay: .12s;
+    }
+
+    .mini-wave span:nth-child(3) {
+      height: 17px;
+      animation-delay: .24s;
+    }
+
+    .mini-wave span:nth-child(4) {
+      height: 10px;
+      animation-delay: .36s;
+    }
+
+    .mini-wave span:nth-child(5) {
+      height: 14px;
+      animation-delay: .48s;
+    }
+
+    @keyframes wave {
+      0%, 100% {
+        transform: scaleY(.55);
+      }
+
+      50% {
+        transform: scaleY(1);
+      }
+    }
+
+
+    /* DATE */
+
+    .next-show-date {
+      padding-top: 45px;
+    }
+
+    .next-show-day {
+      display: block;
+
+      font-size: clamp(4.8rem, 7vw, 7.3rem);
+      font-weight: 900;
+      line-height: .72;
+      letter-spacing: -.075em;
+    }
+
+    .next-show-month {
+      display: block;
+
+      margin-top: 14px;
+
+      color: var(--orange);
+
+      font-size: .76rem;
+      font-weight: 900;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+
+    /* MAIN */
+
+    .next-show-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .next-show-venue {
+      max-width: 720px;
+
+      font-size: clamp(2.4rem, 4.7vw, 5rem);
+      font-weight: 900;
+      line-height: .88;
+      letter-spacing: -.055em;
+      text-transform: uppercase;
+    }
+
+    .next-show-location {
+      margin-top: 16px;
+
+      color: rgba(255,255,255,.65);
+
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .next-show-badge {
+      display: inline-flex;
+      align-items: center;
+
+      min-height: 28px;
+
+      margin-top: 18px;
+      padding: 0 11px;
+
+      border-radius: 999px;
+
+      background: var(--orange);
+      color: white;
+
+      font-size: .57rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .next-show-note {
+      max-width: 600px;
+
+      margin-top: 14px;
+
+      color: rgba(255,255,255,.58);
+
+      font-size: .84rem;
+    }
+
+
+    /* TIME + ACTIONS */
+
+    .next-show-right {
+      position: relative;
+      z-index: 2;
+
+      min-width: 190px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .next-show-time {
+      font-size: clamp(1.25rem, 2vw, 1.7rem);
+      font-weight: 900;
+      letter-spacing: -.02em;
+      white-space: nowrap;
+    }
+
+    .show-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+
+      gap: 9px;
+
+      margin-top: 20px;
+    }
+
+    .show-action {
+      min-height: 38px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0 14px;
+
+      border-radius: 999px;
+
+      border: 1px solid currentColor;
+
+      font-size: .58rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+
+      transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+    }
+
+    .show-action:hover {
+      transform: translateY(-2px);
+    }
+
+    .next-show .show-action:hover {
+      background: white;
+      color: var(--black);
+    }
+
+
+    /* MORE SHOWS */
+
+    .more-shows-label {
+      margin-top: 36px;
+      margin-bottom: 12px;
+
+      color: var(--grey);
+
+      font-size: .64rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+
+    /* NORMAL EVENT */
 
     .event {
       position: relative;
 
       display: grid;
-      grid-template-columns:
-        105px
-        minmax(0,1fr)
-        auto;
+      grid-template-columns: 90px minmax(0,1fr) auto;
 
-      gap: 34px;
+      gap: 30px;
       align-items: center;
 
-      min-height: 142px;
+      min-height: 118px;
 
-      padding: 28px 30px;
+      padding: 23px 28px;
 
       background: var(--cream-dark);
 
       overflow: hidden;
 
       transition:
-        transform .35s cubic-bezier(.2,.8,.2,1),
-        background .35s ease,
-        box-shadow .35s ease;
+        transform .3s cubic-bezier(.2,.8,.2,1),
+        background .3s ease;
     }
 
     .event::before {
@@ -806,23 +1066,19 @@
       position: absolute;
       inset: 0 auto 0 0;
 
-      width: 5px;
+      width: 4px;
 
       background: var(--orange);
 
       transform: scaleY(0);
       transform-origin: bottom;
 
-      transition:
-        transform .35s cubic-bezier(.2,.8,.2,1);
+      transition: transform .3s ease;
     }
 
     .event:hover {
-      transform: translateY(-4px);
-
+      transform: translateY(-3px);
       background: #e5ddd2;
-
-      box-shadow: 0 16px 35px rgba(0,0,0,.055);
     }
 
     .event:hover::before {
@@ -836,156 +1092,97 @@
     }
 
     .event-day {
-      font-size: clamp(3.6rem, 5vw, 5rem);
+      font-size: 3rem;
       font-weight: 900;
-      line-height: .76;
-      letter-spacing: -.07em;
+      line-height: .78;
+      letter-spacing: -.06em;
     }
 
     .event-month {
-      margin-top: 11px;
+      margin-top: 9px;
 
       color: var(--orange);
 
-      font-size: .67rem;
+      font-size: .61rem;
       font-weight: 900;
-      letter-spacing: .21em;
-
+      letter-spacing: .18em;
       text-transform: uppercase;
     }
 
     .event-content {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+      min-width: 0;
     }
 
     .event-venue {
-      max-width: 700px;
-
-      font-size: clamp(1.65rem, 2.6vw, 2.55rem);
+      font-size: clamp(1.55rem, 2.2vw, 2.2rem);
       font-weight: 900;
       line-height: 1;
-      letter-spacing: -.04em;
+      letter-spacing: -.035em;
 
       overflow-wrap: anywhere;
     }
 
     .event-location {
-      margin-top: 9px;
+      margin-top: 7px;
 
       color: #68615b;
 
-      font-size: .95rem;
+      font-size: .88rem;
       font-weight: 600;
     }
 
     .event-badges {
-      display: flex;
-      flex-wrap: wrap;
-
-      gap: 7px;
-
-      margin-top: 14px;
+      margin-top: 11px;
     }
 
     .event-badge {
-      min-height: 27px;
+      min-height: 25px;
 
       display: inline-flex;
       align-items: center;
 
-      padding: 0 11px;
+      padding: 0 10px;
 
       border-radius: 999px;
 
-      font-size: .55rem;
+      background: #ffdcb6;
+      color: #7c3c00;
+
+      font-size: .54rem;
       font-weight: 900;
       letter-spacing: .1em;
       text-transform: uppercase;
-    }
-
-    .event-badge.guests {
-      background: #ffdcb6;
-      color: #7c3c00;
     }
 
     .event-note-text {
-      max-width: 530px;
-
-      margin-top: 11px;
+      margin-top: 9px;
 
       color: #736c65;
 
-      font-size: .82rem;
-      line-height: 1.45;
+      font-size: .79rem;
     }
 
     .event-right {
+      min-width: 220px;
+
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      justify-content: center;
-
-      min-width: 150px;
     }
 
     .event-time {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-
+      font-size: 1.1rem;
       font-weight: 900;
-      line-height: .92;
+      white-space: nowrap;
     }
 
-    .event-time-start,
-    .event-time-end {
-      font-size: clamp(1.65rem, 2.6vw, 2.5rem);
-      letter-spacing: -.045em;
+    .event .show-actions {
+      margin-top: 11px;
     }
 
-    .event-time-separator {
-      margin: 4px 0;
-
-      color: var(--orange);
-
-      font-size: .7rem;
-      font-weight: 900;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-
-    .event-info-link {
-      margin-top: 14px;
-
-      min-height: 34px;
-
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      padding: 0 13px;
-
-      border: 1px solid var(--black);
-      border-radius: 999px;
-
-      font-size: .56rem;
-      font-weight: 900;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-
-      transition:
-        background .2s ease,
-        color .2s ease,
-        transform .2s ease;
-    }
-
-    .event-info-link:hover {
+    .event .show-action:hover {
       background: var(--black);
       color: white;
-
-      transform: translateY(-2px);
     }
 
     .empty {
@@ -1073,8 +1270,7 @@
 
       color: rgba(255,255,255,.72);
 
-      border-bottom:
-        1px solid rgba(255,255,255,.35);
+      border-bottom: 1px solid rgba(255,255,255,.35);
 
       padding-bottom: 3px;
 
@@ -1098,7 +1294,6 @@
       font-size: .64rem;
       font-weight: 900;
       letter-spacing: .15em;
-
       text-transform: uppercase;
     }
 
@@ -1110,10 +1305,7 @@
       padding: 17px 0;
 
       border: 0;
-
-      border-bottom:
-        1px solid rgba(255,255,255,.28);
-
+      border-bottom: 1px solid rgba(255,255,255,.28);
       border-radius: 0;
 
       outline: none;
@@ -1122,14 +1314,6 @@
       color: white;
 
       font-size: 1rem;
-
-      transition:
-        border-color .2s ease;
-    }
-
-    .field input:focus,
-    .field textarea:focus {
-      border-color: var(--orange);
     }
 
     .field textarea {
@@ -1203,7 +1387,6 @@
       font-size: .64rem;
       font-weight: 800;
       letter-spacing: .11em;
-
       text-transform: uppercase;
     }
 
@@ -1220,7 +1403,6 @@
       font-weight: 900;
       line-height: .91;
       letter-spacing: -.05em;
-
       text-transform: uppercase;
     }
 
@@ -1260,7 +1442,6 @@
       font-weight: 900;
       line-height: 1.06;
       letter-spacing: -.03em;
-
       text-transform: uppercase;
     }
 
@@ -1315,7 +1496,6 @@
       font-weight: 900;
       line-height: .78;
       letter-spacing: -.065em;
-
       text-transform: uppercase;
     }
 
@@ -1334,7 +1514,6 @@
       font-size: .69rem;
       font-weight: 800;
       letter-spacing: .08em;
-
       text-transform: uppercase;
     }
 
@@ -1358,9 +1537,6 @@
         padding-left: 18px;
         padding-right: 18px;
       }
-
-
-      /* HEADER */
 
       .nav {
         height: 68px;
@@ -1386,12 +1562,8 @@
       .language-switcher button {
         width: 31px;
         height: 28px;
-
         font-size: .62rem;
       }
-
-
-      /* HERO */
 
       .hero {
         min-height: 100svh;
@@ -1415,8 +1587,6 @@
       }
 
       .hero h1 {
-        max-width: 100%;
-
         font-size: clamp(3.8rem, 17.7vw, 5.4rem);
         line-height: .8;
       }
@@ -1428,13 +1598,11 @@
 
       .hero-description {
         max-width: 310px;
-
         font-size: .96rem;
       }
 
       .hero-actions {
         width: 100%;
-
         margin-top: 22px;
 
         display: grid;
@@ -1445,7 +1613,6 @@
 
       .hero-actions .btn {
         width: 100%;
-
         min-height: 45px;
 
         padding: 0 8px;
@@ -1453,17 +1620,11 @@
         font-size: .61rem;
       }
 
-
-      /* SECTIONS */
-
       #social,
       #contact,
       #about {
         padding: 70px 0;
       }
-
-
-      /* SOCIAL */
 
       .social-top {
         display: block;
@@ -1499,7 +1660,6 @@
       .social-link:hover {
         padding-left: 0;
         padding-right: 0;
-
         background: transparent;
       }
 
@@ -1509,12 +1669,11 @@
 
       .ticker-content {
         padding: 15px 10px;
-
         font-size: .61rem;
       }
 
 
-      /* SHOWS */
+      /* SHOWS MOBILE */
 
       #shows {
         padding: 68px 0 76px;
@@ -1522,7 +1681,6 @@
 
       #shows .section-header {
         display: block;
-
         margin-bottom: 32px;
       }
 
@@ -1533,118 +1691,126 @@
         line-height: .86;
       }
 
-      .events-list {
-        gap: 10px;
+      .next-show {
+        display: block;
+
+        min-height: 0;
+
+        padding: 24px 20px;
+      }
+
+      .next-show-label {
+        position: relative;
+        inset: auto;
+
+        margin-bottom: 34px;
+      }
+
+      .next-show-date {
+        padding-top: 0;
+      }
+
+      .next-show-day {
+        font-size: 4.6rem;
+      }
+
+      .next-show-month {
+        margin-top: 9px;
+      }
+
+      .next-show-content {
+        margin-top: 34px;
+      }
+
+      .next-show-venue {
+        font-size: clamp(2.1rem, 10vw, 3.1rem);
+      }
+
+      .next-show-location {
+        margin-top: 11px;
+        font-size: .88rem;
+      }
+
+      .next-show-right {
+        width: 100%;
+        min-width: 0;
+
+        margin-top: 28px;
+        padding-top: 18px;
+
+        border-top: 1px solid rgba(255,255,255,.18);
+
+        align-items: flex-start;
+      }
+
+      .next-show-time {
+        font-size: 1.35rem;
+      }
+
+      .show-actions {
+        justify-content: flex-start;
       }
 
       .event {
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: 68px minmax(0,1fr);
 
-        gap: 0;
+        gap: 15px;
 
         min-height: 0;
 
-        padding: 20px;
-
-        background: var(--cream-dark);
-
-        transform: none;
+        padding: 20px 17px;
       }
 
       .event:hover {
         transform: none;
-
         background: var(--cream-dark);
-        box-shadow: none;
       }
 
       .event::before {
-        width: 4px;
-
         transform: scaleY(1);
       }
 
-      .event-date {
-        flex-direction: row;
-        align-items: baseline;
-
-        gap: 8px;
-
-        margin-bottom: 24px;
-      }
-
       .event-day {
-        font-size: 3rem;
-        line-height: .78;
+        font-size: 2.65rem;
       }
 
       .event-month {
-        margin-top: 0;
-
-        font-size: .63rem;
+        margin-top: 7px;
       }
 
       .event-venue {
-        font-size: clamp(1.55rem, 7vw, 2rem);
-        line-height: .98;
+        font-size: 1.45rem;
       }
 
       .event-location {
-        margin-top: 7px;
-
-        font-size: .84rem;
-      }
-
-      .event-badges {
-        margin-top: 12px;
-      }
-
-      .event-badge {
-        min-height: 25px;
-      }
-
-      .event-note-text {
-        margin-top: 10px;
-
-        font-size: .78rem;
+        font-size: .8rem;
       }
 
       .event-right {
-        width: 100%;
+        grid-column: 2;
+
         min-width: 0;
+        width: 100%;
 
-        margin-top: 25px;
-        padding-top: 17px;
-
-        border-top: 1px solid rgba(17,16,15,.16);
+        margin-top: 12px;
 
         align-items: flex-start;
       }
 
       .event-time {
-        width: 100%;
+        font-size: 1rem;
+      }
 
-        flex-direction: row;
-        align-items: center;
+      .event .show-actions {
         justify-content: flex-start;
-
-        gap: 10px;
       }
 
-      .event-time-start,
-      .event-time-end {
-        font-size: clamp(1.55rem, 7vw, 2rem);
+      .show-action {
+        min-height: 36px;
+        padding: 0 12px;
+        font-size: .54rem;
       }
-
-      .event-time-separator {
-        margin: 0;
-
-        font-size: .65rem;
-      }
-
-
-      /* CONTACT */
 
       .contact-grid {
         display: block;
@@ -1662,9 +1828,6 @@
       .field textarea {
         font-size: 16px;
       }
-
-
-      /* STORY */
 
       .story-grid {
         display: block;
@@ -1685,9 +1848,6 @@
         font-size: clamp(2.55rem, 12vw, 3.85rem);
       }
 
-
-      /* IMAGES */
-
       .image-strip {
         grid-template-columns: 1fr;
       }
@@ -1699,9 +1859,6 @@
       .image-strip img {
         height: auto;
       }
-
-
-      /* FOOTER */
 
       footer {
         padding: 52px 0 29px;
@@ -1746,24 +1903,20 @@
         font-size: 11.7vw;
       }
 
+      .next-show {
+        padding: 21px 17px;
+      }
+
+      .next-show-day {
+        font-size: 4.1rem;
+      }
+
       .event {
-        padding: 18px 17px;
-      }
-
-      .event-day {
-        font-size: 2.7rem;
-      }
-
-      .event-time-start,
-      .event-time-end {
-        font-size: 1.55rem;
+        grid-template-columns: 58px minmax(0,1fr);
+        gap: 12px;
       }
     }
 
-
-    /* =====================================================
-       REDUCED MOTION
-    ===================================================== */
 
     @media (prefers-reduced-motion: reduce) {
 
@@ -1895,46 +2048,22 @@
 
   <div class="mobile-menu-links">
 
-    <a
-      href="#social"
-      class="mobile-nav-link"
-    >
-      <span
-        data-en="Social"
-        data-it="Social"
-      >
-        Social
-      </span>
-
+    <a href="#social" class="mobile-nav-link">
+      <span data-en="Social" data-it="Social">Social</span>
       <span>↘</span>
     </a>
 
-    <a
-      href="#shows"
-      class="mobile-nav-link"
-    >
-      <span
-        data-en="Shows"
-        data-it="Date"
-      >
-        Shows
-      </span>
-
+    <a href="#shows" class="mobile-nav-link">
+      <span data-en="Shows" data-it="Date">Shows</span>
       <span>↘</span>
     </a>
 
-    <a
-      href="#contact"
-      class="mobile-nav-link"
-    >
+    <a href="#contact" class="mobile-nav-link">
       <span>Booking</span>
       <span>↘</span>
     </a>
 
-    <a
-      href="#about"
-      class="mobile-nav-link"
-    >
+    <a href="#about" class="mobile-nav-link">
       <span
         data-en="Our Story"
         data-it="La nostra storia"
@@ -2129,10 +2258,7 @@
       <span class="ticker-dot">●</span>
     </div>
 
-    <div
-      class="ticker-content"
-      aria-hidden="true"
-    >
+    <div class="ticker-content" aria-hidden="true">
       <span>Live Music</span>
       <span class="ticker-dot">●</span>
       <span>Acoustic</span>
@@ -2357,9 +2483,7 @@
 
       <div class="story-image-caption">
 
-        <span>
-          Orange May
-        </span>
+        <span>Orange May</span>
 
         <span
           data-en="Behind the music"
@@ -2476,23 +2600,19 @@
 <div class="image-strip">
 
   <figure>
-
     <img
       src="/images/lara-live.jpeg"
       alt="Orange May live performance"
       loading="lazy"
     >
-
   </figure>
 
   <figure>
-
     <img
       src="/images/cristian-live.jpeg"
       alt="Orange May live acoustic performance"
       loading="lazy"
     >
-
   </figure>
 
 </div>
@@ -2548,10 +2668,6 @@
 
 
 <script>
-
-  /* =====================================================
-     LANGUAGE
-  ===================================================== */
 
   let currentLanguage =
     localStorage.getItem("orangeMayLanguage") || "en";
@@ -2631,10 +2747,6 @@
       () => changeLanguage("it");
 
 
-  /* =====================================================
-     WHATSAPP
-  ===================================================== */
-
   function updateWhatsApp() {
 
     const englishMessage =
@@ -2657,10 +2769,6 @@
         encodeURIComponent(message);
   }
 
-
-  /* =====================================================
-     EVENTS
-  ===================================================== */
 
   async function loadEvents() {
 
@@ -2688,10 +2796,16 @@
 
 
       events =
-        events.filter(
-          event =>
-            getEventEnd(event) >= now
-        );
+        events
+          .filter(
+            event =>
+              getEventEnd(event) >= now
+          )
+          .sort(
+            (a, b) =>
+              getEventStart(a) -
+              getEventStart(b)
+          );
 
 
       if (!events.length) {
@@ -2711,13 +2825,43 @@
       }
 
 
+      const firstEvent =
+        events[0];
+
+
+      const otherEvents =
+        events.slice(1);
+
+
+      let html =
+        renderNextShow(firstEvent);
+
+
+      if (otherEvents.length) {
+
+        html += `
+          <div class="more-shows-label">
+            ${
+              currentLanguage === "it"
+                ? "Altre date"
+                : "More shows"
+            }
+          </div>
+        `;
+
+
+        html +=
+          otherEvents
+            .map(
+              event =>
+                renderPublicEvent(event)
+            )
+            .join("");
+      }
+
+
       container.innerHTML =
-        events
-          .map(
-            event =>
-              renderPublicEvent(event)
-          )
-          .join("");
+        html;
 
 
     } catch (error) {
@@ -2735,6 +2879,231 @@
           </div>
         `;
     }
+  }
+
+
+  function renderNextShow(event) {
+
+    const date =
+      new Date(
+        event.event_date +
+        "T12:00:00"
+      );
+
+
+    const day =
+      String(
+        date.getDate()
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    const month =
+      monthNames[
+        currentLanguage
+      ][
+        date.getMonth()
+      ];
+
+
+    const type =
+      event.event_type ||
+      "PUBLIC";
+
+
+    const isPrivate =
+      type === "PRIVATE";
+
+
+    const isGuestsOnly =
+      type === "GUESTS_ONLY";
+
+
+    const venue =
+      isPrivate
+        ? (
+            currentLanguage === "it"
+              ? "Evento privato"
+              : "Private Event"
+          )
+        : event.venue;
+
+
+    const label =
+      getNextShowLabel(event);
+
+
+    const time =
+      formatTime(event);
+
+
+    const rawNote =
+      String(event.note || "")
+        .trim();
+
+
+    const legacyNotes = [
+      "PRIVATE EVENT",
+      "PRIVATE",
+      "GUESTS ONLY",
+      "ONLY GUESTS",
+      "SOLO OSPITI",
+      "EVENTO PRIVATO"
+    ];
+
+
+    const showNote =
+      rawNote &&
+      !legacyNotes.includes(
+        rawNote.toUpperCase()
+      );
+
+
+    const directions =
+      !isPrivate &&
+      event.location_url
+        ? `
+            <a
+              href="${escapeAttribute(event.location_url)}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="show-action"
+            >
+              ${
+                currentLanguage === "it"
+                  ? "Indicazioni ↗"
+                  : "Directions ↗"
+              }
+            </a>
+          `
+        : "";
+
+
+    const moreInfo =
+      type === "PUBLIC" &&
+      event.public_url
+        ? `
+            <a
+              href="${escapeAttribute(event.public_url)}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="show-action"
+            >
+              ${
+                currentLanguage === "it"
+                  ? "Info ↗"
+                  : "More info ↗"
+              }
+            </a>
+          `
+        : "";
+
+
+    return `
+      <article class="next-show">
+
+        <div class="next-show-label">
+
+          <span class="mini-wave">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+
+          <span>
+            ${label}
+          </span>
+
+        </div>
+
+
+        <div class="next-show-date">
+
+          <span class="next-show-day">
+            ${day}
+          </span>
+
+          <span class="next-show-month">
+            ${month}
+          </span>
+
+        </div>
+
+
+        <div class="next-show-content">
+
+          <div class="next-show-venue">
+            ${escapeHtml(venue)}
+          </div>
+
+          ${
+            !isPrivate && event.location
+              ? `
+                  <div class="next-show-location">
+                    ${escapeHtml(event.location)}
+                  </div>
+                `
+              : ""
+          }
+
+          ${
+            isGuestsOnly
+              ? `
+                  <div class="next-show-badge">
+                    ${
+                      currentLanguage === "it"
+                        ? "Solo ospiti"
+                        : "Guests only"
+                    }
+                  </div>
+                `
+              : ""
+          }
+
+          ${
+            showNote
+              ? `
+                  <div class="next-show-note">
+                    ${escapeHtml(rawNote)}
+                  </div>
+                `
+              : ""
+          }
+
+        </div>
+
+
+        <div class="next-show-right">
+
+          ${
+            time
+              ? `
+                  <div class="next-show-time">
+                    ${escapeHtml(time)}
+                  </div>
+                `
+              : ""
+          }
+
+          ${
+            directions || moreInfo
+              ? `
+                  <div class="show-actions">
+                    ${directions}
+                    ${moreInfo}
+                  </div>
+                `
+              : ""
+          }
+
+        </div>
+
+      </article>
+    `;
   }
 
 
@@ -2787,46 +3156,13 @@
         : event.venue;
 
 
-    const startTime =
-      event.start_time || "";
-
-
-    const endTime =
-      event.end_time || "";
-
-
-    let badges = "";
-
-
-    if (isGuestsOnly) {
-
-      badges =
-        `
-          <span class="event-badge guests">
-            ${
-              currentLanguage === "it"
-                ? "Solo ospiti"
-                : "Guests only"
-            }
-          </span>
-        `;
-    }
-
-
-    const badgesBlock =
-      badges
-        ? `
-            <div class="event-badges">
-              ${badges}
-            </div>
-          `
-        : "";
+    const time =
+      formatTime(event);
 
 
     const rawNote =
-      String(
-        event.note || ""
-      ).trim();
+      String(event.note || "")
+        .trim();
 
 
     const legacyNotes = [
@@ -2846,33 +3182,35 @@
       );
 
 
-    const noteBlock =
-      showNote
+    const directions =
+      !isPrivate &&
+      event.location_url
         ? `
-            <div class="event-note-text">
+            <a
+              href="${escapeAttribute(event.location_url)}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="show-action"
+            >
               ${
-                escapeHtml(rawNote)
+                currentLanguage === "it"
+                  ? "Indicazioni ↗"
+                  : "Directions ↗"
               }
-            </div>
+            </a>
           `
         : "";
 
 
-    const infoLink =
-      (
-        type === "PUBLIC" &&
-        event.public_url
-      )
+    const moreInfo =
+      type === "PUBLIC" &&
+      event.public_url
         ? `
             <a
-              href="${
-                escapeAttribute(
-                  event.public_url
-                )
-              }"
+              href="${escapeAttribute(event.public_url)}"
               target="_blank"
               rel="noopener noreferrer"
-              class="event-info-link"
+              class="show-action"
             >
               ${
                 currentLanguage === "it"
@@ -2903,22 +3241,44 @@
         <div class="event-content">
 
           <div class="event-venue">
-            ${
-              escapeHtml(venue)
-            }
+            ${escapeHtml(venue)}
           </div>
 
-          <div class="event-location">
-            ${
-              escapeHtml(
-                event.location || ""
-              )
-            }
-          </div>
+          ${
+            !isPrivate && event.location
+              ? `
+                  <div class="event-location">
+                    ${escapeHtml(event.location)}
+                  </div>
+                `
+              : ""
+          }
 
-          ${badgesBlock}
+          ${
+            isGuestsOnly
+              ? `
+                  <div class="event-badges">
+                    <span class="event-badge">
+                      ${
+                        currentLanguage === "it"
+                          ? "Solo ospiti"
+                          : "Guests only"
+                      }
+                    </span>
+                  </div>
+                `
+              : ""
+          }
 
-          ${noteBlock}
+          ${
+            showNote
+              ? `
+                  <div class="event-note-text">
+                    ${escapeHtml(rawNote)}
+                  </div>
+                `
+              : ""
+          }
 
         </div>
 
@@ -2926,47 +3286,118 @@
         <div class="event-right">
 
           ${
-            startTime
+            time
               ? `
                   <div class="event-time">
-
-                    <span class="event-time-start">
-                      ${
-                        escapeHtml(startTime)
-                      }
-                    </span>
-
-                    ${
-                      endTime
-                        ? `
-                            <span class="event-time-separator">
-                              ${
-                                currentLanguage === "it"
-                                  ? "fino alle"
-                                  : "to"
-                              }
-                            </span>
-
-                            <span class="event-time-end">
-                              ${
-                                escapeHtml(endTime)
-                              }
-                            </span>
-                          `
-                        : ""
-                    }
-
+                    ${escapeHtml(time)}
                   </div>
                 `
               : ""
           }
 
-          ${infoLink}
+          ${
+            directions || moreInfo
+              ? `
+                  <div class="show-actions">
+                    ${directions}
+                    ${moreInfo}
+                  </div>
+                `
+              : ""
+          }
 
         </div>
 
       </article>
     `;
+  }
+
+
+  function getNextShowLabel(event) {
+
+    const today =
+      startOfDay(
+        new Date()
+      );
+
+
+    const eventDate =
+      startOfDay(
+        new Date(
+          event.event_date +
+          "T12:00:00"
+        )
+      );
+
+
+    const difference =
+      Math.round(
+        (
+          eventDate -
+          today
+        ) /
+        86400000
+      );
+
+
+    if (difference === 0) {
+
+      return currentLanguage === "it"
+        ? "Stasera"
+        : "Tonight";
+    }
+
+
+    if (difference === 1) {
+
+      return currentLanguage === "it"
+        ? "Domani"
+        : "Tomorrow";
+    }
+
+
+    return currentLanguage === "it"
+      ? "Prossima data"
+      : "Next show";
+  }
+
+
+  function startOfDay(date) {
+
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
+  }
+
+
+  function formatTime(event) {
+
+    if (!event.start_time) {
+      return "";
+    }
+
+
+    if (!event.end_time) {
+      return event.start_time;
+    }
+
+
+    return `${event.start_time} — ${event.end_time}`;
+  }
+
+
+  function getEventStart(event) {
+
+    const start =
+      event.start_time ||
+      "00:00";
+
+
+    return new Date(
+      `${event.event_date}T${start}:00`
+    );
   }
 
 
@@ -2983,10 +3414,6 @@
     );
   }
 
-
-  /* =====================================================
-     CONTACT FORM
-  ===================================================== */
 
   document
     .getElementById("contactForm")
@@ -3064,10 +3491,6 @@
     );
 
 
-  /* =====================================================
-     ESCAPE
-  ===================================================== */
-
   function escapeHtml(value = "") {
 
     return String(value)
@@ -3083,10 +3506,6 @@
     return escapeHtml(value);
   }
 
-
-  /* =====================================================
-     HEADER
-  ===================================================== */
 
   const header =
     document.getElementById("header");
@@ -3112,10 +3531,6 @@
 
   updateHeader();
 
-
-  /* =====================================================
-     MOBILE MENU
-  ===================================================== */
 
   const menuToggle =
     document.getElementById(
@@ -3197,10 +3612,6 @@
     );
 
 
-  /* =====================================================
-     SCROLL REVEAL
-  ===================================================== */
-
   const observer =
     new IntersectionObserver(
 
@@ -3251,10 +3662,6 @@
     );
 
 
-  /* =====================================================
-     YEAR
-  ===================================================== */
-
   document
     .getElementById(
       "currentYear"
@@ -3262,10 +3669,6 @@
     .textContent =
       new Date().getFullYear();
 
-
-  /* =====================================================
-     START
-  ===================================================== */
 
   changeLanguage(
     currentLanguage
