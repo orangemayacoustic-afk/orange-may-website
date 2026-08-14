@@ -5,6 +5,7 @@ export default {
     const method = request.method;
 
     try {
+
       // =====================================================
       // AUTH - LOGIN
       // =====================================================
@@ -44,6 +45,7 @@ export default {
         return response;
       }
 
+
       // =====================================================
       // AUTH - LOGOUT
       // =====================================================
@@ -63,6 +65,7 @@ export default {
 
         return response;
       }
+
 
       // =====================================================
       // ADMIN PAGE
@@ -84,8 +87,11 @@ export default {
           );
         }
 
-        return env.ASSETS.fetch(request);
+        return env.ASSETS.fetch(
+          request
+        );
       }
+
 
       // =====================================================
       // PROTECT ADMIN API ROUTES
@@ -111,6 +117,7 @@ export default {
         }
       }
 
+
       // =====================================================
       // PUBLIC EVENTS
       // =====================================================
@@ -127,6 +134,7 @@ export default {
                 event_date,
                 venue,
                 location,
+                location_url,
                 start_time,
                 end_time,
                 note,
@@ -141,6 +149,7 @@ export default {
 
         return json(results);
       }
+
 
       // =====================================================
       // CONTACT FORM
@@ -168,6 +177,7 @@ export default {
             body.message || ""
           ).trim();
 
+
         if (
           !name ||
           !email ||
@@ -181,6 +191,7 @@ export default {
             400
           );
         }
+
 
         await env.DB
           .prepare(`
@@ -201,10 +212,12 @@ export default {
           )
           .run();
 
+
         return json({
           success: true
         });
       }
+
 
       // =====================================================
       // ADMIN - GET ALL EVENTS
@@ -222,6 +235,7 @@ export default {
                 event_date,
                 venue,
                 location,
+                location_url,
                 start_time,
                 end_time,
                 note,
@@ -233,8 +247,10 @@ export default {
             `)
             .all();
 
+
         return json(results);
       }
+
 
       // =====================================================
       // ADMIN - CREATE EVENT
@@ -247,8 +263,10 @@ export default {
         const body =
           await request.json();
 
+
         const validation =
           validateEvent(body);
+
 
         if (!validation.ok) {
           return json(
@@ -260,6 +278,7 @@ export default {
           );
         }
 
+
         const result =
           await env.DB
             .prepare(`
@@ -268,18 +287,20 @@ export default {
                 event_date,
                 venue,
                 location,
+                location_url,
                 start_time,
                 end_time,
                 note,
                 event_type,
                 public_url
               )
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             `)
             .bind(
               validation.data.event_date,
               validation.data.venue,
               validation.data.location,
+              validation.data.location_url,
               validation.data.start_time,
               validation.data.end_time,
               validation.data.note,
@@ -288,15 +309,18 @@ export default {
             )
             .run();
 
+
         return json(
           {
             success: true,
             id:
-              result.meta?.last_row_id
+              result.meta
+                ?.last_row_id
           },
           201
         );
       }
+
 
       // =====================================================
       // ADMIN - EVENT BY ID
@@ -307,11 +331,13 @@ export default {
           /^\/api\/admin\/events\/(\d+)$/
         );
 
+
       if (adminEventMatch) {
         const id =
           Number(
             adminEventMatch[1]
           );
+
 
         if (
           !Number.isInteger(id) ||
@@ -326,6 +352,7 @@ export default {
           );
         }
 
+
         // -------------------------------------------------
         // UPDATE EVENT
         // -------------------------------------------------
@@ -334,8 +361,10 @@ export default {
           const body =
             await request.json();
 
+
           const validation =
             validateEvent(body);
+
 
           if (!validation.ok) {
             return json(
@@ -347,6 +376,7 @@ export default {
             );
           }
 
+
           const existing =
             await env.DB
               .prepare(`
@@ -356,6 +386,7 @@ export default {
               `)
               .bind(id)
               .first();
+
 
           if (!existing) {
             return json(
@@ -367,6 +398,7 @@ export default {
             );
           }
 
+
           await env.DB
             .prepare(`
               UPDATE events
@@ -374,6 +406,7 @@ export default {
                 event_date = ?,
                 venue = ?,
                 location = ?,
+                location_url = ?,
                 start_time = ?,
                 end_time = ?,
                 note = ?,
@@ -385,6 +418,7 @@ export default {
               validation.data.event_date,
               validation.data.venue,
               validation.data.location,
+              validation.data.location_url,
               validation.data.start_time,
               validation.data.end_time,
               validation.data.note,
@@ -394,10 +428,12 @@ export default {
             )
             .run();
 
+
           return json({
             success: true
           });
         }
+
 
         // -------------------------------------------------
         // DELETE EVENT
@@ -414,6 +450,7 @@ export default {
               .bind(id)
               .first();
 
+
           if (!existing) {
             return json(
               {
@@ -424,6 +461,7 @@ export default {
             );
           }
 
+
           await env.DB
             .prepare(`
               DELETE FROM events
@@ -432,11 +470,13 @@ export default {
             .bind(id)
             .run();
 
+
           return json({
             success: true
           });
         }
       }
+
 
       // =====================================================
       // STATIC WEBSITE
@@ -446,8 +486,11 @@ export default {
         request
       );
 
+
     } catch (error) {
+
       console.error(error);
+
 
       return json(
         {
@@ -475,12 +518,14 @@ function isAdminAuthenticated(
     return false;
   }
 
+
   const cookies =
     parseCookies(
       request.headers.get(
         "Cookie"
       ) || ""
     );
+
 
   return (
     cookies.orange_may_admin ===
@@ -520,29 +565,36 @@ function parseCookies(
 ) {
   const cookies = {};
 
+
   cookieHeader
     .split(";")
     .forEach(cookie => {
+
       const separator =
         cookie.indexOf("=");
+
 
       if (separator === -1) {
         return;
       }
+
 
       const key =
         cookie
           .slice(0, separator)
           .trim();
 
+
       const value =
         cookie
           .slice(separator + 1)
           .trim();
 
+
       cookies[key] =
         value;
     });
+
 
   return cookies;
 }
@@ -560,40 +612,58 @@ function validateEvent(
       body.event_date || ""
     ).trim();
 
+
   const venue =
     String(
       body.venue || ""
     ).trim();
+
 
   const location =
     String(
       body.location || ""
     ).trim();
 
+
+  const location_url =
+    cleanOptional(
+      body.location_url
+    );
+
+
   const start_time =
     cleanOptional(
       body.start_time
     );
+
 
   const end_time =
     cleanOptional(
       body.end_time
     );
 
+
   const note =
     cleanOptional(
       body.note
     );
+
 
   const event_type =
     normalizeEventType(
       body.event_type
     );
 
+
   const public_url =
     cleanOptional(
       body.public_url
     );
+
+
+  // -----------------------------------------------------
+  // REQUIRED
+  // -----------------------------------------------------
 
   if (!event_date) {
     return {
@@ -603,6 +673,7 @@ function validateEvent(
     };
   }
 
+
   if (!venue) {
     return {
       ok: false,
@@ -611,6 +682,7 @@ function validateEvent(
     };
   }
 
+
   if (!location) {
     return {
       ok: false,
@@ -618,6 +690,11 @@ function validateEvent(
         "Location is required"
     };
   }
+
+
+  // -----------------------------------------------------
+  // DATE
+  // -----------------------------------------------------
 
   if (
     !/^\d{4}-\d{2}-\d{2}$/
@@ -629,6 +706,11 @@ function validateEvent(
         "Invalid date"
     };
   }
+
+
+  // -----------------------------------------------------
+  // TIME
+  // -----------------------------------------------------
 
   if (
     start_time &&
@@ -642,6 +724,7 @@ function validateEvent(
     };
   }
 
+
   if (
     end_time &&
     !/^\d{2}:\d{2}$/
@@ -653,6 +736,7 @@ function validateEvent(
         "Invalid end time"
     };
   }
+
 
   if (
     start_time &&
@@ -666,9 +750,34 @@ function validateEvent(
     };
   }
 
+
+  // -----------------------------------------------------
+  // LOCATION URL
+  // -----------------------------------------------------
+
+  if (
+    location_url &&
+    !isValidHttpUrl(
+      location_url
+    )
+  ) {
+    return {
+      ok: false,
+      error:
+        "Invalid location URL"
+    };
+  }
+
+
+  // -----------------------------------------------------
+  // PUBLIC URL
+  // -----------------------------------------------------
+
   if (
     public_url &&
-    !isValidHttpUrl(public_url)
+    !isValidHttpUrl(
+      public_url
+    )
   ) {
     return {
       ok: false,
@@ -677,6 +786,7 @@ function validateEvent(
     };
   }
 
+
   return {
     ok: true,
 
@@ -684,6 +794,7 @@ function validateEvent(
       event_date,
       venue,
       location,
+      location_url,
       start_time,
       end_time,
       note,
@@ -707,6 +818,7 @@ function normalizeEventType(
     "PRIVATE"
   ];
 
+
   const type =
     String(
       value || "PUBLIC"
@@ -714,7 +826,10 @@ function normalizeEventType(
       .trim()
       .toUpperCase();
 
-  return allowedTypes.includes(type)
+
+  return allowedTypes.includes(
+    type
+  )
     ? type
     : "PUBLIC";
 }
@@ -728,15 +843,19 @@ function isValidHttpUrl(
   value
 ) {
   try {
+
     const url =
       new URL(value);
+
 
     return (
       url.protocol === "http:" ||
       url.protocol === "https:"
     );
 
+
   } catch {
+
     return false;
   }
 }
@@ -753,6 +872,7 @@ function cleanOptional(
     String(
       value || ""
     ).trim();
+
 
   return result || null;
 }
