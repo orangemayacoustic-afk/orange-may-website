@@ -1369,126 +1369,145 @@
         font-size: .61rem;
       }
 
-      /* SHOWS MOBILE */
+      /* =====================================================
+   SHOWS MOBILE
+===================================================== */
 
-      .section-header {
-        display: block;
-        margin-bottom: 34px;
-      }
+#shows {
+  padding: 68px 0 76px;
+}
 
-      .section-title {
-        margin-top: 11px;
+#shows .section-header {
+  display: block;
+  margin-bottom: 32px;
+}
 
-        max-width: 100%;
+#shows .section-title {
+  margin-top: 11px;
 
-        font-size: clamp(2.9rem, 13.5vw, 4.3rem);
-        line-height: .86;
-      }
+  font-size: clamp(2.8rem, 13vw, 4.25rem);
+  line-height: .86;
+}
 
-      .events-list {
-        border-top-width: 2px;
-      }
 
-      .event {
-        display: grid;
-        grid-template-columns: 62px minmax(0, 1fr);
+/* CARDS */
 
-        gap: 15px;
+.events-list {
+  gap: 10px;
+}
 
-        min-height: 0;
+.event {
+  display: grid;
+  grid-template-columns: 1fr;
 
-        padding: 23px 0;
+  gap: 0;
 
-        align-items: start;
-      }
+  min-height: 0;
 
-      .event:hover {
-        padding-left: 0;
-        padding-right: 0;
+  padding: 20px;
 
-        background: transparent;
-      }
+  background: #ebe5dc;
+}
 
-      .event:hover::before {
-        width: 0;
-      }
+.event:hover {
+  transform: none;
+}
 
-      .event-date {
-        padding-top: 2px;
-      }
+.event::before {
+  width: 4px;
+  transform: scaleY(1);
+}
 
-      .event-day {
-        font-size: 2.55rem;
-        line-height: .8;
-      }
 
-      .event-month {
-        margin-top: 7px;
+/* DATE */
 
-        font-size: .57rem;
-        letter-spacing: .16em;
-      }
+.event-date {
+  flex-direction: row;
+  align-items: baseline;
 
-      .event-content {
-        width: 100%;
-      }
+  gap: 8px;
 
-      .event-venue {
-        font-size: clamp(1.25rem, 6.5vw, 1.7rem);
-        line-height: 1.02;
-      }
+  margin-bottom: 24px;
+}
 
-      .event-badges {
-        margin-top: 9px;
-      }
+.event-day {
+  font-size: 3rem;
+  line-height: .78;
+}
 
-      .event-badge {
-        min-height: 23px;
+.event-month {
+  margin-top: 0;
 
-        padding: 0 8px;
+  font-size: .63rem;
+}
 
-        font-size: .49rem;
-      }
 
-      .event-note-text {
-        margin-top: 8px;
+/* VENUE */
 
-        font-size: .77rem;
-        line-height: 1.4;
-      }
+.event-venue {
+  font-size: clamp(1.55rem, 7vw, 2rem);
+  line-height: .98;
+}
 
-      .event-location {
-        grid-column: 2;
+.event-location {
+  margin-top: 7px;
 
-        margin-top: -1px;
+  font-size: .84rem;
+}
 
-        font-size: .81rem;
-        line-height: 1.35;
-      }
 
-      .event-right {
-        grid-column: 2;
+/* BADGE */
 
-        width: 100%;
+.event-badges {
+  margin-top: 12px;
+}
 
-        align-items: flex-start;
+.event-badge {
+  min-height: 25px;
+}
 
-        gap: 10px;
 
-        margin-top: -1px;
-      }
+/* TIME */
 
-      .event-time {
-        font-size: .78rem;
-      }
+.event-right {
+  width: 100%;
+  min-width: 0;
 
-      .event-info-link {
-        min-height: 32px;
+  margin-top: 25px;
+  padding-top: 17px;
 
-        padding: 0 11px;
+  border-top: 1px solid rgba(17,16,15,.16);
 
-        font-size: .54rem;
-      }
+  align-items: flex-start;
+}
+
+.event-time {
+  width: 100%;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: 10px;
+}
+
+.event-time-start,
+.event-time-end {
+  font-size: clamp(1.55rem, 7vw, 2rem);
+}
+
+.event-time-separator {
+  margin: 0;
+
+  font-size: .7rem;
+}
+
+
+/* CTA */
+
+.event-info-link {
+  margin-top: 14px;
+}
 
       .contact-grid {
         display: block;
