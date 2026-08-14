@@ -927,34 +927,45 @@
     /* NEXT DATE */
 
     .next-show-date {
-      position: relative;
-      z-index: 2;
+  position: relative;
+  z-index: 2;
 
-      padding-top: 48px;
-    }
+  padding-top: 48px;
 
-    .next-show-day {
-      display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-      font-size: clamp(4.3rem,6vw,6.2rem);
-      font-weight: 900;
-      line-height: .75;
-      letter-spacing: -.075em;
-    }
+  width: 130px;
 
-    .next-show-month {
-      display: block;
+  text-align: center;
+}
 
-      margin-top: 13px;
+.next-show-day {
+  display: block;
 
-      color: var(--orange);
+  font-size: clamp(4.3rem,6vw,6.2rem);
+  font-weight: 900;
+  line-height: .75;
+  letter-spacing: -.075em;
+}
 
-      font-size: .7rem;
-      font-weight: 900;
-      letter-spacing: .22em;
+.next-show-month {
+  display: block;
 
-      text-transform: uppercase;
-    }
+  margin-top: 13px;
+
+  color: var(--orange);
+
+  font-size: .7rem;
+  font-weight: 900;
+  letter-spacing: .18em;
+
+  text-transform: uppercase;
+
+  /* compensa visivamente il tracking */
+  padding-left: .18em;
+}
 
 
     /* NEXT CONTENT */
@@ -1207,29 +1218,35 @@
     /* EVENT DATE */
 
     .event-date {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    .event-day {
-      font-size: 2.65rem;
-      font-weight: 900;
-      line-height: .8;
-      letter-spacing: -.06em;
-    }
+  width: 78px;
 
-    .event-month {
-      margin-top: 7px;
+  text-align: center;
+}
 
-      color: var(--orange);
+.event-day {
+  font-size: 2.65rem;
+  font-weight: 900;
+  line-height: .8;
+  letter-spacing: -.06em;
+}
 
-      font-size: .58rem;
-      font-weight: 900;
-      letter-spacing: .18em;
+.event-month {
+  margin-top: 7px;
 
-      text-transform: uppercase;
-    }
+  color: var(--orange);
+
+  font-size: .58rem;
+  font-weight: 900;
+  letter-spacing: .16em;
+
+  text-transform: uppercase;
+
+  padding-left: .16em;
+}
 
 
     /* EVENT CONTENT */
@@ -2012,8 +2029,13 @@
       }
 
       .next-show-date {
-        padding-top: 0;
-      }
+  padding-top: 0;
+
+  width: auto;
+
+  align-items: flex-start;
+  text-align: left;
+}
 
       .next-show-day {
         font-size: 4rem;
@@ -2122,6 +2144,19 @@
 
         overflow: visible;
       }
+      .event-date {
+        width: 56px;
+
+        display: flex;
+       flex-direction: column;
+       align-items: center;
+
+       text-align: center;
+      }
+
+      .event-month {
+       padding-left: .16em;
+       }
 
       .event:first-child {
         border-top:
