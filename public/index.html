@@ -16,10 +16,6 @@
   <title>Orange May Acoustic</title>
 
   <style>
-    /* =====================================================
-       RESET
-    ===================================================== */
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -34,33 +30,23 @@
 
     :root {
       --orange: #ff6a00;
-      --orange-light: #ff9b4a;
-
       --cream: #f5f0e8;
       --cream-dark: #ebe5dc;
-
       --black: #11100f;
-      --black-soft: #191714;
-
       --grey: #77716a;
-      --grey-dark: #5f5a54;
-
       --line: rgba(17, 16, 15, .16);
-
       --max: 1260px;
     }
 
     html {
       width: 100%;
       overflow-x: hidden;
-
       scroll-behavior: smooth;
     }
 
     body {
       width: 100%;
       max-width: 100%;
-
       overflow-x: hidden;
 
       background: var(--cream);
@@ -76,7 +62,6 @@
 
     img {
       display: block;
-
       width: 100%;
       max-width: 100%;
     }
@@ -102,17 +87,13 @@
     }
 
     .container {
-      width: min(
-        calc(100% - 96px),
-        var(--max)
-      );
-
+      width: min(calc(100% - 96px), var(--max));
       margin: 0 auto;
     }
 
 
     /* =====================================================
-       GENERIC ANIMATIONS
+       REVEAL
     ===================================================== */
 
     .reveal {
@@ -137,7 +118,6 @@
     header {
       position: fixed;
       inset: 0 0 auto;
-
       z-index: 1000;
 
       transition:
@@ -148,15 +128,13 @@
     }
 
     header.scrolled {
-      background:
-        rgba(245,240,232,.94);
-
+      background: rgba(245,240,232,.94);
       color: var(--black);
 
       backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
 
-      border-bottom:
-        1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
 
     header:not(.scrolled) {
@@ -173,21 +151,21 @@
       gap: 28px;
     }
 
+
+    /* LOGO SWITCH */
+
     .nav-logo {
       position: relative;
       z-index: 1200;
 
       width: 128px;
-      height: 56px;
+      height: 58px;
 
-      display: flex;
-      align-items: center;
+      display: block;
 
       flex-shrink: 0;
 
-      transition:
-        transform .25s ease,
-        opacity .25s ease;
+      transition: transform .25s ease;
     }
 
     .nav-logo:hover {
@@ -195,24 +173,48 @@
     }
 
     .nav-logo img {
-      max-width: 100%;
-      max-height: 56px;
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
 
       object-fit: contain;
       object-position: left center;
+
+      transition:
+        opacity .3s ease,
+        transform .3s ease;
     }
+
+    .logo-white {
+      opacity: 1;
+    }
+
+    .logo-dark {
+      opacity: 0;
+    }
+
+    header.scrolled .logo-white {
+      opacity: 0;
+    }
+
+    header.scrolled .logo-dark {
+      opacity: 1;
+    }
+
+
+    /* NAV */
 
     .nav-right {
       display: flex;
       align-items: center;
-
       gap: 22px;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-
       gap: 24px;
     }
 
@@ -241,8 +243,7 @@
       transform-origin: right;
 
       transition:
-        transform .25s
-        cubic-bezier(.2,.8,.2,1);
+        transform .25s cubic-bezier(.2,.8,.2,1);
     }
 
     .nav-links a:hover::after {
@@ -292,8 +293,7 @@
     }
 
     header:not(.scrolled)
-    .language-switcher
-    button.active {
+    .language-switcher button.active {
       background: white;
       color: var(--black);
     }
@@ -312,8 +312,7 @@
       width: 42px;
       height: 42px;
 
-      border:
-        1px solid currentColor;
+      border: 1px solid currentColor;
       border-radius: 50%;
 
       background: transparent;
@@ -342,17 +341,13 @@
       top: 23px;
     }
 
-    .menu-toggle.active
-    span:first-child {
+    .menu-toggle.active span:first-child {
       top: 20px;
-
       transform: rotate(45deg);
     }
 
-    .menu-toggle.active
-    span:last-child {
+    .menu-toggle.active span:last-child {
       top: 20px;
-
       transform: rotate(-45deg);
     }
 
@@ -365,19 +360,14 @@
       display: flex;
       flex-direction: column;
 
-      padding:
-        115px
-        24px
-        28px;
+      padding: 115px 24px 28px;
 
       background: var(--orange);
       color: var(--black);
 
       opacity: 0;
       visibility: hidden;
-
-      transform:
-        translateY(-10px);
+      transform: translateY(-10px);
 
       transition:
         opacity .25s ease,
@@ -388,7 +378,6 @@
     .mobile-menu.open {
       opacity: 1;
       visibility: visible;
-
       transform: translateY(0);
     }
 
@@ -396,8 +385,7 @@
       display: flex;
       flex-direction: column;
 
-      border-top:
-        2px solid var(--black);
+      border-top: 2px solid var(--black);
     }
 
     .mobile-menu-links a {
@@ -407,19 +395,11 @@
       align-items: center;
       justify-content: space-between;
 
-      border-bottom:
-        2px solid var(--black);
+      border-bottom: 2px solid var(--black);
 
-      font-size:
-        clamp(
-          2rem,
-          10vw,
-          3.3rem
-        );
-
+      font-size: clamp(2rem, 10vw, 3.3rem);
       font-weight: 900;
       letter-spacing: -.045em;
-
       text-transform: uppercase;
     }
 
@@ -428,17 +408,13 @@
 
       display: flex;
       flex-wrap: wrap;
-
-      gap:
-        12px
-        20px;
+      gap: 12px 20px;
 
       padding-top: 28px;
 
       font-size: .72rem;
       font-weight: 800;
       letter-spacing: .08em;
-
       text-transform: uppercase;
     }
 
@@ -478,7 +454,7 @@
       position: absolute;
       inset: auto 0 0;
 
-      height: 40%;
+      height: 42%;
 
       background:
         linear-gradient(
@@ -501,7 +477,6 @@
     .hero-eyebrow {
       display: flex;
       align-items: center;
-
       gap: 12px;
 
       margin-bottom: 20px;
@@ -509,7 +484,6 @@
       font-size: .68rem;
       font-weight: 900;
       letter-spacing: .20em;
-
       text-transform: uppercase;
     }
 
@@ -525,13 +499,7 @@
     .hero h1 {
       max-width: 810px;
 
-      font-size:
-        clamp(
-          4.4rem,
-          10vw,
-          9.3rem
-        );
-
+      font-size: clamp(4.4rem, 10vw, 9.3rem);
       font-weight: 900;
       line-height: .79;
       letter-spacing: -.068em;
@@ -556,20 +524,13 @@
     .hero-description {
       max-width: 455px;
 
-      font-size:
-        clamp(
-          1.05rem,
-          1.65vw,
-          1.42rem
-        );
-
+      font-size: clamp(1.05rem, 1.65vw, 1.42rem);
       line-height: 1.38;
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
-
       gap: 12px;
     }
 
@@ -594,12 +555,10 @@
       font-size: .74rem;
       font-weight: 900;
       letter-spacing: .08em;
-
       text-transform: uppercase;
 
       transition:
-        transform .25s
-        cubic-bezier(.2,.8,.2,1),
+        transform .25s cubic-bezier(.2,.8,.2,1),
         box-shadow .25s ease,
         background .25s ease;
     }
@@ -614,9 +573,7 @@
     }
 
     .btn-orange:hover {
-      box-shadow:
-        0 10px 25px
-        rgba(255,106,0,.22);
+      box-shadow: 0 10px 25px rgba(255,106,0,.22);
     }
 
     .btn-white {
@@ -642,39 +599,24 @@
       font-size: .66rem;
       font-weight: 900;
       letter-spacing: .21em;
-
       text-transform: uppercase;
     }
 
-    #social
-    .section-label {
+    #social .section-label {
       margin-bottom: 18px;
-
       color: var(--black);
     }
 
     .social-top {
       display: grid;
-
-      grid-template-columns:
-        1.08fr
-        .92fr;
+      grid-template-columns: 1.08fr .92fr;
 
       gap: 70px;
-
       align-items: center;
     }
 
     .social-title {
-      max-width: 100%;
-
-      font-size:
-        clamp(
-          4.4rem,
-          8vw,
-          8.8rem
-        );
-
+      font-size: clamp(4.4rem, 8vw, 8.8rem);
       font-weight: 900;
       line-height: .8;
       letter-spacing: -.065em;
@@ -691,21 +633,14 @@
     }
 
     .social-copy p {
-      font-size:
-        clamp(
-          1.08rem,
-          1.7vw,
-          1.45rem
-        );
-
+      font-size: clamp(1.08rem, 1.7vw, 1.45rem);
       line-height: 1.45;
     }
 
     .social-links {
       margin-top: 68px;
 
-      border-top:
-        2px solid var(--black);
+      border-top: 2px solid var(--black);
     }
 
     .social-link {
@@ -717,12 +652,10 @@
 
       gap: 20px;
 
-      border-bottom:
-        2px solid var(--black);
+      border-bottom: 2px solid var(--black);
 
       transition:
-        padding .3s
-        cubic-bezier(.2,.8,.2,1),
+        padding .3s cubic-bezier(.2,.8,.2,1),
         background .3s ease;
     }
 
@@ -730,18 +663,11 @@
       padding-left: 18px;
       padding-right: 18px;
 
-      background:
-        rgba(255,255,255,.08);
+      background: rgba(255,255,255,.08);
     }
 
     .social-name {
-      font-size:
-        clamp(
-          2rem,
-          4.2vw,
-          4.2rem
-        );
-
+      font-size: clamp(2rem, 4.2vw, 4.2rem);
       font-weight: 900;
       letter-spacing: -.04em;
 
@@ -751,25 +677,14 @@
     .social-arrow {
       flex-shrink: 0;
 
-      font-size:
-        clamp(
-          1.9rem,
-          3.5vw,
-          3.4rem
-        );
+      font-size: clamp(1.9rem, 3.5vw, 3.4rem);
 
       transition:
-        transform .3s
-        cubic-bezier(.2,.8,.2,1);
+        transform .3s cubic-bezier(.2,.8,.2,1);
     }
 
-    .social-link:hover
-    .social-arrow {
-      transform:
-        translate(
-          5px,
-          -5px
-        );
+    .social-link:hover .social-arrow {
+      transform: translate(5px, -5px);
     }
 
 
@@ -790,29 +705,21 @@
       display: flex;
       align-items: center;
 
-      animation:
-        ticker
-        26s
-        linear
-        infinite;
+      animation: ticker 26s linear infinite;
     }
 
     .ticker-content {
       display: flex;
       align-items: center;
-
       gap: 28px;
 
-      padding:
-        18px
-        14px;
+      padding: 18px 14px;
 
       white-space: nowrap;
 
       font-size: .72rem;
       font-weight: 900;
       letter-spacing: .16em;
-
       text-transform: uppercase;
     }
 
@@ -822,13 +729,11 @@
 
     @keyframes ticker {
       from {
-        transform:
-          translateX(0);
+        transform: translateX(0);
       }
 
       to {
-        transform:
-          translateX(-50%);
+        transform: translateX(-50%);
       }
     }
 
@@ -838,40 +743,25 @@
     ===================================================== */
 
     #shows {
-      padding:
-        105px
-        0
-        120px;
+      padding: 105px 0 120px;
 
       background: var(--cream);
     }
 
-    #shows
-    .section-header {
+    #shows .section-header {
       display: grid;
-
-      grid-template-columns:
-        150px
-        minmax(0,1fr);
+      grid-template-columns: 150px minmax(0,1fr);
 
       gap: 50px;
-
       align-items: end;
 
       margin-bottom: 48px;
     }
 
-    #shows
-    .section-title {
+    #shows .section-title {
       max-width: 980px;
 
-      font-size:
-        clamp(
-          3.8rem,
-          6vw,
-          6.4rem
-        );
-
+      font-size: clamp(3.8rem, 6vw, 6.4rem);
       font-weight: 900;
       line-height: .84;
       letter-spacing: -.065em;
@@ -879,46 +769,33 @@
       text-transform: uppercase;
     }
 
-
-    /* LIST */
-
     .events-list {
       display: grid;
-
       gap: 12px;
     }
-
-
-    /* CARD */
 
     .event {
       position: relative;
 
       display: grid;
-
       grid-template-columns:
         105px
         minmax(0,1fr)
         auto;
 
       gap: 34px;
-
       align-items: center;
 
       min-height: 142px;
 
-      padding:
-        28px
-        30px;
+      padding: 28px 30px;
 
-      background:
-        var(--cream-dark);
+      background: var(--cream-dark);
 
       overflow: hidden;
 
       transition:
-        transform .35s
-        cubic-bezier(.2,.8,.2,1),
+        transform .35s cubic-bezier(.2,.8,.2,1),
         background .35s ease,
         box-shadow .35s ease;
     }
@@ -927,47 +804,30 @@
       content: "";
 
       position: absolute;
-      inset:
-        0
-        auto
-        0
-        0;
+      inset: 0 auto 0 0;
 
       width: 5px;
 
-      background:
-        var(--orange);
+      background: var(--orange);
 
-      transform:
-        scaleY(0);
-
-      transform-origin:
-        bottom;
+      transform: scaleY(0);
+      transform-origin: bottom;
 
       transition:
-        transform .35s
-        cubic-bezier(.2,.8,.2,1);
+        transform .35s cubic-bezier(.2,.8,.2,1);
     }
 
     .event:hover {
-      transform:
-        translateY(-4px);
+      transform: translateY(-4px);
 
-      background:
-        #e5ddd2;
+      background: #e5ddd2;
 
-      box-shadow:
-        0 16px 35px
-        rgba(0,0,0,.055);
+      box-shadow: 0 16px 35px rgba(0,0,0,.055);
     }
 
     .event:hover::before {
-      transform:
-        scaleY(1);
+      transform: scaleY(1);
     }
-
-
-    /* DATE */
 
     .event-date {
       display: flex;
@@ -976,13 +836,7 @@
     }
 
     .event-day {
-      font-size:
-        clamp(
-          3.6rem,
-          5vw,
-          5rem
-        );
-
+      font-size: clamp(3.6rem, 5vw, 5rem);
       font-weight: 900;
       line-height: .76;
       letter-spacing: -.07em;
@@ -1000,9 +854,6 @@
       text-transform: uppercase;
     }
 
-
-    /* CONTENT */
-
     .event-content {
       display: flex;
       flex-direction: column;
@@ -1012,13 +863,7 @@
     .event-venue {
       max-width: 700px;
 
-      font-size:
-        clamp(
-          1.65rem,
-          2.6vw,
-          2.55rem
-        );
-
+      font-size: clamp(1.65rem, 2.6vw, 2.55rem);
       font-weight: 900;
       line-height: 1;
       letter-spacing: -.04em;
@@ -1035,9 +880,6 @@
       font-weight: 600;
     }
 
-
-    /* BADGES */
-
     .event-badges {
       display: flex;
       flex-wrap: wrap;
@@ -1053,16 +895,13 @@
       display: inline-flex;
       align-items: center;
 
-      padding:
-        0
-        11px;
+      padding: 0 11px;
 
       border-radius: 999px;
 
       font-size: .55rem;
       font-weight: 900;
       letter-spacing: .1em;
-
       text-transform: uppercase;
     }
 
@@ -1070,9 +909,6 @@
       background: #ffdcb6;
       color: #7c3c00;
     }
-
-
-    /* NOTE */
 
     .event-note-text {
       max-width: 530px;
@@ -1084,9 +920,6 @@
       font-size: .82rem;
       line-height: 1.45;
     }
-
-
-    /* TIME */
 
     .event-right {
       display: flex;
@@ -1108,13 +941,7 @@
 
     .event-time-start,
     .event-time-end {
-      font-size:
-        clamp(
-          1.65rem,
-          2.6vw,
-          2.5rem
-        );
-
+      font-size: clamp(1.65rem, 2.6vw, 2.5rem);
       letter-spacing: -.045em;
     }
 
@@ -1126,12 +953,8 @@
       font-size: .7rem;
       font-weight: 900;
       letter-spacing: .12em;
-
       text-transform: uppercase;
     }
-
-
-    /* LINK */
 
     .event-info-link {
       margin-top: 14px;
@@ -1142,19 +965,14 @@
       align-items: center;
       justify-content: center;
 
-      padding:
-        0
-        13px;
+      padding: 0 13px;
 
-      border:
-        1px solid var(--black);
-
+      border: 1px solid var(--black);
       border-radius: 999px;
 
       font-size: .56rem;
       font-weight: 900;
       letter-spacing: .1em;
-
       text-transform: uppercase;
 
       transition:
@@ -1167,15 +985,11 @@
       background: var(--black);
       color: white;
 
-      transform:
-        translateY(-2px);
+      transform: translateY(-2px);
     }
 
     .empty {
-      padding:
-        40px
-        0;
-
+      padding: 40px 0;
       color: var(--grey);
     }
 
@@ -1187,9 +1001,7 @@
     #contact {
       position: relative;
 
-      padding:
-        120px
-        0;
+      padding: 120px 0;
 
       overflow: hidden;
 
@@ -1209,29 +1021,19 @@
       z-index: 2;
 
       display: grid;
-
-      grid-template-columns:
-        .9fr
-        1.1fr;
+      grid-template-columns: .9fr 1.1fr;
 
       gap: 80px;
     }
 
-    #contact
-    .section-label {
+    #contact .section-label {
       margin-bottom: 22px;
     }
 
     .contact-title {
       max-width: 650px;
 
-      font-size:
-        clamp(
-          3.2rem,
-          6.2vw,
-          6.3rem
-        );
-
+      font-size: clamp(3.2rem, 6.2vw, 6.3rem);
       font-weight: 900;
       line-height: .89;
       letter-spacing: -.055em;
@@ -1239,8 +1041,7 @@
       text-transform: uppercase;
     }
 
-    .contact-title
-    .orange {
+    .contact-title .orange {
       color: var(--orange);
     }
 
@@ -1249,13 +1050,7 @@
 
       margin-top: 30px;
 
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .72
-        );
+      color: rgba(255,255,255,.72);
 
       font-size: 1.08rem;
       line-height: 1.5;
@@ -1276,22 +1071,10 @@
     .email-link {
       max-width: 100%;
 
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .72
-        );
+      color: rgba(255,255,255,.72);
 
       border-bottom:
-        1px solid
-        rgba(
-          255,
-          255,
-          255,
-          .35
-        );
+        1px solid rgba(255,255,255,.35);
 
       padding-bottom: 3px;
 
@@ -1310,13 +1093,7 @@
 
       margin-bottom: 7px;
 
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .56
-        );
+      color: rgba(255,255,255,.56);
 
       font-size: .64rem;
       font-weight: 900;
@@ -1330,20 +1107,12 @@
       width: 100%;
       max-width: 100%;
 
-      padding:
-        17px
-        0;
+      padding: 17px 0;
 
       border: 0;
 
       border-bottom:
-        1px solid
-        rgba(
-          255,
-          255,
-          255,
-          .28
-        );
+        1px solid rgba(255,255,255,.28);
 
       border-radius: 0;
 
@@ -1360,18 +1129,15 @@
 
     .field input:focus,
     .field textarea:focus {
-      border-color:
-        var(--orange);
+      border-color: var(--orange);
     }
 
     .field textarea {
       min-height: 140px;
-
       resize: vertical;
     }
 
-    .contact-form
-    .btn {
+    .contact-form .btn {
       border: 0;
     }
 
@@ -1380,13 +1146,7 @@
 
       margin-top: 6px;
 
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .7
-        );
+      color: rgba(255,255,255,.7);
 
       font-size: .84rem;
     }
@@ -1397,23 +1157,16 @@
     ===================================================== */
 
     #about {
-      padding:
-        120px
-        0;
+      padding: 120px 0;
 
-      background:
-        var(--cream);
+      background: var(--cream);
     }
 
     .story-grid {
       display: grid;
-
-      grid-template-columns:
-        .95fr
-        1.05fr;
+      grid-template-columns: .95fr 1.05fr;
 
       gap: 72px;
-
       align-items: start;
     }
 
@@ -1423,13 +1176,10 @@
     }
 
     .story-image img {
-      aspect-ratio:
-        1 / 1.08;
+      aspect-ratio: 1 / 1.08;
 
       object-fit: cover;
-
-      filter:
-        grayscale(100%);
+      filter: grayscale(100%);
 
       transition:
         filter .5s ease,
@@ -1437,11 +1187,8 @@
     }
 
     .story-image:hover img {
-      filter:
-        grayscale(55%);
-
-      transform:
-        scale(1.012);
+      filter: grayscale(55%);
+      transform: scale(1.012);
     }
 
     .story-image-caption {
@@ -1449,7 +1196,6 @@
 
       display: flex;
       justify-content: space-between;
-
       gap: 18px;
 
       color: var(--grey);
@@ -1461,8 +1207,7 @@
       text-transform: uppercase;
     }
 
-    .story-content
-    .section-label {
+    .story-content .section-label {
       margin-bottom: 24px;
     }
 
@@ -1471,13 +1216,7 @@
 
       margin-bottom: 38px;
 
-      font-size:
-        clamp(
-          2.9rem,
-          5vw,
-          5.4rem
-        );
-
+      font-size: clamp(2.9rem, 5vw, 5.4rem);
       font-weight: 900;
       line-height: .91;
       letter-spacing: -.05em;
@@ -1485,8 +1224,7 @@
       text-transform: uppercase;
     }
 
-    .story-heading
-    .orange {
+    .story-heading .orange {
       color: var(--orange);
     }
 
@@ -1495,13 +1233,7 @@
 
       margin-bottom: 32px;
 
-      font-size:
-        clamp(
-          1.35rem,
-          2vw,
-          1.75rem
-        );
-
+      font-size: clamp(1.35rem, 2vw, 1.75rem);
       line-height: 1.4;
       font-weight: 700;
     }
@@ -1514,31 +1246,17 @@
     .story-text p {
       color: #37332f;
 
-      font-size:
-        clamp(
-          1.02rem,
-          1.3vw,
-          1.18rem
-        );
-
+      font-size: clamp(1.02rem, 1.3vw, 1.18rem);
       line-height: 1.62;
     }
 
     .story-ending {
       margin-top: 36px;
-
       padding-top: 27px;
 
-      border-top:
-        2px solid var(--black);
+      border-top: 2px solid var(--black);
 
-      font-size:
-        clamp(
-          1.55rem,
-          2.6vw,
-          2.45rem
-        );
-
+      font-size: clamp(1.55rem, 2.6vw, 2.45rem);
       font-weight: 900;
       line-height: 1.06;
       letter-spacing: -.03em;
@@ -1546,8 +1264,7 @@
       text-transform: uppercase;
     }
 
-    .story-ending
-    .orange {
+    .story-ending .orange {
       color: var(--orange);
     }
 
@@ -1558,18 +1275,13 @@
 
     .image-strip {
       display: grid;
+      grid-template-columns: 1fr 1fr;
 
-      grid-template-columns:
-        1fr
-        1fr;
-
-      background:
-        var(--black);
+      background: var(--black);
     }
 
     .image-strip figure {
       min-height: 60vh;
-
       overflow: hidden;
     }
 
@@ -1579,13 +1291,11 @@
       object-fit: cover;
 
       transition:
-        transform .6s
-        cubic-bezier(.2,.8,.2,1);
+        transform .6s cubic-bezier(.2,.8,.2,1);
     }
 
     .image-strip figure:hover img {
-      transform:
-        scale(1.025);
+      transform: scale(1.025);
     }
 
 
@@ -1594,27 +1304,14 @@
     ===================================================== */
 
     footer {
-      padding:
-        64px
-        0
-        36px;
+      padding: 64px 0 36px;
 
-      background:
-        var(--orange);
-
+      background: var(--orange);
       color: var(--black);
     }
 
     .footer-logo {
-      max-width: 100%;
-
-      font-size:
-        clamp(
-          4rem,
-          8.5vw,
-          8.6rem
-        );
-
+      font-size: clamp(4rem, 8.5vw, 8.6rem);
       font-weight: 900;
       line-height: .78;
       letter-spacing: -.065em;
@@ -1624,11 +1321,9 @@
 
     .footer-bottom {
       margin-top: 64px;
-
       padding-top: 23px;
 
-      border-top:
-        2px solid var(--black);
+      border-top: 2px solid var(--black);
 
       display: flex;
       align-items: center;
@@ -1672,12 +1367,8 @@
       }
 
       .nav-logo {
-        width: 87px;
-        height: 43px;
-      }
-
-      .nav-logo img {
-        max-height: 43px;
+        width: 92px;
+        height: 46px;
       }
 
       .nav-links {
@@ -1692,8 +1383,7 @@
         gap: 8px;
       }
 
-      .language-switcher
-      button {
+      .language-switcher button {
         width: 31px;
         height: 28px;
 
@@ -1706,8 +1396,7 @@
       .hero {
         min-height: 100svh;
 
-        background-position:
-          59% center;
+        background-position: 59% center;
 
         background-image:
           linear-gradient(
@@ -1728,19 +1417,12 @@
       .hero h1 {
         max-width: 100%;
 
-        font-size:
-          clamp(
-            3.8rem,
-            17.7vw,
-            5.4rem
-          );
-
+        font-size: clamp(3.8rem, 17.7vw, 5.4rem);
         line-height: .8;
       }
 
       .hero-bottom {
         display: block;
-
         margin-top: 23px;
       }
 
@@ -1756,37 +1438,32 @@
         margin-top: 22px;
 
         display: grid;
-
-        grid-template-columns:
-          1fr
-          1fr;
+        grid-template-columns: 1fr 1fr;
 
         gap: 9px;
       }
 
-      .hero-actions
-      .btn {
+      .hero-actions .btn {
         width: 100%;
 
         min-height: 45px;
 
-        padding:
-          0
-          8px;
+        padding: 0 8px;
 
         font-size: .61rem;
       }
 
 
-      /* SOCIAL */
+      /* SECTIONS */
 
       #social,
       #contact,
       #about {
-        padding:
-          70px
-          0;
+        padding: 70px 0;
       }
+
+
+      /* SOCIAL */
 
       .social-top {
         display: block;
@@ -1795,13 +1472,7 @@
       .social-title {
         margin-top: 7px;
 
-        font-size:
-          clamp(
-            3rem,
-            14vw,
-            4.2rem
-          );
-
+        font-size: clamp(3rem, 14vw, 4.2rem);
         line-height: .84;
       }
 
@@ -1833,52 +1504,32 @@
       }
 
       .social-name {
-        font-size:
-          clamp(
-            1.7rem,
-            8.5vw,
-            2.7rem
-          );
+        font-size: clamp(1.7rem, 8.5vw, 2.7rem);
       }
 
       .ticker-content {
-        padding:
-          15px
-          10px;
+        padding: 15px 10px;
 
         font-size: .61rem;
       }
 
 
-      /* =====================================================
-         SHOWS MOBILE
-      ===================================================== */
+      /* SHOWS */
 
       #shows {
-        padding:
-          68px
-          0
-          76px;
+        padding: 68px 0 76px;
       }
 
-      #shows
-      .section-header {
+      #shows .section-header {
         display: block;
 
         margin-bottom: 32px;
       }
 
-      #shows
-      .section-title {
+      #shows .section-title {
         margin-top: 11px;
 
-        font-size:
-          clamp(
-            2.8rem,
-            13vw,
-            4.25rem
-          );
-
+        font-size: clamp(2.8rem, 13vw, 4.25rem);
         line-height: .86;
       }
 
@@ -1888,9 +1539,7 @@
 
       .event {
         display: grid;
-
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
 
         gap: 0;
 
@@ -1898,8 +1547,7 @@
 
         padding: 20px;
 
-        background:
-          var(--cream-dark);
+        background: var(--cream-dark);
 
         transform: none;
       }
@@ -1907,21 +1555,15 @@
       .event:hover {
         transform: none;
 
-        background:
-          var(--cream-dark);
-
+        background: var(--cream-dark);
         box-shadow: none;
       }
 
       .event::before {
         width: 4px;
 
-        transform:
-          scaleY(1);
+        transform: scaleY(1);
       }
-
-
-      /* DATE */
 
       .event-date {
         flex-direction: row;
@@ -1943,17 +1585,8 @@
         font-size: .63rem;
       }
 
-
-      /* CONTENT */
-
       .event-venue {
-        font-size:
-          clamp(
-            1.55rem,
-            7vw,
-            2rem
-          );
-
+        font-size: clamp(1.55rem, 7vw, 2rem);
         line-height: .98;
       }
 
@@ -1977,25 +1610,14 @@
         font-size: .78rem;
       }
 
-
-      /* TIME */
-
       .event-right {
         width: 100%;
         min-width: 0;
 
         margin-top: 25px;
-
         padding-top: 17px;
 
-        border-top:
-          1px solid
-          rgba(
-            17,
-            16,
-            15,
-            .16
-          );
+        border-top: 1px solid rgba(17,16,15,.16);
 
         align-items: flex-start;
       }
@@ -2012,22 +1634,13 @@
 
       .event-time-start,
       .event-time-end {
-        font-size:
-          clamp(
-            1.55rem,
-            7vw,
-            2rem
-          );
+        font-size: clamp(1.55rem, 7vw, 2rem);
       }
 
       .event-time-separator {
         margin: 0;
 
         font-size: .65rem;
-      }
-
-      .event-info-link {
-        margin-top: 14px;
       }
 
 
@@ -2038,12 +1651,7 @@
       }
 
       .contact-title {
-        font-size:
-          clamp(
-            2.6rem,
-            12.5vw,
-            4rem
-          );
+        font-size: clamp(2.6rem, 12.5vw, 4rem);
       }
 
       .contact-form {
@@ -2070,25 +1678,18 @@
       }
 
       .story-image img {
-        aspect-ratio:
-          4 / 5;
+        aspect-ratio: 4 / 5;
       }
 
       .story-heading {
-        font-size:
-          clamp(
-            2.55rem,
-            12vw,
-            3.85rem
-          );
+        font-size: clamp(2.55rem, 12vw, 3.85rem);
       }
 
 
       /* IMAGES */
 
       .image-strip {
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
       }
 
       .image-strip figure {
@@ -2103,19 +1704,11 @@
       /* FOOTER */
 
       footer {
-        padding:
-          52px
-          0
-          29px;
+        padding: 52px 0 29px;
       }
 
       .footer-logo {
-        font-size:
-          clamp(
-            3.5rem,
-            16vw,
-            5rem
-          );
+        font-size: clamp(3.5rem, 16vw, 5rem);
       }
 
       .footer-bottom {
@@ -2129,10 +1722,6 @@
     }
 
 
-    /* =====================================================
-       VERY SMALL MOBILE
-    ===================================================== */
-
     @media (max-width: 390px) {
 
       .container {
@@ -2145,24 +1734,20 @@
       }
 
       .hero-actions {
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
       }
 
       .social-title {
         font-size: 13.5vw;
       }
 
-      .section-title,
       .contact-title,
       .story-heading {
         font-size: 11.7vw;
       }
 
       .event {
-        padding:
-          18px
-          17px;
+        padding: 18px 17px;
       }
 
       .event-day {
@@ -2180,8 +1765,7 @@
        REDUCED MOTION
     ===================================================== */
 
-    @media
-    (prefers-reduced-motion: reduce) {
+    @media (prefers-reduced-motion: reduce) {
 
       html {
         scroll-behavior: auto;
@@ -2190,1704 +1774,1504 @@
       *,
       *::before,
       *::after {
-        animation-duration:
-          .01ms !important;
-
-        animation-iteration-count:
-          1 !important;
-
-        transition-duration:
-          .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
       }
     }
+
   </style>
 </head>
 
 <body>
 
-  <!-- ===================================================
-       HEADER
-  ==================================================== -->
 
-  <header id="header">
+<header id="header">
 
-    <div class="container">
+  <div class="container">
 
-      <nav class="nav">
+    <nav class="nav">
 
-        <a
-          href="#top"
-          class="nav-logo"
+      <a
+        href="#top"
+        class="nav-logo"
+        aria-label="Orange May home"
+      >
+
+        <img
+          src="/images/logo-white.png"
+          alt="Orange May Acoustic"
+          class="logo-white"
         >
-          <img
-            src="/images/logo.png"
-            alt="Orange May"
+
+        <img
+          src="/images/logo.png"
+          alt=""
+          class="logo-dark"
+          aria-hidden="true"
+        >
+
+      </a>
+
+
+      <div class="nav-right">
+
+        <div class="nav-links">
+
+          <a
+            href="#social"
+            data-en="Social"
+            data-it="Social"
           >
-        </a>
+            Social
+          </a>
 
-        <div class="nav-right">
+          <a
+            href="#shows"
+            data-en="Shows"
+            data-it="Date"
+          >
+            Shows
+          </a>
 
-          <div class="nav-links">
+          <a
+            href="#contact"
+            data-en="Booking"
+            data-it="Booking"
+          >
+            Booking
+          </a>
 
-            <a
-              href="#social"
-              data-en="Social"
-              data-it="Social"
-            >
-              Social
-            </a>
+          <a
+            href="#about"
+            data-en="Our Story"
+            data-it="La nostra storia"
+          >
+            Our Story
+          </a>
 
-            <a
-              href="#shows"
-              data-en="Shows"
-              data-it="Date"
-            >
-              Shows
-            </a>
+        </div>
 
-            <a
-              href="#contact"
-              data-en="Booking"
-              data-it="Booking"
-            >
-              Booking
-            </a>
 
-            <a
-              href="#about"
-              data-en="Our Story"
-              data-it="La nostra storia"
-            >
-              Our Story
-            </a>
-
-          </div>
-
-          <div class="language-switcher">
-
-            <button
-              id="enBtn"
-              class="active"
-            >
-              EN
-            </button>
-
-            <button id="itBtn">
-              IT
-            </button>
-
-          </div>
+        <div class="language-switcher">
 
           <button
-            id="menuToggle"
-            class="menu-toggle"
-            aria-label="Open menu"
-            aria-expanded="false"
+            id="enBtn"
+            class="active"
           >
-            <span></span>
-            <span></span>
+            EN
+          </button>
+
+          <button id="itBtn">
+            IT
           </button>
 
         </div>
 
-      </nav>
+
+        <button
+          id="menuToggle"
+          class="menu-toggle"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          <span></span>
+          <span></span>
+        </button>
+
+      </div>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<div
+  id="mobileMenu"
+  class="mobile-menu"
+>
+
+  <div class="mobile-menu-links">
+
+    <a
+      href="#social"
+      class="mobile-nav-link"
+    >
+      <span
+        data-en="Social"
+        data-it="Social"
+      >
+        Social
+      </span>
+
+      <span>↘</span>
+    </a>
+
+    <a
+      href="#shows"
+      class="mobile-nav-link"
+    >
+      <span
+        data-en="Shows"
+        data-it="Date"
+      >
+        Shows
+      </span>
+
+      <span>↘</span>
+    </a>
+
+    <a
+      href="#contact"
+      class="mobile-nav-link"
+    >
+      <span>Booking</span>
+      <span>↘</span>
+    </a>
+
+    <a
+      href="#about"
+      class="mobile-nav-link"
+    >
+      <span
+        data-en="Our Story"
+        data-it="La nostra storia"
+      >
+        Our Story
+      </span>
+
+      <span>↘</span>
+    </a>
+
+  </div>
+
+
+  <div class="mobile-menu-footer">
+
+    <a
+      href="https://www.instagram.com/orangemay_acoustic/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Instagram ↗
+    </a>
+
+    <a
+      href="https://www.facebook.com/p/Orange-May-100092238015144/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Facebook ↗
+    </a>
+
+  </div>
+
+</div>
+
+
+<main id="top">
+
+
+<section class="hero">
+
+  <div class="container hero-content">
+
+    <div
+      class="hero-eyebrow"
+      data-en="Acoustic live duo"
+      data-it="Duo acustico live"
+    >
+      Acoustic live duo
+    </div>
+
+    <h1>
+      Orange<br>
+      <span>May</span>
+    </h1>
+
+    <div class="hero-bottom">
+
+      <p
+        class="hero-description"
+        data-en="Two voices. One guitar. Every song made our own."
+        data-it="Due voci. Una chitarra. Ogni canzone a modo nostro."
+      >
+        Two voices. One guitar. Every song made our own.
+      </p>
+
+      <div class="hero-actions">
+
+        <a
+          href="#social"
+          class="btn btn-orange"
+          data-en="Follow us"
+          data-it="Seguici"
+        >
+          Follow us
+        </a>
+
+        <a
+          href="#shows"
+          class="btn btn-white"
+          data-en="Next shows ↓"
+          data-it="Prossime date ↓"
+        >
+          Next shows ↓
+        </a>
+
+      </div>
 
     </div>
 
-  </header>
+  </div>
+
+</section>
 
 
-  <!-- ===================================================
-       MOBILE MENU
-  ==================================================== -->
+<section id="social">
 
-  <div
-    id="mobileMenu"
-    class="mobile-menu"
-  >
+  <div class="container">
 
-    <div class="mobile-menu-links">
+    <div class="social-top reveal">
 
-      <a
-        href="#social"
-        class="mobile-nav-link"
-      >
-        <span
-          data-en="Social"
-          data-it="Social"
+      <div>
+
+        <div
+          class="section-label"
+          data-en="Follow Orange May"
+          data-it="Segui Orange May"
         >
-          Social
-        </span>
+          Follow Orange May
+        </div>
 
-        <span>↘</span>
-      </a>
+        <div class="social-title">
+          Stay
+          <span>connected.</span>
+        </div>
 
-      <a
-        href="#shows"
-        class="mobile-nav-link"
-      >
-        <span
-          data-en="Shows"
-          data-it="Date"
+      </div>
+
+      <div class="social-copy">
+
+        <p
+          data-en="Follow us for live clips, behind-the-scenes moments, upcoming shows and everything that happens between one song and the next."
+          data-it="Seguici per video live, backstage, prossime date e tutto quello che succede tra una canzone e l'altra."
         >
-          Shows
-        </span>
+          Follow us for live clips, behind-the-scenes moments,
+          upcoming shows and everything that happens between one
+          song and the next.
+        </p>
 
-        <span>↘</span>
-      </a>
-
-      <a
-        href="#contact"
-        class="mobile-nav-link"
-      >
-        <span>Booking</span>
-        <span>↘</span>
-      </a>
-
-      <a
-        href="#about"
-        class="mobile-nav-link"
-      >
-        <span
-          data-en="Our Story"
-          data-it="La nostra storia"
-        >
-          Our Story
-        </span>
-
-        <span>↘</span>
-      </a>
+      </div>
 
     </div>
 
-    <div class="mobile-menu-footer">
+
+    <div class="social-links reveal">
 
       <a
         href="https://www.instagram.com/orangemay_acoustic/"
         target="_blank"
         rel="noopener noreferrer"
+        class="social-link"
       >
-        Instagram ↗
+        <span class="social-name">
+          Instagram
+        </span>
+
+        <span class="social-arrow">
+          ↗
+        </span>
       </a>
 
       <a
         href="https://www.facebook.com/p/Orange-May-100092238015144/"
         target="_blank"
         rel="noopener noreferrer"
+        class="social-link"
       >
-        Facebook ↗
+        <span class="social-name">
+          Facebook
+        </span>
+
+        <span class="social-arrow">
+          ↗
+        </span>
       </a>
 
     </div>
 
   </div>
 
+</section>
 
-  <main id="top">
+
+<div class="ticker">
+
+  <div class="ticker-track">
+
+    <div class="ticker-content">
+      <span>Live Music</span>
+      <span class="ticker-dot">●</span>
+      <span>Acoustic</span>
+      <span class="ticker-dot">●</span>
+      <span>Two Voices</span>
+      <span class="ticker-dot">●</span>
+      <span>Guitar</span>
+      <span class="ticker-dot">●</span>
+      <span>Percussion</span>
+      <span class="ticker-dot">●</span>
+      <span>Live Loops</span>
+      <span class="ticker-dot">●</span>
+      <span>Orange May</span>
+      <span class="ticker-dot">●</span>
+    </div>
+
+    <div
+      class="ticker-content"
+      aria-hidden="true"
+    >
+      <span>Live Music</span>
+      <span class="ticker-dot">●</span>
+      <span>Acoustic</span>
+      <span class="ticker-dot">●</span>
+      <span>Two Voices</span>
+      <span class="ticker-dot">●</span>
+      <span>Guitar</span>
+      <span class="ticker-dot">●</span>
+      <span>Percussion</span>
+      <span class="ticker-dot">●</span>
+      <span>Live Loops</span>
+      <span class="ticker-dot">●</span>
+      <span>Orange May</span>
+      <span class="ticker-dot">●</span>
+    </div>
+
+  </div>
+
+</div>
 
 
-    <!-- =================================================
-         HERO
-    ================================================== -->
+<section id="shows">
 
-    <section class="hero">
+  <div class="container">
+
+    <div class="section-header reveal">
 
       <div
-        class="container
-               hero-content"
+        class="section-label"
+        data-en="Live"
+        data-it="Dal vivo"
       >
-
-        <div
-          class="hero-eyebrow"
-          data-en="Acoustic live duo"
-          data-it="Duo acustico live"
-        >
-          Acoustic live duo
-        </div>
-
-        <h1>
-          Orange<br>
-          <span>May</span>
-        </h1>
-
-        <div class="hero-bottom">
-
-          <p
-            class="hero-description"
-            data-en="Two voices. One guitar. Every song made our own."
-            data-it="Due voci. Una chitarra. Ogni canzone a modo nostro."
-          >
-            Two voices. One guitar.
-            Every song made our own.
-          </p>
-
-          <div class="hero-actions">
-
-            <a
-              href="#social"
-              class="btn btn-orange"
-              data-en="Follow us"
-              data-it="Seguici"
-            >
-              Follow us
-            </a>
-
-            <a
-              href="#shows"
-              class="btn btn-white"
-              data-en="Next shows ↓"
-              data-it="Prossime date ↓"
-            >
-              Next shows ↓
-            </a>
-
-          </div>
-
-        </div>
-
+        Live
       </div>
 
-    </section>
+      <h2
+        class="section-title"
+        data-en="Upcoming shows."
+        data-it="Prossime date."
+      >
+        Upcoming shows.
+      </h2>
+
+    </div>
+
+    <div
+      id="events"
+      class="events-list reveal"
+    >
+      <div class="empty">
+        Loading...
+      </div>
+    </div>
+
+  </div>
+
+</section>
 
 
-    <!-- =================================================
-         SOCIAL
-    ================================================== -->
+<section id="contact">
 
-    <section id="social">
+  <div class="container contact-grid">
 
-      <div class="container">
+    <div class="reveal">
 
-        <div
-          class="social-top
-                 reveal"
-        >
-
-          <div>
-
-            <div
-              class="section-label"
-              data-en="Follow Orange May"
-              data-it="Segui Orange May"
-            >
-              Follow Orange May
-            </div>
-
-            <div class="social-title">
-              Stay
-              <span>
-                connected.
-              </span>
-            </div>
-
-          </div>
-
-          <div class="social-copy">
-
-            <p
-              data-en="Follow us for live clips, behind-the-scenes moments, upcoming shows and everything that happens between one song and the next."
-              data-it="Seguici per video live, backstage, prossime date e tutto quello che succede tra una canzone e l'altra."
-            >
-              Follow us for live clips,
-              behind-the-scenes moments,
-              upcoming shows and everything
-              that happens between one song
-              and the next.
-            </p>
-
-          </div>
-
-        </div>
-
-        <div
-          class="social-links
-                 reveal"
-        >
-
-          <a
-            href="https://www.instagram.com/orangemay_acoustic/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-link"
-          >
-            <span class="social-name">
-              Instagram
-            </span>
-
-            <span class="social-arrow">
-              ↗
-            </span>
-          </a>
-
-          <a
-            href="https://www.facebook.com/p/Orange-May-100092238015144/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-link"
-          >
-            <span class="social-name">
-              Facebook
-            </span>
-
-            <span class="social-arrow">
-              ↗
-            </span>
-          </a>
-
-        </div>
-
+      <div
+        class="section-label"
+        data-en="Booking & Contact"
+        data-it="Booking & Contatti"
+      >
+        Booking & Contact
       </div>
 
-    </section>
+      <h2 class="contact-title">
 
-
-    <!-- =================================================
-         TICKER
-    ================================================== -->
-
-    <div class="ticker">
-
-      <div class="ticker-track">
-
-        <div class="ticker-content">
-
-          <span>Live Music</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Acoustic</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Two Voices</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Guitar</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Percussion</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Live Loops</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Orange May</span>
-          <span class="ticker-dot">●</span>
-
-        </div>
-
-        <div
-          class="ticker-content"
-          aria-hidden="true"
+        <span
+          class="orange"
+          data-en="Let's play"
+          data-it="Portiamo la musica"
         >
+          Let's play
+        </span>
 
-          <span>Live Music</span>
-          <span class="ticker-dot">●</span>
+        <br>
 
-          <span>Acoustic</span>
-          <span class="ticker-dot">●</span>
+        <span
+          data-en="your next event."
+          data-it="al tuo evento."
+        >
+          your next event.
+        </span>
 
-          <span>Two Voices</span>
-          <span class="ticker-dot">●</span>
+      </h2>
 
-          <span>Guitar</span>
-          <span class="ticker-dot">●</span>
+      <p
+        class="contact-copy"
+        data-en="Hotels, venues, weddings, private events and sunset sessions. Tell us what you have in mind and we'll get back to you."
+        data-it="Hotel, locali, matrimoni, eventi privati e aperitivi al tramonto. Raccontaci cosa hai in mente e ti ricontatteremo."
+      >
+        Hotels, venues, weddings, private events and sunset sessions.
+        Tell us what you have in mind and we'll get back to you.
+      </p>
 
-          <span>Percussion</span>
-          <span class="ticker-dot">●</span>
+      <div class="direct-contact">
 
-          <span>Live Loops</span>
-          <span class="ticker-dot">●</span>
+        <a
+          id="whatsappLink"
+          href="https://wa.me/393421670308"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-orange"
+          data-en="Message us on WhatsApp ↗"
+          data-it="Scrivici su WhatsApp ↗"
+        >
+          Message us on WhatsApp ↗
+        </a>
 
-          <span>Orange May</span>
-          <span class="ticker-dot">●</span>
-
-        </div>
+        <a
+          href="mailto:orangemayacoustic@gmail.com"
+          class="email-link"
+        >
+          orangemayacoustic@gmail.com
+        </a>
 
       </div>
 
     </div>
 
 
-    <!-- =================================================
-         SHOWS
-    ================================================== -->
+    <form
+      id="contactForm"
+      class="contact-form reveal"
+    >
 
-    <section id="shows">
+      <div class="field">
 
-      <div class="container">
-
-        <div
-          class="section-header
-                 reveal"
+        <label
+          for="name"
+          data-en="First & Last Name"
+          data-it="Nome e cognome"
         >
+          First & Last Name
+        </label>
 
-          <div
-            class="section-label"
-            data-en="Live"
-            data-it="Dal vivo"
-          >
-            Live
-          </div>
-
-          <h2
-            class="section-title"
-            data-en="Upcoming shows."
-            data-it="Prossime date."
-          >
-            Upcoming shows.
-          </h2>
-
-        </div>
-
-        <div
-          id="events"
-          class="events-list
-                 reveal"
+        <input
+          id="name"
+          type="text"
+          name="name"
+          required
         >
-          <div class="empty">
-            Loading...
-          </div>
-        </div>
 
       </div>
 
-    </section>
+
+      <div class="field">
+
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          name="email"
+          required
+        >
+
+      </div>
 
 
-    <!-- =================================================
-         CONTACT
-    ================================================== -->
+      <div class="field">
 
-    <section id="contact">
+        <label
+          for="message"
+          data-en="Your message"
+          data-it="Il tuo messaggio"
+        >
+          Your message
+        </label>
+
+        <textarea
+          id="message"
+          name="message"
+          required
+        ></textarea>
+
+      </div>
+
+
+      <button
+        type="submit"
+        class="btn btn-orange"
+        data-en="Send request →"
+        data-it="Invia richiesta →"
+      >
+        Send request →
+      </button>
 
       <div
-        class="container
-               contact-grid"
+        id="formMessage"
+        class="form-message"
+      ></div>
+
+    </form>
+
+  </div>
+
+</section>
+
+
+<section id="about">
+
+  <div class="container story-grid">
+
+    <div class="story-image reveal">
+
+      <img
+        src="/images/story.jpg"
+        alt="Orange May acoustic duo"
+        loading="lazy"
       >
 
-        <div class="reveal">
+      <div class="story-image-caption">
 
-          <div
-            class="section-label"
-            data-en="Booking & Contact"
-            data-it="Booking & Contatti"
-          >
-            Booking & Contact
-          </div>
+        <span>
+          Orange May
+        </span>
 
-          <h2 class="contact-title">
-
-            <span
-              class="orange"
-              data-en="Let's play"
-              data-it="Portiamo la musica"
-            >
-              Let's play
-            </span>
-
-            <br>
-
-            <span
-              data-en="your next event."
-              data-it="al tuo evento."
-            >
-              your next event.
-            </span>
-
-          </h2>
-
-          <p
-            class="contact-copy"
-            data-en="Hotels, venues, weddings, private events and sunset sessions. Tell us what you have in mind and we'll get back to you."
-            data-it="Hotel, locali, matrimoni, eventi privati e aperitivi al tramonto. Raccontaci cosa hai in mente e ti ricontatteremo."
-          >
-            Hotels, venues, weddings,
-            private events and sunset
-            sessions. Tell us what you
-            have in mind and we'll get
-            back to you.
-          </p>
-
-          <div class="direct-contact">
-
-            <a
-              id="whatsappLink"
-              href="https://wa.me/393421670308"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn btn-orange"
-              data-en="Message us on WhatsApp ↗"
-              data-it="Scrivici su WhatsApp ↗"
-            >
-              Message us on WhatsApp ↗
-            </a>
-
-            <a
-              href="mailto:orangemayacoustic@gmail.com"
-              class="email-link"
-            >
-              orangemayacoustic@gmail.com
-            </a>
-
-          </div>
-
-        </div>
-
-
-        <form
-          id="contactForm"
-          class="contact-form
-                 reveal"
+        <span
+          data-en="Behind the music"
+          data-it="Dietro la musica"
         >
-
-          <div class="field">
-
-            <label
-              for="name"
-              data-en="First & Last Name"
-              data-it="Nome e cognome"
-            >
-              First & Last Name
-            </label>
-
-            <input
-              id="name"
-              type="text"
-              name="name"
-              required
-            >
-
-          </div>
-
-          <div class="field">
-
-            <label for="email">
-              Email
-            </label>
-
-            <input
-              id="email"
-              type="email"
-              name="email"
-              required
-            >
-
-          </div>
-
-          <div class="field">
-
-            <label
-              for="message"
-              data-en="Your message"
-              data-it="Il tuo messaggio"
-            >
-              Your message
-            </label>
-
-            <textarea
-              id="message"
-              name="message"
-              required
-            ></textarea>
-
-          </div>
-
-          <button
-            type="submit"
-            class="btn btn-orange"
-            data-en="Send request →"
-            data-it="Invia richiesta →"
-          >
-            Send request →
-          </button>
-
-          <div
-            id="formMessage"
-            class="form-message"
-          ></div>
-
-        </form>
+          Behind the music
+        </span>
 
       </div>
-
-    </section>
-
-
-    <!-- =================================================
-         STORY
-    ================================================== -->
-
-    <section id="about">
-
-      <div
-        class="container
-               story-grid"
-      >
-
-        <div
-          class="story-image
-                 reveal"
-        >
-
-          <img
-            src="/images/story.jpg"
-            alt="Orange May acoustic duo"
-            loading="lazy"
-          >
-
-          <div class="story-image-caption">
-
-            <span>
-              Orange May
-            </span>
-
-            <span
-              data-en="Behind the music"
-              data-it="Dietro la musica"
-            >
-              Behind the music
-            </span>
-
-          </div>
-
-        </div>
-
-        <div
-          class="story-content
-                 reveal"
-        >
-
-          <div
-            class="section-label"
-            data-en="Our Story"
-            data-it="La nostra storia"
-          >
-            Our Story
-          </div>
-
-          <h2 class="story-heading">
-
-            <span
-              class="orange"
-              data-en="It started with family."
-              data-it="È iniziato tutto in famiglia."
-            >
-              It started with family.
-            </span>
-
-            <br>
-
-            <span
-              data-en="Then came the music."
-              data-it="Poi è arrivata la musica."
-            >
-              Then came the music.
-            </span>
-
-          </h2>
-
-          <p
-            class="story-lead"
-            data-en="We're Cristian and Lara, the two voices behind Orange May."
-            data-it="Siamo Cristian e Lara, le due voci degli Orange May."
-          >
-            We're Cristian and Lara,
-            the two voices behind
-            Orange May.
-          </p>
-
-          <div class="story-text">
-
-            <p
-              data-en="Our story began almost by chance: our siblings are married to each other, which brought us into the same family long before it brought us onto the same stage."
-              data-it="La nostra storia è iniziata quasi per caso: i nostri fratelli sono sposati tra loro e questo ci ha fatti entrare nella stessa famiglia molto prima di portarci sullo stesso palco."
-            >
-              Our story began almost
-              by chance: our siblings
-              are married to each other,
-              which brought us into the
-              same family long before
-              it brought us onto the
-              same stage.
-            </p>
-
-            <p
-              data-en="That connection eventually became Orange May: an acoustic project built around familiar songs, rearranged in the way we like to play them."
-              data-it="Da quel legame è nato Orange May: un progetto acustico costruito intorno a canzoni che tutti conoscono, reinterpretate nel modo in cui piace suonarle a noi."
-            >
-              That connection eventually
-              became Orange May: an
-              acoustic project built
-              around familiar songs,
-              rearranged in the way
-              we like to play them.
-            </p>
-
-            <p
-              data-en="Guitar, two voices, percussion and live loops let us move from intimate acoustic moments to energetic nights. We play hotels, venues, weddings and private events, adapting every set to the atmosphere in front of us."
-              data-it="Chitarra, due voci, percussioni e loop registrati dal vivo ci permettono di passare dai momenti più intimi a serate molto più energiche. Suoniamo in hotel, locali, matrimoni ed eventi privati, adattando ogni set all'atmosfera che abbiamo davanti."
-            >
-              Guitar, two voices,
-              percussion and live loops
-              let us move from intimate
-              acoustic moments to energetic
-              nights. We play hotels,
-              venues, weddings and private
-              events, adapting every set
-              to the atmosphere in front
-              of us.
-            </p>
-
-          </div>
-
-          <div class="story-ending">
-
-            <span
-              class="orange"
-              data-en="Different places. Different nights."
-              data-it="Posti diversi. Serate diverse."
-            >
-              Different places.
-              Different nights.
-            </span>
-
-            <br>
-
-            <span
-              data-en="Always live. Always Orange May."
-              data-it="Sempre live. Sempre Orange May."
-            >
-              Always live.
-              Always Orange May.
-            </span>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =================================================
-         IMAGES
-    ================================================== -->
-
-    <div class="image-strip">
-
-      <figure>
-
-        <img
-          src="/images/lara-live.jpeg"
-          alt="Orange May live performance"
-          loading="lazy"
-        >
-
-      </figure>
-
-      <figure>
-
-        <img
-          src="/images/cristian-live.jpeg"
-          alt="Orange May live acoustic performance"
-          loading="lazy"
-        >
-
-      </figure>
 
     </div>
 
 
-    <!-- =================================================
-         FOOTER
-    ================================================== -->
+    <div class="story-content reveal">
 
-    <footer>
+      <div
+        class="section-label"
+        data-en="Our Story"
+        data-it="La nostra storia"
+      >
+        Our Story
+      </div>
 
-      <div class="container">
+      <h2 class="story-heading">
 
-        <div class="footer-logo">
-          Orange<br>
-          May
-        </div>
+        <span
+          class="orange"
+          data-en="It started with family."
+          data-it="È iniziato tutto in famiglia."
+        >
+          It started with family.
+        </span>
 
-        <div class="footer-bottom">
+        <br>
 
-          <span>
-            ©
-            <span id="currentYear"></span>
-            Orange May Acoustic
-          </span>
+        <span
+          data-en="Then came the music."
+          data-it="Poi è arrivata la musica."
+        >
+          Then came the music.
+        </span>
 
-          <div class="footer-links">
+      </h2>
 
-            <a
-              href="https://www.instagram.com/orangemay_acoustic/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Instagram ↗
-            </a>
+      <p
+        class="story-lead"
+        data-en="We're Cristian and Lara, the two voices behind Orange May."
+        data-it="Siamo Cristian e Lara, le due voci degli Orange May."
+      >
+        We're Cristian and Lara, the two voices behind Orange May.
+      </p>
 
-            <a
-              href="https://www.facebook.com/p/Orange-May-100092238015144/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Facebook ↗
-            </a>
 
-            <a
-              href="mailto:orangemayacoustic@gmail.com"
-            >
-              Email ↗
-            </a>
+      <div class="story-text">
 
-          </div>
+        <p
+          data-en="Our story began almost by chance: our siblings are married to each other, which brought us into the same family long before it brought us onto the same stage."
+          data-it="La nostra storia è iniziata quasi per caso: i nostri fratelli sono sposati tra loro e questo ci ha fatti entrare nella stessa famiglia molto prima di portarci sullo stesso palco."
+        >
+          Our story began almost by chance: our siblings are married
+          to each other, which brought us into the same family long
+          before it brought us onto the same stage.
+        </p>
 
-        </div>
+        <p
+          data-en="That connection eventually became Orange May: an acoustic project built around familiar songs, rearranged in the way we like to play them."
+          data-it="Da quel legame è nato Orange May: un progetto acustico costruito intorno a canzoni che tutti conoscono, reinterpretate nel modo in cui piace suonarle a noi."
+        >
+          That connection eventually became Orange May: an acoustic project
+          built around familiar songs, rearranged in the way we like to play them.
+        </p>
+
+        <p
+          data-en="Guitar, two voices, percussion and live loops let us move from intimate acoustic moments to energetic nights. We play hotels, venues, weddings and private events, adapting every set to the atmosphere in front of us."
+          data-it="Chitarra, due voci, percussioni e loop registrati dal vivo ci permettono di passare dai momenti più intimi a serate molto più energiche. Suoniamo in hotel, locali, matrimoni ed eventi privati, adattando ogni set all'atmosfera che abbiamo davanti."
+        >
+          Guitar, two voices, percussion and live loops let us move
+          from intimate acoustic moments to energetic nights. We play
+          hotels, venues, weddings and private events, adapting every
+          set to the atmosphere in front of us.
+        </p>
 
       </div>
 
-    </footer>
 
-  </main>
+      <div class="story-ending">
 
+        <span
+          class="orange"
+          data-en="Different places. Different nights."
+          data-it="Posti diversi. Serate diverse."
+        >
+          Different places. Different nights.
+        </span>
 
-  <script>
-    /* =====================================================
-       LANGUAGE
-    ===================================================== */
+        <br>
 
-    let currentLanguage =
-      localStorage.getItem(
-        "orangeMayLanguage"
-      ) || "en";
+        <span
+          data-en="Always live. Always Orange May."
+          data-it="Sempre live. Sempre Orange May."
+        >
+          Always live. Always Orange May.
+        </span>
 
-    const monthNames = {
-      en: [
-        "JAN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAY",
-        "JUN",
-        "JUL",
-        "AUG",
-        "SEP",
-        "OCT",
-        "NOV",
-        "DEC"
-      ],
+      </div>
 
-      it: [
-        "GEN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAG",
-        "GIU",
-        "LUG",
-        "AGO",
-        "SET",
-        "OTT",
-        "NOV",
-        "DIC"
-      ]
-    };
+    </div>
+
+  </div>
+
+</section>
 
 
-    function changeLanguage(
+<div class="image-strip">
+
+  <figure>
+
+    <img
+      src="/images/lara-live.jpeg"
+      alt="Orange May live performance"
+      loading="lazy"
+    >
+
+  </figure>
+
+  <figure>
+
+    <img
+      src="/images/cristian-live.jpeg"
+      alt="Orange May live acoustic performance"
+      loading="lazy"
+    >
+
+  </figure>
+
+</div>
+
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-logo">
+      Orange<br>
+      May
+    </div>
+
+    <div class="footer-bottom">
+
+      <span>
+        © <span id="currentYear"></span> Orange May Acoustic
+      </span>
+
+      <div class="footer-links">
+
+        <a
+          href="https://www.instagram.com/orangemay_acoustic/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram ↗
+        </a>
+
+        <a
+          href="https://www.facebook.com/p/Orange-May-100092238015144/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Facebook ↗
+        </a>
+
+        <a href="mailto:orangemayacoustic@gmail.com">
+          Email ↗
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+</main>
+
+
+<script>
+
+  /* =====================================================
+     LANGUAGE
+  ===================================================== */
+
+  let currentLanguage =
+    localStorage.getItem("orangeMayLanguage") || "en";
+
+
+  const monthNames = {
+
+    en: [
+      "JAN","FEB","MAR","APR","MAY","JUN",
+      "JUL","AUG","SEP","OCT","NOV","DEC"
+    ],
+
+    it: [
+      "GEN","FEB","MAR","APR","MAG","GIU",
+      "LUG","AGO","SET","OTT","NOV","DIC"
+    ]
+
+  };
+
+
+  function changeLanguage(language) {
+
+    currentLanguage = language;
+
+    localStorage.setItem(
+      "orangeMayLanguage",
       language
-    ) {
+    );
 
-      currentLanguage =
-        language;
+    document.documentElement.lang =
+      language;
 
-      localStorage.setItem(
-        "orangeMayLanguage",
-        language
-      );
 
-      document.documentElement.lang =
-        language;
+    document
+      .querySelectorAll("[data-en][data-it]")
+      .forEach(element => {
 
-      document
-        .querySelectorAll(
-          "[data-en][data-it]"
-        )
-        .forEach(element => {
-
-          element.textContent =
-            language === "it"
-              ? element.dataset.it
-              : element.dataset.en;
-
-        });
-
-      document
-        .getElementById("enBtn")
-        .classList.toggle(
-          "active",
-          language === "en"
-        );
-
-      document
-        .getElementById("itBtn")
-        .classList.toggle(
-          "active",
+        element.textContent =
           language === "it"
-        );
+            ? element.dataset.it
+            : element.dataset.en;
 
-      updateWhatsApp();
-
-      loadEvents();
-    }
+      });
 
 
     document
       .getElementById("enBtn")
-      .onclick =
-        () =>
-          changeLanguage("en");
+      .classList.toggle(
+        "active",
+        language === "en"
+      );
 
 
     document
       .getElementById("itBtn")
-      .onclick =
-        () =>
-          changeLanguage("it");
+      .classList.toggle(
+        "active",
+        language === "it"
+      );
 
 
-    /* =====================================================
-       WHATSAPP
-    ===================================================== */
+    updateWhatsApp();
 
-    function updateWhatsApp() {
-
-      const englishMessage =
-        "Hi Orange May! I'd like some information about booking you for an event.";
-
-      const italianMessage =
-        "Ciao Orange May! Vorrei avere qualche informazione per una possibile serata o evento.";
-
-      const message =
-        currentLanguage === "it"
-          ? italianMessage
-          : englishMessage;
-
-      document
-        .getElementById(
-          "whatsappLink"
-        )
-        .href =
-          "https://wa.me/393421670308?text=" +
-          encodeURIComponent(
-            message
-          );
-    }
+    loadEvents();
+  }
 
 
-    /* =====================================================
-       EVENTS
-    ===================================================== */
+  document
+    .getElementById("enBtn")
+    .onclick =
+      () => changeLanguage("en");
 
-    async function loadEvents() {
 
-      const container =
-        document
-          .getElementById(
-            "events"
-          );
+  document
+    .getElementById("itBtn")
+    .onclick =
+      () => changeLanguage("it");
 
-      try {
 
-        const response =
-          await fetch(
-            "/api/events"
-          );
+  /* =====================================================
+     WHATSAPP
+  ===================================================== */
 
-        if (!response.ok) {
-          throw new Error();
-        }
+  function updateWhatsApp() {
 
-        let events =
-          await response.json();
+    const englishMessage =
+      "Hi Orange May! I'd like some information about booking you for an event.";
 
-        const now =
-          new Date();
+    const italianMessage =
+      "Ciao Orange May! Vorrei avere qualche informazione per una possibile serata o evento.";
 
-        events =
-          events.filter(
-            event =>
-              getEventEnd(
-                event
-              ) >= now
-          );
 
-        if (!events.length) {
+    const message =
+      currentLanguage === "it"
+        ? italianMessage
+        : englishMessage;
 
-          container.innerHTML =
-            `
-              <div class="empty">
-                ${
-                  currentLanguage === "it"
-                    ? "Nessuna data in programma al momento."
-                    : "No upcoming shows at the moment."
-                }
-              </div>
-            `;
 
-          return;
-        }
+    document
+      .getElementById("whatsappLink")
+      .href =
+        "https://wa.me/393421670308?text=" +
+        encodeURIComponent(message);
+  }
 
-        container.innerHTML =
-          events
-            .map(
-              event =>
-                renderPublicEvent(
-                  event
-                )
-            )
-            .join("");
 
-      } catch (error) {
+  /* =====================================================
+     EVENTS
+  ===================================================== */
 
-        console.error(error);
+  async function loadEvents() {
+
+    const container =
+      document.getElementById("events");
+
+
+    try {
+
+      const response =
+        await fetch("/api/events");
+
+
+      if (!response.ok) {
+        throw new Error();
+      }
+
+
+      let events =
+        await response.json();
+
+
+      const now =
+        new Date();
+
+
+      events =
+        events.filter(
+          event =>
+            getEventEnd(event) >= now
+        );
+
+
+      if (!events.length) {
 
         container.innerHTML =
           `
             <div class="empty">
               ${
                 currentLanguage === "it"
-                  ? "Impossibile caricare le prossime date."
-                  : "Unable to load upcoming shows."
+                  ? "Nessuna data in programma al momento."
+                  : "No upcoming shows at the moment."
               }
             </div>
           `;
+
+        return;
       }
+
+
+      container.innerHTML =
+        events
+          .map(
+            event =>
+              renderPublicEvent(event)
+          )
+          .join("");
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      container.innerHTML =
+        `
+          <div class="empty">
+            ${
+              currentLanguage === "it"
+                ? "Impossibile caricare le prossime date."
+                : "Unable to load upcoming shows."
+            }
+          </div>
+        `;
+    }
+  }
+
+
+  function renderPublicEvent(event) {
+
+    const date =
+      new Date(
+        event.event_date +
+        "T12:00:00"
+      );
+
+
+    const day =
+      String(
+        date.getDate()
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    const month =
+      monthNames[
+        currentLanguage
+      ][
+        date.getMonth()
+      ];
+
+
+    const type =
+      event.event_type ||
+      "PUBLIC";
+
+
+    const isPrivate =
+      type === "PRIVATE";
+
+
+    const isGuestsOnly =
+      type === "GUESTS_ONLY";
+
+
+    const venue =
+      isPrivate
+        ? (
+            currentLanguage === "it"
+              ? "Evento privato"
+              : "Private Event"
+          )
+        : event.venue;
+
+
+    const startTime =
+      event.start_time || "";
+
+
+    const endTime =
+      event.end_time || "";
+
+
+    let badges = "";
+
+
+    if (isGuestsOnly) {
+
+      badges =
+        `
+          <span class="event-badge guests">
+            ${
+              currentLanguage === "it"
+                ? "Solo ospiti"
+                : "Guests only"
+            }
+          </span>
+        `;
     }
 
 
-    function renderPublicEvent(
-      event
-    ) {
-
-      const date =
-        new Date(
-          event.event_date +
-          "T12:00:00"
-        );
-
-      const day =
-        String(
-          date.getDate()
-        )
-        .padStart(
-          2,
-          "0"
-        );
-
-      const month =
-        monthNames[
-          currentLanguage
-        ][
-          date.getMonth()
-        ];
-
-      const type =
-        event.event_type ||
-        "PUBLIC";
-
-      const isPrivate =
-        type === "PRIVATE";
-
-      const isGuestsOnly =
-        type ===
-        "GUESTS_ONLY";
-
-
-      /* VENUE */
-
-      const venue =
-        isPrivate
-          ? (
-              currentLanguage === "it"
-                ? "Evento privato"
-                : "Private Event"
-            )
-          : event.venue;
-
-
-      /* TIME */
-
-      const startTime =
-        event.start_time || "";
-
-      const endTime =
-        event.end_time || "";
-
-
-      /* BADGES */
-
-      let badges = "";
-
-      if (isGuestsOnly) {
-
-        badges =
+    const badgesBlock =
+      badges
+        ? `
+            <div class="event-badges">
+              ${badges}
+            </div>
           `
-            <span
-              class="event-badge
-                     guests"
+        : "";
+
+
+    const rawNote =
+      String(
+        event.note || ""
+      ).trim();
+
+
+    const legacyNotes = [
+      "PRIVATE EVENT",
+      "PRIVATE",
+      "GUESTS ONLY",
+      "ONLY GUESTS",
+      "SOLO OSPITI",
+      "EVENTO PRIVATO"
+    ];
+
+
+    const showNote =
+      rawNote &&
+      !legacyNotes.includes(
+        rawNote.toUpperCase()
+      );
+
+
+    const noteBlock =
+      showNote
+        ? `
+            <div class="event-note-text">
+              ${
+                escapeHtml(rawNote)
+              }
+            </div>
+          `
+        : "";
+
+
+    const infoLink =
+      (
+        type === "PUBLIC" &&
+        event.public_url
+      )
+        ? `
+            <a
+              href="${
+                escapeAttribute(
+                  event.public_url
+                )
+              }"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="event-info-link"
             >
               ${
                 currentLanguage === "it"
-                  ? "Solo ospiti"
-                  : "Guests only"
+                  ? "Info ↗"
+                  : "More info ↗"
               }
-            </span>
-          `;
-      }
-
-      const badgesBlock =
-        badges
-          ? `
-              <div
-                class="event-badges"
-              >
-                ${badges}
-              </div>
-            `
-          : "";
+            </a>
+          `
+        : "";
 
 
-      /* NOTE */
+    return `
+      <article class="event">
 
-      const rawNote =
-        String(
-          event.note || ""
-        )
-        .trim();
+        <div class="event-date">
 
-      const legacyNotes = [
-        "PRIVATE EVENT",
-        "PRIVATE",
-        "GUESTS ONLY",
-        "ONLY GUESTS",
-        "SOLO OSPITI",
-        "EVENTO PRIVATO"
-      ];
+          <span class="event-day">
+            ${day}
+          </span>
 
-      const showNote =
-        rawNote &&
-        !legacyNotes.includes(
-          rawNote.toUpperCase()
-        );
+          <span class="event-month">
+            ${month}
+          </span>
 
-      const noteBlock =
-        showNote
-          ? `
-              <div
-                class="event-note-text"
-              >
-                ${
-                  escapeHtml(
-                    rawNote
-                  )
-                }
-              </div>
-            `
-          : "";
+        </div>
 
 
-      /* LINK */
+        <div class="event-content">
 
-      const infoLink =
-        (
-          type === "PUBLIC" &&
-          event.public_url
-        )
-          ? `
-              <a
-                href="${
-                  escapeAttribute(
-                    event.public_url
-                  )
-                }"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="event-info-link"
-              >
-                ${
-                  currentLanguage === "it"
-                    ? "Info ↗"
-                    : "More info ↗"
-                }
-              </a>
-            `
-          : "";
-
-
-      return `
-        <article
-          class="event"
-        >
-
-          <div
-            class="event-date"
-          >
-
-            <span
-              class="event-day"
-            >
-              ${day}
-            </span>
-
-            <span
-              class="event-month"
-            >
-              ${month}
-            </span>
-
-          </div>
-
-
-          <div
-            class="event-content"
-          >
-
-            <div
-              class="event-venue"
-            >
-              ${
-                escapeHtml(
-                  venue
-                )
-              }
-            </div>
-
-            <div
-              class="event-location"
-            >
-              ${
-                escapeHtml(
-                  event.location ||
-                  ""
-                )
-              }
-            </div>
-
-            ${badgesBlock}
-
-            ${noteBlock}
-
-          </div>
-
-
-          <div
-            class="event-right"
-          >
-
+          <div class="event-venue">
             ${
-              startTime
-                ? `
-                    <div
-                      class="event-time"
-                    >
-
-                      <span
-                        class="event-time-start"
-                      >
-                        ${
-                          escapeHtml(
-                            startTime
-                          )
-                        }
-                      </span>
-
-                      ${
-                        endTime
-                          ? `
-                              <span
-                                class="event-time-separator"
-                              >
-                                ${
-                                  currentLanguage === "it"
-                                    ? "fino alle"
-                                    : "to"
-                                }
-                              </span>
-
-                              <span
-                                class="event-time-end"
-                              >
-                                ${
-                                  escapeHtml(
-                                    endTime
-                                  )
-                                }
-                              </span>
-                            `
-                          : ""
-                      }
-
-                    </div>
-                  `
-                : ""
+              escapeHtml(venue)
             }
-
-            ${infoLink}
-
           </div>
 
-        </article>
-      `;
-    }
+          <div class="event-location">
+            ${
+              escapeHtml(
+                event.location || ""
+              )
+            }
+          </div>
+
+          ${badgesBlock}
+
+          ${noteBlock}
+
+        </div>
 
 
-    function getEventEnd(
-      event
-    ) {
+        <div class="event-right">
 
-      const endTime =
-        event.end_time ||
-        event.start_time ||
-        "23:59";
+          ${
+            startTime
+              ? `
+                  <div class="event-time">
 
-      return new Date(
-        `${
-          event.event_date
-        }T${
-          endTime
-        }:00`
-      );
-    }
+                    <span class="event-time-start">
+                      ${
+                        escapeHtml(startTime)
+                      }
+                    </span>
+
+                    ${
+                      endTime
+                        ? `
+                            <span class="event-time-separator">
+                              ${
+                                currentLanguage === "it"
+                                  ? "fino alle"
+                                  : "to"
+                              }
+                            </span>
+
+                            <span class="event-time-end">
+                              ${
+                                escapeHtml(endTime)
+                              }
+                            </span>
+                          `
+                        : ""
+                    }
+
+                  </div>
+                `
+              : ""
+          }
+
+          ${infoLink}
+
+        </div>
+
+      </article>
+    `;
+  }
 
 
-    /* =====================================================
-       CONTACT FORM
-    ===================================================== */
+  function getEventEnd(event) {
 
-    document
-      .getElementById(
-        "contactForm"
-      )
-      .addEventListener(
-        "submit",
-        async event => {
+    const endTime =
+      event.end_time ||
+      event.start_time ||
+      "23:59";
 
-          event.preventDefault();
 
-          const form =
-            event.target;
+    return new Date(
+      `${event.event_date}T${endTime}:00`
+    );
+  }
 
-          const message =
-            document
-              .getElementById(
-                "formMessage"
-              );
+
+  /* =====================================================
+     CONTACT FORM
+  ===================================================== */
+
+  document
+    .getElementById("contactForm")
+    .addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        const form =
+          event.target;
+
+
+        const message =
+          document.getElementById(
+            "formMessage"
+          );
+
+
+        message.textContent =
+          currentLanguage === "it"
+            ? "Invio in corso..."
+            : "Sending...";
+
+
+        const data =
+          Object.fromEntries(
+            new FormData(form)
+          );
+
+
+        try {
+
+          const response =
+            await fetch(
+              "/api/contact",
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify(data)
+              }
+            );
+
+
+          if (!response.ok) {
+            throw new Error();
+          }
+
+
+          form.reset();
+
 
           message.textContent =
             currentLanguage === "it"
-              ? "Invio in corso..."
-              : "Sending...";
+              ? "Richiesta inviata. Grazie! Ti ricontatteremo presto."
+              : "Request sent. Thank you! We'll get back to you soon.";
 
-          const data =
-            Object.fromEntries(
-              new FormData(
-                form
-              )
-            );
 
-          try {
+        } catch {
 
-            const response =
-              await fetch(
-                "/api/contact",
-                {
-                  method:
-                    "POST",
-
-                  headers: {
-                    "Content-Type":
-                      "application/json"
-                  },
-
-                  body:
-                    JSON.stringify(
-                      data
-                    )
-                }
-              );
-
-            if (!response.ok) {
-              throw new Error();
-            }
-
-            form.reset();
-
-            message.textContent =
-              currentLanguage === "it"
-                ? "Richiesta inviata. Grazie! Ti ricontatteremo presto."
-                : "Request sent. Thank you! We'll get back to you soon.";
-
-          } catch {
-
-            message.textContent =
-              currentLanguage === "it"
-                ? "Si è verificato un errore. Puoi riprovare oppure scriverci su WhatsApp."
-                : "Something went wrong. Please try again or message us on WhatsApp.";
-          }
+          message.textContent =
+            currentLanguage === "it"
+              ? "Si è verificato un errore. Puoi riprovare oppure scriverci su WhatsApp."
+              : "Something went wrong. Please try again or message us on WhatsApp.";
         }
-      );
+
+      }
+    );
 
 
-    /* =====================================================
-       ESCAPE
-    ===================================================== */
+  /* =====================================================
+     ESCAPE
+  ===================================================== */
 
-    function escapeHtml(
-      value = ""
-    ) {
+  function escapeHtml(value = "") {
 
-      return String(value)
-        .replaceAll(
-          "&",
-          "&amp;"
-        )
-        .replaceAll(
-          "<",
-          "&lt;"
-        )
-        .replaceAll(
-          ">",
-          "&gt;"
-        )
-        .replaceAll(
-          '"',
-          "&quot;"
-        )
-        .replaceAll(
-          "'",
-          "&#039;"
-        );
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+
+  function escapeAttribute(value = "") {
+    return escapeHtml(value);
+  }
+
+
+  /* =====================================================
+     HEADER
+  ===================================================== */
+
+  const header =
+    document.getElementById("header");
+
+
+  function updateHeader() {
+
+    header.classList.toggle(
+      "scrolled",
+      window.scrollY > 70
+    );
+  }
+
+
+  window.addEventListener(
+    "scroll",
+    updateHeader,
+    {
+      passive: true
     }
+  );
 
 
-    function escapeAttribute(
-      value = ""
-    ) {
-      return escapeHtml(
-        value
-      );
-    }
+  updateHeader();
 
 
-    /* =====================================================
-       HEADER SCROLL
-    ===================================================== */
+  /* =====================================================
+     MOBILE MENU
+  ===================================================== */
 
-    const header =
-      document
-        .getElementById(
-          "header"
-        );
-
-    function updateHeader() {
-
-      header
-        .classList
-        .toggle(
-          "scrolled",
-          window.scrollY > 70
-        );
-    }
-
-    window
-      .addEventListener(
-        "scroll",
-        updateHeader,
-        {
-          passive: true
-        }
-      );
-
-    updateHeader();
+  const menuToggle =
+    document.getElementById(
+      "menuToggle"
+    );
 
 
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
-
-    const menuToggle =
-      document
-        .getElementById(
-          "menuToggle"
-        );
-
-    const mobileMenu =
-      document
-        .getElementById(
-          "mobileMenu"
-        );
+  const mobileMenu =
+    document.getElementById(
+      "mobileMenu"
+    );
 
 
-    function closeMobileMenu() {
+  function closeMobileMenu() {
 
-      menuToggle
-        .classList
-        .remove(
-          "active"
-        );
+    menuToggle.classList.remove(
+      "active"
+    );
 
-      mobileMenu
-        .classList
-        .remove(
+    mobileMenu.classList.remove(
+      "open"
+    );
+
+    document.body.classList.remove(
+      "menu-open"
+    );
+
+    menuToggle.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+  }
+
+
+  menuToggle.addEventListener(
+    "click",
+    () => {
+
+      const isOpen =
+        mobileMenu.classList.toggle(
           "open"
         );
 
-      document.body
-        .classList
-        .remove(
-          "menu-open"
-        );
 
-      menuToggle
-        .setAttribute(
-          "aria-expanded",
-          "false"
-        );
+      menuToggle.classList.toggle(
+        "active",
+        isOpen
+      );
+
+
+      document.body.classList.toggle(
+        "menu-open",
+        isOpen
+      );
+
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        String(isOpen)
+      );
+
     }
+  );
 
 
-    menuToggle
-      .addEventListener(
-        "click",
-        () => {
+  document
+    .querySelectorAll(
+      ".mobile-nav-link"
+    )
+    .forEach(
+      link => {
 
-          const isOpen =
-            mobileMenu
-              .classList
-              .toggle(
-                "open"
+        link.addEventListener(
+          "click",
+          closeMobileMenu
+        );
+
+      }
+    );
+
+
+  /* =====================================================
+     SCROLL REVEAL
+  ===================================================== */
+
+  const observer =
+    new IntersectionObserver(
+
+      entries => {
+
+        entries.forEach(
+          entry => {
+
+            if (
+              entry.isIntersecting
+            ) {
+
+              entry.target
+                .classList
+                .add("visible");
+
+
+              observer.unobserve(
+                entry.target
               );
 
-          menuToggle
-            .classList
-            .toggle(
-              "active",
-              isOpen
-            );
+            }
 
-          document.body
-            .classList
-            .toggle(
-              "menu-open",
-              isOpen
-            );
+          }
+        );
 
-          menuToggle
-            .setAttribute(
-              "aria-expanded",
-              String(
-                isOpen
-              )
-            );
-        }
-      );
+      },
 
+      {
+        threshold: .1,
+        rootMargin:
+          "0px 0px -30px 0px"
+      }
 
-    document
-      .querySelectorAll(
-        ".mobile-nav-link"
-      )
-      .forEach(
-        link => {
-
-          link
-            .addEventListener(
-              "click",
-              closeMobileMenu
-            );
-        }
-      );
-
-
-    /* =====================================================
-       SCROLL REVEAL
-    ===================================================== */
-
-    const observer =
-      new IntersectionObserver(
-        entries => {
-
-          entries
-            .forEach(
-              entry => {
-
-                if (
-                  entry.isIntersecting
-                ) {
-
-                  entry.target
-                    .classList
-                    .add(
-                      "visible"
-                    );
-
-                  observer
-                    .unobserve(
-                      entry.target
-                    );
-                }
-              }
-            );
-        },
-
-        {
-          threshold: .1,
-          rootMargin:
-            "0px 0px -30px 0px"
-        }
-      );
-
-
-    document
-      .querySelectorAll(
-        ".reveal"
-      )
-      .forEach(
-        element => {
-
-          observer
-            .observe(
-              element
-            );
-        }
-      );
-
-
-    /* =====================================================
-       YEAR
-    ===================================================== */
-
-    document
-      .getElementById(
-        "currentYear"
-      )
-      .textContent =
-        new Date()
-          .getFullYear();
-
-
-    /* =====================================================
-       START
-    ===================================================== */
-
-    changeLanguage(
-      currentLanguage
     );
-  </script>
+
+
+  document
+    .querySelectorAll(".reveal")
+    .forEach(
+      element => {
+
+        observer.observe(
+          element
+        );
+
+      }
+    );
+
+
+  /* =====================================================
+     YEAR
+  ===================================================== */
+
+  document
+    .getElementById(
+      "currentYear"
+    )
+    .textContent =
+      new Date().getFullYear();
+
+
+  /* =====================================================
+     START
+  ===================================================== */
+
+  changeLanguage(
+    currentLanguage
+  );
+
+</script>
 
 </body>
 </html>
