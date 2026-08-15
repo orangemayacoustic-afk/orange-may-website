@@ -1764,327 +1764,587 @@
 
 
     /* =====================================================
-       OUR STORY — EDITORIAL
-    ===================================================== */
+   OUR STORY — EDITORIAL
+===================================================== */
 
-    #about {
-      position: relative;
+#about {
+  position: relative;
 
-      padding:
-        125px
-        0
-        135px;
+  padding:
+    125px
+    0
+    135px;
 
-      overflow: hidden;
+  overflow: hidden;
 
-      background: var(--cream);
-    }
+  background: var(--cream);
+}
 
-    #about::after {
-      content: "";
+#about::after {
+  content: "";
 
-      position: absolute;
+  position: absolute;
 
-      width: 440px;
-      height: 440px;
+  width: 440px;
+  height: 440px;
 
-      right: -270px;
-      top: 90px;
+  right: -270px;
+  top: 90px;
 
-      border:
-        1px solid rgba(255,106,0,.20);
+  border:
+    1px solid rgba(255,106,0,.20);
 
-      border-radius: 50%;
+  border-radius: 50%;
 
-      pointer-events: none;
-    }
+  pointer-events: none;
+}
 
-    .story-grid {
-      position: relative;
-      z-index: 2;
+.story-grid {
+  position: relative;
+  z-index: 2;
 
-      display: grid;
+  display: grid;
 
-      grid-template-columns:
-        minmax(0,.95fr)
-        minmax(0,1.05fr);
+  grid-template-columns:
+    minmax(0,.95fr)
+    minmax(0,1.05fr);
 
-      gap: 86px;
+  gap: 86px;
 
-      align-items: start;
-    }
+  align-items: start;
+}
 
 
-    /* STORY IMAGE */
+/* =====================================================
+   STORY VISUAL
+===================================================== */
 
-    .story-visual {
-      position: sticky;
+.story-visual {
+  position: sticky;
 
-      top: 118px;
-    }
+  top: 104px;
+}
 
-    .story-image-frame {
-      position: relative;
+.story-image-frame {
+  position: relative;
 
-      padding:
-        0
-        18px
-        18px
-        0;
-    }
+  padding:
+    0
+    18px
+    18px
+    0;
+}
 
-    .story-image-frame::after {
-      content: "";
+.story-image-frame::after {
+  content: "";
 
-      position: absolute;
+  position: absolute;
 
-      right: 0;
-      bottom: 0;
+  right: 0;
+  bottom: 0;
 
-      width: calc(100% - 22px);
-      height: calc(100% - 22px);
+  width: calc(100% - 22px);
+  height: calc(100% - 22px);
 
-      border:
-        2px solid var(--orange);
+  border:
+    2px solid var(--orange);
 
-      z-index: -1;
-    }
+  z-index: -1;
+}
 
-    .story-image-frame img {
-      width: 100%;
+.story-image-frame img {
+  width: 100%;
 
-      aspect-ratio:
-        4 / 5;
+  aspect-ratio:
+    4 / 5;
 
-      object-fit: cover;
+  object-fit: cover;
 
-      filter:
-        grayscale(100%);
+  filter:
+    grayscale(100%);
 
-      transition:
-        filter .55s ease,
-        transform .55s cubic-bezier(.2,.8,.2,1);
-    }
+  transition:
+    filter .55s ease,
+    transform .55s cubic-bezier(.2,.8,.2,1);
+}
 
-    .story-image-frame:hover img {
-      filter:
-        grayscale(35%);
+.story-image-frame:hover img {
+  filter:
+    grayscale(35%);
 
-      transform:
-        translate(-3px,-3px);
-    }
+  transform:
+    translate(-3px,-3px);
+}
 
-    .story-image-meta {
-      margin-top: 18px;
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+/* META */
 
-      gap: 20px;
+.story-image-meta {
+  margin-top: 18px;
 
-      padding-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-      border-top:
-        1px solid rgba(17,16,15,.25);
+  gap: 20px;
 
-      font-size: .61rem;
-      font-weight: 900;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-    }
+  padding-top: 12px;
 
-    .story-image-meta span:last-child {
-      color: var(--orange);
-    }
+  border-top:
+    1px solid rgba(17,16,15,.25);
 
+  font-size: .61rem;
+  font-weight: 900;
+  letter-spacing: .13em;
 
-    /* STORY CONTENT */
+  text-transform: uppercase;
+}
 
-    .story-content .section-label {
-      margin-bottom: 24px;
-    }
+.story-image-meta span:last-child {
+  color: var(--orange);
+}
 
-    .story-heading {
-      max-width: 720px;
 
-      margin-bottom: 42px;
+/* =====================================================
+   EDITORIAL SIGNATURE
+===================================================== */
 
-      font-size:
-        clamp(
-          3.15rem,
-          5.5vw,
-          5.9rem
-        );
+.story-signature {
+  position: relative;
 
-      font-weight: 900;
-      line-height: .86;
-      letter-spacing: -.06em;
+  margin-top: 62px;
 
-      text-transform: uppercase;
-    }
+  padding-top: 24px;
 
-    .story-heading .orange {
-      color: var(--orange);
-    }
+  border-top:
+    1px solid rgba(17,16,15,.20);
 
-    .story-lead {
-      max-width: 640px;
+  overflow: hidden;
+}
 
-      margin-bottom: 39px;
+.story-signature-big {
+  display: block;
 
-      font-size:
-        clamp(
-          1.35rem,
-          2vw,
-          1.8rem
-        );
+  color:
+    rgba(
+      17,
+      16,
+      15,
+      .055
+    );
 
-      line-height: 1.35;
-      font-weight: 800;
-      letter-spacing: -.02em;
-    }
+  font-size:
+    clamp(
+      4.8rem,
+      7.6vw,
+      7.8rem
+    );
 
-    .story-text {
-      max-width: 650px;
+  font-weight: 900;
+  line-height: .72;
+  letter-spacing: -.075em;
 
-      display: grid;
+  text-transform: uppercase;
 
-      gap: 26px;
-    }
+  white-space: nowrap;
 
-    .story-text p {
-      color: #3c3732;
+  transform:
+    translateX(-5px);
 
-      font-size:
-        clamp(
-          1rem,
-          1.2vw,
-          1.15rem
-        );
+  user-select: none;
+}
 
-      line-height: 1.68;
-    }
+.story-signature-bottom {
+  margin-top: 20px;
 
+  display: flex;
+  align-items: center;
 
-    /* MUSICAL DNA */
+  gap: 12px;
 
-    .story-dna {
-      margin-top: 52px;
+  color: var(--grey);
 
-      border-top:
-        2px solid var(--black);
+  font-size: .58rem;
+  font-weight: 900;
+  letter-spacing: .16em;
 
-      border-bottom:
-        2px solid var(--black);
+  text-transform: uppercase;
+}
 
-      display: grid;
+.story-signature-bottom::before {
+  content: "";
 
-      grid-template-columns:
-        repeat(2,1fr);
-    }
+  width: 34px;
+  height: 2px;
 
-    .story-dna-item {
-      min-height: 98px;
+  background: var(--orange);
 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+  flex-shrink: 0;
+}
 
-      padding:
-        18px
-        20px;
 
-      border-right:
-        1px solid rgba(17,16,15,.22);
+/* =====================================================
+   STORY CONTENT
+===================================================== */
 
-      border-bottom:
-        1px solid rgba(17,16,15,.22);
-    }
+.story-content .section-label {
+  margin-bottom: 24px;
+}
 
-    .story-dna-item:nth-child(2n) {
-      border-right: 0;
-    }
+.story-heading {
+  max-width: 720px;
 
-    .story-dna-item:nth-child(3),
-    .story-dna-item:nth-child(4) {
-      border-bottom: 0;
-    }
+  margin-bottom: 42px;
 
-    .story-dna-number {
-      margin-bottom: 6px;
+  font-size:
+    clamp(
+      3.15rem,
+      5.5vw,
+      5.9rem
+    );
 
-      color: var(--orange);
+  font-weight: 900;
+  line-height: .86;
+  letter-spacing: -.06em;
 
-      font-size: .57rem;
-      font-weight: 900;
-      letter-spacing: .15em;
-    }
+  text-transform: uppercase;
+}
 
-    .story-dna-name {
-      font-size:
-        clamp(
-          1.25rem,
-          1.9vw,
-          1.75rem
-        );
+.story-heading .orange {
+  color: var(--orange);
+}
 
-      font-weight: 900;
-      line-height: .95;
-      letter-spacing: -.035em;
+.story-lead {
+  max-width: 640px;
 
-      text-transform: uppercase;
-    }
+  margin-bottom: 39px;
 
+  font-size:
+    clamp(
+      1.35rem,
+      2vw,
+      1.8rem
+    );
 
-    /* STORY ENDING */
+  line-height: 1.35;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
 
-    .story-ending {
-      position: relative;
+.story-text {
+  max-width: 650px;
 
-      margin-top: 55px;
+  display: grid;
 
-      padding:
-        32px
-        0
-        4px;
+  gap: 26px;
+}
 
-      border-top:
-        1px solid rgba(17,16,15,.25);
-    }
+.story-text p {
+  color: #3c3732;
 
-    .story-ending-small {
-      margin-bottom: 12px;
+  font-size:
+    clamp(
+      1rem,
+      1.2vw,
+      1.15rem
+    );
 
-      color: var(--grey);
+  line-height: 1.68;
+}
 
-      font-size: .59rem;
-      font-weight: 900;
-      letter-spacing: .16em;
 
-      text-transform: uppercase;
-    }
+/* =====================================================
+   MUSICAL DNA
+===================================================== */
 
-    .story-ending-main {
-      max-width: 650px;
+.story-dna {
+  margin-top: 52px;
 
-      font-size:
-        clamp(
-          2.4rem,
-          4.3vw,
-          4.6rem
-        );
+  border-top:
+    2px solid var(--black);
 
-      font-weight: 900;
-      line-height: .9;
-      letter-spacing: -.055em;
+  border-bottom:
+    2px solid var(--black);
 
-      text-transform: uppercase;
-    }
+  display: grid;
 
-    .story-ending-main .orange {
-      color: var(--orange);
-    }
+  grid-template-columns:
+    repeat(2,1fr);
+}
+
+.story-dna-item {
+  min-height: 98px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding:
+    18px
+    20px;
+
+  border-right:
+    1px solid rgba(17,16,15,.22);
+
+  border-bottom:
+    1px solid rgba(17,16,15,.22);
+}
+
+.story-dna-item:nth-child(2n) {
+  border-right: 0;
+}
+
+.story-dna-item:nth-child(3),
+.story-dna-item:nth-child(4) {
+  border-bottom: 0;
+}
+
+.story-dna-number {
+  margin-bottom: 6px;
+
+  color: var(--orange);
+
+  font-size: .57rem;
+  font-weight: 900;
+  letter-spacing: .15em;
+}
+
+.story-dna-name {
+  font-size:
+    clamp(
+      1.25rem,
+      1.9vw,
+      1.75rem
+    );
+
+  font-weight: 900;
+  line-height: .95;
+  letter-spacing: -.035em;
+
+  text-transform: uppercase;
+}
+
+
+/* =====================================================
+   STORY ENDING
+===================================================== */
+
+.story-ending {
+  position: relative;
+
+  margin-top: 52px;
+
+  padding:
+    29px
+    0
+    4px;
+
+  border-top:
+    1px solid rgba(17,16,15,.25);
+}
+
+.story-ending-small {
+  margin-bottom: 12px;
+
+  color: var(--grey);
+
+  font-size: .59rem;
+  font-weight: 900;
+  letter-spacing: .16em;
+
+  text-transform: uppercase;
+}
+
+.story-ending-main {
+  max-width: 610px;
+
+  font-size:
+    clamp(
+      2.2rem,
+      3.8vw,
+      4.05rem
+    );
+
+  font-weight: 900;
+  line-height: .9;
+  letter-spacing: -.052em;
+
+  text-transform: uppercase;
+}
+
+.story-ending-main .orange {
+  color: var(--orange);
+}
+
+
+/* =====================================================
+   STORY MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+  #about {
+    padding:
+      78px
+      0
+      84px;
+  }
+
+  #about::after {
+    display: none;
+  }
+
+  .story-grid {
+    display: flex;
+    flex-direction: column;
+
+    gap: 48px;
+  }
+
+  .story-visual {
+    position: relative;
+
+    top: auto;
+
+    order: 2;
+  }
+
+  .story-content {
+    order: 1;
+  }
+
+  .story-heading {
+    max-width: 100%;
+
+    margin-bottom: 28px;
+
+    font-size:
+      clamp(
+        2.75rem,
+        12.8vw,
+        4rem
+      );
+
+    line-height: .88;
+  }
+
+  .story-lead {
+    margin-bottom: 30px;
+
+    font-size: 1.22rem;
+  }
+
+  .story-text {
+    gap: 22px;
+  }
+
+  .story-text p {
+    font-size: .98rem;
+  }
+
+  .story-image-frame {
+    padding:
+      0
+      12px
+      12px
+      0;
+  }
+
+  .story-image-frame img {
+    aspect-ratio:
+      4 / 5;
+  }
+
+  .story-image-meta {
+    font-size: .54rem;
+  }
+
+
+  /* SIGNATURE MOBILE */
+
+  .story-signature {
+    margin-top: 37px;
+
+    padding-top: 19px;
+  }
+
+  .story-signature-big {
+    font-size:
+      clamp(
+        3.6rem,
+        18vw,
+        5.5rem
+      );
+
+    line-height: .75;
+  }
+
+  .story-signature-bottom {
+    margin-top: 15px;
+
+    font-size: .51rem;
+  }
+
+
+  /* DNA */
+
+  .story-dna {
+    margin-top: 40px;
+  }
+
+  .story-dna-item {
+    min-height: 82px;
+
+    padding:
+      15px
+      12px;
+  }
+
+  .story-dna-name {
+    font-size: 1.05rem;
+  }
+
+
+  /* ENDING */
+
+  .story-ending {
+    margin-top: 42px;
+
+    padding-top: 27px;
+  }
+
+  .story-ending-main {
+    max-width: 100%;
+
+    font-size:
+      clamp(
+        2rem,
+        9.8vw,
+        3.15rem
+      );
+  }
+}
+
+
+/* =====================================================
+   STORY SMALL MOBILE
+===================================================== */
+
+@media (max-width: 390px) {
+
+  .story-heading {
+    font-size: 12vw;
+  }
+
+  .story-dna-name {
+    font-size: .96rem;
+  }
+
+  .story-signature-big {
+    font-size: 17vw;
+  }
+
+}
 
 
     /* =====================================================
