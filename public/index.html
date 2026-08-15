@@ -208,12 +208,14 @@
     .nav-right {
       display: flex;
       align-items: center;
+
       gap: 22px;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
+
       gap: 24px;
     }
 
@@ -223,6 +225,7 @@
       font-size: .76rem;
       font-weight: 900;
       letter-spacing: .08em;
+
       text-transform: uppercase;
     }
 
@@ -241,7 +244,8 @@
       transform: scaleX(0);
       transform-origin: right;
 
-      transition: transform .25s cubic-bezier(.2,.8,.2,1);
+      transition:
+        transform .25s cubic-bezier(.2,.8,.2,1);
     }
 
     .nav-links a:hover::after {
@@ -367,6 +371,7 @@
 
       opacity: 0;
       visibility: hidden;
+
       transform: translateY(-10px);
 
       transition:
@@ -378,6 +383,7 @@
     .mobile-menu.open {
       opacity: 1;
       visibility: visible;
+
       transform: translateY(0);
     }
 
@@ -400,6 +406,7 @@
       font-size: clamp(2rem,10vw,3.3rem);
       font-weight: 900;
       letter-spacing: -.045em;
+
       text-transform: uppercase;
     }
 
@@ -416,6 +423,7 @@
       font-size: .72rem;
       font-weight: 800;
       letter-spacing: .08em;
+
       text-transform: uppercase;
     }
 
@@ -486,6 +494,7 @@
       font-size: .68rem;
       font-weight: 900;
       letter-spacing: .20em;
+
       text-transform: uppercase;
     }
 
@@ -533,6 +542,7 @@
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
+
       gap: 12px;
     }
 
@@ -557,6 +567,7 @@
       font-size: .74rem;
       font-weight: 900;
       letter-spacing: .08em;
+
       text-transform: uppercase;
 
       transition:
@@ -602,6 +613,7 @@
       font-size: .66rem;
       font-weight: 900;
       letter-spacing: .21em;
+
       text-transform: uppercase;
     }
 
@@ -618,6 +630,7 @@
         .92fr;
 
       gap: 70px;
+
       align-items: center;
     }
 
@@ -645,6 +658,7 @@
 
     .social-links {
       margin-top: 68px;
+
       border-top: 2px solid var(--black);
     }
 
@@ -675,6 +689,7 @@
       font-size: clamp(2rem,4.2vw,4.2rem);
       font-weight: 900;
       letter-spacing: -.04em;
+
       text-transform: uppercase;
     }
 
@@ -709,7 +724,8 @@
       display: flex;
       align-items: center;
 
-      animation: ticker 26s linear infinite;
+      animation:
+        ticker 26s linear infinite;
     }
 
     .ticker-content {
@@ -725,6 +741,7 @@
       font-size: .72rem;
       font-weight: 900;
       letter-spacing: .16em;
+
       text-transform: uppercase;
     }
 
@@ -733,6 +750,7 @@
     }
 
     @keyframes ticker {
+
       from {
         transform: translateX(0);
       }
@@ -777,6 +795,7 @@
       font-weight: 900;
       line-height: .84;
       letter-spacing: -.065em;
+
       text-transform: uppercase;
     }
 
@@ -851,6 +870,7 @@
       font-size: .64rem;
       font-weight: 900;
       letter-spacing: .17em;
+
       text-transform: uppercase;
     }
 
@@ -902,6 +922,7 @@
     }
 
     @keyframes wave {
+
       0%,
       100% {
         transform: scaleY(.55);
@@ -943,6 +964,7 @@
       display: block;
 
       margin-top: 13px;
+
       padding-left: .18em;
 
       color: var(--orange);
@@ -950,6 +972,7 @@
       font-size: .7rem;
       font-weight: 900;
       letter-spacing: .18em;
+
       text-transform: uppercase;
     }
 
@@ -1003,6 +1026,7 @@
       font-size: .55rem;
       font-weight: 900;
       letter-spacing: .09em;
+
       text-transform: uppercase;
     }
 
@@ -1034,6 +1058,7 @@
       font-size: clamp(1.15rem,1.7vw,1.55rem);
       font-weight: 900;
       letter-spacing: -.02em;
+
       white-space: nowrap;
     }
 
@@ -1073,6 +1098,7 @@
       font-size: .56rem;
       font-weight: 900;
       letter-spacing: .09em;
+
       text-transform: uppercase;
 
       transition:
@@ -1105,11 +1131,13 @@
       font-size: .64rem;
       font-weight: 900;
       letter-spacing: .16em;
+
       text-transform: uppercase;
     }
 
     .more-events {
       display: grid;
+
       gap: 10px;
     }
 
@@ -1162,11 +1190,13 @@
       transform: scaleY(0);
       transform-origin: bottom;
 
-      transition: transform .28s ease;
+      transition:
+        transform .28s ease;
     }
 
     .event:hover {
       transform: translateY(-2px);
+
       background: #e5ddd2;
     }
 
@@ -1180,6 +1210,7 @@
     }
 
     @keyframes eventEnter {
+
       from {
         opacity: 0;
         transform: translateY(12px);
@@ -1213,6 +1244,7 @@
 
     .event-month {
       margin-top: 7px;
+
       padding-left: .16em;
 
       color: var(--orange);
@@ -1220,6 +1252,7 @@
       font-size: .58rem;
       font-weight: 900;
       letter-spacing: .16em;
+
       text-transform: uppercase;
     }
 
@@ -1270,6 +1303,7 @@
       font-size: .52rem;
       font-weight: 900;
       letter-spacing: .09em;
+
       text-transform: uppercase;
     }
 
@@ -1295,11 +1329,13 @@
     .event-time {
       font-size: 1rem;
       font-weight: 900;
+
       white-space: nowrap;
     }
 
     .event .show-actions {
       justify-content: flex-end;
+
       margin-top: 9px;
     }
 
@@ -1352,6 +1388,7 @@
       font-size: .64rem;
       font-weight: 900;
       letter-spacing: .11em;
+
       text-transform: uppercase;
 
       transition:
@@ -1368,7 +1405,8 @@
     }
 
     .show-more-arrow {
-      transition: transform .25s ease;
+      transition:
+        transform .25s ease;
     }
 
     .show-more-button.is-less
@@ -1378,6 +1416,7 @@
 
     .empty {
       padding: 40px 0;
+
       color: var(--grey);
     }
 
@@ -1452,7 +1491,13 @@
     .contact-title {
       max-width: 650px;
 
-      font-size: clamp(3.2rem,6.2vw,6.3rem);
+      font-size:
+        clamp(
+          3.2rem,
+          6.2vw,
+          6.3rem
+        );
+
       font-weight: 900;
       line-height: .89;
       letter-spacing: -.055em;
@@ -1469,7 +1514,13 @@
 
       margin-top: 30px;
 
-      color: rgba(255,255,255,.69);
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          .69
+        );
 
       font-size: 1.04rem;
       line-height: 1.55;
@@ -1490,10 +1541,22 @@
     .email-link {
       max-width: 100%;
 
-      color: rgba(255,255,255,.7);
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          .7
+        );
 
       border-bottom:
-        1px solid rgba(255,255,255,.32);
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          .32
+        );
 
       padding-bottom: 3px;
 
@@ -1521,10 +1584,21 @@
         30px;
 
       border:
-        1px solid rgba(255,255,255,.13);
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          .13
+        );
 
       background:
-        rgba(255,255,255,.045);
+        rgba(
+          255,
+          255,
+          255,
+          .045
+        );
 
       backdrop-filter:
         blur(8px);
@@ -1541,27 +1615,45 @@
       font-size: .62rem;
       font-weight: 900;
       letter-spacing: .16em;
+
       text-transform: uppercase;
     }
 
     .contact-panel-heading {
       margin-bottom: 27px;
 
-      font-size: clamp(1.8rem,2.8vw,2.7rem);
+      font-size:
+        clamp(
+          1.8rem,
+          2.8vw,
+          2.7rem
+        );
+
       font-weight: 900;
       line-height: .95;
       letter-spacing: -.04em;
+
       text-transform: uppercase;
     }
+
+
+    /* INTENT */
 
     .contact-choice-label {
       margin-bottom: 10px;
 
-      color: rgba(255,255,255,.5);
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          .5
+        );
 
       font-size: .61rem;
       font-weight: 900;
       letter-spacing: .13em;
+
       text-transform: uppercase;
     }
 
@@ -1590,16 +1682,30 @@
         13px;
 
       border:
-        1px solid rgba(255,255,255,.25);
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          .25
+        );
 
       border-radius: 999px;
 
       background: transparent;
-      color: rgba(255,255,255,.72);
+
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          .72
+        );
 
       font-size: .56rem;
       font-weight: 900;
       letter-spacing: .08em;
+
       text-transform: uppercase;
 
       transition:
@@ -1639,7 +1745,8 @@
         translateY(-8px);
 
       transition:
-        max-height .45s cubic-bezier(.2,.8,.2,1),
+        max-height .45s
+        cubic-bezier(.2,.8,.2,1),
         opacity .3s ease,
         transform .3s ease,
         margin .3s ease;
@@ -1667,6 +1774,7 @@
 
     .contact-form {
       display: grid;
+
       gap: 18px;
     }
 
@@ -1689,11 +1797,18 @@
 
       margin-bottom: 7px;
 
-      color: rgba(255,255,255,.5);
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          .5
+        );
 
       font-size: .61rem;
       font-weight: 900;
       letter-spacing: .13em;
+
       text-transform: uppercase;
     }
 
@@ -1712,7 +1827,13 @@
       border: 0;
 
       border-bottom:
-        1px solid rgba(255,255,255,.25);
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          .25
+        );
 
       border-radius: 0;
 
@@ -1734,11 +1855,18 @@
 
     .field input::placeholder,
     .field textarea::placeholder {
-      color: rgba(255,255,255,.25);
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          .25
+        );
     }
 
     .field textarea {
       min-height: 115px;
+
       resize: vertical;
     }
 
@@ -1757,1150 +1885,1079 @@
     .form-message {
       min-height: 22px;
 
-      color: rgba(255,255,255,.7);
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          .7
+        );
 
       font-size: .82rem;
     }
 
 
     /* =====================================================
-   OUR STORY — EDITORIAL
-===================================================== */
+       OUR STORY
+    ===================================================== */
 
-#about {
-  position: relative;
+    #about {
+      position: relative;
 
-  padding:
-    125px
-    0
-    135px;
+      padding:
+        125px
+        0
+        135px;
 
-  overflow: hidden;
+      overflow: hidden;
 
-  background: var(--cream);
-}
+      background: var(--cream);
+    }
 
-#about::after {
-  content: "";
+    #about::after {
+      content: "";
 
-  position: absolute;
+      position: absolute;
 
-  width: 440px;
-  height: 440px;
+      width: 440px;
+      height: 440px;
 
-  right: -270px;
-  top: 90px;
+      right: -270px;
+      top: 90px;
 
-  border:
-    1px solid rgba(255,106,0,.20);
+      border:
+        1px solid
+        rgba(
+          255,
+          106,
+          0,
+          .20
+        );
 
-  border-radius: 50%;
+      border-radius: 50%;
 
-  pointer-events: none;
-}
+      pointer-events: none;
+    }
 
-.story-grid {
-  position: relative;
-  z-index: 2;
+    .story-grid {
+      position: relative;
+      z-index: 2;
 
-  display: grid;
+      display: grid;
 
-  grid-template-columns:
-    minmax(0,.95fr)
-    minmax(0,1.05fr);
+      grid-template-columns:
+        minmax(0,.95fr)
+        minmax(0,1.05fr);
 
-  gap: 86px;
+      gap: 86px;
 
-  align-items: start;
-}
+      align-items: start;
+    }
 
 
-/* =====================================================
-   STORY VISUAL
-===================================================== */
+    /* STORY VISUAL */
 
-.story-visual {
-  position: sticky;
+    .story-visual {
+      position: sticky;
 
-  top: 104px;
-}
+      top: 104px;
+    }
 
-.story-image-frame {
-  position: relative;
+    .story-image-frame {
+      position: relative;
 
-  padding:
-    0
-    18px
-    18px
-    0;
-}
+      padding:
+        0
+        18px
+        18px
+        0;
+    }
 
-.story-image-frame::after {
-  content: "";
+    .story-image-frame::after {
+      content: "";
 
-  position: absolute;
+      position: absolute;
 
-  right: 0;
-  bottom: 0;
+      right: 0;
+      bottom: 0;
 
-  width: calc(100% - 22px);
-  height: calc(100% - 22px);
+      width:
+        calc(
+          100% - 22px
+        );
 
-  border:
-    2px solid var(--orange);
+      height:
+        calc(
+          100% - 22px
+        );
 
-  z-index: -1;
-}
+      border:
+        2px solid
+        var(--orange);
 
-.story-image-frame img {
-  width: 100%;
+      z-index: -1;
+    }
 
-  aspect-ratio:
-    4 / 5;
+    .story-image-frame img {
+      width: 100%;
 
-  object-fit: cover;
+      aspect-ratio:
+        4 / 5;
 
-  filter:
-    grayscale(100%);
+      object-fit: cover;
 
-  transition:
-    filter .55s ease,
-    transform .55s cubic-bezier(.2,.8,.2,1);
-}
+      filter:
+        grayscale(100%);
 
-.story-image-frame:hover img {
-  filter:
-    grayscale(35%);
+      transition:
+        filter .55s ease,
+        transform .55s
+        cubic-bezier(.2,.8,.2,1);
+    }
 
-  transform:
-    translate(-3px,-3px);
-}
+    .story-image-frame:hover img {
+      filter:
+        grayscale(35%);
 
+      transform:
+        translate(-3px,-3px);
+    }
 
-/* META */
 
-.story-image-meta {
-  margin-top: 18px;
+    /* META */
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    .story-image-meta {
+      margin-top: 18px;
 
-  gap: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  padding-top: 12px;
+      gap: 20px;
 
-  border-top:
-    1px solid rgba(17,16,15,.25);
+      padding-top: 12px;
 
-  font-size: .61rem;
-  font-weight: 900;
-  letter-spacing: .13em;
+      border-top:
+        1px solid
+        rgba(
+          17,
+          16,
+          15,
+          .25
+        );
 
-  text-transform: uppercase;
-}
+      font-size: .61rem;
+      font-weight: 900;
+      letter-spacing: .13em;
 
-.story-image-meta span:last-child {
-  color: var(--orange);
-}
+      text-transform: uppercase;
+    }
 
+    .story-image-meta span:last-child {
+      color: var(--orange);
+    }
 
-/* =====================================================
-   EDITORIAL SIGNATURE
-===================================================== */
 
-.story-signature {
-  position: relative;
+    /* SIGNATURE */
 
-  margin-top: 62px;
+    .story-signature {
+      position: relative;
 
-  padding-top: 24px;
+      margin-top: 36px;
 
-  border-top:
-    1px solid rgba(17,16,15,.20);
+      padding-top: 24px;
 
-  overflow: hidden;
-}
+      border-top:
+        1px solid
+        rgba(
+          17,
+          16,
+          15,
+          .20
+        );
 
-.story-signature-big {
-  display: block;
+      overflow: hidden;
+    }
 
-  color:
-    rgba(
-      17,
-      16,
-      15,
-      .055
-    );
+    .story-signature-big {
+      display: block;
 
-  font-size:
-    clamp(
-      4.8rem,
-      7.6vw,
-      7.8rem
-    );
+      color:
+        rgba(
+          17,
+          16,
+          15,
+          .055
+        );
 
-  font-weight: 900;
-  line-height: .72;
-  letter-spacing: -.075em;
+      font-size:
+        clamp(
+          4.8rem,
+          7.6vw,
+          7.8rem
+        );
 
-  text-transform: uppercase;
+      font-weight: 900;
+      line-height: .72;
+      letter-spacing: -.075em;
 
-  white-space: nowrap;
+      text-transform: uppercase;
 
-  transform:
-    translateX(-5px);
+      white-space: nowrap;
 
-  user-select: none;
-}
+      transform:
+        translateX(-5px);
 
-.story-signature-bottom {
-  margin-top: 20px;
+      user-select: none;
+    }
 
-  display: flex;
-  align-items: center;
+    .story-signature-bottom {
+      margin-top: 20px;
 
-  gap: 12px;
+      display: flex;
+      align-items: center;
 
-  color: var(--grey);
+      gap: 12px;
 
-  font-size: .58rem;
-  font-weight: 900;
-  letter-spacing: .16em;
+      color: var(--grey);
 
-  text-transform: uppercase;
-}
+      font-size: .58rem;
+      font-weight: 900;
+      letter-spacing: .16em;
 
-.story-signature-bottom::before {
-  content: "";
+      text-transform: uppercase;
+    }
 
-  width: 34px;
-  height: 2px;
+    .story-signature-bottom::before {
+      content: "";
 
-  background: var(--orange);
+      width: 34px;
+      height: 2px;
 
-  flex-shrink: 0;
-}
+      background: var(--orange);
 
+      flex-shrink: 0;
+    }
 
-/* =====================================================
-   STORY CONTENT
-===================================================== */
 
-.story-content .section-label {
-  margin-bottom: 24px;
-}
+    /* STORY CONTENT */
 
-.story-heading {
-  max-width: 720px;
+    .story-content .section-label {
+      margin-bottom: 24px;
+    }
 
-  margin-bottom: 42px;
+    .story-heading {
+      max-width: 720px;
 
-  font-size:
-    clamp(
-      3.15rem,
-      5.5vw,
-      5.9rem
-    );
+      margin-bottom: 42px;
 
-  font-weight: 900;
-  line-height: .86;
-  letter-spacing: -.06em;
+      font-size:
+        clamp(
+          3.15rem,
+          5.5vw,
+          5.9rem
+        );
 
-  text-transform: uppercase;
-}
+      font-weight: 900;
+      line-height: .86;
+      letter-spacing: -.06em;
 
-.story-heading .orange {
-  color: var(--orange);
-}
+      text-transform: uppercase;
+    }
 
-.story-lead {
-  max-width: 640px;
+    .story-heading .orange {
+      color: var(--orange);
+    }
 
-  margin-bottom: 39px;
+    .story-lead {
+      max-width: 640px;
 
-  font-size:
-    clamp(
-      1.35rem,
-      2vw,
-      1.8rem
-    );
+      margin-bottom: 39px;
 
-  line-height: 1.35;
-  font-weight: 800;
-  letter-spacing: -.02em;
-}
+      font-size:
+        clamp(
+          1.35rem,
+          2vw,
+          1.8rem
+        );
 
-.story-text {
-  max-width: 650px;
+      line-height: 1.35;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
 
-  display: grid;
+    .story-text {
+      max-width: 650px;
 
-  gap: 26px;
-}
+      display: grid;
 
-.story-text p {
-  color: #3c3732;
+      gap: 26px;
+    }
 
-  font-size:
-    clamp(
-      1rem,
-      1.2vw,
-      1.15rem
-    );
+    .story-text p {
+      color: #3c3732;
 
-  line-height: 1.68;
-}
+      font-size:
+        clamp(
+          1rem,
+          1.2vw,
+          1.15rem
+        );
 
+      line-height: 1.68;
+    }
 
-/* =====================================================
-   MUSICAL DNA
-===================================================== */
 
-.story-dna {
-  margin-top: 52px;
+    /* DNA */
 
-  border-top:
-    2px solid var(--black);
+    .story-dna {
+      margin-top: 52px;
 
-  border-bottom:
-    2px solid var(--black);
+      border-top:
+        2px solid
+        var(--black);
 
-  display: grid;
+      border-bottom:
+        2px solid
+        var(--black);
 
-  grid-template-columns:
-    repeat(2,1fr);
-}
+      display: grid;
 
-.story-dna-item {
-  min-height: 98px;
+      grid-template-columns:
+        repeat(2,1fr);
+    }
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    .story-dna-item {
+      min-height: 98px;
 
-  padding:
-    18px
-    20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
 
-  border-right:
-    1px solid rgba(17,16,15,.22);
+      padding:
+        18px
+        20px;
 
-  border-bottom:
-    1px solid rgba(17,16,15,.22);
-}
+      border-right:
+        1px solid
+        rgba(
+          17,
+          16,
+          15,
+          .22
+        );
 
-.story-dna-item:nth-child(2n) {
-  border-right: 0;
-}
+      border-bottom:
+        1px solid
+        rgba(
+          17,
+          16,
+          15,
+          .22
+        );
+    }
 
-.story-dna-item:nth-child(3),
-.story-dna-item:nth-child(4) {
-  border-bottom: 0;
-}
+    .story-dna-item:nth-child(2n) {
+      border-right: 0;
+    }
 
-.story-dna-number {
-  margin-bottom: 6px;
+    .story-dna-item:nth-child(3),
+    .story-dna-item:nth-child(4) {
+      border-bottom: 0;
+    }
 
-  color: var(--orange);
+    .story-dna-number {
+      margin-bottom: 6px;
 
-  font-size: .57rem;
-  font-weight: 900;
-  letter-spacing: .15em;
-}
+      color: var(--orange);
 
-.story-dna-name {
-  font-size:
-    clamp(
-      1.25rem,
-      1.9vw,
-      1.75rem
-    );
+      font-size: .57rem;
+      font-weight: 900;
+      letter-spacing: .15em;
+    }
 
-  font-weight: 900;
-  line-height: .95;
-  letter-spacing: -.035em;
+    .story-dna-name {
+      font-size:
+        clamp(
+          1.25rem,
+          1.9vw,
+          1.75rem
+        );
 
-  text-transform: uppercase;
-}
+      font-weight: 900;
+      line-height: .95;
+      letter-spacing: -.035em;
 
+      text-transform: uppercase;
+    }
 
-/* =====================================================
-   STORY ENDING
-===================================================== */
 
-.story-ending {
-  position: relative;
+    /* STORY ENDING */
 
-  margin-top: 52px;
+    .story-ending {
+      position: relative;
 
-  padding:
-    29px
-    0
-    4px;
+      margin-top: 52px;
 
-  border-top:
-    1px solid rgba(17,16,15,.25);
-}
+      padding:
+        29px
+        0
+        4px;
 
-.story-ending-small {
-  margin-bottom: 12px;
+      border-top:
+        1px solid
+        rgba(
+          17,
+          16,
+          15,
+          .25
+        );
+    }
 
-  color: var(--grey);
+    .story-ending-small {
+      margin-bottom: 12px;
 
-  font-size: .59rem;
-  font-weight: 900;
-  letter-spacing: .16em;
+      color: var(--grey);
 
-  text-transform: uppercase;
-}
+      font-size: .59rem;
+      font-weight: 900;
+      letter-spacing: .16em;
 
-.story-ending-main {
-  max-width: 610px;
+      text-transform: uppercase;
+    }
 
-  font-size:
-    clamp(
-      2.2rem,
-      3.8vw,
-      4.05rem
-    );
+    .story-ending-main {
+      max-width: 650px;
 
-  font-weight: 900;
-  line-height: .9;
-  letter-spacing: -.052em;
+      font-size:
+        clamp(
+          2.15rem,
+          3.55vw,
+          3.8rem
+        );
 
-  text-transform: uppercase;
-}
+      font-weight: 900;
+      line-height: .9;
+      letter-spacing: -.052em;
 
-.story-ending-main .orange {
-  color: var(--orange);
-}
+      text-transform: uppercase;
+    }
 
-
-/* =====================================================
-   STORY MOBILE
-===================================================== */
-
-@media (max-width: 700px) {
-
-  #about {
-    padding:
-      78px
-      0
-      84px;
-  }
-
-  #about::after {
-    display: none;
-  }
-
-  .story-grid {
-    display: flex;
-    flex-direction: column;
-
-    gap: 48px;
-  }
-
-  .story-visual {
-    position: relative;
-
-    top: auto;
-
-    order: 2;
-  }
-
-  .story-content {
-    order: 1;
-  }
-
-  .story-heading {
-    max-width: 100%;
-
-    margin-bottom: 28px;
-
-    font-size:
-      clamp(
-        2.75rem,
-        12.8vw,
-        4rem
-      );
-
-    line-height: .88;
-  }
-
-  .story-lead {
-    margin-bottom: 30px;
-
-    font-size: 1.22rem;
-  }
-
-  .story-text {
-    gap: 22px;
-  }
-
-  .story-text p {
-    font-size: .98rem;
-  }
-
-  .story-image-frame {
-    padding:
-      0
-      12px
-      12px
-      0;
-  }
-
-  .story-image-frame img {
-    aspect-ratio:
-      4 / 5;
-  }
-
-  .story-image-meta {
-    font-size: .54rem;
-  }
-
-
-  /* SIGNATURE MOBILE */
-
-  .story-signature {
-  display: none;
-  }
-
-  /* DNA */
-
-  .story-dna {
-    margin-top: 40px;
-  }
-
-  .story-dna-item {
-    min-height: 82px;
-
-    padding:
-      15px
-      12px;
-  }
-
-  .story-dna-name {
-    font-size: 1.05rem;
-  }
-
-
-  /* ENDING */
-
-  .story-ending {
-    margin-top: 42px;
-
-    padding-top: 27px;
-  }
-
-  .story-ending-main {
-    max-width: 100%;
-
-    font-size:
-      clamp(
-        2rem,
-        9.8vw,
-        3.15rem
-      );
-  }
-}
-
-
-/* =====================================================
-   STORY SMALL MOBILE
-===================================================== */
-
-@media (max-width: 390px) {
-
-  .story-heading {
-    font-size: 12vw;
-  }
-
-  .story-dna-name {
-    font-size: .96rem;
-  }
-
-  .story-signature-big {
-    font-size: 17vw;
-  }
-
-}
+    .story-ending-main .orange {
+      color: var(--orange);
+    }
 
 
     /* =====================================================
-   LIVE IMAGE STRIP
-===================================================== */
+       LIVE SECTION
+    ===================================================== */
 
-.live-section {
-  position: relative;
+    .live-section {
+      position: relative;
 
-  background: var(--black);
-  color: white;
+      background: var(--black);
+      color: white;
 
-  overflow: hidden;
-}
+      overflow: hidden;
+    }
 
-.live-section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    .live-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  gap: 30px;
+      gap: 30px;
 
-  padding:
-    34px
-    0
-    28px;
-}
+      padding:
+        34px
+        0
+        28px;
+    }
 
-.live-section-label {
-  display: flex;
-  align-items: center;
+    .live-section-label {
+      display: flex;
+      align-items: center;
 
-  gap: 11px;
+      gap: 11px;
 
-  color: var(--orange);
+      color: var(--orange);
 
-  font-size: .62rem;
-  font-weight: 900;
-  letter-spacing: .16em;
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .16em;
 
-  text-transform: uppercase;
-}
+      text-transform: uppercase;
+    }
 
-.live-section-label::before {
-  content: "";
+    .live-section-label::before {
+      content: "";
 
-  width: 34px;
-  height: 2px;
+      width: 34px;
+      height: 2px;
 
-  background: var(--orange);
-}
+      background: var(--orange);
+    }
 
-.live-section-copy {
-  color: rgba(255,255,255,.5);
+    .live-section-copy {
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          .5
+        );
 
-  font-size: .61rem;
-  font-weight: 800;
-  letter-spacing: .12em;
+      font-size: .61rem;
+      font-weight: 800;
+      letter-spacing: .12em;
 
-  text-transform: uppercase;
-}
+      text-transform: uppercase;
+    }
 
 
-/* PHOTOS */
+    /* PHOTOS */
 
-.image-strip {
-  width: 100%;
+    .image-strip {
+      width: 100%;
 
-  display: flex;
+      display: flex;
 
-  min-height: 72vh;
+      min-height: 72vh;
 
-  overflow: hidden;
+      overflow: hidden;
 
-  background: var(--black);
-}
+      background: var(--black);
+    }
 
-.image-strip figure {
-  position: relative;
+    .image-strip figure {
+      position: relative;
 
-  flex: 1;
+      flex: 1;
 
-  min-width: 0;
+      min-width: 0;
 
-  overflow: hidden;
+      overflow: hidden;
 
-  transition:
-    flex .7s cubic-bezier(.2,.8,.2,1);
-}
+      transition:
+        flex .7s
+        cubic-bezier(.2,.8,.2,1);
+    }
 
-.image-strip:hover figure {
-  flex: .82;
-}
+    .image-strip:hover figure {
+      flex: .82;
+    }
 
-.image-strip figure:hover {
-  flex: 1.18;
-}
+    .image-strip figure:hover {
+      flex: 1.18;
+    }
 
-.image-strip img {
-  width: 100%;
-  height: 100%;
+    .image-strip img {
+      width: 100%;
+      height: 100%;
 
-  object-fit: cover;
+      object-fit: cover;
 
-  filter:
-    brightness(.74)
-    saturate(.9);
+      filter:
+        brightness(.74)
+        saturate(.9);
 
-  transform:
-    scale(1.01);
+      transform:
+        scale(1.01);
 
-  transition:
-    transform .8s cubic-bezier(.2,.8,.2,1),
-    filter .55s ease;
-}
+      transition:
+        transform .8s
+        cubic-bezier(.2,.8,.2,1),
+        filter .55s ease;
+    }
 
-.image-strip figure:hover img {
-  transform:
-    scale(1.05);
+    .image-strip figure:hover img {
+      transform:
+        scale(1.05);
 
-  filter:
-    brightness(.93)
-    saturate(1);
-}
+      filter:
+        brightness(.93)
+        saturate(1);
+    }
 
 
-/* PHOTO DARK GRADIENT */
+    /* DARK GRADIENT */
 
-.image-strip figure::after {
-  content: "";
+    .image-strip figure::after {
+      content: "";
 
-  position: absolute;
-  inset: 0;
+      position: absolute;
+      inset: 0;
 
-  background:
-    linear-gradient(
-      to top,
-      rgba(0,0,0,.82) 0%,
-      rgba(0,0,0,.18) 42%,
-      transparent 68%
-    );
+      background:
+        linear-gradient(
+          to top,
+          rgba(0,0,0,.82) 0%,
+          rgba(0,0,0,.18) 42%,
+          transparent 68%
+        );
 
-  pointer-events: none;
+      pointer-events: none;
 
-  z-index: 1;
-}
+      z-index: 1;
+    }
 
 
-/* LIVE PHOTO TEXT */
+    /* PHOTO TEXT */
 
-.live-photo-overlay {
-  position: absolute;
+    .live-photo-overlay {
+      position: absolute;
 
-  left: 0;
-  right: 0;
-  bottom: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
 
-  z-index: 2;
+      z-index: 2;
 
-  padding:
-    0
-    38px
-    34px;
+      padding:
+        0
+        38px
+        34px;
 
-  color: white;
+      color: white;
 
-  pointer-events: none;
-}
+      pointer-events: none;
+    }
 
-.live-photo-top {
-  display: flex;
-  align-items: center;
+    .live-photo-top {
+      display: flex;
+      align-items: center;
 
-  gap: 10px;
+      gap: 10px;
 
-  margin-bottom: 12px;
+      margin-bottom: 12px;
 
-  color: var(--orange);
+      color: var(--orange);
 
-  font-size: .57rem;
-  font-weight: 900;
-  letter-spacing: .15em;
+      font-size: .57rem;
+      font-weight: 900;
+      letter-spacing: .15em;
 
-  text-transform: uppercase;
+      text-transform: uppercase;
 
-  transform:
-    translateY(4px);
+      transform:
+        translateY(4px);
 
-  opacity: .75;
+      opacity: .75;
 
-  transition:
-    opacity .4s ease,
-    transform .4s ease;
-}
+      transition:
+        opacity .4s ease,
+        transform .4s ease;
+    }
 
-.live-photo-top::before {
-  content: "";
+    .live-photo-top::before {
+      content: "";
 
-  width: 25px;
-  height: 2px;
+      width: 25px;
+      height: 2px;
 
-  background: var(--orange);
-}
+      background: var(--orange);
+    }
 
-.live-photo-name {
-  font-size:
-    clamp(
-      3rem,
-      5.8vw,
-      6rem
-    );
+    .live-photo-name {
+      font-size:
+        clamp(
+          3rem,
+          5.8vw,
+          6rem
+        );
 
-  font-weight: 900;
-  line-height: .82;
-  letter-spacing: -.06em;
+      font-weight: 900;
+      line-height: .82;
+      letter-spacing: -.06em;
 
-  text-transform: uppercase;
+      text-transform: uppercase;
 
-  transform:
-    translateY(8px);
+      transform:
+        translateY(8px);
 
-  transition:
-    transform .45s cubic-bezier(.2,.8,.2,1);
-}
+      transition:
+        transform .45s
+        cubic-bezier(.2,.8,.2,1);
+    }
 
-.live-photo-role {
-  margin-top: 14px;
+    .live-photo-role {
+      margin-top: 14px;
 
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      .62
-    );
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          .62
+        );
 
-  font-size: .66rem;
-  font-weight: 800;
-  letter-spacing: .12em;
+      font-size: .66rem;
+      font-weight: 800;
+      letter-spacing: .12em;
 
-  text-transform: uppercase;
+      text-transform: uppercase;
 
-  opacity: .72;
+      opacity: .72;
 
-  transform:
-    translateY(7px);
+      transform:
+        translateY(7px);
 
-  transition:
-    opacity .4s ease,
-    transform .4s ease;
-}
+      transition:
+        opacity .4s ease,
+        transform .4s ease;
+    }
 
-.image-strip figure:hover
-.live-photo-top,
+    .image-strip figure:hover
+    .live-photo-top,
 
-.image-strip figure:hover
-.live-photo-name,
+    .image-strip figure:hover
+    .live-photo-name,
 
-.image-strip figure:hover
-.live-photo-role {
-  opacity: 1;
+    .image-strip figure:hover
+    .live-photo-role {
+      opacity: 1;
 
-  transform:
-    translateY(0);
-}
+      transform:
+        translateY(0);
+    }
 
 
-/* NUMBER */
+    /* NUMBER */
 
-.live-photo-index {
-  position: absolute;
+    .live-photo-index {
+      position: absolute;
 
-  top: 30px;
-  right: 32px;
+      top: 30px;
+      right: 32px;
 
-  z-index: 2;
+      z-index: 2;
 
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      .35
-    );
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          .35
+        );
 
-  font-size: .58rem;
-  font-weight: 900;
-  letter-spacing: .14em;
+      font-size: .58rem;
+      font-weight: 900;
+      letter-spacing: .14em;
 
-  text-transform: uppercase;
-}
+      text-transform: uppercase;
+    }
 
+    .image-strip figure:first-child {
+      border-right:
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          .10
+        );
+    }
 
-/* DIVIDER */
 
-.image-strip figure:first-child {
-  border-right:
-    1px solid rgba(255,255,255,.10);
-}
+    /* =====================================================
+       FINAL CTA
+    ===================================================== */
 
+    .final-cta {
+      position: relative;
 
-/* =====================================================
-   FINAL CTA
-===================================================== */
+      padding:
+        105px
+        0
+        100px;
 
-.final-cta {
-  position: relative;
+      overflow: hidden;
 
-  padding:
-    105px
-    0
-    100px;
+      background: var(--orange);
+      color: var(--black);
+    }
 
-  overflow: hidden;
+    .final-cta::after {
+      content: "";
 
-  background: var(--orange);
-  color: var(--black);
-}
+      position: absolute;
 
-.final-cta::after {
-  content: "";
+      width: 420px;
+      height: 420px;
 
-  position: absolute;
+      right: -160px;
+      bottom: -240px;
 
-  width: 420px;
-  height: 420px;
+      border:
+        1px solid
+        rgba(
+          17,
+          16,
+          15,
+          .24
+        );
 
-  right: -160px;
-  bottom: -240px;
+      border-radius: 50%;
 
-  border:
-    1px solid rgba(17,16,15,.24);
+      pointer-events: none;
+    }
 
-  border-radius: 50%;
+    .final-cta-inner {
+      position: relative;
+      z-index: 2;
 
-  pointer-events: none;
-}
+      display: grid;
 
-.final-cta-inner {
-  position: relative;
-  z-index: 2;
+      grid-template-columns:
+        1fr
+        auto;
 
-  display: grid;
+      gap: 60px;
 
-  grid-template-columns:
-    1fr
-    auto;
+      align-items: end;
+    }
 
-  gap: 60px;
+    .final-cta-label {
+      margin-bottom: 17px;
 
-  align-items: end;
-}
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .16em;
 
-.final-cta-label {
-  margin-bottom: 17px;
+      text-transform: uppercase;
+    }
 
-  font-size: .62rem;
-  font-weight: 900;
-  letter-spacing: .16em;
+    .final-cta-title {
+      max-width: 930px;
 
-  text-transform: uppercase;
-}
+      font-size:
+        clamp(
+          3.8rem,
+          7.2vw,
+          7.6rem
+        );
 
-.final-cta-title {
-  max-width: 930px;
+      font-weight: 900;
+      line-height: .82;
+      letter-spacing: -.065em;
 
-  font-size:
-    clamp(
-      3.8rem,
-      7.2vw,
-      7.6rem
-    );
+      text-transform: uppercase;
+    }
 
-  font-weight: 900;
-  line-height: .82;
-  letter-spacing: -.065em;
+    .final-cta-title span:last-child {
+      color: var(--cream);
+    }
 
-  text-transform: uppercase;
-}
+    .final-cta-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
 
-.final-cta-title span {
-  color: var(--cream);
-}
+      gap: 10px;
+    }
 
-.final-cta-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+    .final-cta .btn-dark {
+      min-height: 52px;
 
-  gap: 10px;
-}
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
 
-.final-cta .btn-dark {
-  min-height: 52px;
+      padding:
+        0
+        22px;
 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+      border-radius: 999px;
 
-  padding:
-    0
-    22px;
+      background: var(--black);
+      color: white;
 
-  border-radius: 999px;
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .09em;
 
-  background: var(--black);
-  color: white;
+      text-transform: uppercase;
 
-  font-size: .68rem;
-  font-weight: 900;
-  letter-spacing: .09em;
+      transition:
+        transform .25s ease,
+        background .25s ease;
+    }
 
-  text-transform: uppercase;
+    .final-cta .btn-dark:hover {
+      transform:
+        translateY(-3px);
 
-  transition:
-    transform .25s ease,
-    background .25s ease;
-}
+      background: #27231f;
+    }
 
-.final-cta .btn-dark:hover {
-  transform:
-    translateY(-3px);
+    .final-cta-secondary {
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .09em;
 
-  background: #27231f;
-}
+      text-transform: uppercase;
 
-.final-cta-secondary {
-  font-size: .62rem;
-  font-weight: 900;
-  letter-spacing: .09em;
+      border-bottom:
+        1px solid
+        rgba(
+          17,
+          16,
+          15,
+          .45
+        );
 
-  text-transform: uppercase;
+      padding-bottom: 3px;
+    }
 
-  border-bottom:
-    1px solid rgba(17,16,15,.45);
 
-  padding-bottom: 3px;
-}
+    /* =====================================================
+       FOOTER
+    ===================================================== */
 
+    footer {
+      padding:
+        64px
+        0
+        34px;
 
-/* =====================================================
-   FOOTER
-===================================================== */
+      background: var(--black);
+      color: white;
+    }
 
-footer {
-  padding:
-    64px
-    0
-    34px;
+    .footer-top {
+      display: grid;
 
-  background: var(--black);
-  color: white;
-}
+      grid-template-columns:
+        1fr
+        auto;
 
-.footer-top {
-  display: grid;
+      gap: 60px;
 
-  grid-template-columns:
-    1fr
-    auto;
+      align-items: start;
+    }
 
-  gap: 60px;
+    .footer-logo {
+      font-size:
+        clamp(
+          4rem,
+          8.5vw,
+          8.6rem
+        );
 
-  align-items: start;
-}
+      font-weight: 900;
+      line-height: .78;
+      letter-spacing: -.065em;
 
-.footer-logo {
-  font-size:
-    clamp(
-      4rem,
-      8.5vw,
-      8.6rem
-    );
+      text-transform: uppercase;
 
-  font-weight: 900;
-  line-height: .78;
-  letter-spacing: -.065em;
+      color: var(--orange);
+    }
 
-  text-transform: uppercase;
+    .footer-nav {
+      display: grid;
 
-  color: var(--orange);
-}
+      gap: 10px;
 
-.footer-nav {
-  display: grid;
+      min-width: 190px;
+    }
 
-  gap: 10px;
+    .footer-nav a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  min-width: 190px;
-}
+      gap: 20px;
 
-.footer-nav a {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+      padding:
+        10px
+        0;
 
-  gap: 20px;
+      border-bottom:
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          .17
+        );
 
-  padding:
-    10px
-    0;
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          .76
+        );
 
-  border-bottom:
-    1px solid rgba(255,255,255,.17);
+      font-size: .66rem;
+      font-weight: 900;
+      letter-spacing: .10em;
 
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      .76
-    );
+      text-transform: uppercase;
 
-  font-size: .66rem;
-  font-weight: 900;
-  letter-spacing: .10em;
+      transition:
+        color .2s ease,
+        padding .2s ease;
+    }
 
-  text-transform: uppercase;
+    .footer-nav a:hover {
+      color: white;
 
-  transition:
-    color .2s ease,
-    padding .2s ease;
-}
+      padding-left: 5px;
+    }
 
-.footer-nav a:hover {
-  color: white;
+    .footer-bottom {
+      margin-top: 66px;
 
-  padding-left: 5px;
-}
+      padding-top: 20px;
 
-.footer-bottom {
-  margin-top: 66px;
+      border-top:
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          .16
+        );
 
-  padding-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  border-top:
-    1px solid rgba(255,255,255,.16);
+      gap: 24px;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          .42
+        );
 
-  gap: 24px;
+      font-size: .58rem;
+      font-weight: 800;
+      letter-spacing: .09em;
 
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      .42
-    );
+      text-transform: uppercase;
+    }
 
-  font-size: .58rem;
-  font-weight: 800;
-  letter-spacing: .09em;
+    .footer-bottom-left {
+      display: flex;
+      flex-wrap: wrap;
 
-  text-transform: uppercase;
-}
+      gap: 10px 22px;
+    }
 
-.footer-bottom-left {
-  display: flex;
-  flex-wrap: wrap;
+    .back-to-top {
+      color: white;
 
-  gap: 10px 22px;
-}
+      transition:
+        color .2s ease;
+    }
 
-.back-to-top {
-  color: white;
-
-  transition:
-    color .2s ease;
-}
-
-.back-to-top:hover {
-  color: var(--orange);
-}
+    .back-to-top:hover {
+      color: var(--orange);
+    }
 
 
     /* =====================================================
@@ -2975,7 +3032,13 @@ footer {
       .hero h1 {
         max-width: 100%;
 
-        font-size: clamp(3.8rem,17.7vw,5.4rem);
+        font-size:
+          clamp(
+            3.8rem,
+            17.7vw,
+            5.4rem
+          );
+
         line-height: .8;
       }
 
@@ -3033,7 +3096,13 @@ footer {
       .social-title {
         margin-top: 7px;
 
-        font-size: clamp(3rem,14vw,4.2rem);
+        font-size:
+          clamp(
+            3rem,
+            14vw,
+            4.2rem
+          );
+
         line-height: .84;
       }
 
@@ -3065,7 +3134,12 @@ footer {
       }
 
       .social-name {
-        font-size: clamp(1.7rem,8.5vw,2.7rem);
+        font-size:
+          clamp(
+            1.7rem,
+            8.5vw,
+            2.7rem
+          );
       }
 
       .ticker-content {
@@ -3095,7 +3169,13 @@ footer {
       #shows .section-title {
         margin-top: 10px;
 
-        font-size: clamp(2.8rem,13vw,4.25rem);
+        font-size:
+          clamp(
+            2.8rem,
+            13vw,
+            4.25rem
+          );
+
         line-height: .86;
       }
 
@@ -3139,6 +3219,7 @@ footer {
 
       .next-show-day {
         font-size: 4rem;
+
         line-height: .75;
       }
 
@@ -3157,7 +3238,13 @@ footer {
       .next-show-venue {
         max-width: 100%;
 
-        font-size: clamp(2rem,9.6vw,2.85rem);
+        font-size:
+          clamp(
+            2rem,
+            9.6vw,
+            2.85rem
+          );
+
         line-height: .9;
       }
 
@@ -3189,7 +3276,13 @@ footer {
         padding-top: 16px;
 
         border-top:
-          1px solid rgba(255,255,255,.18);
+          1px solid
+          rgba(
+            255,
+            255,
+            255,
+            .18
+          );
 
         align-items: flex-start;
       }
@@ -3198,7 +3291,8 @@ footer {
         font-size: 1.2rem;
       }
 
-      .next-show-right .show-actions {
+      .next-show-right
+      .show-actions {
         justify-content: flex-start;
 
         margin-top: 15px;
@@ -3234,7 +3328,13 @@ footer {
           0;
 
         border-bottom:
-          1px solid rgba(17,16,15,.15);
+          1px solid
+          rgba(
+            17,
+            16,
+            15,
+            .15
+          );
 
         background: transparent;
 
@@ -3243,7 +3343,13 @@ footer {
 
       .event:first-child {
         border-top:
-          1px solid rgba(17,16,15,.15);
+          1px solid
+          rgba(
+            17,
+            16,
+            15,
+            .15
+          );
       }
 
       .event::before {
@@ -3252,6 +3358,7 @@ footer {
 
       .event:hover {
         transform: none;
+
         background: transparent;
       }
 
@@ -3267,6 +3374,7 @@ footer {
 
       .event-day {
         font-size: 2rem;
+
         line-height: .82;
       }
 
@@ -3284,6 +3392,7 @@ footer {
 
       .event-venue {
         font-size: 1.2rem;
+
         line-height: 1.02;
       }
 
@@ -3366,7 +3475,12 @@ footer {
       }
 
       .contact-title {
-        font-size: clamp(2.6rem,12.5vw,4rem);
+        font-size:
+          clamp(
+            2.6rem,
+            12.5vw,
+            4rem
+          );
       }
 
       .contact-copy {
@@ -3431,9 +3545,7 @@ footer {
       }
 
 
-      /* =====================================================
-         STORY MOBILE
-      ===================================================== */
+      /* STORY */
 
       #about {
         padding:
@@ -3511,6 +3623,10 @@ footer {
         font-size: .54rem;
       }
 
+      .story-signature {
+        display: none;
+      }
+
       .story-dna {
         margin-top: 40px;
       }
@@ -3534,16 +3650,31 @@ footer {
       }
 
       .story-ending-main {
+        max-width: 100%;
+
         font-size:
           clamp(
-            2.2rem,
-            10.8vw,
-            3.4rem
+            2rem,
+            9.8vw,
+            3.15rem
           );
       }
 
 
-      /* IMAGE STRIP MOBILE */
+      /* LIVE */
+
+      .live-section-head {
+        display: block;
+
+        padding:
+          25px
+          0
+          21px;
+      }
+
+      .live-section-copy {
+        margin-top: 8px;
+      }
 
       .image-strip {
         display: block;
@@ -3554,9 +3685,20 @@ footer {
       .image-strip figure {
         width: 100%;
 
-        height: 70svh;
+        height: 68svh;
 
         flex: none;
+
+        border-right: 0 !important;
+
+        border-bottom:
+          1px solid
+          rgba(
+            255,
+            255,
+            255,
+            .10
+          );
       }
 
       .image-strip:hover figure,
@@ -3564,13 +3706,19 @@ footer {
         flex: none;
       }
 
+      .image-strip img,
       .image-strip figure:hover img {
-        transform: none;
+        transform:
+          scale(1.01);
+
+        filter:
+          brightness(.83)
+          saturate(.95);
       }
 
       .live-photo-overlay {
         padding:
-          55px
+          0
           20px
           24px;
       }
@@ -3578,10 +3726,66 @@ footer {
       .live-photo-name {
         font-size:
           clamp(
-            2.4rem,
-            12vw,
-            3.6rem
+            3rem,
+            15vw,
+            4.5rem
           );
+      }
+
+      .live-photo-role {
+        margin-top: 10px;
+
+        font-size: .57rem;
+      }
+
+      .live-photo-index {
+        top: 20px;
+        right: 20px;
+      }
+
+
+      /* FINAL CTA */
+
+      .final-cta {
+        padding:
+          72px
+          0
+          68px;
+      }
+
+      .final-cta-inner {
+        display: block;
+      }
+
+      .final-cta-title {
+        max-width: 100%;
+
+        font-size:
+          clamp(
+            3.1rem,
+            14.5vw,
+            4.7rem
+          );
+
+        line-height: .82;
+      }
+
+      .final-cta-actions {
+        margin-top: 34px;
+
+        align-items: flex-start;
+      }
+
+      .final-cta .btn-dark {
+        width: 100%;
+      }
+
+      .final-cta::after {
+        width: 300px;
+        height: 300px;
+
+        right: -180px;
+        bottom: -150px;
       }
 
 
@@ -3589,23 +3793,47 @@ footer {
 
       footer {
         padding:
-          52px
+          50px
           0
-          29px;
+          28px;
+      }
+
+      .footer-top {
+        display: block;
       }
 
       .footer-logo {
-        font-size: clamp(3.5rem,16vw,5rem);
+        font-size:
+          clamp(
+            4rem,
+            18vw,
+            5.7rem
+          );
+      }
+
+      .footer-nav {
+        margin-top: 42px;
+
+        min-width: 0;
+      }
+
+      .footer-nav a {
+        min-height: 46px;
+
+        padding:
+          10px
+          0;
       }
 
       .footer-bottom {
-        margin-top: 40px;
+        margin-top: 48px;
 
         flex-direction: column;
         align-items: flex-start;
 
-        gap: 15px;
+        gap: 14px;
       }
+
     }
 
 
@@ -3675,6 +3903,7 @@ footer {
       .story-dna-name {
         font-size: .96rem;
       }
+
     }
 
 
@@ -3695,6 +3924,7 @@ footer {
         animation-iteration-count: 1 !important;
         transition-duration: .01ms !important;
       }
+
     }
 
   </style>
@@ -3738,6 +3968,7 @@ footer {
 
 
         <div class="nav-right">
+
 
           <div class="nav-links">
 
@@ -3802,6 +4033,7 @@ footer {
             <span></span>
           </button>
 
+
         </div>
 
       </nav>
@@ -3822,10 +4054,12 @@ footer {
 
     <div class="mobile-menu-links">
 
+
       <a
         href="#social"
         class="mobile-nav-link"
       >
+
         <span
           data-en="Social"
           data-it="Social"
@@ -3834,6 +4068,7 @@ footer {
         </span>
 
         <span>↘</span>
+
       </a>
 
 
@@ -3841,6 +4076,7 @@ footer {
         href="#shows"
         class="mobile-nav-link"
       >
+
         <span
           data-en="Shows"
           data-it="Date"
@@ -3849,6 +4085,7 @@ footer {
         </span>
 
         <span>↘</span>
+
       </a>
 
 
@@ -3856,6 +4093,7 @@ footer {
         href="#contact"
         class="mobile-nav-link"
       >
+
         <span
           data-en="Contact"
           data-it="Contatti"
@@ -3864,6 +4102,7 @@ footer {
         </span>
 
         <span>↘</span>
+
       </a>
 
 
@@ -3871,6 +4110,7 @@ footer {
         href="#about"
         class="mobile-nav-link"
       >
+
         <span
           data-en="Our Story"
           data-it="La nostra storia"
@@ -3879,7 +4119,9 @@ footer {
         </span>
 
         <span>↘</span>
+
       </a>
+
 
     </div>
 
@@ -3918,6 +4160,7 @@ footer {
 
       <div class="container hero-content">
 
+
         <div
           class="hero-eyebrow"
           data-en="Acoustic live duo"
@@ -3934,6 +4177,7 @@ footer {
 
 
         <div class="hero-bottom">
+
 
           <p
             class="hero-description"
@@ -3966,6 +4210,7 @@ footer {
 
           </div>
 
+
         </div>
 
       </div>
@@ -3981,7 +4226,9 @@ footer {
 
       <div class="container">
 
+
         <div class="social-top reveal">
+
 
           <div>
 
@@ -3992,7 +4239,6 @@ footer {
             >
               Follow Orange May
             </div>
-
 
             <div class="social-title">
               Stay
@@ -4017,10 +4263,12 @@ footer {
 
           </div>
 
+
         </div>
 
 
         <div class="social-links reveal">
+
 
           <a
             href="https://www.instagram.com/orangemay_acoustic/"
@@ -4057,6 +4305,7 @@ footer {
 
           </a>
 
+
         </div>
 
       </div>
@@ -4071,6 +4320,7 @@ footer {
     <div class="ticker">
 
       <div class="ticker-track">
+
 
         <div class="ticker-content">
 
@@ -4126,6 +4376,7 @@ footer {
 
         </div>
 
+
       </div>
 
     </div>
@@ -4139,7 +4390,9 @@ footer {
 
       <div class="container">
 
+
         <div class="section-header reveal">
+
 
           <div
             class="section-label"
@@ -4158,6 +4411,7 @@ footer {
             Upcoming shows.
           </h2>
 
+
         </div>
 
 
@@ -4171,6 +4425,7 @@ footer {
           </div>
 
         </div>
+
 
       </div>
 
@@ -4190,6 +4445,7 @@ footer {
 
         <div class="reveal">
 
+
           <div
             class="section-label"
             data-en="Contact Orange May"
@@ -4200,6 +4456,7 @@ footer {
 
 
           <h2 class="contact-title">
+
 
             <span
               class="orange"
@@ -4218,6 +4475,7 @@ footer {
               touch.
             </span>
 
+
           </h2>
 
 
@@ -4232,6 +4490,7 @@ footer {
 
 
           <div class="direct-contact">
+
 
             <a
               id="whatsappLink"
@@ -4253,7 +4512,9 @@ footer {
               orangemayacoustic@gmail.com
             </a>
 
+
           </div>
+
 
         </div>
 
@@ -4261,6 +4522,7 @@ footer {
         <!-- RIGHT -->
 
         <div class="contact-panel reveal">
+
 
           <div
             class="contact-kicker"
@@ -4281,6 +4543,7 @@ footer {
 
 
           <div class="contact-intents">
+
 
             <button
               type="button"
@@ -4325,6 +4588,7 @@ footer {
               Just saying hi
             </button>
 
+
           </div>
 
 
@@ -4339,6 +4603,7 @@ footer {
               class="booking-details"
             >
 
+
               <div
                 class="contact-choice-label"
                 data-en="What are you planning?"
@@ -4349,6 +4614,7 @@ footer {
 
 
               <div class="booking-types">
+
 
                 <button
                   type="button"
@@ -4404,10 +4670,12 @@ footer {
                   Other
                 </button>
 
+
               </div>
 
 
               <div class="field">
+
 
                 <label
                   for="eventDateContact"
@@ -4423,14 +4691,18 @@ footer {
                   type="date"
                 >
 
+
               </div>
+
 
             </div>
 
 
             <div class="booking-row">
 
+
               <div class="field">
+
 
                 <label
                   for="name"
@@ -4449,10 +4721,12 @@ footer {
                   required
                 >
 
+
               </div>
 
 
               <div class="field">
+
 
                 <label for="email">
                   Email
@@ -4467,12 +4741,15 @@ footer {
                   required
                 >
 
+
               </div>
+
 
             </div>
 
 
             <div class="field">
+
 
               <label
                 for="message"
@@ -4488,6 +4765,7 @@ footer {
                 name="message"
                 required
               ></textarea>
+
 
             </div>
 
@@ -4508,9 +4786,12 @@ footer {
               aria-live="polite"
             ></div>
 
+
           </form>
 
+
         </div>
+
 
       </div>
 
@@ -4523,359 +4804,504 @@ footer {
 
     <section id="about">
 
-  <div class="container story-grid">
+      <div class="container story-grid">
 
 
-    <!-- =================================================
-         LEFT — VISUAL
-    ================================================== -->
+        <!-- LEFT -->
 
-    <div class="story-visual reveal">
+        <div class="story-visual reveal">
 
 
-      <div class="story-image-frame">
+          <div class="story-image-frame">
 
-        <img
-          src="/images/story.jpg"
-          alt="Cristian and Lara — Orange May Acoustic"
-          loading="lazy"
-        >
+            <img
+              src="/images/story.jpg"
+              alt="Cristian and Lara — Orange May Acoustic"
+              loading="lazy"
+            >
 
-      </div>
-
-
-      <div class="story-image-meta">
-
-        <span>
-          Cristian + Lara
-        </span>
-
-        <span>
-          Orange May
-        </span>
-
-      </div>
-
-
-      <!-- EDITORIAL SIGNATURE -->
-
-      <div class="story-signature">
-
-        <span
-          class="story-signature-big"
-          aria-hidden="true"
-        >
-          Orange<br>
-          May
-        </span>
-
-
-        <div
-          class="story-signature-bottom"
-          data-en="Acoustic live duo"
-          data-it="Duo acustico live"
-        >
-          Acoustic live duo
-        </div>
-
-      </div>
-
-
-    </div>
-
-
-    <!-- =================================================
-         RIGHT — STORY
-    ================================================== -->
-
-    <div class="story-content reveal">
-
-
-      <div
-        class="section-label"
-        data-en="Our Story"
-        data-it="La nostra storia"
-      >
-        Our Story
-      </div>
-
-
-      <h2 class="story-heading">
-
-        <span
-          data-en="It started"
-          data-it="È iniziato"
-        >
-          It started
-        </span>
-
-        <br>
-
-        <span
-          class="orange"
-          data-en="with family."
-          data-it="in famiglia."
-        >
-          with family.
-        </span>
-
-        <br>
-
-        <span
-          data-en="Then came the music."
-          data-it="Poi è arrivata la musica."
-        >
-          Then came the music.
-        </span>
-
-      </h2>
-
-
-      <p
-        class="story-lead"
-        data-en="We're Cristian and Lara, the two voices behind Orange May."
-        data-it="Siamo Cristian e Lara, le due voci degli Orange May."
-      >
-        We're Cristian and Lara, the two voices behind Orange May.
-      </p>
-
-
-      <div class="story-text">
-
-
-        <p
-          data-en="Our story began almost by chance: our siblings are married to each other, which brought us into the same family long before it brought us onto the same stage."
-          data-it="La nostra storia è iniziata quasi per caso: i nostri fratelli sono sposati tra loro e questo ci ha fatti entrare nella stessa famiglia molto prima di portarci sullo stesso palco."
-        >
-          Our story began almost by chance: our siblings are married
-          to each other, which brought us into the same family long
-          before it brought us onto the same stage.
-        </p>
-
-
-        <p
-          data-en="That connection eventually became Orange May: an acoustic project built around familiar songs, rearranged in the way we like to play them."
-          data-it="Da quel legame è nato Orange May: un progetto acustico costruito intorno a canzoni che tutti conoscono, reinterpretate nel modo in cui piace suonarle a noi."
-        >
-          That connection eventually became Orange May:
-          an acoustic project built around familiar songs,
-          rearranged in the way we like to play them.
-        </p>
-
-
-        <p
-          data-en="Guitar, two voices, percussion and live loops let us move from intimate acoustic moments to energetic nights. We play hotels, venues, weddings and private events, adapting every set to the atmosphere in front of us."
-          data-it="Chitarra, due voci, percussioni e loop registrati dal vivo ci permettono di passare dai momenti più intimi a serate molto più energiche. Suoniamo in hotel, locali, matrimoni ed eventi privati, adattando ogni set all'atmosfera che abbiamo davanti."
-        >
-          Guitar, two voices, percussion and live loops let us move
-          from intimate acoustic moments to energetic nights.
-          We play hotels, venues, weddings and private events,
-          adapting every set to the atmosphere in front of us.
-        </p>
-
-
-      </div>
-
-
-      <!-- =================================================
-           MUSICAL DNA
-      ================================================== -->
-
-      <div class="story-dna">
-
-
-        <div class="story-dna-item">
-
-          <span class="story-dna-number">
-            01
-          </span>
-
-          <span
-            class="story-dna-name"
-            data-en="Two voices"
-            data-it="Due voci"
-          >
-            Two voices
-          </span>
-
-        </div>
-
-
-        <div class="story-dna-item">
-
-          <span class="story-dna-number">
-            02
-          </span>
-
-          <span
-            class="story-dna-name"
-            data-en="One guitar"
-            data-it="Una chitarra"
-          >
-            One guitar
-          </span>
-
-        </div>
-
-
-        <div class="story-dna-item">
-
-          <span class="story-dna-number">
-            03
-          </span>
-
-          <span
-            class="story-dna-name"
-            data-en="Percussion"
-            data-it="Percussioni"
-          >
-            Percussion
-          </span>
-
-        </div>
-
-
-        <div class="story-dna-item">
-
-          <span class="story-dna-number">
-            04
-          </span>
-
-          <span
-            class="story-dna-name"
-            data-en="Live loops"
-            data-it="Loop live"
-          >
-            Live loops
-          </span>
-
-        </div>
-
-
-      </div>
-
-
-      <!-- =================================================
-           ENDING
-      ================================================== -->
-
-      <div class="story-ending">
-
-
-        <div
-          class="story-ending-small"
-          data-en="Different places. Different nights."
-          data-it="Posti diversi. Serate diverse."
-        >
-          Different places. Different nights.
-        </div>
-
-
-        <div class="story-ending-main">
-
-          <span
-            data-en="Always live."
-            data-it="Sempre live."
-          >
-            Always live.
-          </span>
-
-          <br>
-
-          <span
-            class="orange"
-            data-en="Always Orange May."
-            data-it="Sempre Orange May."
-          >
-            Always Orange May.
-          </span>
-
-        </div>
-
-
-      </div>
-
-
-    </div>
-
-
-  </div>
-
-</section>
-
-
-    <!-- =================================================
-         LIVE PHOTOS
-    ================================================== -->
-
-    <div class="image-strip">
-
-
-      <figure>
-
-        <img
-          src="/images/lara-live.jpeg"
-          alt="Lara performing live with Orange May"
-          loading="lazy"
-        >
-
-
-        <div class="live-photo-overlay">
-
-          <div class="live-photo-number">
-            01
           </div>
 
-          <div class="live-photo-name">
-            Lara
+
+          <div class="story-image-meta">
+
+            <span>
+              Cristian + Lara
+            </span>
+
+            <span>
+              Orange May
+            </span>
+
           </div>
+
+
+          <div class="story-signature">
+
+            <span
+              class="story-signature-big"
+              aria-hidden="true"
+            >
+              Orange<br>
+              May
+            </span>
+
+
+            <div
+              class="story-signature-bottom"
+              data-en="Acoustic live duo"
+              data-it="Duo acustico live"
+            >
+              Acoustic live duo
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+        <!-- RIGHT -->
+
+        <div class="story-content reveal">
+
 
           <div
-            class="live-photo-caption"
-            data-en="Live with Orange May"
-            data-it="Live con Orange May"
+            class="section-label"
+            data-en="Our Story"
+            data-it="La nostra storia"
           >
-            Live with Orange May
+            Our Story
           </div>
+
+
+          <h2 class="story-heading">
+
+
+            <span
+              data-en="It started"
+              data-it="È iniziato"
+            >
+              It started
+            </span>
+
+            <br>
+
+            <span
+              class="orange"
+              data-en="with family."
+              data-it="in famiglia."
+            >
+              with family.
+            </span>
+
+            <br>
+
+            <span
+              data-en="Then came the music."
+              data-it="Poi è arrivata la musica."
+            >
+              Then came the music.
+            </span>
+
+
+          </h2>
+
+
+          <p
+            class="story-lead"
+            data-en="We're Cristian and Lara, the two voices behind Orange May."
+            data-it="Siamo Cristian e Lara, le due voci degli Orange May."
+          >
+            We're Cristian and Lara, the two voices behind Orange May.
+          </p>
+
+
+          <div class="story-text">
+
+
+            <p
+              data-en="Our story began almost by chance: our siblings are married to each other, which brought us into the same family long before it brought us onto the same stage."
+              data-it="La nostra storia è iniziata quasi per caso: i nostri fratelli sono sposati tra loro e questo ci ha fatti entrare nella stessa famiglia molto prima di portarci sullo stesso palco."
+            >
+              Our story began almost by chance: our siblings are married
+              to each other, which brought us into the same family long
+              before it brought us onto the same stage.
+            </p>
+
+
+            <p
+              data-en="That connection eventually became Orange May: an acoustic project built around familiar songs, rearranged in the way we like to play them."
+              data-it="Da quel legame è nato Orange May: un progetto acustico costruito intorno a canzoni che tutti conoscono, reinterpretate nel modo in cui piace suonarle a noi."
+            >
+              That connection eventually became Orange May:
+              an acoustic project built around familiar songs,
+              rearranged in the way we like to play them.
+            </p>
+
+
+            <p
+              data-en="Guitar, two voices, percussion and live loops let us move from intimate acoustic moments to energetic nights. We play hotels, venues, weddings and private events, adapting every set to the atmosphere in front of us."
+              data-it="Chitarra, due voci, percussioni e loop registrati dal vivo ci permettono di passare dai momenti più intimi a serate molto più energiche. Suoniamo in hotel, locali, matrimoni ed eventi privati, adattando ogni set all'atmosfera che abbiamo davanti."
+            >
+              Guitar, two voices, percussion and live loops let us move
+              from intimate acoustic moments to energetic nights.
+              We play hotels, venues, weddings and private events,
+              adapting every set to the atmosphere in front of us.
+            </p>
+
+
+          </div>
+
+
+          <!-- DNA -->
+
+          <div class="story-dna">
+
+
+            <div class="story-dna-item">
+
+              <span class="story-dna-number">
+                01
+              </span>
+
+              <span
+                class="story-dna-name"
+                data-en="Two voices"
+                data-it="Due voci"
+              >
+                Two voices
+              </span>
+
+            </div>
+
+
+            <div class="story-dna-item">
+
+              <span class="story-dna-number">
+                02
+              </span>
+
+              <span
+                class="story-dna-name"
+                data-en="One guitar"
+                data-it="Una chitarra"
+              >
+                One guitar
+              </span>
+
+            </div>
+
+
+            <div class="story-dna-item">
+
+              <span class="story-dna-number">
+                03
+              </span>
+
+              <span
+                class="story-dna-name"
+                data-en="Percussion"
+                data-it="Percussioni"
+              >
+                Percussion
+              </span>
+
+            </div>
+
+
+            <div class="story-dna-item">
+
+              <span class="story-dna-number">
+                04
+              </span>
+
+              <span
+                class="story-dna-name"
+                data-en="Live loops"
+                data-it="Loop live"
+              >
+                Live loops
+              </span>
+
+            </div>
+
+
+          </div>
+
+
+          <!-- ENDING -->
+
+          <div class="story-ending">
+
+
+            <div
+              class="story-ending-small"
+              data-en="Different places. Different nights."
+              data-it="Posti diversi. Serate diverse."
+            >
+              Different places. Different nights.
+            </div>
+
+
+            <div class="story-ending-main">
+
+
+              <span
+                data-en="Always live."
+                data-it="Sempre live."
+              >
+                Always live.
+              </span>
+
+              <br>
+
+              <span
+                class="orange"
+                data-en="Always Orange May."
+                data-it="Sempre Orange May."
+              >
+                Always Orange May.
+              </span>
+
+
+            </div>
+
+
+          </div>
+
 
         </div>
 
-      </figure>
+
+      </div>
+
+    </section>
 
 
-      <figure>
+    <!-- =================================================
+         ON STAGE
+    ================================================== -->
 
-        <img
-          src="/images/cristian-live.jpeg"
-          alt="Cristian performing live with Orange May"
-          loading="lazy"
-        >
+    <section class="live-section">
 
 
-        <div class="live-photo-overlay">
+      <div class="container">
 
-          <div class="live-photo-number">
-            02
-          </div>
 
-          <div class="live-photo-name">
-            Cristian
-          </div>
+        <div class="live-section-head">
+
 
           <div
-            class="live-photo-caption"
-            data-en="Live with Orange May"
-            data-it="Live con Orange May"
+            class="live-section-label"
+            data-en="On stage"
+            data-it="Sul palco"
           >
-            Live with Orange May
+            On stage
           </div>
+
+
+          <div
+            class="live-section-copy"
+            data-en="Two people. One live sound."
+            data-it="Due persone. Un unico sound live."
+          >
+            Two people. One live sound.
+          </div>
+
 
         </div>
 
-      </figure>
+
+      </div>
 
 
-    </div>
+      <div class="image-strip">
+
+
+        <!-- LARA -->
+
+        <figure>
+
+
+          <img
+            src="/images/lara-live.jpeg"
+            alt="Lara performing live with Orange May"
+            loading="lazy"
+          >
+
+
+          <div class="live-photo-index">
+            01 / 02
+          </div>
+
+
+          <div class="live-photo-overlay">
+
+
+            <div
+              class="live-photo-top"
+              data-en="Voice / Percussion"
+              data-it="Voce / Percussioni"
+            >
+              Voice / Percussion
+            </div>
+
+
+            <div class="live-photo-name">
+              Lara
+            </div>
+
+
+            <div
+              class="live-photo-role"
+              data-en="Live with Orange May"
+              data-it="Live con Orange May"
+            >
+              Live with Orange May
+            </div>
+
+
+          </div>
+
+
+        </figure>
+
+
+        <!-- CRISTIAN -->
+
+        <figure>
+
+
+          <img
+            src="/images/cristian-live.jpeg"
+            alt="Cristian performing live with Orange May"
+            loading="lazy"
+          >
+
+
+          <div class="live-photo-index">
+            02 / 02
+          </div>
+
+
+          <div class="live-photo-overlay">
+
+
+            <div
+              class="live-photo-top"
+              data-en="Voice / Guitar / Loops"
+              data-it="Voce / Chitarra / Loop"
+            >
+              Voice / Guitar / Loops
+            </div>
+
+
+            <div class="live-photo-name">
+              Cristian
+            </div>
+
+
+            <div
+              class="live-photo-role"
+              data-en="Live with Orange May"
+              data-it="Live con Orange May"
+            >
+              Live with Orange May
+            </div>
+
+
+          </div>
+
+
+        </figure>
+
+
+      </div>
+
+
+    </section>
+
+
+    <!-- =================================================
+         FINAL CTA
+    ================================================== -->
+
+    <section class="final-cta">
+
+
+      <div class="container final-cta-inner">
+
+
+        <div>
+
+
+          <div
+            class="final-cta-label"
+            data-en="See you out there"
+            data-it="Ci vediamo dal vivo"
+          >
+            See you out there
+          </div>
+
+
+          <div class="final-cta-title">
+
+
+            <span
+              data-en="See you at"
+              data-it="Ci vediamo"
+            >
+              See you at
+            </span>
+
+            <br>
+
+            <span
+              data-en="the next show."
+              data-it="alla prossima data."
+            >
+              the next show.
+            </span>
+
+
+          </div>
+
+
+        </div>
+
+
+        <div class="final-cta-actions">
+
+
+          <a
+            href="#shows"
+            class="btn-dark"
+            data-en="Upcoming shows ↓"
+            data-it="Prossime date ↓"
+          >
+            Upcoming shows ↓
+          </a>
+
+
+          <a
+            href="#contact"
+            class="final-cta-secondary"
+            data-en="Or get in touch →"
+            data-it="Oppure scrivici →"
+          >
+            Or get in touch →
+          </a>
+
+
+        </div>
+
+
+      </div>
+
+
+    </section>
 
 
     <!-- =================================================
@@ -4884,31 +5310,34 @@ footer {
 
     <footer>
 
+
       <div class="container">
 
-        <div class="footer-logo">
-          Orange<br>
-          May
-        </div>
+
+        <div class="footer-top">
 
 
-        <div class="footer-bottom">
-
-          <span>
-            ©
-            <span id="currentYear"></span>
-            Orange May Acoustic
-          </span>
+          <div class="footer-logo">
+            Orange<br>
+            May
+          </div>
 
 
-          <div class="footer-links">
+          <nav class="footer-nav">
+
 
             <a
               href="https://www.instagram.com/orangemay_acoustic/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Instagram ↗
+              <span>
+                Instagram
+              </span>
+
+              <span>
+                ↗
+              </span>
             </a>
 
 
@@ -4917,21 +5346,89 @@ footer {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Facebook ↗
+              <span>
+                Facebook
+              </span>
+
+              <span>
+                ↗
+              </span>
+            </a>
+
+
+            <a
+              href="https://wa.me/393421670308"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>
+                WhatsApp
+              </span>
+
+              <span>
+                ↗
+              </span>
             </a>
 
 
             <a
               href="mailto:orangemayacoustic@gmail.com"
             >
-              Email ↗
+              <span>
+                Email
+              </span>
+
+              <span>
+                ↗
+              </span>
             </a>
 
-          </div>
+
+          </nav>
+
 
         </div>
 
+
+        <div class="footer-bottom">
+
+
+          <div class="footer-bottom-left">
+
+
+            <span>
+              ©
+              <span id="currentYear"></span>
+              Orange May Acoustic
+            </span>
+
+
+            <span
+              data-en="Acoustic live duo"
+              data-it="Duo acustico live"
+            >
+              Acoustic live duo
+            </span>
+
+
+          </div>
+
+
+          <a
+            href="#top"
+            class="back-to-top"
+            data-en="Back to top ↑"
+            data-it="Torna su ↑"
+          >
+            Back to top ↑
+          </a>
+
+
+        </div>
+
+
       </div>
+
 
     </footer>
 
@@ -4951,25 +5448,52 @@ footer {
       ) || "en";
 
 
-    let cachedEvents = [];
+    let cachedEvents =
+      [];
 
-    let visibleEventCount = 5;
 
-    let selectedContactIntent = "";
+    let visibleEventCount =
+      5;
 
-    let selectedBookingType = "";
+
+    let selectedContactIntent =
+      "";
+
+
+    let selectedBookingType =
+      "";
 
 
     const monthNames = {
 
       en: [
-        "JAN","FEB","MAR","APR","MAY","JUN",
-        "JUL","AUG","SEP","OCT","NOV","DEC"
+        "JAN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAY",
+        "JUN",
+        "JUL",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC"
       ],
 
       it: [
-        "GEN","FEB","MAR","APR","MAG","GIU",
-        "LUG","AGO","SET","OTT","NOV","DIC"
+        "GEN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAG",
+        "GIU",
+        "LUG",
+        "AGO",
+        "SET",
+        "OTT",
+        "NOV",
+        "DIC"
       ]
 
     };
@@ -5039,6 +5563,7 @@ footer {
       if (
         cachedEvents.length
       ) {
+
         renderEvents();
       }
 
@@ -5112,6 +5637,7 @@ footer {
       if (
         !labels[type]
       ) {
+
         return "";
       }
 
@@ -5154,6 +5680,7 @@ footer {
       if (
         !labels[intent]
       ) {
+
         return "";
       }
 
@@ -5181,7 +5708,13 @@ footer {
         value.split("-");
 
 
-      return `${day}/${month}/${year}`;
+      return `${
+        day
+      }/${
+        month
+      }/${
+        year
+      }`;
     }
 
 
@@ -5209,6 +5742,7 @@ footer {
       if (
         currentLanguage === "it"
       ) {
+
 
         if (
           selectedContactIntent ===
@@ -5256,7 +5790,11 @@ footer {
         ) {
 
           message +=
-            ` Tipo di evento: ${getBookingTypeLabel(selectedBookingType)}.`;
+            ` Tipo di evento: ${
+              getBookingTypeLabel(
+                selectedBookingType
+              )
+            }.`;
         }
 
 
@@ -5267,7 +5805,11 @@ footer {
         ) {
 
           message +=
-            ` Data: ${formatContactDate(date)}.`;
+            ` Data: ${
+              formatContactDate(
+                date
+              )
+            }.`;
         }
 
 
@@ -5320,7 +5862,11 @@ footer {
         ) {
 
           message +=
-            ` Event type: ${getBookingTypeLabel(selectedBookingType)}.`;
+            ` Event type: ${
+              getBookingTypeLabel(
+                selectedBookingType
+              )
+            }.`;
         }
 
 
@@ -5331,7 +5877,11 @@ footer {
         ) {
 
           message +=
-            ` Date: ${formatContactDate(date)}.`;
+            ` Date: ${
+              formatContactDate(
+                date
+              )
+            }.`;
         }
 
       }
@@ -5561,6 +6111,7 @@ footer {
         if (
           !response.ok
         ) {
+
           throw new Error();
         }
 
@@ -5600,6 +6151,7 @@ footer {
 
 
       } catch (error) {
+
 
         console.error(
           error
@@ -5686,11 +6238,13 @@ footer {
           <div class="more-shows-wrapper">
 
             <div class="more-shows-label">
+
               ${
                 currentLanguage === "it"
                   ? "Altre date"
                   : "More shows"
               }
+
             </div>
 
             <div class="more-events">
@@ -5918,7 +6472,8 @@ footer {
 
       const rawNote =
         String(
-          event.note || ""
+          event.note ||
+          ""
         )
         .trim();
 
@@ -6051,11 +6606,13 @@ footer {
               isGuestsOnly
                 ? `
                     <div class="next-show-badge">
+
                       ${
                         currentLanguage === "it"
                           ? "Solo ospiti"
                           : "Guests only"
                       }
+
                     </div>
                   `
                 : ""
@@ -6066,11 +6623,13 @@ footer {
               showNote
                 ? `
                     <div class="next-show-note">
+
                       ${
                         escapeHtml(
                           rawNote
                         )
                       }
+
                     </div>
                   `
                 : ""
@@ -6085,11 +6644,13 @@ footer {
               time
                 ? `
                     <div class="next-show-time">
+
                       ${
                         escapeHtml(
                           time
                         )
                       }
+
                     </div>
                   `
                 : ""
@@ -6103,8 +6664,10 @@ footer {
               )
                 ? `
                     <div class="show-actions">
+
                       ${directions}
                       ${moreInfo}
+
                     </div>
                   `
                 : ""
@@ -6184,7 +6747,8 @@ footer {
 
       const rawNote =
         String(
-          event.note || ""
+          event.note ||
+          ""
         )
         .trim();
 
@@ -6261,6 +6825,7 @@ footer {
           "
         >
 
+
           <div class="event-date">
 
             <span class="event-day">
@@ -6292,11 +6857,13 @@ footer {
               )
                 ? `
                     <div class="event-location">
+
                       ${
                         escapeHtml(
                           event.location
                         )
                       }
+
                     </div>
                   `
                 : ""
@@ -6309,11 +6876,13 @@ footer {
                     <div class="event-badges">
 
                       <span class="event-badge">
+
                         ${
                           currentLanguage === "it"
                             ? "Solo ospiti"
                             : "Guests only"
                         }
+
                       </span>
 
                     </div>
@@ -6326,11 +6895,13 @@ footer {
               showNote
                 ? `
                     <div class="event-note-text">
+
                       ${
                         escapeHtml(
                           rawNote
                         )
                       }
+
                     </div>
                   `
                 : ""
@@ -6345,11 +6916,13 @@ footer {
               time
                 ? `
                     <div class="event-time">
+
                       ${
                         escapeHtml(
                           time
                         )
                       }
+
                     </div>
                   `
                 : ""
@@ -6363,14 +6936,17 @@ footer {
               )
                 ? `
                     <div class="show-actions">
+
                       ${directions}
                       ${moreInfo}
+
                     </div>
                   `
                 : ""
             }
 
           </div>
+
 
         </article>
       `;
@@ -6411,7 +6987,8 @@ footer {
 
 
       if (
-        difference === 0
+        difference ===
+        0
       ) {
 
         return currentLanguage === "it"
@@ -6421,7 +6998,8 @@ footer {
 
 
       if (
-        difference === 1
+        difference ===
+        1
       ) {
 
         return currentLanguage === "it"
@@ -6455,6 +7033,7 @@ footer {
       if (
         !event.start_time
       ) {
+
         return "";
       }
 
@@ -6462,6 +7041,7 @@ footer {
       if (
         !event.end_time
       ) {
+
         return event.start_time;
       }
 
@@ -6518,6 +7098,7 @@ footer {
     ) {
 
       if (!note) {
+
         return false;
       }
 
@@ -6614,8 +7195,16 @@ footer {
 
             details.push(
               currentLanguage === "it"
-                ? `Motivo del contatto: ${getIntentLabel(selectedContactIntent)}`
-                : `Reason for contact: ${getIntentLabel(selectedContactIntent)}`
+                ? `Motivo del contatto: ${
+                    getIntentLabel(
+                      selectedContactIntent
+                    )
+                  }`
+                : `Reason for contact: ${
+                    getIntentLabel(
+                      selectedContactIntent
+                    )
+                  }`
             );
           }
 
@@ -6628,8 +7217,16 @@ footer {
 
             details.push(
               currentLanguage === "it"
-                ? `Tipo evento: ${getBookingTypeLabel(selectedBookingType)}`
-                : `Event type: ${getBookingTypeLabel(selectedBookingType)}`
+                ? `Tipo evento: ${
+                    getBookingTypeLabel(
+                      selectedBookingType
+                    )
+                  }`
+                : `Event type: ${
+                    getBookingTypeLabel(
+                      selectedBookingType
+                    )
+                  }`
             );
           }
 
@@ -6642,8 +7239,16 @@ footer {
 
             details.push(
               currentLanguage === "it"
-                ? `Data evento: ${formatContactDate(date)}`
-                : `Event date: ${formatContactDate(date)}`
+                ? `Data evento: ${
+                    formatContactDate(
+                      date
+                    )
+                  }`
+                : `Event date: ${
+                    formatContactDate(
+                      date
+                    )
+                  }`
             );
           }
 
@@ -6658,7 +7263,9 @@ footer {
 
             finalMessage =
               `${
-                details.join("\n")
+                details.join(
+                  "\n"
+                )
               }\n\n${
                 originalMessage
               }`;
@@ -6666,6 +7273,7 @@ footer {
 
 
           try {
+
 
             const response =
               await fetch(
@@ -6693,6 +7301,7 @@ footer {
             if (
               !response.ok
             ) {
+
               throw new Error();
             }
 
@@ -6739,6 +7348,7 @@ footer {
 
 
           } catch {
+
 
             messageBox.textContent =
               currentLanguage === "it"
