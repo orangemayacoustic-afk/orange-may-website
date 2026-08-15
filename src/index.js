@@ -3,10 +3,11 @@
    Cloudflare Worker Backend
 
    Gestisce:
+   - homepage
    - sito statico
    - login admin
    - eventi
-   - eliminazione automatica eventi passati
+   - cancellazione automatica eventi passati
    - venue salvate
    - form contatti
    - messaggi admin
@@ -32,14 +33,11 @@ export default {
       );
 
 
-      if (
-        error instanceof HttpError
-      ) {
+      if (error instanceof HttpError) {
 
         return jsonResponse(
           {
-            error:
-              error.message
+            error: error.message
           },
           error.status
         );
@@ -49,8 +47,7 @@ export default {
 
       return jsonResponse(
         {
-          error:
-            "Internal server error"
+          error: "Internal server error"
         },
         500
       );
@@ -75,9 +72,7 @@ async function handleRequest(
     new URL(request.url);
 
   const path =
-    normalizePath(
-      url.pathname
-    );
+    normalizePath(url.pathname);
 
   const method =
     request.method.toUpperCase();
@@ -100,7 +95,63 @@ async function handleRequest(
 
 
   /* ==========================================================
-     PUBLIC API
+     HOMEPAGE
+  ========================================================== */
+
+  if (
+    path === "/" &&
+    method === "GET"
+  ) {
+
+    if (!env.ASSETS) {
+
+      return new Response(
+        "Assets binding not available",
+        {
+          status: 500
+        }
+      );
+
+    }
+
+
+    /*
+       IMPORTANTE
+
+       Con html_handling = "none"
+       non affidiamo a Cloudflare la risoluzione automatica
+       di / verso index.html.
+
+       Chiediamo esplicitamente al binding ASSETS
+       il file /index.html.
+    */
+
+    const indexUrl =
+      new URL(
+        request.url
+      );
+
+    indexUrl.pathname =
+      "/index.html";
+
+    indexUrl.search =
+      "";
+
+
+    return env.ASSETS.fetch(
+      new Request(
+        indexUrl.toString(),
+        {
+          method: "GET"
+        }
+      )
+    );
+
+  }
+
+
+  /* ==========================================================
+     PUBLIC EVENTS API
   ========================================================== */
 
   if (
@@ -108,12 +159,14 @@ async function handleRequest(
     method === "GET"
   ) {
 
-    return getPublicEvents(
-      env
-    );
+    return getPublicEvents(env);
 
   }
 
+
+  /* ==========================================================
+     PUBLIC CONTACT FORM
+  ========================================================== */
 
   if (
     path === "/api/contact" &&
@@ -129,7 +182,7 @@ async function handleRequest(
 
 
   /* ==========================================================
-     AUTH
+     AUTH LOGIN
   ========================================================== */
 
   if (
@@ -145,6 +198,10 @@ async function handleRequest(
   }
 
 
+  /* ==========================================================
+     AUTH LOGOUT
+  ========================================================== */
+
   if (
     path === "/api/auth/logout" &&
     method === "POST"
@@ -154,6 +211,10 @@ async function handleRequest(
 
   }
 
+
+  /* ==========================================================
+     AUTH CHECK
+  ========================================================== */
 
   if (
     path === "/api/auth/check" &&
@@ -166,43 +227,10 @@ async function handleRequest(
         env
       );
 
+
     return jsonResponse({
       authenticated
     });
-
-  }
-
-
-  /* ==========================================================
-     ADMIN PAGE
-  ========================================================== */
-
-  if (
-    path === "/admin" ||
-    path === "/admin/"
-  ) {
-
-    const authenticated =
-      await isAuthenticated(
-        request,
-        env
-      );
-
-
-    if (!authenticated) {
-
-      return redirectResponse(
-        "/login"
-      );
-
-    }
-
-
-    return serveAsset(
-      request,
-      env,
-      "/admin.html"
-    );
 
   }
 
@@ -212,8 +240,8 @@ async function handleRequest(
   ========================================================== */
 
   if (
-    path === "/login" ||
-    path === "/login/"
+    path === "/login" &&
+    method === "GET"
   ) {
 
     const authenticated =
@@ -232,7 +260,7 @@ async function handleRequest(
     }
 
 
-    return serveAsset(
+    return serveHtmlAsset(
       request,
       env,
       "/login.html"
@@ -242,7 +270,41 @@ async function handleRequest(
 
 
   /* ==========================================================
-     ADMIN API AUTH CHECK
+     ADMIN PAGE
+  ========================================================== */
+
+  if (
+    path === "/admin" &&
+    method === "GET"
+  ) {
+
+    const authenticated =
+      await isAuthenticated(
+        request,
+        env
+      );
+
+
+    if (!authenticated) {
+
+      return redirectResponse(
+        "/login"
+      );
+
+    }
+
+
+    return serveHtmlAsset(
+      request,
+      env,
+      "/admin.html"
+    );
+
+  }
+
+
+  /* ==========================================================
+     ADMIN API AUTHENTICATION
   ========================================================== */
 
   if (
@@ -262,8 +324,7 @@ async function handleRequest(
 
       return jsonResponse(
         {
-          error:
-            "Unauthorized"
+          error: "Unauthorized"
         },
         401
       );
@@ -432,12 +493,11 @@ async function handleRequest(
 
 
   /* ==========================================================
-     ADMIN MESSAGES
+     ADMIN MESSAGES - UNREAD COUNT
   ========================================================== */
 
   if (
-    path ===
-      "/api/admin/messages/unread-count" &&
+    path === "/api/admin/messages/unread-count" &&
     method === "GET"
   ) {
 
@@ -447,6 +507,10 @@ async function handleRequest(
 
   }
 
+
+  /* ==========================================================
+     ADMIN MESSAGES LIST
+  ========================================================== */
 
   if (
     path === "/api/admin/messages" &&
@@ -508,7 +572,7 @@ async function handleRequest(
 
 
   /* ==========================================================
-     STATIC WEBSITE
+     STATIC ASSETS
   ========================================================== */
 
   if (env.ASSETS) {
@@ -531,57 +595,37 @@ async function handleRequest(
 
 
 /* ============================================================
-   AUTOMATIC EVENT CLEANUP
+   DATE / TIME
 ============================================================ */
-
-/*
-   Restituisce la data corrente in Italia nel formato:
-
-   YYYY-MM-DD
-
-   Usiamo esplicitamente Europe/Rome così la cancellazione
-   segue il giorno italiano e non l'orario UTC di Cloudflare.
-*/
 
 function getTodayRome() {
 
-  const parts =
+  const formatter =
     new Intl.DateTimeFormat(
       "en-CA",
       {
-        timeZone:
-          "Europe/Rome",
-
-        year:
-          "numeric",
-
-        month:
-          "2-digit",
-
-        day:
-          "2-digit"
+        timeZone: "Europe/Rome",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
       }
-    )
-      .formatToParts(
-        new Date()
-      );
+    );
+
+
+  const parts =
+    formatter.formatToParts(
+      new Date()
+    );
 
 
   const values = {};
 
 
-  for (
-    const part of parts
-  ) {
+  for (const part of parts) {
 
-    if (
-      part.type !==
-      "literal"
-    ) {
+    if (part.type !== "literal") {
 
-      values[
-        part.type
-      ] =
+      values[part.type] =
         part.value;
 
     }
@@ -598,15 +642,9 @@ function getTodayRome() {
 }
 
 
-/*
-   Elimina definitivamente dal database
-   tutte le date precedenti a oggi.
-
-   Esempio:
-   oggi 16 agosto
-   → 15 agosto e precedenti eliminati
-   → 16 agosto resta
-*/
+/* ============================================================
+   AUTOMATIC CLEANUP OF PAST EVENTS
+============================================================ */
 
 async function cleanupPastEvents(
   env
@@ -632,8 +670,7 @@ async function cleanupPastEvents(
 
     const deleted =
       Number(
-        result?.meta?.changes ||
-        0
+        result?.meta?.changes || 0
       );
 
 
@@ -648,8 +685,8 @@ async function cleanupPastEvents(
   } catch (error) {
 
     /*
-       Non blocchiamo il sito se per qualche
-       motivo la pulizia dovesse fallire.
+       Se la pulizia fallisce, non blocchiamo
+       comunque il sito o l'admin.
     */
 
     console.error(
@@ -669,11 +706,6 @@ async function cleanupPastEvents(
 async function getPublicEvents(
   env
 ) {
-
-  /*
-    Prima di restituire le date,
-    puliamo automaticamente quelle vecchie.
-  */
 
   await cleanupPastEvents(
     env
@@ -703,7 +735,7 @@ async function getPublicEvents(
 
           CASE
             WHEN start_time IS NULL
-            OR start_time = ''
+              OR start_time = ''
             THEN '23:59'
             ELSE start_time
           END ASC,
@@ -728,11 +760,6 @@ async function getAdminEvents(
   env
 ) {
 
-  /*
-    Anche aprendo il pannello admin
-    vengono eliminate le date passate.
-  */
-
   await cleanupPastEvents(
     env
   );
@@ -761,7 +788,7 @@ async function getAdminEvents(
 
           CASE
             WHEN start_time IS NULL
-            OR start_time = ''
+              OR start_time = ''
             THEN '23:59'
             ELSE start_time
           END ASC,
@@ -805,7 +832,9 @@ async function getEvent(
 
         LIMIT 1
       `)
-      .bind(id)
+      .bind(
+        id
+      )
       .first();
 
 
@@ -813,8 +842,7 @@ async function getEvent(
 
     return jsonResponse(
       {
-        error:
-          "Event not found"
+        error: "Event not found"
       },
       404
     );
@@ -850,8 +878,7 @@ async function createEvent(
 
     return jsonResponse(
       {
-        error:
-          validation.error
+        error: validation.error
       },
       400
     );
@@ -907,10 +934,9 @@ async function createEvent(
   return jsonResponse(
     {
       success: true,
-
       id:
-        result.meta
-          ?.last_row_id
+        result?.meta?.last_row_id ||
+        null
     },
     201
   );
@@ -932,7 +958,9 @@ async function updateEvent(
         WHERE id = ?
         LIMIT 1
       `)
-      .bind(id)
+      .bind(
+        id
+      )
       .first();
 
 
@@ -940,8 +968,7 @@ async function updateEvent(
 
     return jsonResponse(
       {
-        error:
-          "Event not found"
+        error: "Event not found"
       },
       404
     );
@@ -965,8 +992,7 @@ async function updateEvent(
 
     return jsonResponse(
       {
-        error:
-          validation.error
+        error: validation.error
       },
       400
     );
@@ -1030,7 +1056,9 @@ async function deleteEvent(
         WHERE id = ?
         LIMIT 1
       `)
-      .bind(id)
+      .bind(
+        id
+      )
       .first();
 
 
@@ -1038,8 +1066,7 @@ async function deleteEvent(
 
     return jsonResponse(
       {
-        error:
-          "Event not found"
+        error: "Event not found"
       },
       404
     );
@@ -1052,7 +1079,9 @@ async function deleteEvent(
       DELETE FROM events
       WHERE id = ?
     `)
-    .bind(id)
+    .bind(
+      id
+    )
     .run();
 
 
@@ -1122,8 +1151,7 @@ function validateEvent(
 
   const eventType =
     cleanString(
-      body.event_type ||
-      "PUBLIC",
+      body.event_type || "PUBLIC",
       30
     )
       .toUpperCase();
@@ -1140,8 +1168,7 @@ function validateEvent(
 
     return {
       valid: false,
-      error:
-        "La data è obbligatoria."
+      error: "La data è obbligatoria."
     };
 
   }
@@ -1154,30 +1181,21 @@ function validateEvent(
 
     return {
       valid: false,
-      error:
-        "Formato data non valido."
+      error: "Formato data non valido."
     };
 
   }
 
 
-  /*
-    Non permettiamo di creare una nuova data
-    che è già precedente a oggi.
-  */
-
   const today =
     getTodayRome();
 
 
-  if (
-    eventDate < today
-  ) {
+  if (eventDate < today) {
 
     return {
       valid: false,
-      error:
-        "Non puoi inserire una data già passata."
+      error: "Non puoi inserire una data già passata."
     };
 
   }
@@ -1187,8 +1205,7 @@ function validateEvent(
 
     return {
       valid: false,
-      error:
-        "La venue è obbligatoria."
+      error: "La venue è obbligatoria."
     };
 
   }
@@ -1198,8 +1215,7 @@ function validateEvent(
 
     return {
       valid: false,
-      error:
-        "Il luogo è obbligatorio."
+      error: "Il luogo è obbligatorio."
     };
 
   }
@@ -1207,15 +1223,12 @@ function validateEvent(
 
   if (
     startTime &&
-    !isValidTime(
-      startTime
-    )
+    !isValidTime(startTime)
   ) {
 
     return {
       valid: false,
-      error:
-        "Ora di inizio non valida."
+      error: "Ora di inizio non valida."
     };
 
   }
@@ -1223,15 +1236,12 @@ function validateEvent(
 
   if (
     endTime &&
-    !isValidTime(
-      endTime
-    )
+    !isValidTime(endTime)
   ) {
 
     return {
       valid: false,
-      error:
-        "Ora di fine non valida."
+      error: "Ora di fine non valida."
     };
 
   }
@@ -1252,8 +1262,7 @@ function validateEvent(
 
     return {
       valid: false,
-      error:
-        "Tipo di evento non valido."
+      error: "Tipo di evento non valido."
     };
 
   }
@@ -1268,8 +1277,7 @@ function validateEvent(
 
     return {
       valid: false,
-      error:
-        "Il link indicazioni non è valido."
+      error: "Il link indicazioni non è valido."
     };
 
   }
@@ -1284,8 +1292,7 @@ function validateEvent(
 
     return {
       valid: false,
-      error:
-        "Il link pubblico non è valido."
+      error: "Il link pubblico non è valido."
     };
 
   }
@@ -1297,8 +1304,7 @@ function validateEvent(
 
     data: {
 
-      event_date:
-        eventDate,
+      event_date: eventDate,
 
       venue,
 
@@ -1385,7 +1391,9 @@ async function getVenue(
 
         LIMIT 1
       `)
-      .bind(id)
+      .bind(
+        id
+      )
       .first();
 
 
@@ -1393,8 +1401,7 @@ async function getVenue(
 
     return jsonResponse(
       {
-        error:
-          "Venue not found"
+        error: "Venue not found"
       },
       404
     );
@@ -1430,8 +1437,7 @@ async function createVenue(
 
     return jsonResponse(
       {
-        error:
-          validation.error
+        error: validation.error
       },
       400
     );
@@ -1471,8 +1477,7 @@ async function createVenue(
 
     return jsonResponse(
       {
-        error:
-          "Questa venue è già salvata."
+        error: "Questa venue è già salvata."
       },
       409
     );
@@ -1506,10 +1511,9 @@ async function createVenue(
   return jsonResponse(
     {
       success: true,
-
       id:
-        result.meta
-          ?.last_row_id
+        result?.meta?.last_row_id ||
+        null
     },
     201
   );
@@ -1531,7 +1535,9 @@ async function updateVenue(
         WHERE id = ?
         LIMIT 1
       `)
-      .bind(id)
+      .bind(
+        id
+      )
       .first();
 
 
@@ -1539,8 +1545,7 @@ async function updateVenue(
 
     return jsonResponse(
       {
-        error:
-          "Venue not found"
+        error: "Venue not found"
       },
       404
     );
@@ -1564,8 +1569,7 @@ async function updateVenue(
 
     return jsonResponse(
       {
-        error:
-          validation.error
+        error: validation.error
       },
       400
     );
@@ -1653,17 +1657,14 @@ async function deleteVenue(
   const existing =
     await env.DB
       .prepare(`
-        SELECT
-          id,
-          name
-
+        SELECT id
         FROM venues
-
         WHERE id = ?
-
         LIMIT 1
       `)
-      .bind(id)
+      .bind(
+        id
+      )
       .first();
 
 
@@ -1671,8 +1672,7 @@ async function deleteVenue(
 
     return jsonResponse(
       {
-        error:
-          "Venue not found"
+        error: "Venue not found"
       },
       404
     );
@@ -1681,8 +1681,10 @@ async function deleteVenue(
 
 
   /*
-    Eliminare una venue salvata NON modifica
-    gli eventi già esistenti.
+     Una venue salvata è solo una scorciatoia.
+
+     Cancellandola NON cancelliamo gli eventi
+     già creati usando quella venue.
   */
 
   await env.DB
@@ -1690,7 +1692,9 @@ async function deleteVenue(
       DELETE FROM venues
       WHERE id = ?
     `)
-    .bind(id)
+    .bind(
+      id
+    )
     .run();
 
 
@@ -1785,7 +1789,7 @@ function validateVenue(
 
 
 /* ============================================================
-   PUBLIC CONTACT FORM
+   CONTACT FORM
 ============================================================ */
 
 async function createContactMessage(
@@ -1846,8 +1850,7 @@ async function createContactMessage(
 
     return jsonResponse(
       {
-        error:
-          "Name is required."
+        error: "Name is required."
       },
       400
     );
@@ -1857,15 +1860,12 @@ async function createContactMessage(
 
   if (
     !email ||
-    !isValidEmail(
-      email
-    )
+    !isValidEmail(email)
   ) {
 
     return jsonResponse(
       {
-        error:
-          "A valid email is required."
+        error: "A valid email is required."
       },
       400
     );
@@ -1877,13 +1877,19 @@ async function createContactMessage(
 
     return jsonResponse(
       {
-        error:
-          "Message is required."
+        error: "Message is required."
       },
       400
     );
 
   }
+
+
+  const normalizedIntent =
+    (
+      contactIntent || ""
+    )
+      .toUpperCase();
 
 
   const allowedIntents = [
@@ -1895,13 +1901,6 @@ async function createContactMessage(
   ];
 
 
-  const normalizedIntent =
-    (
-      contactIntent || ""
-    )
-      .toUpperCase();
-
-
   if (
     !allowedIntents.includes(
       normalizedIntent
@@ -1910,13 +1909,19 @@ async function createContactMessage(
 
     return jsonResponse(
       {
-        error:
-          "Invalid contact type."
+        error: "Invalid contact type."
       },
       400
     );
 
   }
+
+
+  const normalizedBookingType =
+    (
+      bookingType || ""
+    )
+      .toUpperCase();
 
 
   const allowedBookingTypes = [
@@ -1929,13 +1934,6 @@ async function createContactMessage(
   ];
 
 
-  const normalizedBookingType =
-    (
-      bookingType || ""
-    )
-      .toUpperCase();
-
-
   if (
     !allowedBookingTypes.includes(
       normalizedBookingType
@@ -1944,8 +1942,7 @@ async function createContactMessage(
 
     return jsonResponse(
       {
-        error:
-          "Invalid booking type."
+        error: "Invalid booking type."
       },
       400
     );
@@ -1961,8 +1958,7 @@ async function createContactMessage(
 
     return jsonResponse(
       {
-        error:
-          "Invalid event date."
+        error: "Invalid event date."
       },
       400
     );
@@ -2011,8 +2007,8 @@ async function createContactMessage(
       success: true,
 
       id:
-        result.meta
-          ?.last_row_id
+        result?.meta?.last_row_id ||
+        null
     },
     201
   );
@@ -2089,7 +2085,9 @@ async function getMessage(
 
         LIMIT 1
       `)
-      .bind(id)
+      .bind(
+        id
+      )
       .first();
 
 
@@ -2097,8 +2095,7 @@ async function getMessage(
 
     return jsonResponse(
       {
-        error:
-          "Message not found"
+        error: "Message not found"
       },
       404
     );
@@ -2120,8 +2117,7 @@ async function getUnreadMessageCount(
   const result =
     await env.DB
       .prepare(`
-        SELECT
-          COUNT(*) AS count
+        SELECT COUNT(*) AS count
 
         FROM contact_messages
 
@@ -2159,7 +2155,9 @@ async function updateMessage(
 
         LIMIT 1
       `)
-      .bind(id)
+      .bind(
+        id
+      )
       .first();
 
 
@@ -2167,8 +2165,7 @@ async function updateMessage(
 
     return jsonResponse(
       {
-        error:
-          "Message not found"
+        error: "Message not found"
       },
       404
     );
@@ -2214,10 +2211,7 @@ async function updateMessage(
   }
 
 
-  if (
-    status ===
-    "UNREAD"
-  ) {
+  if (status === "UNREAD") {
 
     await env.DB
       .prepare(`
@@ -2230,16 +2224,15 @@ async function updateMessage(
 
         WHERE id = ?
       `)
-      .bind(id)
+      .bind(
+        id
+      )
       .run();
 
   }
 
 
-  if (
-    status ===
-    "READ"
-  ) {
+  if (status === "READ") {
 
     await env.DB
       .prepare(`
@@ -2258,16 +2251,15 @@ async function updateMessage(
 
         WHERE id = ?
       `)
-      .bind(id)
+      .bind(
+        id
+      )
       .run();
 
   }
 
 
-  if (
-    status ===
-    "ARCHIVED"
-  ) {
+  if (status === "ARCHIVED") {
 
     await env.DB
       .prepare(`
@@ -2287,7 +2279,9 @@ async function updateMessage(
 
         WHERE id = ?
       `)
-      .bind(id)
+      .bind(
+        id
+      )
       .run();
 
   }
@@ -2310,14 +2304,13 @@ async function deleteMessage(
     await env.DB
       .prepare(`
         SELECT id
-
         FROM contact_messages
-
         WHERE id = ?
-
         LIMIT 1
       `)
-      .bind(id)
+      .bind(
+        id
+      )
       .first();
 
 
@@ -2325,8 +2318,7 @@ async function deleteMessage(
 
     return jsonResponse(
       {
-        error:
-          "Message not found"
+        error: "Message not found"
       },
       404
     );
@@ -2339,7 +2331,9 @@ async function deleteMessage(
       DELETE FROM contact_messages
       WHERE id = ?
     `)
-    .bind(id)
+    .bind(
+      id
+    )
     .run();
 
 
@@ -2375,8 +2369,7 @@ async function loginAdmin(
 
     return jsonResponse(
       {
-        error:
-          "Password required"
+        error: "Password required"
       },
       400
     );
@@ -2384,9 +2377,7 @@ async function loginAdmin(
   }
 
 
-  if (
-    !env.ADMIN_PASSWORD
-  ) {
+  if (!env.ADMIN_PASSWORD) {
 
     console.error(
       "ADMIN_PASSWORD secret is missing"
@@ -2430,22 +2421,16 @@ async function loginAdmin(
     );
 
 
-  const cookie = [
-
-    `om_admin=${token}`,
-
-    "Path=/",
-
-    "HttpOnly",
-
-    "Secure",
-
-    "SameSite=Lax",
-
-    `Max-Age=${60 * 60 * 24 * 30}`
-
-  ]
-    .join("; ");
+  const cookie =
+    [
+      `om_admin=${token}`,
+      "Path=/",
+      "HttpOnly",
+      "Secure",
+      "SameSite=Lax",
+      `Max-Age=${60 * 60 * 24 * 30}`
+    ]
+      .join("; ");
 
 
   return jsonResponse(
@@ -2454,57 +2439,69 @@ async function loginAdmin(
     },
     200,
     {
-      "Set-Cookie":
-        cookie
+      "Set-Cookie": cookie
     }
   );
 
 }
 
+
+/* ============================================================
+   LOGOUT
+============================================================ */
 
 function logoutAdmin() {
 
+  const cookie =
+    [
+      "om_admin=",
+      "Path=/",
+      "HttpOnly",
+      "Secure",
+      "SameSite=Lax",
+      "Max-Age=0"
+    ]
+      .join("; ");
+
+
   return jsonResponse(
     {
       success: true
     },
     200,
     {
-      "Set-Cookie":
-        [
-          "om_admin=",
-          "Path=/",
-          "HttpOnly",
-          "Secure",
-          "SameSite=Lax",
-          "Max-Age=0"
-        ]
-          .join("; ")
+      "Set-Cookie": cookie
     }
   );
 
 }
 
+
+/* ============================================================
+   AUTH CHECK
+============================================================ */
 
 async function isAuthenticated(
   request,
   env
 ) {
 
-  if (
-    !env.ADMIN_PASSWORD
-  ) {
+  if (!env.ADMIN_PASSWORD) {
 
     return false;
 
   }
 
 
+  const cookieHeader =
+    request.headers.get(
+      "Cookie"
+    ) || "";
+
+
   const cookies =
     parseCookies(
-      request.headers
-        .get("Cookie") ||
-      ""
+      cookieHeader
     );
 
 
@@ -2533,6 +2530,10 @@ async function isAuthenticated(
 }
 
 
+/* ============================================================
+   ADMIN TOKEN
+============================================================ */
+
 async function createAdminToken(
   env
 ) {
@@ -2549,18 +2550,16 @@ async function createAdminToken(
 
 
 /* ============================================================
-   STATIC ASSETS
+   HTML STATIC ASSETS
 ============================================================ */
 
-async function serveAsset(
+async function serveHtmlAsset(
   request,
   env,
   pathname
 ) {
 
-  if (
-    !env.ASSETS
-  ) {
+  if (!env.ASSETS) {
 
     return new Response(
       "Assets binding not available",
@@ -2581,23 +2580,24 @@ async function serveAsset(
   url.pathname =
     pathname;
 
-
-  const assetRequest =
-    new Request(
-      url.toString(),
-      request
-    );
+  url.search =
+    "";
 
 
   return env.ASSETS.fetch(
-    assetRequest
+    new Request(
+      url.toString(),
+      {
+        method: "GET"
+      }
+    )
   );
 
 }
 
 
 /* ============================================================
-   JSON HELPERS
+   JSON BODY
 ============================================================ */
 
 async function readJsonBody(
@@ -2616,7 +2616,9 @@ async function readJsonBody(
       Array.isArray(body)
     ) {
 
-      throw new Error();
+      throw new Error(
+        "Invalid body"
+      );
 
     }
 
@@ -2635,6 +2637,10 @@ async function readJsonBody(
 }
 
 
+/* ============================================================
+   JSON RESPONSE
+============================================================ */
+
 function jsonResponse(
   data,
   status = 200,
@@ -2642,9 +2648,7 @@ function jsonResponse(
 ) {
 
   return new Response(
-    JSON.stringify(
-      data
-    ),
+    JSON.stringify(data),
     {
       status,
 
@@ -2665,6 +2669,10 @@ function jsonResponse(
 }
 
 
+/* ============================================================
+   REDIRECT
+============================================================ */
+
 function redirectResponse(
   location
 ) {
@@ -2675,8 +2683,7 @@ function redirectResponse(
       status: 302,
 
       headers: {
-        Location:
-          location
+        Location: location
       }
     }
   );
@@ -2685,7 +2692,7 @@ function redirectResponse(
 
 
 /* ============================================================
-   VALIDATION HELPERS
+   STRING HELPERS
 ============================================================ */
 
 function cleanString(
@@ -2725,11 +2732,14 @@ function cleanOptionalString(
     );
 
 
-  return cleaned ||
-    null;
+  return cleaned || null;
 
 }
 
+
+/* ============================================================
+   VALIDATORS
+============================================================ */
 
 function isValidTime(
   value
@@ -2776,7 +2786,7 @@ function isValidHttpUrl(
 
 
 /* ============================================================
-   COOKIE HELPERS
+   COOKIE PARSER
 ============================================================ */
 
 function parseCookies(
@@ -2794,9 +2804,7 @@ function parseCookies(
         part.indexOf("=");
 
 
-      if (
-        index === -1
-      ) {
+      if (index === -1) {
 
         return;
 
@@ -2805,18 +2813,13 @@ function parseCookies(
 
       const key =
         part
-          .slice(
-            0,
-            index
-          )
+          .slice(0,index)
           .trim();
 
 
       const value =
         part
-          .slice(
-            index + 1
-          )
+          .slice(index+1)
           .trim();
 
 
@@ -2836,7 +2839,7 @@ function parseCookies(
 
 
 /* ============================================================
-   CRYPTO HELPERS
+   SHA-256
 ============================================================ */
 
 async function sha256Hex(
@@ -2877,6 +2880,10 @@ async function sha256Hex(
 }
 
 
+/* ============================================================
+   STRING COMPARISON
+============================================================ */
+
 async function secureStringCompare(
   a,
   b
@@ -2894,16 +2901,13 @@ async function secureStringCompare(
     );
 
 
-  return (
-    hashA ===
-    hashB
-  );
+  return hashA === hashB;
 
 }
 
 
 /* ============================================================
-   PATH
+   PATH NORMALIZER
 ============================================================ */
 
 function normalizePath(
@@ -2936,21 +2940,17 @@ function normalizePath(
 
 
 /* ============================================================
-   CUSTOM ERROR
+   HTTP ERROR
 ============================================================ */
 
-class HttpError
-  extends Error {
+class HttpError extends Error {
 
   constructor(
     status,
     message
   ) {
 
-    super(
-      message
-    );
-
+    super(message);
 
     this.status =
       status;
