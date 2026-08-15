@@ -1,3039 +1,4246 @@
-/* ============================================================
-   ORANGE MAY WEBSITE
-   Cloudflare Worker Backend
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-   Gestisce:
-   - homepage
-   - sito statico
-   - login admin
-   - eventi
-   - eliminazione automatica eventi passati
-   - venue salvate
-   - form contatti
-   - messaggi admin
+<title>Orange May Acoustic</title>
+
+<meta
+  name="description"
+  content="Orange May Acoustic — two voices, one guitar, percussion and live loops. Live music for hotels, venues, weddings and private events."
+>
+
+<style>
+
+:root{
+  --orange:#ff6a00;
+  --cream:#f5f0e8;
+  --black:#11100f;
+  --dark:#171412;
+  --brown:#2b211b;
+  --white:#ffffff;
+  --line:rgba(17,16,15,.14);
+  --muted:#726b64;
+  --header-height:84px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+  background:var(--black);
+}
+
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--black);
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-x:hidden;
+}
+
+body.menu-open{
+  overflow:hidden;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+.container{
+  width:min(1280px,calc(100% - 48px));
+  margin:0 auto;
+}
+
+
+/* ============================================================
+   HEADER
 ============================================================ */
 
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:100;
+  height:var(--header-height);
+  transition:
+    background .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease;
+}
 
-export default {
+header.scrolled{
+  background:rgba(245,240,232,.96);
+  border-bottom:1px solid rgba(17,16,15,.1);
+  backdrop-filter:blur(12px);
+}
 
-  async fetch(request, env) {
+.nav{
+  height:var(--header-height);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+}
 
-    try {
+.nav-logo{
+  position:relative;
+  width:104px;
+  height:56px;
+  display:block;
+  flex:0 0 auto;
+}
 
-      return await handleRequest(
-        request,
-        env
-      );
+.nav-logo img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  transition:opacity .2s ease;
+}
 
-    } catch (error) {
+.logo-white{
+  opacity:1;
+}
 
-      console.error(
-        "Worker error:",
-        error
-      );
+.logo-dark{
+  opacity:0;
+}
+
+header.scrolled .logo-white{
+  opacity:0;
+}
+
+header.scrolled .logo-dark{
+  opacity:1;
+}
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:22px;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:29px;
+}
+
+.nav-links a{
+  color:white;
+  text-decoration:none;
+  font-size:.68rem;
+  font-weight:900;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  transition:opacity .2s ease;
+}
+
+.nav-links a:hover{
+  opacity:.65;
+}
+
+header.scrolled .nav-links a{
+  color:var(--black);
+}
 
 
-      if (
-        error instanceof HttpError
-      ) {
+/* LANGUAGE */
 
-        return jsonResponse(
-          {
-            error:
-              error.message
-          },
-          error.status
-        );
+.language-switcher{
+  height:40px;
+  padding:3px;
+  display:flex;
+  align-items:center;
+  border:1px solid white;
+  border-radius:999px;
+}
 
-      }
+header.scrolled .language-switcher{
+  border-color:var(--black);
+}
+
+.language-switcher button{
+  width:40px;
+  height:32px;
+  border:0;
+  border-radius:999px;
+  background:transparent;
+  color:white;
+  font-size:.64rem;
+  font-weight:900;
+}
+
+header.scrolled .language-switcher button{
+  color:var(--black);
+}
+
+.language-switcher button.active{
+  background:white;
+  color:var(--black);
+}
+
+header.scrolled .language-switcher button.active{
+  background:var(--black);
+  color:white;
+}
 
 
-      return jsonResponse(
-        {
-          error:
-            "Internal server error"
-        },
-        500
-      );
+/* MENU MOBILE */
 
-    }
+.menu-toggle{
+  width:42px;
+  height:42px;
+  padding:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  border:1px solid white;
+  border-radius:50%;
+  background:transparent;
+}
 
-  }
+header.scrolled .menu-toggle{
+  border-color:var(--black);
+}
 
-};
+.menu-toggle span,
+.menu-toggle::before,
+.menu-toggle::after{
+  content:"";
+  width:15px;
+  height:1.5px;
+  position:absolute;
+  background:white;
+  transition:.25s ease;
+}
+
+.menu-toggle::before{
+  transform:translateY(-5px);
+}
+
+.menu-toggle::after{
+  transform:translateY(5px);
+}
+
+header.scrolled .menu-toggle span,
+header.scrolled .menu-toggle::before,
+header.scrolled .menu-toggle::after{
+  background:var(--black);
+}
+
+.menu-toggle.active span{
+  opacity:0;
+}
+
+.menu-toggle.active::before{
+  transform:rotate(45deg);
+}
+
+.menu-toggle.active::after{
+  transform:rotate(-45deg);
+}
+
+
+/* MOBILE MENU */
+
+.mobile-menu{
+  position:fixed;
+  inset:0;
+  z-index:90;
+  padding:110px 24px 30px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  background:var(--orange);
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(-15px);
+  transition:.25s ease;
+}
+
+.mobile-menu.open{
+  opacity:1;
+  visibility:visible;
+  transform:none;
+}
+
+.mobile-menu-links{
+  display:grid;
+}
+
+.mobile-menu-links a{
+  padding:16px 0;
+  color:var(--black);
+  text-decoration:none;
+  border-bottom:1px solid rgba(17,16,15,.2);
+  font-size:clamp(2.4rem,12vw,4.5rem);
+  font-weight:900;
+  line-height:.95;
+  letter-spacing:-.06em;
+  text-transform:uppercase;
+}
+
+.mobile-menu-bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:flex-end;
+}
+
+.mobile-menu-bottom a{
+  font-size:.7rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
 
 
 /* ============================================================
-   MAIN ROUTER
+   HERO
 ============================================================ */
 
-async function handleRequest(
-  request,
-  env
-) {
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  background:#000;
+  color:white;
+}
 
-  const url =
-    new URL(request.url);
-
-  const path =
-    normalizePath(
-      url.pathname
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.68) 0%,
+      rgba(0,0,0,.30) 48%,
+      rgba(0,0,0,.14) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(0,0,0,.66) 0%,
+      transparent 55%
     );
+  z-index:1;
+}
 
-  const method =
-    request.method.toUpperCase();
+.hero-image{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  width:100%;
+  padding-bottom:clamp(55px,8vh,95px);
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:50px;
+  align-items:end;
+}
+
+.hero-eyebrow{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+  font-size:.72rem;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.hero-eyebrow::before{
+  content:"";
+  width:32px;
+  height:3px;
+  background:var(--orange);
+}
+
+.hero-title{
+  margin:0;
+  max-width:760px;
+  font-size:clamp(5rem,10.8vw,10rem);
+  line-height:.72;
+  letter-spacing:-.075em;
+  text-transform:uppercase;
+}
+
+.hero-title span{
+  display:block;
+}
+
+.hero-title .orange{
+  color:var(--orange);
+}
+
+.hero-subtitle{
+  margin:44px 0 0;
+  max-width:600px;
+  font-size:clamp(1rem,1.4vw,1.2rem);
+  line-height:1.45;
+  font-weight:600;
+}
+
+.hero-actions{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding-bottom:5px;
+}
+
+.cta{
+  min-height:52px;
+  padding:0 24px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  border:1px solid transparent;
+  border-radius:999px;
+  text-decoration:none;
+  font-size:.68rem;
+  font-weight:900;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  transition:.2s ease;
+}
+
+.cta.orange{
+  background:var(--orange);
+  color:white;
+}
+
+.cta.orange:hover{
+  background:white;
+  color:var(--black);
+}
+
+.cta.white{
+  background:white;
+  color:var(--black);
+}
+
+.cta.white:hover{
+  background:var(--orange);
+  color:white;
+}
 
 
-  /* ==========================================================
-     OPTIONS
-  ========================================================== */
+/* ============================================================
+   SOCIAL
+============================================================ */
 
-  if (method === "OPTIONS") {
+.social-section{
+  background:var(--orange);
+  padding:80px 0;
+}
 
-    return new Response(
-      null,
-      {
-        status: 204
-      }
+.social-grid{
+  display:grid;
+  grid-template-columns:1fr 1.35fr;
+  gap:50px;
+  align-items:end;
+}
+
+.section-kicker{
+  margin-bottom:15px;
+  font-size:.7rem;
+  font-weight:900;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+
+.section-title{
+  margin:0;
+  font-size:clamp(3.8rem,8vw,8.5rem);
+  line-height:.82;
+  letter-spacing:-.07em;
+  text-transform:uppercase;
+}
+
+.social-copy{
+  max-width:590px;
+  font-size:clamp(1.2rem,2vw,2rem);
+  line-height:1.25;
+  font-weight:700;
+}
+
+.social-links{
+  margin-top:30px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.social-link{
+  min-height:48px;
+  padding:0 20px;
+  display:inline-flex;
+  align-items:center;
+  border:1px solid var(--black);
+  border-radius:999px;
+  color:var(--black);
+  text-decoration:none;
+  font-size:.68rem;
+  font-weight:900;
+  text-transform:uppercase;
+  transition:.2s ease;
+}
+
+.social-link:hover{
+  background:var(--black);
+  color:white;
+}
+
+
+/* ============================================================
+   TICKER
+============================================================ */
+
+.ticker{
+  overflow:hidden;
+  background:var(--black);
+  color:white;
+  border-top:1px solid rgba(255,255,255,.08);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.ticker-track{
+  width:max-content;
+  display:flex;
+  animation:tickerMove 28s linear infinite;
+}
+
+.ticker-set{
+  height:54px;
+  display:flex;
+  align-items:center;
+  gap:34px;
+  padding-right:34px;
+}
+
+.ticker-item{
+  display:flex;
+  align-items:center;
+  gap:28px;
+  white-space:nowrap;
+  font-size:.68rem;
+  font-weight:900;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.ticker-item::after{
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--orange);
+}
+
+@keyframes tickerMove{
+  to{
+    transform:translateX(-50%);
+  }
+}
+
+
+/* ============================================================
+   SHOWS
+============================================================ */
+
+.shows-section{
+  padding:100px 0 110px;
+  background:var(--cream);
+}
+
+.shows-heading{
+  margin-bottom:42px;
+}
+
+.shows-heading .section-kicker{
+  color:var(--orange);
+}
+
+
+/* NEXT SHOW */
+
+.next-show{
+  position:relative;
+  min-height:245px;
+  padding:38px;
+  display:grid;
+  grid-template-columns:125px minmax(0,1fr) 200px;
+  gap:34px;
+  align-items:end;
+  overflow:hidden;
+  background:var(--black);
+  color:white;
+}
+
+.next-show::after{
+  content:"";
+  position:absolute;
+  width:250px;
+  height:250px;
+  right:-75px;
+  bottom:-110px;
+  border:2px solid rgba(255,106,0,.22);
+  border-radius:50%;
+}
+
+.next-show-label{
+  position:absolute;
+  top:24px;
+  left:38px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--orange);
+  font-size:.64rem;
+  font-weight:900;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
+
+.waveform{
+  height:18px;
+  display:flex;
+  align-items:center;
+  gap:3px;
+}
+
+.waveform span{
+  width:2px;
+  height:5px;
+  background:var(--orange);
+  animation:wave 1s ease-in-out infinite;
+}
+
+.waveform span:nth-child(2){animation-delay:.1s}
+.waveform span:nth-child(3){animation-delay:.2s}
+.waveform span:nth-child(4){animation-delay:.3s}
+.waveform span:nth-child(5){animation-delay:.4s}
+.waveform span:nth-child(6){animation-delay:.2s}
+
+@keyframes wave{
+  0%,100%{height:5px}
+  50%{height:17px}
+}
+
+.next-show-date{
+  padding-top:46px;
+}
+
+.next-show-day{
+  display:block;
+  font-size:clamp(4.7rem,7vw,7rem);
+  line-height:.75;
+  font-weight:900;
+  letter-spacing:-.08em;
+}
+
+.next-show-month{
+  margin-top:12px;
+  display:block;
+  color:var(--orange);
+  font-size:.72rem;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+.next-show-main{
+  min-width:0;
+}
+
+.next-show-venue{
+  font-size:clamp(2.6rem,4.6vw,5rem);
+  line-height:.86;
+  letter-spacing:-.06em;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.next-show-location{
+  margin-top:14px;
+  color:#bbb4ad;
+  font-size:.82rem;
+}
+
+.next-show-note{
+  margin-top:12px;
+  max-width:650px;
+  color:#dad4cf;
+  font-size:.74rem;
+  line-height:1.5;
+}
+
+.event-status{
+  margin-top:13px;
+  min-height:27px;
+  padding:0 10px;
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  background:rgba(255,106,0,.16);
+  color:var(--orange);
+  font-size:.54rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.next-show-right{
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:15px;
+}
+
+.next-show-time{
+  font-size:clamp(1.2rem,2vw,1.65rem);
+  font-weight:900;
+  text-align:right;
+}
+
+.event-links{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.event-link{
+  min-height:39px;
+  padding:0 14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:999px;
+  color:white;
+  text-decoration:none;
+  font-size:.58rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.event-link:hover{
+  border-color:var(--orange);
+  color:var(--orange);
+}
+
+
+/* OTHER SHOWS */
+
+.more-shows-label{
+  margin:36px 0 12px;
+  font-size:.64rem;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.future-events{
+  border-top:1px solid var(--line);
+}
+
+.event{
+  position:relative;
+  min-height:104px;
+  padding:18px 24px;
+  display:grid;
+  grid-template-columns:82px minmax(0,1fr) auto;
+  gap:24px;
+  align-items:center;
+  border-bottom:1px solid var(--line);
+  transition:background .18s ease;
+}
+
+.event:hover{
+  background:#eee8de;
+}
+
+.event-date{
+  text-align:center;
+}
+
+.event-day{
+  display:block;
+  font-size:2.7rem;
+  line-height:.8;
+  font-weight:900;
+  letter-spacing:-.06em;
+}
+
+.event-month{
+  margin-top:8px;
+  display:block;
+  color:var(--orange);
+  font-size:.58rem;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.event-main{
+  min-width:0;
+}
+
+.event-venue{
+  font-size:clamp(1.3rem,2vw,1.8rem);
+  line-height:1;
+  font-weight:900;
+}
+
+.event-location{
+  margin-top:7px;
+  color:#756e67;
+  font-size:.72rem;
+}
+
+.event-note{
+  margin-top:7px;
+  color:#756e67;
+  font-size:.66rem;
+}
+
+.event-right{
+  min-width:210px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:9px;
+}
+
+.event-time{
+  font-size:.84rem;
+  font-weight:900;
+}
+
+.event-meta-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.event-badge{
+  min-height:23px;
+  padding:0 8px;
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  background:rgba(255,106,0,.13);
+  color:#a34800;
+  font-size:.5rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.event-small-link{
+  color:var(--black);
+  text-decoration:none;
+  font-size:.56rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.event-small-link:hover{
+  color:var(--orange);
+}
+
+.event-new{
+  animation:eventReveal .42s ease both;
+}
+
+@keyframes eventReveal{
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.show-more-wrap{
+  margin-top:28px;
+  display:flex;
+  justify-content:center;
+}
+
+.show-more-button{
+  min-height:48px;
+  padding:0 24px;
+  border:1.5px solid var(--black);
+  border-radius:999px;
+  background:transparent;
+  color:var(--black);
+  font-size:.62rem;
+  font-weight:900;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+}
+
+.show-more-button:hover{
+  background:var(--black);
+  color:white;
+}
+
+.events-empty{
+  padding:40px 0;
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+
+/* ============================================================
+   CONTACT
+============================================================ */
+
+.contact-section{
+  background:var(--black);
+  color:white;
+}
+
+.contact-grid{
+  display:grid;
+  grid-template-columns:1fr 1.15fr;
+}
+
+.contact-left{
+  min-height:760px;
+  padding:80px max(50px,calc((100vw - 1280px)/2));
+  padding-right:55px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(
+      circle at 0 100%,
+      transparent 0 135px,
+      rgba(255,106,0,.35) 136px,
+      transparent 138px
+    ),
+    linear-gradient(135deg,#171513,#0c0c0c);
+}
+
+.contact-left-inner{
+  max-width:550px;
+}
+
+.contact-left .section-kicker{
+  color:var(--orange);
+}
+
+.contact-title{
+  margin:22px 0 30px;
+  font-size:clamp(4.6rem,8vw,8rem);
+  line-height:.78;
+  letter-spacing:-.07em;
+  text-transform:uppercase;
+}
+
+.contact-title .orange{
+  color:var(--orange);
+}
+
+.contact-copy{
+  max-width:510px;
+  color:#d0cac4;
+  font-size:1.1rem;
+  line-height:1.5;
+}
+
+.contact-direct{
+  margin-top:42px;
+  display:grid;
+  gap:18px;
+  justify-items:start;
+}
+
+.whatsapp-button{
+  min-height:51px;
+  padding:0 21px;
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  background:var(--orange);
+  color:white;
+  text-decoration:none;
+  font-size:.64rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.contact-email{
+  color:#cbc5bf;
+  font-size:.76rem;
+}
+
+
+/* FORM RIGHT */
+
+.contact-right{
+  padding:80px clamp(32px,5vw,70px);
+  background:
+    linear-gradient(
+      135deg,
+      #28201b,
+      #211b17
     );
+}
 
+.contact-form-kicker{
+  color:var(--orange);
+  font-size:.62rem;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.contact-form-title{
+  margin:10px 0 28px;
+  font-size:clamp(2.2rem,4vw,4rem);
+  line-height:.9;
+  letter-spacing:-.055em;
+  text-transform:uppercase;
+}
+
+.option-label{
+  margin:23px 0 10px;
+  color:#938b84;
+  font-size:.56rem;
+  font-weight:900;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+
+.option-group{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.option-button{
+  min-height:38px;
+  padding:0 14px;
+  border:1px solid #625a55;
+  border-radius:999px;
+  background:transparent;
+  color:#c7c0bb;
+  font-size:.56rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.option-button.active{
+  background:var(--orange);
+  border-color:var(--orange);
+  color:white;
+}
+
+.form-field{
+  margin-top:22px;
+}
+
+.form-field label{
+  display:block;
+  margin-bottom:8px;
+  color:#938b84;
+  font-size:.56rem;
+  font-weight:900;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+
+.form-field input,
+.form-field textarea{
+  width:100%;
+  padding:12px 0;
+  border:0;
+  border-bottom:1px solid #5e5650;
+  border-radius:0;
+  background:transparent;
+  color:white;
+  outline:none;
+}
+
+.form-field textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+.form-field input:focus,
+.form-field textarea:focus{
+  border-color:var(--orange);
+}
+
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.submit-button{
+  width:100%;
+  min-height:52px;
+  margin-top:24px;
+  border:0;
+  border-radius:999px;
+  background:var(--orange);
+  color:white;
+  font-size:.64rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.submit-button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.form-message{
+  min-height:19px;
+  margin-top:12px;
+  color:#bfb8b2;
+  font-size:.68rem;
+}
+
+.form-message.success{
+  color:#7fd4a5;
+}
+
+.form-message.error{
+  color:#ff8f8f;
+}
+
+
+/* ============================================================
+   STORY
+============================================================ */
+
+.story-section{
+  padding:110px 0;
+  background:var(--cream);
+}
+
+.story-grid{
+  display:grid;
+  grid-template-columns:.85fr 1.15fr;
+  gap:80px;
+  align-items:start;
+}
+
+.story-image{
+  position:sticky;
+  top:120px;
+}
+
+.story-image img{
+  width:100%;
+  aspect-ratio:4/5;
+  object-fit:cover;
+}
+
+.story-copy .section-kicker{
+  color:var(--orange);
+}
+
+.story-heading{
+  margin:0 0 36px;
+  font-size:clamp(3.2rem,6vw,6.5rem);
+  line-height:.85;
+  letter-spacing:-.07em;
+}
+
+.story-text{
+  display:grid;
+  gap:19px;
+}
+
+.story-text p{
+  margin:0;
+  max-width:730px;
+  font-size:clamp(1rem,1.45vw,1.25rem);
+  line-height:1.58;
+}
+
+.story-text p:first-child{
+  font-size:clamp(1.25rem,2vw,1.8rem);
+  font-weight:900;
+}
+
+
+/* ============================================================
+   PHOTO STRIP
+============================================================ */
+
+.photo-strip{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  height:min(70vw,700px);
+  max-height:700px;
+  min-height:400px;
+}
+
+.photo-strip img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+footer{
+  padding:70px 0 30px;
+  background:var(--orange);
+  color:var(--black);
+}
+
+.footer-top{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:40px;
+  align-items:end;
+}
+
+.footer-title{
+  margin:0;
+  font-size:clamp(3.2rem,7vw,7rem);
+  line-height:.82;
+  letter-spacing:-.07em;
+  text-transform:uppercase;
+}
+
+.footer-links{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.footer-link{
+  min-height:44px;
+  padding:0 17px;
+  display:inline-flex;
+  align-items:center;
+  border:1px solid var(--black);
+  border-radius:999px;
+  text-decoration:none;
+  font-size:.62rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.footer-link:hover{
+  background:var(--black);
+  color:white;
+}
+
+.footer-bottom{
+  margin-top:55px;
+  padding-top:22px;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  border-top:1px solid rgba(17,16,15,.25);
+  font-size:.58rem;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+
+/* ============================================================
+   REVEAL
+============================================================ */
+
+.reveal{
+  opacity:0;
+  transform:translateY(22px);
+  transition:
+    opacity .6s ease,
+    transform .6s ease;
+}
+
+.reveal.visible{
+  opacity:1;
+  transform:none;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media(max-width:1000px){
+
+  .nav-links{
+    display:none;
   }
 
-
-  /* ==========================================================
-     HOMEPAGE
-  ========================================================== */
-
-  if (
-    path === "/" &&
-    method === "GET"
-  ) {
-
-    return serveAsset(
-      request,
-      env,
-      "/index.html"
-    );
-
+  .menu-toggle{
+    position:relative;
+    display:flex;
   }
 
-
-  /* ==========================================================
-     PUBLIC API
-  ========================================================== */
-
-  if (
-    path === "/api/events" &&
-    method === "GET"
-  ) {
-
-    return getPublicEvents(
-      env
-    );
-
+  .hero-grid{
+    grid-template-columns:1fr;
   }
 
-
-  if (
-    path === "/api/contact" &&
-    method === "POST"
-  ) {
-
-    return createContactMessage(
-      request,
-      env
-    );
-
+  .hero-actions{
+    padding:0;
   }
 
-
-  /* ==========================================================
-     AUTH
-  ========================================================== */
-
-  if (
-    path === "/api/auth/login" &&
-    method === "POST"
-  ) {
-
-    return loginAdmin(
-      request,
-      env
-    );
-
+  .social-grid,
+  .story-grid{
+    grid-template-columns:1fr;
+    gap:45px;
   }
 
-
-  if (
-    path === "/api/auth/logout" &&
-    method === "POST"
-  ) {
-
-    return logoutAdmin();
-
+  .story-image{
+    position:static;
   }
 
+  .contact-grid{
+    grid-template-columns:1fr;
+  }
 
-  if (
-    path === "/api/auth/check" &&
-    method === "GET"
-  ) {
+  .contact-left{
+    min-height:auto;
+    padding:80px 35px;
+  }
 
-    const authenticated =
-      await isAuthenticated(
-        request,
-        env
+  .footer-top{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+@media(max-width:800px){
+
+  :root{
+    --header-height:72px;
+  }
+
+  .container{
+    width:calc(100% - 30px);
+  }
+
+  .nav-logo{
+    width:90px;
+    height:48px;
+  }
+
+  .language-switcher{
+    display:none;
+  }
+
+  .hero{
+    min-height:92svh;
+  }
+
+  .hero::before{
+    background:
+      linear-gradient(
+        0deg,
+        rgba(0,0,0,.82) 0%,
+        rgba(0,0,0,.2) 65%
       );
+  }
 
-    return jsonResponse({
-      authenticated
+  .hero-image{
+    object-position:55% center;
+  }
+
+  .hero-content{
+    padding-bottom:38px;
+  }
+
+  .hero-title{
+    font-size:clamp(4.4rem,22vw,7rem);
+  }
+
+  .hero-subtitle{
+    margin-top:28px;
+  }
+
+  .hero-actions{
+    flex-wrap:wrap;
+  }
+
+  .social-section{
+    padding:70px 0;
+  }
+
+  .shows-section{
+    padding:75px 0 80px;
+  }
+
+  .next-show{
+    min-height:0;
+    padding:28px 22px;
+    display:block;
+  }
+
+  .next-show-label{
+    position:static;
+    margin-bottom:30px;
+  }
+
+  .next-show-date{
+    padding:0;
+  }
+
+  .next-show-day{
+    font-size:4.5rem;
+  }
+
+  .next-show-month{
+    margin-top:8px;
+  }
+
+  .next-show-main{
+    margin-top:26px;
+  }
+
+  .next-show-venue{
+    font-size:clamp(2.3rem,10vw,3.8rem);
+  }
+
+  .next-show-right{
+    margin-top:24px;
+    padding-top:20px;
+    align-items:flex-start;
+    border-top:1px solid rgba(255,255,255,.14);
+  }
+
+  .next-show-time{
+    text-align:left;
+  }
+
+  .event-links{
+    justify-content:flex-start;
+  }
+
+  .event{
+    min-height:0;
+    padding:15px 0;
+    grid-template-columns:58px minmax(0,1fr);
+    gap:14px;
+    background:transparent;
+  }
+
+  .event:hover{
+    background:transparent;
+  }
+
+  .event-day{
+    font-size:2rem;
+  }
+
+  .event-month{
+    margin-top:5px;
+    font-size:.5rem;
+  }
+
+  .event-venue{
+    font-size:1.17rem;
+  }
+
+  .event-location{
+    margin-top:4px;
+    font-size:.67rem;
+  }
+
+  .event-note{
+    font-size:.62rem;
+  }
+
+  .event-right{
+    grid-column:2;
+    min-width:0;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    gap:9px;
+    flex-wrap:wrap;
+  }
+
+  .event-meta-row{
+    justify-content:flex-start;
+  }
+
+  .event-time{
+    font-size:.72rem;
+  }
+
+  .show-more-button{
+    width:100%;
+  }
+
+  .contact-right{
+    padding:65px 22px;
+  }
+
+  .story-section{
+    padding:80px 0;
+  }
+
+  .photo-strip{
+    grid-template-columns:1fr;
+    height:auto;
+    min-height:0;
+  }
+
+  .photo-strip img{
+    aspect-ratio:4/3;
+  }
+
+  footer{
+    padding-top:55px;
+  }
+
+}
+
+
+@media(max-width:560px){
+
+  .hero-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    width:100%;
+  }
+
+  .cta{
+    padding:0 13px;
+    font-size:.58rem;
+  }
+
+  .section-title{
+    font-size:3.9rem;
+  }
+
+  .form-row{
+    grid-template-columns:1fr;
+  }
+
+  .contact-left{
+    padding:65px 20px;
+  }
+
+  .contact-title{
+    font-size:4.4rem;
+  }
+
+  .option-button{
+    padding:0 11px;
+    font-size:.51rem;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+  }
+
+}
+
+
+@media(prefers-reduced-motion:reduce){
+
+  html{
+    scroll-behavior:auto;
+  }
+
+  *,
+  *::before,
+  *::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+
+}
+
+</style>
+</head>
+
+<body id="top">
+
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+
+<header id="header">
+
+  <div class="container">
+
+    <nav class="nav">
+
+      <a
+        href="#top"
+        class="nav-logo"
+        aria-label="Orange May home"
+      >
+
+        <img
+          src="/images/logo-white.png"
+          alt="Orange May Acoustic"
+          class="logo-white"
+        >
+
+        <img
+          src="/images/logo.png"
+          alt=""
+          aria-hidden="true"
+          class="logo-dark"
+        >
+
+      </a>
+
+
+      <div class="nav-right">
+
+        <div class="nav-links">
+
+          <a
+            href="#social"
+            data-en="Social"
+            data-it="Social"
+          >
+            Social
+          </a>
+
+          <a
+            href="#shows"
+            data-en="Shows"
+            data-it="Date"
+          >
+            Shows
+          </a>
+
+          <a
+            href="#contact"
+            data-en="Contact"
+            data-it="Contatti"
+          >
+            Contact
+          </a>
+
+          <a
+            href="#story"
+            data-en="Our Story"
+            data-it="La nostra storia"
+          >
+            Our Story
+          </a>
+
+        </div>
+
+
+        <div class="language-switcher">
+
+          <button
+            id="enBtn"
+            class="active"
+            type="button"
+          >
+            EN
+          </button>
+
+          <button
+            id="itBtn"
+            type="button"
+          >
+            IT
+          </button>
+
+        </div>
+
+
+        <button
+          id="menuToggle"
+          class="menu-toggle"
+          type="button"
+          aria-label="Menu"
+        >
+          <span></span>
+        </button>
+
+      </div>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<!-- MOBILE MENU -->
+
+<div
+  id="mobileMenu"
+  class="mobile-menu"
+>
+
+  <div class="mobile-menu-links">
+
+    <a
+      href="#social"
+      data-mobile-link
+      data-en="Social"
+      data-it="Social"
+    >
+      Social
+    </a>
+
+    <a
+      href="#shows"
+      data-mobile-link
+      data-en="Shows"
+      data-it="Date"
+    >
+      Shows
+    </a>
+
+    <a
+      href="#contact"
+      data-mobile-link
+      data-en="Contact"
+      data-it="Contatti"
+    >
+      Contact
+    </a>
+
+    <a
+      href="#story"
+      data-mobile-link
+      data-en="Our Story"
+      data-it="La nostra storia"
+    >
+      Our Story
+    </a>
+
+  </div>
+
+
+  <div class="mobile-menu-bottom">
+
+    <div>
+
+      <button
+        id="mobileEnBtn"
+        class="option-button active"
+        type="button"
+      >
+        EN
+      </button>
+
+      <button
+        id="mobileItBtn"
+        class="option-button"
+        type="button"
+      >
+        IT
+      </button>
+
+    </div>
+
+    <a
+      href="https://www.instagram.com/orangemay_acoustic/"
+      target="_blank"
+      rel="noopener"
+    >
+      Instagram ↗
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+
+<section class="hero">
+
+  <img
+    class="hero-image"
+    src="/images/hero.jpeg"
+    alt="Orange May live"
+  >
+
+
+  <div class="hero-content">
+
+    <div class="container">
+
+      <div class="hero-grid">
+
+        <div>
+
+          <div
+            class="hero-eyebrow"
+            data-en="Acoustic live duo"
+            data-it="Duo acustico live"
+          >
+            Acoustic live duo
+          </div>
+
+
+          <h1 class="hero-title">
+
+            <span>
+              Orange
+            </span>
+
+            <span class="orange">
+              May
+            </span>
+
+          </h1>
+
+
+          <p
+            class="hero-subtitle"
+            data-en="Two voices. One guitar. Every song made our own."
+            data-it="Due voci. Una chitarra. Ogni canzone a modo nostro."
+          >
+            Two voices. One guitar. Every song made our own.
+          </p>
+
+        </div>
+
+
+        <div class="hero-actions">
+
+          <a
+            class="cta orange"
+            href="#social"
+            data-en="Follow us"
+            data-it="Seguici"
+          >
+            Follow us
+          </a>
+
+          <a
+            class="cta white"
+            href="#shows"
+          >
+            <span
+              data-en="Next shows"
+              data-it="Prossime date"
+            >
+              Next shows
+            </span>
+            ↓
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     SOCIAL
+============================================================ -->
+
+<section
+  id="social"
+  class="social-section"
+>
+
+  <div class="container">
+
+    <div class="social-grid reveal">
+
+      <div>
+
+        <div
+          class="section-kicker"
+          data-en="Stay connected"
+          data-it="Resta connesso"
+        >
+          Stay connected
+        </div>
+
+        <h2
+          class="section-title"
+          data-en="FOLLOW THE MUSIC."
+          data-it="SEGUI LA MUSICA."
+        >
+          FOLLOW THE MUSIC.
+        </h2>
+
+      </div>
+
+
+      <div>
+
+        <div
+          class="social-copy"
+          data-en="Live moments, new shows and everything happening around Orange May."
+          data-it="Momenti live, nuove date e tutto quello che succede intorno agli Orange May."
+        >
+          Live moments, new shows and everything happening around Orange May.
+        </div>
+
+
+        <div class="social-links">
+
+          <a
+            class="social-link"
+            href="https://www.instagram.com/orangemay_acoustic/"
+            target="_blank"
+            rel="noopener"
+          >
+            Instagram ↗
+          </a>
+
+          <a
+            class="social-link"
+            href="https://www.facebook.com/p/Orange-May-100092238015144/"
+            target="_blank"
+            rel="noopener"
+          >
+            Facebook ↗
+          </a>
+
+          <a
+            class="social-link"
+            href="https://wa.me/393421670308"
+            target="_blank"
+            rel="noopener"
+          >
+            WhatsApp ↗
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     TICKER
+============================================================ -->
+
+<div class="ticker">
+
+  <div class="ticker-track">
+
+    <div class="ticker-set">
+
+      <div class="ticker-item">Two voices</div>
+      <div class="ticker-item">Guitar</div>
+      <div class="ticker-item">Percussion</div>
+      <div class="ticker-item">Live loops</div>
+      <div class="ticker-item">Orange May</div>
+      <div class="ticker-item">Live music</div>
+      <div class="ticker-item">Acoustic</div>
+
+    </div>
+
+    <div class="ticker-set">
+
+      <div class="ticker-item">Two voices</div>
+      <div class="ticker-item">Guitar</div>
+      <div class="ticker-item">Percussion</div>
+      <div class="ticker-item">Live loops</div>
+      <div class="ticker-item">Orange May</div>
+      <div class="ticker-item">Live music</div>
+      <div class="ticker-item">Acoustic</div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ============================================================
+     SHOWS
+============================================================ -->
+
+<section
+  id="shows"
+  class="shows-section"
+>
+
+  <div class="container">
+
+    <div class="shows-heading reveal">
+
+      <div
+        class="section-kicker"
+        data-en="Live"
+        data-it="Live"
+      >
+        Live
+      </div>
+
+      <h2
+        class="section-title"
+        data-en="UPCOMING SHOWS."
+        data-it="PROSSIME DATE."
+      >
+        UPCOMING SHOWS.
+      </h2>
+
+    </div>
+
+
+    <div
+      id="eventsContainer"
+      class="reveal"
+    >
+
+      <div
+        class="events-empty"
+        data-en="Loading shows..."
+        data-it="Caricamento date..."
+      >
+        Loading shows...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     CONTACT
+============================================================ -->
+
+<section
+  id="contact"
+  class="contact-section"
+>
+
+  <div class="contact-grid">
+
+    <div class="contact-left">
+
+      <div class="contact-left-inner reveal">
+
+        <div
+          class="section-kicker"
+          data-en="Contact Orange May"
+          data-it="Contatta Orange May"
+        >
+          Contact Orange May
+        </div>
+
+
+        <h2 class="contact-title">
+
+          <span
+            class="orange"
+            data-en="GET IN"
+            data-it="SCRIVICI"
+          >
+            GET IN
+          </span>
+
+          <br>
+
+          <span
+            data-en="TOUCH."
+            data-it="ORA."
+          >
+            TOUCH.
+          </span>
+
+        </h2>
+
+
+        <div
+          class="contact-copy"
+          data-en="Want to book us, ask something, work together or simply say hi? We'd love to hear from you."
+          data-it="Vuoi prenotarci, chiederci qualcosa, collaborare o semplicemente salutarci? Scrivici."
+        >
+          Want to book us, ask something, work together or simply say hi?
+          We'd love to hear from you.
+        </div>
+
+
+        <div class="contact-direct">
+
+          <a
+            class="whatsapp-button"
+            href="https://wa.me/393421670308"
+            target="_blank"
+            rel="noopener"
+          >
+            <span
+              data-en="Message us on WhatsApp"
+              data-it="Scrivici su WhatsApp"
+            >
+              Message us on WhatsApp
+            </span>
+            &nbsp; ↗
+          </a>
+
+
+          <a
+            class="contact-email"
+            href="mailto:orangemayacoustic@gmail.com"
+          >
+            orangemayacoustic@gmail.com
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="contact-right">
+
+      <div class="reveal">
+
+        <div
+          class="contact-form-kicker"
+          data-en="Send us a message"
+          data-it="Mandaci un messaggio"
+        >
+          Send us a message
+        </div>
+
+
+        <h3
+          class="contact-form-title"
+          data-en="HOW CAN WE HELP?"
+          data-it="COME POSSIAMO AIUTARTI?"
+        >
+          HOW CAN WE HELP?
+        </h3>
+
+
+        <form id="contactForm">
+
+          <!-- CONTACT INTENT -->
+
+          <div class="option-group">
+
+            <button
+              type="button"
+              class="option-button active"
+              data-contact-intent="BOOKING"
+              data-en="Booking"
+              data-it="Booking"
+            >
+              Booking
+            </button>
+
+            <button
+              type="button"
+              class="option-button"
+              data-contact-intent="INFO"
+              data-en="Info"
+              data-it="Info"
+            >
+              Info
+            </button>
+
+            <button
+              type="button"
+              class="option-button"
+              data-contact-intent="COLLABORATION"
+              data-en="Collaboration"
+              data-it="Collaborazione"
+            >
+              Collaboration
+            </button>
+
+            <button
+              type="button"
+              class="option-button"
+              data-contact-intent="HELLO"
+              data-en="Just saying hi"
+              data-it="Solo un saluto"
+            >
+              Just saying hi
+            </button>
+
+          </div>
+
+
+          <!-- BOOKING TYPE -->
+
+          <div id="bookingOptions">
+
+            <div
+              class="option-label"
+              data-en="What are you planning?"
+              data-it="Cosa stai organizzando?"
+            >
+              What are you planning?
+            </div>
+
+
+            <div class="option-group">
+
+              <button
+                type="button"
+                class="option-button"
+                data-booking-type="HOTEL"
+              >
+                Hotel
+              </button>
+
+              <button
+                type="button"
+                class="option-button"
+                data-booking-type="VENUE"
+                data-en="Venue"
+                data-it="Locale"
+              >
+                Venue
+              </button>
+
+              <button
+                type="button"
+                class="option-button"
+                data-booking-type="WEDDING"
+                data-en="Wedding"
+                data-it="Matrimonio"
+              >
+                Wedding
+              </button>
+
+              <button
+                type="button"
+                class="option-button"
+                data-booking-type="PRIVATE_EVENT"
+                data-en="Private event"
+                data-it="Evento privato"
+              >
+                Private event
+              </button>
+
+              <button
+                type="button"
+                class="option-button"
+                data-booking-type="OTHER"
+                data-en="Other"
+                data-it="Altro"
+              >
+                Other
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="eventDateField"
+            class="form-field"
+          >
+
+            <label
+              for="contactEventDate"
+              data-en="Event date"
+              data-it="Data evento"
+            >
+              Event date
+            </label>
+
+            <input
+              id="contactEventDate"
+              type="date"
+            >
+
+          </div>
+
+
+          <div class="form-row">
+
+            <div class="form-field">
+
+              <label
+                for="contactName"
+                data-en="First & last name"
+                data-it="Nome e cognome"
+              >
+                First & last name
+              </label>
+
+              <input
+                id="contactName"
+                type="text"
+                autocomplete="name"
+                required
+              >
+
+            </div>
+
+
+            <div class="form-field">
+
+              <label
+                for="contactEmail"
+                data-en="Email"
+                data-it="Email"
+              >
+                Email
+              </label>
+
+              <input
+                id="contactEmail"
+                type="email"
+                autocomplete="email"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="form-field">
+
+            <label
+              for="contactMessage"
+              data-en="Your message"
+              data-it="Il tuo messaggio"
+            >
+              Your message
+            </label>
+
+            <textarea
+              id="contactMessage"
+              required
+            ></textarea>
+
+          </div>
+
+
+          <button
+            id="contactSubmitButton"
+            class="submit-button"
+            type="submit"
+          >
+            <span
+              data-en="Send message"
+              data-it="Invia messaggio"
+            >
+              Send message
+            </span>
+            &nbsp; →
+          </button>
+
+
+          <div
+            id="contactFormMessage"
+            class="form-message"
+          ></div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     STORY
+============================================================ -->
+
+<section
+  id="story"
+  class="story-section"
+>
+
+  <div class="container">
+
+    <div class="story-grid">
+
+      <div class="story-image reveal">
+
+        <img
+          src="/images/story.jpg"
+          alt="Orange May"
+        >
+
+      </div>
+
+
+      <div class="story-copy reveal">
+
+        <div
+          class="section-kicker"
+          data-en="Our Story"
+          data-it="La nostra storia"
+        >
+          Our Story
+        </div>
+
+
+        <h2
+          class="story-heading"
+          data-en="It started with family. Then came the music."
+          data-it="È iniziato tutto in famiglia. Poi è arrivata la musica."
+        >
+          It started with family. Then came the music.
+        </h2>
+
+
+        <div class="story-text">
+
+          <p
+            data-en="We're Cristian and Lara, the two voices behind Orange May."
+            data-it="Siamo Cristian e Lara, le due voci degli Orange May."
+          >
+            We're Cristian and Lara, the two voices behind Orange May.
+          </p>
+
+
+          <p
+            data-en="Our story began almost by chance: our siblings are married to each other, which brought us into the same family long before it brought us onto the same stage."
+            data-it="La nostra storia è iniziata quasi per caso: i nostri fratelli sono sposati tra loro e questo ci ha fatti entrare nella stessa famiglia molto prima di portarci sullo stesso palco."
+          >
+            Our story began almost by chance: our siblings are married to each
+            other, which brought us into the same family long before it brought
+            us onto the same stage.
+          </p>
+
+
+          <p
+            data-en="That connection eventually became Orange May: an acoustic project built around familiar songs, rearranged in the way we like to play them."
+            data-it="Da quel legame è nato Orange May: un progetto acustico costruito intorno a canzoni che tutti conoscono, reinterpretate nel modo in cui piace suonarle a noi."
+          >
+            That connection eventually became Orange May: an acoustic project
+            built around familiar songs, rearranged in the way we like to play
+            them.
+          </p>
+
+
+          <p
+            data-en="Guitar, two voices, percussion and live loops let us move from intimate acoustic moments to energetic nights. We play hotels, venues, weddings and private events, adapting every set to the atmosphere in front of us."
+            data-it="Chitarra, due voci, percussioni e loop registrati dal vivo ci permettono di passare dai momenti più intimi a serate molto più energiche. Suoniamo in hotel, locali, matrimoni ed eventi privati, adattando ogni set all'atmosfera che abbiamo davanti."
+          >
+            Guitar, two voices, percussion and live loops let us move from
+            intimate acoustic moments to energetic nights. We play hotels,
+            venues, weddings and private events, adapting every set to the
+            atmosphere in front of us.
+          </p>
+
+
+          <p
+            data-en="Different places. Different nights. Always live. Always Orange May."
+            data-it="Posti diversi. Serate diverse. Sempre live. Sempre Orange May."
+          >
+            Different places. Different nights. Always live. Always Orange May.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     PHOTO STRIP
+============================================================ -->
+
+<section class="photo-strip">
+
+  <img
+    src="/images/cristian-live.jpeg"
+    alt="Cristian live"
+  >
+
+  <img
+    src="/images/lara-live.jpeg"
+    alt="Lara live"
+  >
+
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-top">
+
+      <h2
+        class="footer-title"
+        data-en="SEE YOU AT THE NEXT SHOW."
+        data-it="CI VEDIAMO ALLA PROSSIMA DATA."
+      >
+        SEE YOU AT THE NEXT SHOW.
+      </h2>
+
+
+      <div class="footer-links">
+
+        <a
+          class="footer-link"
+          href="https://www.instagram.com/orangemay_acoustic/"
+          target="_blank"
+          rel="noopener"
+        >
+          Instagram ↗
+        </a>
+
+        <a
+          class="footer-link"
+          href="https://www.facebook.com/p/Orange-May-100092238015144/"
+          target="_blank"
+          rel="noopener"
+        >
+          Facebook ↗
+        </a>
+
+        <a
+          class="footer-link"
+          href="#contact"
+          data-en="Contact"
+          data-it="Contatti"
+        >
+          Contact
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © Orange May Acoustic
+      </span>
+
+      <span
+        data-en="Two voices · one guitar · live loops"
+        data-it="Due voci · una chitarra · loop live"
+      >
+        Two voices · one guitar · live loops
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script>
+
+/* ============================================================
+   LANGUAGE
+============================================================ */
+
+let currentLanguage =
+  localStorage.getItem(
+    "orangeMayLanguage"
+  ) || "en";
+
+
+const enBtn =
+  document.getElementById(
+    "enBtn"
+  );
+
+const itBtn =
+  document.getElementById(
+    "itBtn"
+  );
+
+const mobileEnBtn =
+  document.getElementById(
+    "mobileEnBtn"
+  );
+
+const mobileItBtn =
+  document.getElementById(
+    "mobileItBtn"
+  );
+
+
+function setLanguage(language){
+
+  currentLanguage =
+    language === "it"
+      ? "it"
+      : "en";
+
+
+  localStorage.setItem(
+    "orangeMayLanguage",
+    currentLanguage
+  );
+
+
+  document.documentElement.lang =
+    currentLanguage;
+
+
+  document
+    .querySelectorAll(
+      "[data-en][data-it]"
+    )
+    .forEach(element=>{
+
+      element.textContent =
+        currentLanguage === "it"
+          ? element.dataset.it
+          : element.dataset.en;
+
     });
 
-  }
 
+  enBtn.classList.toggle(
+    "active",
+    currentLanguage === "en"
+  );
 
-  /* ==========================================================
-     ADMIN PAGE
-  ========================================================== */
+  itBtn.classList.toggle(
+    "active",
+    currentLanguage === "it"
+  );
 
-  if (
-    path === "/admin" ||
-    path === "/admin/"
-  ) {
+  mobileEnBtn.classList.toggle(
+    "active",
+    currentLanguage === "en"
+  );
 
-    const authenticated =
-      await isAuthenticated(
-        request,
-        env
-      );
+  mobileItBtn.classList.toggle(
+    "active",
+    currentLanguage === "it"
+  );
 
 
-    if (!authenticated) {
+  renderEvents();
 
-      return redirectResponse(
-        "/login"
-      );
+  updateContactInterface();
 
-    }
+}
 
 
-    return serveAsset(
-      request,
-      env,
-      "/admin.html"
-    );
+enBtn.addEventListener(
+  "click",
+  () => setLanguage("en")
+);
 
-  }
+itBtn.addEventListener(
+  "click",
+  () => setLanguage("it")
+);
 
+mobileEnBtn.addEventListener(
+  "click",
+  () => setLanguage("en")
+);
 
-  /* ==========================================================
-     LOGIN PAGE
-  ========================================================== */
+mobileItBtn.addEventListener(
+  "click",
+  () => setLanguage("it")
+);
 
-  if (
-    path === "/login" ||
-    path === "/login/"
-  ) {
 
-    const authenticated =
-      await isAuthenticated(
-        request,
-        env
-      );
+/* ============================================================
+   HEADER
+============================================================ */
 
+const header =
+  document.getElementById(
+    "header"
+  );
 
-    if (authenticated) {
 
-      return redirectResponse(
-        "/admin"
-      );
+function updateHeader(){
 
-    }
-
-
-    return serveAsset(
-      request,
-      env,
-      "/login.html"
-    );
-
-  }
-
-
-  /* ==========================================================
-     ADMIN API AUTH CHECK
-  ========================================================== */
-
-  if (
-    path.startsWith(
-      "/api/admin/"
-    )
-  ) {
-
-    const authenticated =
-      await isAuthenticated(
-        request,
-        env
-      );
-
-
-    if (!authenticated) {
-
-      return jsonResponse(
-        {
-          error:
-            "Unauthorized"
-        },
-        401
-      );
-
-    }
-
-  }
-
-
-  /* ==========================================================
-     ADMIN EVENTS
-  ========================================================== */
-
-  if (
-    path === "/api/admin/events" &&
-    method === "GET"
-  ) {
-
-    return getAdminEvents(
-      env
-    );
-
-  }
-
-
-  if (
-    path === "/api/admin/events" &&
-    method === "POST"
-  ) {
-
-    return createEvent(
-      request,
-      env
-    );
-
-  }
-
-
-  const eventMatch =
-    path.match(
-      /^\/api\/admin\/events\/(\d+)$/
-    );
-
-
-  if (eventMatch) {
-
-    const id =
-      Number(
-        eventMatch[1]
-      );
-
-
-    if (method === "GET") {
-
-      return getEvent(
-        id,
-        env
-      );
-
-    }
-
-
-    if (
-      method === "PUT" ||
-      method === "PATCH"
-    ) {
-
-      return updateEvent(
-        id,
-        request,
-        env
-      );
-
-    }
-
-
-    if (
-      method === "DELETE"
-    ) {
-
-      return deleteEvent(
-        id,
-        env
-      );
-
-    }
-
-  }
-
-
-  /* ==========================================================
-     ADMIN VENUES
-  ========================================================== */
-
-  if (
-    path === "/api/admin/venues" &&
-    method === "GET"
-  ) {
-
-    return getVenues(
-      env
-    );
-
-  }
-
-
-  if (
-    path === "/api/admin/venues" &&
-    method === "POST"
-  ) {
-
-    return createVenue(
-      request,
-      env
-    );
-
-  }
-
-
-  const venueMatch =
-    path.match(
-      /^\/api\/admin\/venues\/(\d+)$/
-    );
-
-
-  if (venueMatch) {
-
-    const id =
-      Number(
-        venueMatch[1]
-      );
-
-
-    if (method === "GET") {
-
-      return getVenue(
-        id,
-        env
-      );
-
-    }
-
-
-    if (
-      method === "PUT" ||
-      method === "PATCH"
-    ) {
-
-      return updateVenue(
-        id,
-        request,
-        env
-      );
-
-    }
-
-
-    if (
-      method === "DELETE"
-    ) {
-
-      return deleteVenue(
-        id,
-        env
-      );
-
-    }
-
-  }
-
-
-  /* ==========================================================
-     ADMIN MESSAGES
-  ========================================================== */
-
-  if (
-    path ===
-      "/api/admin/messages/unread-count" &&
-    method === "GET"
-  ) {
-
-    return getUnreadMessageCount(
-      env
-    );
-
-  }
-
-
-  if (
-    path === "/api/admin/messages" &&
-    method === "GET"
-  ) {
-
-    return getMessages(
-      env
-    );
-
-  }
-
-
-  const messageMatch =
-    path.match(
-      /^\/api\/admin\/messages\/(\d+)$/
-    );
-
-
-  if (messageMatch) {
-
-    const id =
-      Number(
-        messageMatch[1]
-      );
-
-
-    if (method === "GET") {
-
-      return getMessage(
-        id,
-        env
-      );
-
-    }
-
-
-    if (
-      method === "PATCH"
-    ) {
-
-      return updateMessage(
-        id,
-        request,
-        env
-      );
-
-    }
-
-
-    if (
-      method === "DELETE"
-    ) {
-
-      return deleteMessage(
-        id,
-        env
-      );
-
-    }
-
-  }
-
-
-  /* ==========================================================
-     STATIC WEBSITE
-  ========================================================== */
-
-  if (env.ASSETS) {
-
-    return env.ASSETS.fetch(
-      request
-    );
-
-  }
-
-
-  return new Response(
-    "Not found",
-    {
-      status: 404
-    }
+  header.classList.toggle(
+    "scrolled",
+    window.scrollY > 70
   );
 
 }
 
 
+window.addEventListener(
+  "scroll",
+  updateHeader,
+  {
+    passive:true
+  }
+);
+
+updateHeader();
+
+
 /* ============================================================
-   AUTOMATIC EVENT CLEANUP
+   MOBILE MENU
 ============================================================ */
 
-/*
-   Restituisce la data corrente in Italia:
+const menuToggle =
+  document.getElementById(
+    "menuToggle"
+  );
 
-   YYYY-MM-DD
-*/
+const mobileMenu =
+  document.getElementById(
+    "mobileMenu"
+  );
 
-function getTodayRome() {
 
-  const parts =
-    new Intl.DateTimeFormat(
-      "en-CA",
-      {
-        timeZone:
-          "Europe/Rome",
+function closeMenu(){
 
-        year:
-          "numeric",
+  menuToggle.classList.remove(
+    "active"
+  );
 
-        month:
-          "2-digit",
+  mobileMenu.classList.remove(
+    "open"
+  );
 
-        day:
-          "2-digit"
-      }
-    )
-      .formatToParts(
-        new Date()
+  document.body.classList.remove(
+    "menu-open"
+  );
+
+}
+
+
+menuToggle.addEventListener(
+  "click",
+  () => {
+
+    const open =
+      !mobileMenu.classList.contains(
+        "open"
       );
 
 
-  const values = {};
+    menuToggle.classList.toggle(
+      "active",
+      open
+    );
+
+    mobileMenu.classList.toggle(
+      "open",
+      open
+    );
+
+    document.body.classList.toggle(
+      "menu-open",
+      open
+    );
+
+  }
+);
 
 
-  for (
-    const part of parts
-  ) {
+document
+  .querySelectorAll(
+    "[data-mobile-link]"
+  )
+  .forEach(link=>{
 
-    if (
-      part.type !== "literal"
-    ) {
+    link.addEventListener(
+      "click",
+      closeMenu
+    );
 
-      values[
-        part.type
-      ] =
-        part.value;
+  });
 
+
+/* ============================================================
+   REVEAL
+============================================================ */
+
+const observer =
+  new IntersectionObserver(
+    entries=>{
+
+      entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+
+          entry.target.classList.add(
+            "visible"
+          );
+
+          observer.unobserve(
+            entry.target
+          );
+
+        }
+
+      });
+
+    },
+    {
+      threshold:.12
     }
+  );
+
+
+document
+  .querySelectorAll(
+    ".reveal"
+  )
+  .forEach(element=>{
+
+    observer.observe(
+      element
+    );
+
+  });
+
+
+/* ============================================================
+   EVENTS
+============================================================ */
+
+const INITIAL_VISIBLE_EVENTS = 5;
+const LOAD_MORE_STEP = 5;
+
+let publicEvents = [];
+let visibleEventCount =
+  INITIAL_VISIBLE_EVENTS;
+
+
+const eventsContainer =
+  document.getElementById(
+    "eventsContainer"
+  );
+
+
+function escapeHtml(value){
+
+  return String(
+    value ?? ""
+  )
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function parseDateParts(
+  dateString
+){
+
+  if(!dateString){
+
+    return {
+      day:"—",
+      month:""
+    };
+
+  }
+
+
+  const [
+    year,
+    month,
+    day
+  ] =
+    dateString.split("-");
+
+
+  const monthsEn = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC"
+  ];
+
+
+  const monthsIt = [
+    "GEN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAG",
+    "GIU",
+    "LUG",
+    "AGO",
+    "SET",
+    "OTT",
+    "NOV",
+    "DIC"
+  ];
+
+
+  const months =
+    currentLanguage === "it"
+      ? monthsIt
+      : monthsEn;
+
+
+  return {
+
+    day,
+
+    month:
+      months[
+        Number(month)-1
+      ] || ""
+
+  };
+
+}
+
+
+function eventStartDate(
+  event
+){
+
+  if(
+    !event.event_date
+  ){
+    return null;
+  }
+
+
+  const time =
+    event.start_time ||
+    "00:00";
+
+
+  return new Date(
+    `${event.event_date}T${time}:00`
+  );
+
+}
+
+
+function eventEndDate(
+  event
+){
+
+  if(
+    !event.event_date
+  ){
+    return null;
+  }
+
+
+  const time =
+    event.end_time ||
+    event.start_time ||
+    "23:59";
+
+
+  return new Date(
+    `${event.event_date}T${time}:00`
+  );
+
+}
+
+
+function isEventStillRelevant(
+  event
+){
+
+  const end =
+    eventEndDate(
+      event
+    );
+
+  if(!end){
+    return false;
+  }
+
+
+  return (
+    end.getTime() >=
+    Date.now()
+  );
+
+}
+
+
+function formatTime(
+  event
+){
+
+  if(
+    event.start_time &&
+    event.end_time
+  ){
+
+    return (
+      `${event.start_time} — ` +
+      `${event.end_time}`
+    );
 
   }
 
 
   return (
-    `${values.year}-` +
-    `${values.month}-` +
-    `${values.day}`
+    event.start_time ||
+    ""
   );
 
 }
 
 
-/*
-   Elimina definitivamente dal database
-   gli eventi precedenti a oggi.
-*/
+function getNextShowLabel(
+  event
+){
 
-async function cleanupPastEvents(
-  env
-) {
-
-  const today =
-    getTodayRome();
-
-
-  try {
-
-    const result =
-      await env.DB
-        .prepare(`
-          DELETE FROM events
-          WHERE event_date < ?
-        `)
-        .bind(
-          today
-        )
-        .run();
-
-
-    const deleted =
-      Number(
-        result?.meta?.changes ||
-        0
-      );
-
-
-    if (
-      deleted > 0
-    ) {
-
-      console.log(
-        `Deleted ${deleted} past event(s).`
-      );
-
-    }
-
-  } catch (error) {
-
-    console.error(
-      "Past events cleanup error:",
-      error
+  const start =
+    eventStartDate(
+      event
     );
 
-  }
 
-}
+  if(!start){
 
-
-/* ============================================================
-   PUBLIC EVENTS
-============================================================ */
-
-async function getPublicEvents(
-  env
-) {
-
-  await cleanupPastEvents(
-    env
-  );
-
-
-  const result =
-    await env.DB
-      .prepare(`
-        SELECT
-          id,
-          event_date,
-          venue,
-          location,
-          location_url,
-          start_time,
-          end_time,
-          note,
-          event_type,
-          public_url,
-          created_at
-
-        FROM events
-
-        ORDER BY
-          event_date ASC,
-
-          CASE
-            WHEN start_time IS NULL
-            OR start_time = ''
-            THEN '23:59'
-            ELSE start_time
-          END ASC,
-
-          id ASC
-      `)
-      .all();
-
-
-  return jsonResponse(
-    result.results || []
-  );
-
-}
-
-
-/* ============================================================
-   ADMIN EVENTS
-============================================================ */
-
-async function getAdminEvents(
-  env
-) {
-
-  await cleanupPastEvents(
-    env
-  );
-
-
-  const result =
-    await env.DB
-      .prepare(`
-        SELECT
-          id,
-          event_date,
-          venue,
-          location,
-          location_url,
-          start_time,
-          end_time,
-          note,
-          event_type,
-          public_url,
-          created_at
-
-        FROM events
-
-        ORDER BY
-          event_date ASC,
-
-          CASE
-            WHEN start_time IS NULL
-            OR start_time = ''
-            THEN '23:59'
-            ELSE start_time
-          END ASC,
-
-          id ASC
-      `)
-      .all();
-
-
-  return jsonResponse(
-    result.results || []
-  );
-
-}
-
-
-async function getEvent(
-  id,
-  env
-) {
-
-  const event =
-    await env.DB
-      .prepare(`
-        SELECT
-          id,
-          event_date,
-          venue,
-          location,
-          location_url,
-          start_time,
-          end_time,
-          note,
-          event_type,
-          public_url,
-          created_at
-
-        FROM events
-
-        WHERE id = ?
-
-        LIMIT 1
-      `)
-      .bind(
-        id
-      )
-      .first();
-
-
-  if (!event) {
-
-    return jsonResponse(
-      {
-        error:
-          "Event not found"
-      },
-      404
-    );
+    return currentLanguage === "it"
+      ? "Prossima data"
+      : "Next show";
 
   }
 
 
-  return jsonResponse(
-    event
-  );
-
-}
-
-
-async function createEvent(
-  request,
-  env
-) {
-
-  const body =
-    await readJsonBody(
-      request
-    );
-
-
-  const validation =
-    validateEvent(
-      body
-    );
-
-
-  if (!validation.valid) {
-
-    return jsonResponse(
-      {
-        error:
-          validation.error
-      },
-      400
-    );
-
-  }
-
-
-  const data =
-    validation.data;
-
-
-  const result =
-    await env.DB
-      .prepare(`
-        INSERT INTO events (
-          event_date,
-          venue,
-          location,
-          location_url,
-          start_time,
-          end_time,
-          note,
-          event_type,
-          public_url
-        )
-
-        VALUES (
-          ?,
-          ?,
-          ?,
-          ?,
-          ?,
-          ?,
-          ?,
-          ?,
-          ?
-        )
-      `)
-      .bind(
-        data.event_date,
-        data.venue,
-        data.location,
-        data.location_url,
-        data.start_time,
-        data.end_time,
-        data.note,
-        data.event_type,
-        data.public_url
-      )
-      .run();
-
-
-  return jsonResponse(
-    {
-      success: true,
-
-      id:
-        result.meta
-          ?.last_row_id
-    },
-    201
-  );
-
-}
-
-
-async function updateEvent(
-  id,
-  request,
-  env
-) {
-
-  const existing =
-    await env.DB
-      .prepare(`
-        SELECT id
-        FROM events
-        WHERE id = ?
-        LIMIT 1
-      `)
-      .bind(
-        id
-      )
-      .first();
-
-
-  if (!existing) {
-
-    return jsonResponse(
-      {
-        error:
-          "Event not found"
-      },
-      404
-    );
-
-  }
-
-
-  const body =
-    await readJsonBody(
-      request
-    );
-
-
-  const validation =
-    validateEvent(
-      body
-    );
-
-
-  if (!validation.valid) {
-
-    return jsonResponse(
-      {
-        error:
-          validation.error
-      },
-      400
-    );
-
-  }
-
-
-  const data =
-    validation.data;
-
-
-  await env.DB
-    .prepare(`
-      UPDATE events
-
-      SET
-        event_date = ?,
-        venue = ?,
-        location = ?,
-        location_url = ?,
-        start_time = ?,
-        end_time = ?,
-        note = ?,
-        event_type = ?,
-        public_url = ?
-
-      WHERE id = ?
-    `)
-    .bind(
-      data.event_date,
-      data.venue,
-      data.location,
-      data.location_url,
-      data.start_time,
-      data.end_time,
-      data.note,
-      data.event_type,
-      data.public_url,
-      id
-    )
-    .run();
-
-
-  return jsonResponse({
-    success: true
-  });
-
-}
-
-
-async function deleteEvent(
-  id,
-  env
-) {
-
-  const existing =
-    await env.DB
-      .prepare(`
-        SELECT id
-        FROM events
-        WHERE id = ?
-        LIMIT 1
-      `)
-      .bind(
-        id
-      )
-      .first();
-
-
-  if (!existing) {
-
-    return jsonResponse(
-      {
-        error:
-          "Event not found"
-      },
-      404
-    );
-
-  }
-
-
-  await env.DB
-    .prepare(`
-      DELETE FROM events
-      WHERE id = ?
-    `)
-    .bind(
-      id
-    )
-    .run();
-
-
-  return jsonResponse({
-    success: true
-  });
-
-}
-
-
-/* ============================================================
-   EVENT VALIDATION
-============================================================ */
-
-function validateEvent(
-  body
-) {
-
-  const eventDate =
-    cleanString(
-      body.event_date,
-      20
-    );
-
-
-  const venue =
-    cleanString(
-      body.venue,
-      250
-    );
-
-
-  const location =
-    cleanString(
-      body.location,
-      300
-    );
-
-
-  const locationUrl =
-    cleanOptionalString(
-      body.location_url,
-      1500
-    );
-
-
-  const startTime =
-    cleanOptionalString(
-      body.start_time,
-      10
-    );
-
-
-  const endTime =
-    cleanOptionalString(
-      body.end_time,
-      10
-    );
-
-
-  const note =
-    cleanOptionalString(
-      body.note,
-      2000
-    );
-
-
-  const eventType =
-    cleanString(
-      body.event_type ||
-      "PUBLIC",
-      30
-    )
-      .toUpperCase();
-
-
-  const publicUrl =
-    cleanOptionalString(
-      body.public_url,
-      1500
-    );
-
-
-  if (!eventDate) {
-
-    return {
-      valid: false,
-      error:
-        "La data è obbligatoria."
-    };
-
-  }
-
-
-  if (
-    !/^\d{4}-\d{2}-\d{2}$/
-      .test(
-        eventDate
-      )
-  ) {
-
-    return {
-      valid: false,
-      error:
-        "Formato data non valido."
-    };
-
-  }
+  const now =
+    new Date();
 
 
   const today =
-    getTodayRome();
+    new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
 
 
-  if (
-    eventDate < today
-  ) {
+  const tomorrow =
+    new Date(
+      today
+    );
 
-    return {
-      valid: false,
-      error:
-        "Non puoi inserire una data già passata."
-    };
-
-  }
+  tomorrow.setDate(
+    tomorrow.getDate()+1
+  );
 
 
-  if (!venue) {
-
-    return {
-      valid: false,
-      error:
-        "La venue è obbligatoria."
-    };
-
-  }
+  const eventDay =
+    new Date(
+      start.getFullYear(),
+      start.getMonth(),
+      start.getDate()
+    );
 
 
-  if (!location) {
+  if(
+    eventDay.getTime() ===
+    today.getTime()
+  ){
 
-    return {
-      valid: false,
-      error:
-        "Il luogo è obbligatorio."
-    };
-
-  }
-
-
-  if (
-    startTime &&
-    !isValidTime(
-      startTime
-    )
-  ) {
-
-    return {
-      valid: false,
-      error:
-        "Ora di inizio non valida."
-    };
+    return currentLanguage === "it"
+      ? "Stasera"
+      : "Tonight";
 
   }
 
 
-  if (
-    endTime &&
-    !isValidTime(
-      endTime
-    )
-  ) {
+  if(
+    eventDay.getTime() ===
+    tomorrow.getTime()
+  ){
 
-    return {
-      valid: false,
-      error:
-        "Ora di fine non valida."
-    };
+    return currentLanguage === "it"
+      ? "Domani"
+      : "Tomorrow";
 
   }
 
 
-  const allowedTypes = [
-    "PUBLIC",
-    "GUESTS_ONLY",
+  return currentLanguage === "it"
+    ? "Prossima data"
+    : "Next show";
+
+}
+
+
+function getPublicEventData(
+  event
+){
+
+  const isPrivate =
+    event.event_type ===
+    "PRIVATE";
+
+
+  return {
+
+    venue:
+      isPrivate
+        ? (
+            currentLanguage === "it"
+              ? "Evento privato"
+              : "Private Event"
+          )
+        : (
+            event.venue ||
+            ""
+          ),
+
+    location:
+      isPrivate
+        ? ""
+        : (
+            event.location ||
+            ""
+          ),
+
+    locationUrl:
+      isPrivate
+        ? ""
+        : (
+            event.location_url ||
+            ""
+          ),
+
+    publicUrl:
+      event.event_type === "PUBLIC"
+        ? (
+            event.public_url ||
+            ""
+          )
+        : ""
+
+  };
+
+}
+
+
+function getStatusLabel(
+  event
+){
+
+  if(
+    event.event_type ===
+    "GUESTS_ONLY"
+  ){
+
+    return currentLanguage === "it"
+      ? "Solo ospiti"
+      : "Guests only";
+
+  }
+
+
+  if(
+    event.event_type ===
     "PRIVATE"
+  ){
+
+    return currentLanguage === "it"
+      ? "Evento privato"
+      : "Private event";
+
+  }
+
+
+  return "";
+
+}
+
+
+function shouldShowNote(
+  note
+){
+
+  if(!note){
+    return false;
+  }
+
+
+  const legacy = [
+    "PRIVATE EVENT",
+    "PRIVATE",
+    "GUESTS ONLY",
+    "ONLY GUESTS",
+    "SOLO OSPITI",
+    "EVENTO PRIVATO"
   ];
 
 
-  if (
-    !allowedTypes.includes(
-      eventType
-    )
-  ) {
-
-    return {
-      valid: false,
-      error:
-        "Tipo di evento non valido."
-    };
-
-  }
-
-
-  if (
-    locationUrl &&
-    !isValidHttpUrl(
-      locationUrl
-    )
-  ) {
-
-    return {
-      valid: false,
-      error:
-        "Il link indicazioni non è valido."
-    };
-
-  }
-
-
-  if (
-    publicUrl &&
-    !isValidHttpUrl(
-      publicUrl
-    )
-  ) {
-
-    return {
-      valid: false,
-      error:
-        "Il link pubblico non è valido."
-    };
-
-  }
-
-
-  return {
-
-    valid: true,
-
-    data: {
-
-      event_date:
-        eventDate,
-
-      venue,
-
-      location,
-
-      location_url:
-        locationUrl,
-
-      start_time:
-        startTime,
-
-      end_time:
-        endTime,
-
-      note,
-
-      event_type:
-        eventType,
-
-      public_url:
-        publicUrl
-
-    }
-
-  };
-
-}
-
-
-/* ============================================================
-   VENUES
-============================================================ */
-
-async function getVenues(
-  env
-) {
-
-  const result =
-    await env.DB
-      .prepare(`
-        SELECT
-          id,
-          name,
-          location,
-          location_url,
-          created_at,
-          updated_at
-
-        FROM venues
-
-        ORDER BY
-          name COLLATE NOCASE ASC,
-          id ASC
-      `)
-      .all();
-
-
-  return jsonResponse(
-    result.results || []
+  return !legacy.includes(
+    String(note)
+      .trim()
+      .toUpperCase()
   );
 
 }
 
 
-async function getVenue(
-  id,
-  env
-) {
+function renderNextShow(
+  event
+){
 
-  const venue =
-    await env.DB
-      .prepare(`
-        SELECT
-          id,
-          name,
-          location,
-          location_url,
-          created_at,
-          updated_at
-
-        FROM venues
-
-        WHERE id = ?
-
-        LIMIT 1
-      `)
-      .bind(
-        id
-      )
-      .first();
-
-
-  if (!venue) {
-
-    return jsonResponse(
-      {
-        error:
-          "Venue not found"
-      },
-      404
+  const date =
+    parseDateParts(
+      event.event_date
     );
-
-  }
-
-
-  return jsonResponse(
-    venue
-  );
-
-}
-
-
-async function createVenue(
-  request,
-  env
-) {
-
-  const body =
-    await readJsonBody(
-      request
-    );
-
-
-  const validation =
-    validateVenue(
-      body
-    );
-
-
-  if (!validation.valid) {
-
-    return jsonResponse(
-      {
-        error:
-          validation.error
-      },
-      400
-    );
-
-  }
 
 
   const data =
-    validation.data;
-
-
-  const duplicate =
-    await env.DB
-      .prepare(`
-        SELECT id
-
-        FROM venues
-
-        WHERE
-          lower(trim(name)) =
-          lower(trim(?))
-
-        AND
-          lower(trim(location)) =
-          lower(trim(?))
-
-        LIMIT 1
-      `)
-      .bind(
-        data.name,
-        data.location
-      )
-      .first();
-
-
-  if (duplicate) {
-
-    return jsonResponse(
-      {
-        error:
-          "Questa venue è già salvata."
-      },
-      409
-    );
-
-  }
-
-
-  const result =
-    await env.DB
-      .prepare(`
-        INSERT INTO venues (
-          name,
-          location,
-          location_url
-        )
-
-        VALUES (
-          ?,
-          ?,
-          ?
-        )
-      `)
-      .bind(
-        data.name,
-        data.location,
-        data.location_url
-      )
-      .run();
-
-
-  return jsonResponse(
-    {
-      success: true,
-
-      id:
-        result.meta
-          ?.last_row_id
-    },
-    201
-  );
-
-}
-
-
-async function updateVenue(
-  id,
-  request,
-  env
-) {
-
-  const existing =
-    await env.DB
-      .prepare(`
-        SELECT id
-        FROM venues
-        WHERE id = ?
-        LIMIT 1
-      `)
-      .bind(
-        id
-      )
-      .first();
-
-
-  if (!existing) {
-
-    return jsonResponse(
-      {
-        error:
-          "Venue not found"
-      },
-      404
-    );
-
-  }
-
-
-  const body =
-    await readJsonBody(
-      request
-    );
-
-
-  const validation =
-    validateVenue(
-      body
-    );
-
-
-  if (!validation.valid) {
-
-    return jsonResponse(
-      {
-        error:
-          validation.error
-      },
-      400
-    );
-
-  }
-
-
-  const data =
-    validation.data;
-
-
-  const duplicate =
-    await env.DB
-      .prepare(`
-        SELECT id
-
-        FROM venues
-
-        WHERE id != ?
-
-        AND
-          lower(trim(name)) =
-          lower(trim(?))
-
-        AND
-          lower(trim(location)) =
-          lower(trim(?))
-
-        LIMIT 1
-      `)
-      .bind(
-        id,
-        data.name,
-        data.location
-      )
-      .first();
-
-
-  if (duplicate) {
-
-    return jsonResponse(
-      {
-        error:
-          "Esiste già una venue con questo nome e luogo."
-      },
-      409
-    );
-
-  }
-
-
-  await env.DB
-    .prepare(`
-      UPDATE venues
-
-      SET
-        name = ?,
-        location = ?,
-        location_url = ?,
-        updated_at = CURRENT_TIMESTAMP
-
-      WHERE id = ?
-    `)
-    .bind(
-      data.name,
-      data.location,
-      data.location_url,
-      id
-    )
-    .run();
-
-
-  return jsonResponse({
-    success: true
-  });
-
-}
-
-
-async function deleteVenue(
-  id,
-  env
-) {
-
-  const existing =
-    await env.DB
-      .prepare(`
-        SELECT
-          id,
-          name
-
-        FROM venues
-
-        WHERE id = ?
-
-        LIMIT 1
-      `)
-      .bind(
-        id
-      )
-      .first();
-
-
-  if (!existing) {
-
-    return jsonResponse(
-      {
-        error:
-          "Venue not found"
-      },
-      404
-    );
-
-  }
-
-
-  await env.DB
-    .prepare(`
-      DELETE FROM venues
-      WHERE id = ?
-    `)
-    .bind(
-      id
-    )
-    .run();
-
-
-  return jsonResponse({
-    success: true
-  });
-
-}
-
-
-function validateVenue(
-  body
-) {
-
-  const name =
-    cleanString(
-      body.name,
-      250
-    );
-
-
-  const location =
-    cleanString(
-      body.location,
-      300
-    );
-
-
-  const locationUrl =
-    cleanOptionalString(
-      body.location_url,
-      1500
-    );
-
-
-  if (!name) {
-
-    return {
-      valid: false,
-      error:
-        "Il nome della venue è obbligatorio."
-    };
-
-  }
-
-
-  if (!location) {
-
-    return {
-      valid: false,
-      error:
-        "Il luogo è obbligatorio."
-    };
-
-  }
-
-
-  if (
-    locationUrl &&
-    !isValidHttpUrl(
-      locationUrl
-    )
-  ) {
-
-    return {
-      valid: false,
-      error:
-        "Il link della posizione non è valido."
-    };
-
-  }
-
-
-  return {
-
-    valid: true,
-
-    data: {
-
-      name,
-
-      location,
-
-      location_url:
-        locationUrl
-
-    }
-
-  };
-
-}
-
-
-/* ============================================================
-   PUBLIC CONTACT FORM
-============================================================ */
-
-async function createContactMessage(
-  request,
-  env
-) {
-
-  const body =
-    await readJsonBody(
-      request
-    );
-
-
-  const name =
-    cleanString(
-      body.name,
-      120
-    );
-
-
-  const email =
-    cleanString(
-      body.email,
-      180
-    )
-      .toLowerCase();
-
-
-  const message =
-    cleanString(
-      body.message,
-      4000
-    );
-
-
-  const contactIntent =
-    cleanOptionalString(
-      body.contact_intent,
-      50
-    );
-
-
-  const bookingType =
-    cleanOptionalString(
-      body.booking_type,
-      50
-    );
-
-
-  const eventDate =
-    cleanOptionalString(
-      body.event_date,
-      20
-    );
-
-
-  if (!name) {
-
-    return jsonResponse(
-      {
-        error:
-          "Name is required."
-      },
-      400
-    );
-
-  }
-
-
-  if (
-    !email ||
-    !isValidEmail(
-      email
-    )
-  ) {
-
-    return jsonResponse(
-      {
-        error:
-          "A valid email is required."
-      },
-      400
-    );
-
-  }
-
-
-  if (!message) {
-
-    return jsonResponse(
-      {
-        error:
-          "Message is required."
-      },
-      400
-    );
-
-  }
-
-
-  const allowedIntents = [
-    "",
-    "BOOKING",
-    "INFO",
-    "COLLABORATION",
-    "HELLO"
-  ];
-
-
-  const normalizedIntent =
-    (
-      contactIntent || ""
-    )
-      .toUpperCase();
-
-
-  if (
-    !allowedIntents.includes(
-      normalizedIntent
-    )
-  ) {
-
-    return jsonResponse(
-      {
-        error:
-          "Invalid contact type."
-      },
-      400
-    );
-
-  }
-
-
-  const allowedBookingTypes = [
-    "",
-    "HOTEL",
-    "VENUE",
-    "WEDDING",
-    "PRIVATE_EVENT",
-    "OTHER"
-  ];
-
-
-  const normalizedBookingType =
-    (
-      bookingType || ""
-    )
-      .toUpperCase();
-
-
-  if (
-    !allowedBookingTypes.includes(
-      normalizedBookingType
-    )
-  ) {
-
-    return jsonResponse(
-      {
-        error:
-          "Invalid booking type."
-      },
-      400
-    );
-
-  }
-
-
-  if (
-    eventDate &&
-    !/^\d{4}-\d{2}-\d{2}$/
-      .test(
-        eventDate
-      )
-  ) {
-
-    return jsonResponse(
-      {
-        error:
-          "Invalid event date."
-      },
-      400
-    );
-
-  }
-
-
-  const result =
-    await env.DB
-      .prepare(`
-        INSERT INTO contact_messages (
-          name,
-          email,
-          subject,
-          message,
-          contact_intent,
-          booking_type,
-          event_date,
-          status
-        )
-
-        VALUES (
-          ?,
-          ?,
-          NULL,
-          ?,
-          ?,
-          ?,
-          ?,
-          'UNREAD'
-        )
-      `)
-      .bind(
-        name,
-        email,
-        message,
-        normalizedIntent || null,
-        normalizedBookingType || null,
-        eventDate || null
-      )
-      .run();
-
-
-  return jsonResponse(
-    {
-      success: true,
-
-      id:
-        result.meta
-          ?.last_row_id
-    },
-    201
-  );
-
-}
-
-
-/* ============================================================
-   ADMIN MESSAGES
-============================================================ */
-
-async function getMessages(
-  env
-) {
-
-  const result =
-    await env.DB
-      .prepare(`
-        SELECT
-          id,
-          name,
-          email,
-          subject,
-          message,
-          contact_intent,
-          booking_type,
-          event_date,
-          status,
-          created_at,
-          read_at,
-          archived_at
-
-        FROM contact_messages
-
-        ORDER BY
-          datetime(created_at) DESC,
-          id DESC
-      `)
-      .all();
-
-
-  return jsonResponse(
-    result.results || []
-  );
-
-}
-
-
-async function getMessage(
-  id,
-  env
-) {
-
-  const message =
-    await env.DB
-      .prepare(`
-        SELECT
-          id,
-          name,
-          email,
-          subject,
-          message,
-          contact_intent,
-          booking_type,
-          event_date,
-          status,
-          created_at,
-          read_at,
-          archived_at
-
-        FROM contact_messages
-
-        WHERE id = ?
-
-        LIMIT 1
-      `)
-      .bind(
-        id
-      )
-      .first();
-
-
-  if (!message) {
-
-    return jsonResponse(
-      {
-        error:
-          "Message not found"
-      },
-      404
-    );
-
-  }
-
-
-  return jsonResponse(
-    message
-  );
-
-}
-
-
-async function getUnreadMessageCount(
-  env
-) {
-
-  const result =
-    await env.DB
-      .prepare(`
-        SELECT
-          COUNT(*) AS count
-
-        FROM contact_messages
-
-        WHERE status = 'UNREAD'
-      `)
-      .first();
-
-
-  return jsonResponse({
-    count:
-      Number(
-        result?.count ||
-        0
-      )
-  });
-
-}
-
-
-async function updateMessage(
-  id,
-  request,
-  env
-) {
-
-  const existing =
-    await env.DB
-      .prepare(`
-        SELECT
-          id,
-          status
-
-        FROM contact_messages
-
-        WHERE id = ?
-
-        LIMIT 1
-      `)
-      .bind(
-        id
-      )
-      .first();
-
-
-  if (!existing) {
-
-    return jsonResponse(
-      {
-        error:
-          "Message not found"
-      },
-      404
-    );
-
-  }
-
-
-  const body =
-    await readJsonBody(
-      request
+    getPublicEventData(
+      event
     );
 
 
   const status =
-    cleanString(
-      body.status,
-      20
-    )
-      .toUpperCase();
-
-
-  const allowedStatuses = [
-    "UNREAD",
-    "READ",
-    "ARCHIVED"
-  ];
-
-
-  if (
-    !allowedStatuses.includes(
-      status
-    )
-  ) {
-
-    return jsonResponse(
-      {
-        error:
-          "Invalid message status."
-      },
-      400
+    getStatusLabel(
+      event
     );
 
-  }
+
+  const time =
+    formatTime(
+      event
+    );
 
 
-  if (
-    status ===
-    "UNREAD"
-  ) {
-
-    await env.DB
-      .prepare(`
-        UPDATE contact_messages
-
-        SET
-          status = 'UNREAD',
-          read_at = NULL,
-          archived_at = NULL
-
-        WHERE id = ?
-      `)
-      .bind(
-        id
-      )
-      .run();
-
-  }
+  const noteHtml =
+    shouldShowNote(
+      event.note
+    )
+      ? `
+          <div class="next-show-note">
+            ${escapeHtml(event.note)}
+          </div>
+        `
+      : "";
 
 
-  if (
-    status ===
-    "READ"
-  ) {
-
-    await env.DB
-      .prepare(`
-        UPDATE contact_messages
-
-        SET
-          status = 'READ',
-
-          read_at =
-            COALESCE(
-              read_at,
-              CURRENT_TIMESTAMP
-            ),
-
-          archived_at =
-            NULL
-
-        WHERE id = ?
-      `)
-      .bind(
-        id
-      )
-      .run();
-
-  }
-
-
-  if (
-    status ===
-    "ARCHIVED"
-  ) {
-
-    await env.DB
-      .prepare(`
-        UPDATE contact_messages
-
-        SET
-          status = 'ARCHIVED',
-
-          read_at =
-            COALESCE(
-              read_at,
-              CURRENT_TIMESTAMP
-            ),
-
-          archived_at =
-            CURRENT_TIMESTAMP
-
-        WHERE id = ?
-      `)
-      .bind(
-        id
-      )
-      .run();
-
-  }
-
-
-  return jsonResponse({
-    success: true,
+  const statusHtml =
     status
-  });
-
-}
-
-
-async function deleteMessage(
-  id,
-  env
-) {
-
-  const existing =
-    await env.DB
-      .prepare(`
-        SELECT id
-
-        FROM contact_messages
-
-        WHERE id = ?
-
-        LIMIT 1
-      `)
-      .bind(
-        id
-      )
-      .first();
+      ? `
+          <div class="event-status">
+            ${escapeHtml(status)}
+          </div>
+        `
+      : "";
 
 
-  if (!existing) {
+  let links = "";
 
-    return jsonResponse(
-      {
-        error:
-          "Message not found"
-      },
-      404
-    );
+
+  if(
+    data.locationUrl
+  ){
+
+    links += `
+      <a
+        class="event-link"
+        href="${escapeHtml(data.locationUrl)}"
+        target="_blank"
+        rel="noopener"
+      >
+        ${
+          currentLanguage === "it"
+            ? "Indicazioni ↗"
+            : "Directions ↗"
+        }
+      </a>
+    `;
 
   }
 
 
-  await env.DB
-    .prepare(`
-      DELETE FROM contact_messages
-      WHERE id = ?
-    `)
-    .bind(
-      id
-    )
-    .run();
+  if(
+    data.publicUrl
+  ){
 
-
-  return jsonResponse({
-    success: true
-  });
-
-}
-
-
-/* ============================================================
-   ADMIN LOGIN
-============================================================ */
-
-async function loginAdmin(
-  request,
-  env
-) {
-
-  const body =
-    await readJsonBody(
-      request
-    );
-
-
-  const password =
-    String(
-      body.password ||
-      ""
-    );
-
-
-  if (!password) {
-
-    return jsonResponse(
-      {
-        error:
-          "Password required"
-      },
-      400
-    );
+    links += `
+      <a
+        class="event-link"
+        href="${escapeHtml(data.publicUrl)}"
+        target="_blank"
+        rel="noopener"
+      >
+        ${
+          currentLanguage === "it"
+            ? "Info ↗"
+            : "More info ↗"
+        }
+      </a>
+    `;
 
   }
 
 
-  if (
-    !env.ADMIN_PASSWORD
-  ) {
+  return `
+    <article class="next-show">
 
-    console.error(
-      "ADMIN_PASSWORD secret is missing"
-    );
+      <div class="next-show-label">
 
+        <div
+          class="waveform"
+          aria-hidden="true"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
 
-    return jsonResponse(
-      {
-        error:
-          "Admin authentication is not configured."
-      },
-      500
-    );
+        ${escapeHtml(getNextShowLabel(event))}
 
-  }
-
-
-  const valid =
-    await secureStringCompare(
-      password,
-      env.ADMIN_PASSWORD
-    );
+      </div>
 
 
-  if (!valid) {
+      <div class="next-show-date">
 
-    return jsonResponse(
-      {
-        error:
-          "Password non corretta."
-      },
-      401
-    );
+        <span class="next-show-day">
+          ${escapeHtml(date.day)}
+        </span>
 
-  }
+        <span class="next-show-month">
+          ${escapeHtml(date.month)}
+        </span>
 
-
-  const token =
-    await createAdminToken(
-      env
-    );
+      </div>
 
 
-  const cookie = [
+      <div class="next-show-main">
 
-    `om_admin=${token}`,
+        <div class="next-show-venue">
+          ${escapeHtml(data.venue)}
+        </div>
 
-    "Path=/",
+        ${
+          data.location
+            ? `
+                <div class="next-show-location">
+                  ${escapeHtml(data.location)}
+                </div>
+              `
+            : ""
+        }
 
-    "HttpOnly",
+        ${statusHtml}
 
-    "Secure",
+        ${noteHtml}
 
-    "SameSite=Lax",
-
-    `Max-Age=${60 * 60 * 24 * 30}`
-
-  ]
-    .join(
-      "; "
-    );
-
-
-  return jsonResponse(
-    {
-      success: true
-    },
-    200,
-    {
-      "Set-Cookie":
-        cookie
-    }
-  );
-
-}
+      </div>
 
 
-function logoutAdmin() {
+      <div class="next-show-right">
 
-  return jsonResponse(
-    {
-      success: true
-    },
-    200,
-    {
-      "Set-Cookie":
-        [
-          "om_admin=",
-          "Path=/",
-          "HttpOnly",
-          "Secure",
-          "SameSite=Lax",
-          "Max-Age=0"
-        ]
-          .join(
-            "; "
-          )
-    }
-  );
+        ${
+          time
+            ? `
+                <div class="next-show-time">
+                  ${escapeHtml(time)}
+                </div>
+              `
+            : ""
+        }
+
+        ${
+          links
+            ? `
+                <div class="event-links">
+                  ${links}
+                </div>
+              `
+            : ""
+        }
+
+      </div>
+
+    </article>
+  `;
 
 }
 
 
-async function isAuthenticated(
-  request,
-  env
-) {
+function renderPublicEvent(
+  event,
+  isNew=false,
+  animationIndex=0
+){
 
-  if (
-    !env.ADMIN_PASSWORD
-  ) {
+  const date =
+    parseDateParts(
+      event.event_date
+    );
 
-    return false;
+
+  const data =
+    getPublicEventData(
+      event
+    );
+
+
+  const status =
+    getStatusLabel(
+      event
+    );
+
+
+  const time =
+    formatTime(
+      event
+    );
+
+
+  let links = "";
+
+
+  if(
+    data.locationUrl
+  ){
+
+    links += `
+      <a
+        class="event-small-link"
+        href="${escapeHtml(data.locationUrl)}"
+        target="_blank"
+        rel="noopener"
+      >
+        ${
+          currentLanguage === "it"
+            ? "Indicazioni ↗"
+            : "Directions ↗"
+        }
+      </a>
+    `;
 
   }
 
 
-  const cookies =
-    parseCookies(
-      request.headers
-        .get(
-          "Cookie"
-        ) ||
-      ""
-    );
+  if(
+    data.publicUrl
+  ){
 
-
-  const suppliedToken =
-    cookies.om_admin;
-
-
-  if (!suppliedToken) {
-
-    return false;
+    links += `
+      <a
+        class="event-small-link"
+        href="${escapeHtml(data.publicUrl)}"
+        target="_blank"
+        rel="noopener"
+      >
+        ${
+          currentLanguage === "it"
+            ? "Info ↗"
+            : "Info ↗"
+        }
+      </a>
+    `;
 
   }
 
 
-  const expectedToken =
-    await createAdminToken(
-      env
-    );
-
-
-  return secureStringCompare(
-    suppliedToken,
-    expectedToken
-  );
-
-}
-
-
-async function createAdminToken(
-  env
-) {
-
-  const source =
-    `orange-may-admin-v2:${env.ADMIN_PASSWORD}`;
-
-
-  return sha256Hex(
-    source
-  );
-
-}
-
-
-/* ============================================================
-   STATIC ASSETS
-============================================================ */
-
-async function serveAsset(
-  request,
-  env,
-  pathname
-) {
-
-  if (
-    !env.ASSETS
-  ) {
-
-    return new Response(
-      "Assets binding not available",
-      {
-        status: 500
+  return `
+    <article
+      class="event ${isNew ? "event-new" : ""}"
+      ${
+        isNew
+          ? `style="animation-delay:${Math.min(animationIndex,6)*55}ms"`
+          : ""
       }
-    );
+    >
 
-  }
+      <div class="event-date">
 
+        <span class="event-day">
+          ${escapeHtml(date.day)}
+        </span>
 
-  const url =
-    new URL(
-      request.url
-    );
+        <span class="event-month">
+          ${escapeHtml(date.month)}
+        </span>
 
-
-  url.pathname =
-    pathname;
-
-
-  /*
-    Creiamo una nuova GET verso l'asset.
-
-    Questo evita di trascinare body o altre
-    proprietà della richiesta originale.
-  */
-
-  const assetRequest =
-    new Request(
-      url.toString(),
-      {
-        method:
-          "GET",
-
-        headers:
-          request.headers
-      }
-    );
+      </div>
 
 
-  return env.ASSETS.fetch(
-    assetRequest
-  );
+      <div class="event-main">
+
+        <div class="event-venue">
+          ${escapeHtml(data.venue)}
+        </div>
+
+        ${
+          data.location
+            ? `
+                <div class="event-location">
+                  ${escapeHtml(data.location)}
+                </div>
+              `
+            : ""
+        }
+
+        ${
+          shouldShowNote(event.note)
+            ? `
+                <div class="event-note">
+                  ${escapeHtml(event.note)}
+                </div>
+              `
+            : ""
+        }
+
+      </div>
+
+
+      <div class="event-right">
+
+        ${
+          time
+            ? `
+                <div class="event-time">
+                  ${escapeHtml(time)}
+                </div>
+              `
+            : ""
+        }
+
+
+        <div class="event-meta-row">
+
+          ${
+            status
+              ? `
+                  <span class="event-badge">
+                    ${escapeHtml(status)}
+                  </span>
+                `
+              : ""
+          }
+
+          ${links}
+
+        </div>
+
+      </div>
+
+    </article>
+  `;
 
 }
 
 
-/* ============================================================
-   JSON HELPERS
-============================================================ */
+function renderEvents(
+  newStartIndex=Infinity
+){
 
-async function readJsonBody(
-  request
-) {
+  if(
+    !publicEvents.length
+  ){
 
-  try {
+    eventsContainer.innerHTML = `
+      <div class="events-empty">
+        ${
+          currentLanguage === "it"
+            ? "Al momento non ci sono nuove date pubblicate."
+            : "No upcoming shows published yet."
+        }
+      </div>
+    `;
 
-    const body =
-      await request.json();
+    return;
+
+  }
 
 
-    if (
-      !body ||
-      typeof body !== "object" ||
-      Array.isArray(
-        body
-      )
-    ) {
+  const firstEvent =
+    publicEvents[0];
 
-      throw new Error();
+
+  const visibleOthers =
+    publicEvents.slice(
+      1,
+      visibleEventCount
+    );
+
+
+  let html =
+    renderNextShow(
+      firstEvent
+    );
+
+
+  if(
+    publicEvents.length > 1
+  ){
+
+    html += `
+      <div class="more-shows-label">
+        ${
+          currentLanguage === "it"
+            ? "Altre date"
+            : "More shows"
+        }
+      </div>
+
+      <div class="future-events">
+    `;
+
+
+    html +=
+      visibleOthers
+        .map(
+          (event,index)=>{
+
+            const globalIndex =
+              index+1;
+
+
+            return renderPublicEvent(
+              event,
+              globalIndex >=
+                newStartIndex,
+              globalIndex -
+                newStartIndex
+            );
+
+          }
+        )
+        .join("");
+
+
+    html += `
+      </div>
+    `;
+
+
+    if(
+      publicEvents.length >
+      INITIAL_VISIBLE_EVENTS
+    ){
+
+      const allVisible =
+        visibleEventCount >=
+        publicEvents.length;
+
+
+      html += `
+        <div class="show-more-wrap">
+
+          <button
+            id="showMoreEvents"
+            class="show-more-button"
+            type="button"
+          >
+            ${
+              allVisible
+                ? (
+                    currentLanguage === "it"
+                      ? "Mostra meno ↑"
+                      : "Show less ↑"
+                  )
+                : (
+                    currentLanguage === "it"
+                      ? "Mostra altre date ↓"
+                      : "Show more dates ↓"
+                  )
+            }
+          </button>
+
+        </div>
+      `;
 
     }
 
-
-    return body;
-
-  } catch {
-
-    throw new HttpError(
-      400,
-      "Invalid JSON body."
-    );
-
-  }
-
-}
-
-
-function jsonResponse(
-  data,
-  status = 200,
-  extraHeaders = {}
-) {
-
-  return new Response(
-    JSON.stringify(
-      data
-    ),
-    {
-      status,
-
-      headers: {
-
-        "Content-Type":
-          "application/json; charset=utf-8",
-
-        "Cache-Control":
-          "no-store",
-
-        ...extraHeaders
-
-      }
-    }
-  );
-
-}
-
-
-function redirectResponse(
-  location
-) {
-
-  return new Response(
-    null,
-    {
-      status: 302,
-
-      headers: {
-        Location:
-          location
-      }
-    }
-  );
-
-}
-
-
-/* ============================================================
-   VALIDATION HELPERS
-============================================================ */
-
-function cleanString(
-  value,
-  maxLength = 1000
-) {
-
-  if (
-    value === null ||
-    value === undefined
-  ) {
-
-    return "";
-
   }
 
 
-  return String(
-    value
-  )
-    .trim()
-    .slice(
-      0,
-      maxLength
-    );
-
-}
+  eventsContainer.innerHTML =
+    html;
 
 
-function cleanOptionalString(
-  value,
-  maxLength = 1000
-) {
-
-  const cleaned =
-    cleanString(
-      value,
-      maxLength
+  const showMoreButton =
+    document.getElementById(
+      "showMoreEvents"
     );
 
 
-  return cleaned ||
-    null;
+  if(showMoreButton){
 
-}
+    showMoreButton.addEventListener(
+      "click",
+      ()=>{
 
-
-function isValidTime(
-  value
-) {
-
-  return /^([01]\d|2[0-3]):[0-5]\d$/
-    .test(
-      value
-    );
-
-}
+        const allVisible =
+          visibleEventCount >=
+          publicEvents.length;
 
 
-function isValidEmail(
-  email
-) {
+        if(allVisible){
 
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    .test(
-      email
-    );
-
-}
+          visibleEventCount =
+            INITIAL_VISIBLE_EVENTS;
 
 
-function isValidHttpUrl(
-  value
-) {
-
-  try {
-
-    const url =
-      new URL(
-        value
-      );
+          renderEvents();
 
 
-    return (
-      url.protocol ===
-        "http:" ||
-      url.protocol ===
-        "https:"
-    );
-
-  } catch {
-
-    return false;
-
-  }
-
-}
-
-
-/* ============================================================
-   COOKIE HELPERS
-============================================================ */
-
-function parseCookies(
-  cookieHeader
-) {
-
-  const cookies = {};
-
-
-  cookieHeader
-    .split(
-      ";"
-    )
-    .forEach(
-      part => {
-
-        const index =
-          part.indexOf(
-            "="
-          );
-
-
-        if (
-          index === -1
-        ) {
+          document
+            .querySelector(
+              ".more-shows-label"
+            )
+            ?.scrollIntoView(
+              {
+                behavior:"smooth",
+                block:"start"
+              }
+            );
 
           return;
 
         }
 
 
-        const key =
-          part
-            .slice(
-              0,
-              index
-            )
-            .trim();
+        const previousCount =
+          visibleEventCount;
 
 
-        const value =
-          part
-            .slice(
-              index + 1
-            )
-            .trim();
+        visibleEventCount =
+          Math.min(
+            publicEvents.length,
+            visibleEventCount +
+            LOAD_MORE_STEP
+          );
 
 
-        if (key) {
-
-          cookies[key] =
-            value;
-
-        }
+        renderEvents(
+          previousCount
+        );
 
       }
     );
 
-
-  return cookies;
+  }
 
 }
 
 
-/* ============================================================
-   CRYPTO HELPERS
-============================================================ */
+async function loadEvents(){
 
-async function sha256Hex(
-  value
-) {
+  try{
 
-  const data =
-    new TextEncoder()
-      .encode(
-        value
+    const response =
+      await fetch(
+        "/api/events",
+        {
+          cache:"no-store"
+        }
       );
 
 
-  const digest =
-    await crypto.subtle.digest(
-      "SHA-256",
-      data
-    );
+    if(!response.ok){
+
+      throw new Error(
+        "Events request failed"
+      );
+
+    }
 
 
-  return Array
-    .from(
-      new Uint8Array(
-        digest
+    const result =
+      await response.json();
+
+
+    publicEvents =
+      (
+        Array.isArray(result)
+          ? result
+          : []
       )
-    )
-    .map(
-      byte =>
-        byte
-          .toString(
-            16
-          )
-          .padStart(
-            2,
-            "0"
-          )
-    )
-    .join(
-      ""
+        .filter(
+          isEventStillRelevant
+        )
+        .sort(
+          (a,b)=>{
+
+            const aDate =
+              eventStartDate(a);
+
+            const bDate =
+              eventStartDate(b);
+
+
+            return (
+              (aDate?.getTime() || 0) -
+              (bDate?.getTime() || 0)
+            );
+
+          }
+        );
+
+
+    visibleEventCount =
+      INITIAL_VISIBLE_EVENTS;
+
+
+    renderEvents();
+
+  }catch(error){
+
+    console.error(
+      "Events error:",
+      error
     );
+
+
+    eventsContainer.innerHTML = `
+      <div class="events-empty">
+        ${
+          currentLanguage === "it"
+            ? "Impossibile caricare le date."
+            : "Unable to load upcoming shows."
+        }
+      </div>
+    `;
+
+  }
 
 }
 
 
-async function secureStringCompare(
-  a,
-  b
-) {
+/* ============================================================
+   CONTACT FORM
+============================================================ */
 
-  const hashA =
-    await sha256Hex(
-      String(
-        a
-      )
-    );
+let selectedContactIntent =
+  "BOOKING";
+
+let selectedBookingType =
+  "";
 
 
-  const hashB =
-    await sha256Hex(
-      String(
-        b
-      )
-    );
-
-
-  return (
-    hashA ===
-    hashB
+const contactForm =
+  document.getElementById(
+    "contactForm"
   );
 
+const bookingOptions =
+  document.getElementById(
+    "bookingOptions"
+  );
+
+const eventDateField =
+  document.getElementById(
+    "eventDateField"
+  );
+
+const contactEventDate =
+  document.getElementById(
+    "contactEventDate"
+  );
+
+const contactName =
+  document.getElementById(
+    "contactName"
+  );
+
+const contactEmail =
+  document.getElementById(
+    "contactEmail"
+  );
+
+const contactMessage =
+  document.getElementById(
+    "contactMessage"
+  );
+
+const contactSubmitButton =
+  document.getElementById(
+    "contactSubmitButton"
+  );
+
+const contactFormMessage =
+  document.getElementById(
+    "contactFormMessage"
+  );
+
+
+document
+  .querySelectorAll(
+    "[data-contact-intent]"
+  )
+  .forEach(button=>{
+
+    button.addEventListener(
+      "click",
+      ()=>{
+
+        selectedContactIntent =
+          button.dataset
+            .contactIntent;
+
+
+        document
+          .querySelectorAll(
+            "[data-contact-intent]"
+          )
+          .forEach(item=>{
+
+            item.classList.toggle(
+              "active",
+              item === button
+            );
+
+          });
+
+
+        updateContactInterface();
+
+      }
+    );
+
+  });
+
+
+document
+  .querySelectorAll(
+    "[data-booking-type]"
+  )
+  .forEach(button=>{
+
+    button.addEventListener(
+      "click",
+      ()=>{
+
+        selectedBookingType =
+          button.dataset
+            .bookingType;
+
+
+        document
+          .querySelectorAll(
+            "[data-booking-type]"
+          )
+          .forEach(item=>{
+
+            item.classList.toggle(
+              "active",
+              item === button
+            );
+
+          });
+
+      }
+    );
+
+  });
+
+
+function updateContactInterface(){
+
+  const booking =
+    selectedContactIntent ===
+    "BOOKING";
+
+
+  bookingOptions.style.display =
+    booking
+      ? ""
+      : "none";
+
+
+  eventDateField.style.display =
+    booking
+      ? ""
+      : "none";
+
+
+  if(!booking){
+
+    selectedBookingType =
+      "";
+
+    contactEventDate.value =
+      "";
+
+
+    document
+      .querySelectorAll(
+        "[data-booking-type]"
+      )
+      .forEach(button=>{
+
+        button.classList.remove(
+          "active"
+        );
+
+      });
+
+  }
+
 }
+
+
+contactForm.addEventListener(
+  "submit",
+  async event=>{
+
+    event.preventDefault();
+
+
+    contactFormMessage.className =
+      "form-message";
+
+    contactFormMessage.textContent =
+      currentLanguage === "it"
+        ? "Invio in corso..."
+        : "Sending...";
+
+
+    contactSubmitButton.disabled =
+      true;
+
+
+    const payload = {
+
+      name:
+        contactName
+          .value
+          .trim(),
+
+      email:
+        contactEmail
+          .value
+          .trim(),
+
+      message:
+        contactMessage
+          .value
+          .trim(),
+
+      contact_intent:
+        selectedContactIntent,
+
+      booking_type:
+        selectedContactIntent ===
+        "BOOKING"
+          ? selectedBookingType
+          : "",
+
+      event_date:
+        selectedContactIntent ===
+        "BOOKING"
+          ? contactEventDate.value
+          : ""
+
+    };
+
+
+    try{
+
+      const response =
+        await fetch(
+          "/api/contact",
+          {
+            method:"POST",
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify(
+                payload
+              )
+          }
+        );
+
+
+      const result =
+        await response
+          .json()
+          .catch(
+            () => ({})
+          );
+
+
+      if(!response.ok){
+
+        throw new Error(
+          result.error ||
+          "Request failed"
+        );
+
+      }
+
+
+      contactFormMessage.className =
+        "form-message success";
+
+
+      contactFormMessage.textContent =
+        currentLanguage === "it"
+          ? "Messaggio inviato! Ti risponderemo il prima possibile."
+          : "Message sent! We'll get back to you as soon as possible.";
+
+
+      contactForm.reset();
+
+
+      selectedContactIntent =
+        "BOOKING";
+
+      selectedBookingType =
+        "";
+
+
+      document
+        .querySelectorAll(
+          "[data-contact-intent]"
+        )
+        .forEach(button=>{
+
+          button.classList.toggle(
+            "active",
+            button.dataset
+              .contactIntent ===
+              "BOOKING"
+          );
+
+        });
+
+
+      document
+        .querySelectorAll(
+          "[data-booking-type]"
+        )
+        .forEach(button=>{
+
+          button.classList.remove(
+            "active"
+          );
+
+        });
+
+
+      updateContactInterface();
+
+    }catch(error){
+
+      console.error(
+        "Contact error:",
+        error
+      );
+
+
+      contactFormMessage.className =
+        "form-message error";
+
+
+      contactFormMessage.textContent =
+        currentLanguage === "it"
+          ? "Qualcosa è andato storto. Riprova."
+          : "Something went wrong. Please try again.";
+
+    }finally{
+
+      contactSubmitButton.disabled =
+        false;
+
+    }
+
+  }
+);
 
 
 /* ============================================================
-   PATH
+   INITIALIZATION
 ============================================================ */
 
-function normalizePath(
-  pathname
-) {
+setLanguage(
+  currentLanguage
+);
 
-  if (!pathname) {
+loadEvents();
 
-    return "/";
+</script>
 
-  }
-
-
-  if (
-    pathname.length > 1 &&
-    pathname.endsWith(
-      "/"
-    )
-  ) {
-
-    return pathname.slice(
-      0,
-      -1
-    );
-
-  }
-
-
-  return pathname;
-
-}
-
-
-/* ============================================================
-   CUSTOM ERROR
-============================================================ */
-
-class HttpError
-  extends Error {
-
-  constructor(
-    status,
-    message
-  ) {
-
-    super(
-      message
-    );
-
-
-    this.status =
-      status;
-
-  }
-
-}
+</body>
+</html>
