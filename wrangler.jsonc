@@ -4,10 +4,10 @@
   "main": "src/index.js",
   "compatibility_date": "2026-08-13",
 
-"observability": {
-  "enabled": true,
-  "head_sampling_rate": 1
-}
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
 
   "assets": {
     "directory": "./public",
@@ -24,6 +24,12 @@
       "binding": "DB",
       "database_name": "orange-may-db",
       "database_id": "1115fa7e-a638-4d1f-ad09-3292a33b4ed8"
+    }
+  ],
+
+  "send_email": [
+    {
+      "name": "EMAIL"
     }
   ]
 }
