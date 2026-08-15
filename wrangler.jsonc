@@ -1,5 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+
   "name": "orange-may-website",
   "main": "src/index.js",
   "compatibility_date": "2026-08-13",
@@ -12,6 +13,7 @@
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
+    "html_handling": "none",
     "run_worker_first": [
       "/admin",
       "/admin/*",
@@ -26,12 +28,6 @@
       "binding": "DB",
       "database_name": "orange-may-db",
       "database_id": "1115fa7e-a638-4d1f-ad09-3292a33b4ed8"
-    }
-  ],
-
-  "send_email": [
-    {
-      "name": "EMAIL"
     }
   ]
 }
