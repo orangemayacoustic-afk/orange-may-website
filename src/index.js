@@ -178,6 +178,10 @@ export default {
           ).trim();
 
 
+        // -----------------------------------------------------
+        // REQUIRED FIELDS
+        // -----------------------------------------------------
+
         if (
           !name ||
           !email ||
@@ -193,24 +197,458 @@ export default {
         }
 
 
-        await env.DB
-          .prepare(`
-            INSERT INTO contact_messages
-            (
+        // -----------------------------------------------------
+        // EMAIL VALIDATION
+        // -----------------------------------------------------
+
+        if (!isValidEmail(email)) {
+          return json(
+            {
+              error:
+                "Invalid email address"
+            },
+            400
+          );
+        }
+
+
+        // -----------------------------------------------------
+        // LIMIT INPUT LENGTH
+        // -----------------------------------------------------
+
+        if (name.length > 120) {
+          return json(
+            {
+              error:
+                "Name is too long"
+            },
+            400
+          );
+        }
+
+
+        if (email.length > 254) {
+          return json(
+            {
+              error:
+                "Email is too long"
+            },
+            400
+          );
+        }
+
+
+        if (message.length > 10000) {
+          return json(
+            {
+              error:
+                "Message is too long"
+            },
+            400
+          );
+        }
+
+
+        // -----------------------------------------------------
+        // SAVE MESSAGE TO DATABASE
+        // -----------------------------------------------------
+
+        const result =
+          await env.DB
+            .prepare(`
+              INSERT INTO contact_messages
+              (
+                name,
+                email,
+                subject,
+                message
+              )
+              VALUES (?, ?, ?, ?)
+            `)
+            .bind(
               name,
               email,
-              subject,
+              "",
               message
             )
-            VALUES (?, ?, ?, ?)
-          `)
-          .bind(
-            name,
-            email,
-            "",
-            message
-          )
-          .run();
+            .run();
+
+
+        // -----------------------------------------------------
+        // SEND EMAIL NOTIFICATION
+        // -----------------------------------------------------
+
+        const messageId =
+          result.meta
+            ?.last_row_id ||
+          null;
+
+
+        const submittedAt =
+          new Date()
+            .toLocaleString(
+              "it-IT",
+              {
+                timeZone:
+                  "Europe/Rome",
+
+                dateStyle:
+                  "full",
+
+                timeStyle:
+                  "short"
+              }
+            );
+
+
+        const subject =
+          `Nuovo messaggio dal sito — ${name}`;
+
+
+        const textBody =
+`NUOVO MESSAGGIO DAL SITO ORANGE MAY
+
+Nome:
+${name}
+
+Email:
+${email}
+
+Data:
+${submittedAt}
+
+Messaggio:
+${message}
+
+----------------------------------------
+Messaggio ricevuto tramite orangemay.blog
+${messageId ? `ID messaggio: ${messageId}` : ""}
+
+Per rispondere direttamente alla persona che ha scritto,
+usa il tasto "Rispondi" nella tua casella email.`;
+
+
+        const htmlBody =
+          `
+          <!DOCTYPE html>
+
+          <html lang="it">
+
+          <head>
+            <meta charset="UTF-8">
+          </head>
+
+          <body
+            style="
+              margin:0;
+              padding:0;
+              background:#f5f0e8;
+              font-family:Arial,Helvetica,sans-serif;
+              color:#11100f;
+            "
+          >
+
+            <div
+              style="
+                max-width:680px;
+                margin:0 auto;
+                padding:32px 18px;
+              "
+            >
+
+              <div
+                style="
+                  background:#11100f;
+                  padding:34px;
+                  color:#ffffff;
+                "
+              >
+
+                <div
+                  style="
+                    color:#ff6a00;
+                    font-size:12px;
+                    font-weight:700;
+                    letter-spacing:2px;
+                    text-transform:uppercase;
+                    margin-bottom:14px;
+                  "
+                >
+                  Orange May
+                </div>
+
+
+                <h1
+                  style="
+                    margin:0;
+                    font-size:34px;
+                    line-height:1;
+                    letter-spacing:-1px;
+                    text-transform:uppercase;
+                  "
+                >
+                  Nuovo messaggio<br>
+                  dal sito.
+                </h1>
+
+              </div>
+
+
+              <div
+                style="
+                  background:#ffffff;
+                  padding:34px;
+                "
+              >
+
+                <table
+                  role="presentation"
+                  cellpadding="0"
+                  cellspacing="0"
+                  width="100%"
+                  style="
+                    border-collapse:collapse;
+                  "
+                >
+
+                  <tr>
+
+                    <td
+                      style="
+                        padding:0 0 18px;
+                        font-size:11px;
+                        font-weight:700;
+                        letter-spacing:1.4px;
+                        text-transform:uppercase;
+                        color:#77716a;
+                      "
+                    >
+                      Nome
+                    </td>
+
+                  </tr>
+
+                  <tr>
+
+                    <td
+                      style="
+                        padding:0 0 28px;
+                        font-size:22px;
+                        font-weight:700;
+                      "
+                    >
+                      ${escapeHtml(name)}
+                    </td>
+
+                  </tr>
+
+
+                  <tr>
+
+                    <td
+                      style="
+                        padding:0 0 8px;
+                        font-size:11px;
+                        font-weight:700;
+                        letter-spacing:1.4px;
+                        text-transform:uppercase;
+                        color:#77716a;
+                      "
+                    >
+                      Email
+                    </td>
+
+                  </tr>
+
+                  <tr>
+
+                    <td
+                      style="
+                        padding:0 0 28px;
+                        font-size:17px;
+                      "
+                    >
+
+                      <a
+                        href="mailto:${escapeHtmlAttribute(email)}"
+                        style="
+                          color:#11100f;
+                          text-decoration:underline;
+                        "
+                      >
+                        ${escapeHtml(email)}
+                      </a>
+
+                    </td>
+
+                  </tr>
+
+
+                  <tr>
+
+                    <td
+                      style="
+                        padding:0 0 8px;
+                        font-size:11px;
+                        font-weight:700;
+                        letter-spacing:1.4px;
+                        text-transform:uppercase;
+                        color:#77716a;
+                      "
+                    >
+                      Ricevuto
+                    </td>
+
+                  </tr>
+
+                  <tr>
+
+                    <td
+                      style="
+                        padding:0 0 32px;
+                        font-size:15px;
+                      "
+                    >
+                      ${escapeHtml(submittedAt)}
+                    </td>
+
+                  </tr>
+
+
+                  <tr>
+
+                    <td
+                      style="
+                        padding-top:28px;
+                        border-top:1px solid #e4ddd4;
+                      "
+                    >
+
+                      <div
+                        style="
+                          margin-bottom:12px;
+                          color:#ff6a00;
+                          font-size:11px;
+                          font-weight:700;
+                          letter-spacing:1.4px;
+                          text-transform:uppercase;
+                        "
+                      >
+                        Messaggio
+                      </div>
+
+                      <div
+                        style="
+                          font-size:17px;
+                          line-height:1.65;
+                          white-space:pre-wrap;
+                        "
+                      >${escapeHtml(message)}</div>
+
+                    </td>
+
+                  </tr>
+
+                </table>
+
+
+                <div
+                  style="
+                    margin-top:36px;
+                    padding-top:20px;
+                    border-top:1px solid #e4ddd4;
+                    color:#77716a;
+                    font-size:12px;
+                    line-height:1.6;
+                  "
+                >
+                  Inviato tramite orangemay.blog
+                  ${
+                    messageId
+                      ? `<br>ID messaggio: ${escapeHtml(messageId)}`
+                      : ""
+                  }
+                </div>
+
+              </div>
+
+
+              <div
+                style="
+                  background:#ff6a00;
+                  padding:18px 34px;
+                  color:#11100f;
+                  font-size:12px;
+                  font-weight:700;
+                "
+              >
+                Puoi rispondere direttamente a questa email:
+                la risposta verrà inviata a ${escapeHtml(email)}.
+              </div>
+
+            </div>
+
+          </body>
+
+          </html>
+          `;
+
+
+        try {
+
+          await env.EMAIL.send({
+            to:
+              "orangemayacoustic@gmail.com",
+
+            from: {
+              email:
+                "website@orangemay.blog",
+
+              name:
+                "Orange May Website"
+            },
+
+            replyTo: {
+              email:
+                email,
+
+              name:
+                name
+            },
+
+            subject:
+              subject,
+
+            text:
+              textBody,
+
+            html:
+              htmlBody
+          });
+
+
+        } catch (emailError) {
+
+          console.error(
+            "Contact notification email failed:",
+            emailError?.code,
+            emailError?.message,
+            emailError
+          );
+
+
+          return json(
+            {
+              error:
+                "Message saved but email notification failed",
+
+              code:
+                emailError?.code ||
+                "EMAIL_SEND_FAILED"
+            },
+            500
+          );
+        }
 
 
         return json({
@@ -246,7 +684,6 @@ export default {
               ORDER BY event_date ASC, start_time ASC
             `)
             .all();
-
 
         return json(results);
       }
@@ -313,6 +750,7 @@ export default {
         return json(
           {
             success: true,
+
             id:
               result.meta
                 ?.last_row_id
@@ -333,6 +771,7 @@ export default {
 
 
       if (adminEventMatch) {
+
         const id =
           Number(
             adminEventMatch[1]
@@ -358,6 +797,7 @@ export default {
         // -------------------------------------------------
 
         if (method === "PUT") {
+
           const body =
             await request.json();
 
@@ -440,6 +880,7 @@ export default {
         // -------------------------------------------------
 
         if (method === "DELETE") {
+
           const existing =
             await env.DB
               .prepare(`
@@ -512,6 +953,7 @@ function isAdminAuthenticated(
   request,
   env
 ) {
+
   if (
     !env.ADMIN_SESSION_TOKEN
   ) {
@@ -537,6 +979,7 @@ function isAdminAuthenticated(
 function createSessionCookie(
   token
 ) {
+
   return [
     `orange_may_admin=${token}`,
     "Path=/",
@@ -549,6 +992,7 @@ function createSessionCookie(
 
 
 function clearSessionCookie() {
+
   return [
     "orange_may_admin=",
     "Path=/",
@@ -563,6 +1007,7 @@ function clearSessionCookie() {
 function parseCookies(
   cookieHeader
 ) {
+
   const cookies = {};
 
 
@@ -607,6 +1052,7 @@ function parseCookies(
 function validateEvent(
   body
 ) {
+
   const event_date =
     String(
       body.event_date || ""
@@ -668,6 +1114,7 @@ function validateEvent(
   if (!event_date) {
     return {
       ok: false,
+
       error:
         "Date is required"
     };
@@ -677,6 +1124,7 @@ function validateEvent(
   if (!venue) {
     return {
       ok: false,
+
       error:
         "Venue is required"
     };
@@ -686,6 +1134,7 @@ function validateEvent(
   if (!location) {
     return {
       ok: false,
+
       error:
         "Location is required"
     };
@@ -702,6 +1151,7 @@ function validateEvent(
   ) {
     return {
       ok: false,
+
       error:
         "Invalid date"
     };
@@ -719,6 +1169,7 @@ function validateEvent(
   ) {
     return {
       ok: false,
+
       error:
         "Invalid start time"
     };
@@ -732,6 +1183,7 @@ function validateEvent(
   ) {
     return {
       ok: false,
+
       error:
         "Invalid end time"
     };
@@ -745,6 +1197,7 @@ function validateEvent(
   ) {
     return {
       ok: false,
+
       error:
         "End time cannot be earlier than start time"
     };
@@ -763,6 +1216,7 @@ function validateEvent(
   ) {
     return {
       ok: false,
+
       error:
         "Invalid location URL"
     };
@@ -781,6 +1235,7 @@ function validateEvent(
   ) {
     return {
       ok: false,
+
       error:
         "Invalid public URL"
     };
@@ -812,6 +1267,7 @@ function validateEvent(
 function normalizeEventType(
   value
 ) {
+
   const allowedTypes = [
     "PUBLIC",
     "GUESTS_ONLY",
@@ -836,12 +1292,26 @@ function normalizeEventType(
 
 
 // =========================================================
+// EMAIL VALIDATION
+// =========================================================
+
+function isValidEmail(
+  value
+) {
+
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    .test(value);
+}
+
+
+// =========================================================
 // URL VALIDATION
 // =========================================================
 
 function isValidHttpUrl(
   value
 ) {
+
   try {
 
     const url =
@@ -862,12 +1332,55 @@ function isValidHttpUrl(
 
 
 // =========================================================
+// HTML ESCAPE
+// =========================================================
+
+function escapeHtml(
+  value
+) {
+
+  return String(
+    value ?? ""
+  )
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+}
+
+
+function escapeHtmlAttribute(
+  value
+) {
+
+  return escapeHtml(value);
+}
+
+
+// =========================================================
 // HELPERS
 // =========================================================
 
 function cleanOptional(
   value
 ) {
+
   const result =
     String(
       value || ""
@@ -882,12 +1395,14 @@ function json(
   data,
   status = 200
 ) {
+
   return new Response(
     JSON.stringify(data),
     {
       status,
 
       headers: {
+
         "Content-Type":
           "application/json; charset=utf-8",
 
