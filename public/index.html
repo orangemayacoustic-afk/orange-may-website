@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <meta charset="UTF-8">
@@ -19,9 +20,9 @@
 
   <style>
 
-    /* =====================================================
+    /* =========================================================
        RESET
-    ===================================================== */
+    ========================================================= */
 
     * {
       box-sizing: border-box;
@@ -41,7 +42,7 @@
       --cream-dark: #ebe5dc;
       --black: #11100f;
       --grey: #77716a;
-      --line: rgba(17,16,15,.16);
+      --line: rgba(17, 16, 15, .16);
       --max: 1260px;
     }
 
@@ -53,7 +54,6 @@
 
     body {
       width: 100%;
-      max-width: 100%;
       overflow-x: hidden;
 
       background: var(--cream);
@@ -67,19 +67,15 @@
       overflow: hidden;
     }
 
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
     img {
       display: block;
       width: 100%;
       max-width: 100%;
-    }
-
-    svg {
-      display: block;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
     }
 
     button,
@@ -90,6 +86,10 @@
 
     button {
       cursor: pointer;
+    }
+
+    svg {
+      display: block;
     }
 
     ::selection {
@@ -103,52 +103,39 @@
     }
 
 
-    /* =====================================================
-       SVG ICONS
-    ===================================================== */
+    /* =========================================================
+       ICONS
+    ========================================================= */
 
     .icon-arrow {
       width: 15px;
       height: 15px;
-
-      display: block;
       flex-shrink: 0;
     }
 
-    .icon-arrow-menu {
+    .icon-arrow-big {
       width: 22px;
       height: 22px;
-    }
-
-    .icon-arrow-social {
-      width: 22px;
-      height: 22px;
-    }
-
-    .icon-arrow-small {
-      width: 13px;
-      height: 13px;
     }
 
     .inline-link {
       display: inline-flex;
       align-items: center;
-
       gap: 8px;
     }
 
 
-    /* =====================================================
+    /* =========================================================
        REVEAL
-    ===================================================== */
+    ========================================================= */
 
     .reveal {
       opacity: 0;
-      transform: translateY(26px);
+      transform: translateY(24px);
 
       transition:
-        opacity .72s cubic-bezier(.2,.8,.2,1),
-        transform .72s cubic-bezier(.2,.8,.2,1);
+        opacity .7s cubic-bezier(.2,.8,.2,1),
+        transform .7s cubic-bezier(.2,.8,.2,1);
     }
 
     .reveal.visible {
@@ -157,15 +144,16 @@
     }
 
 
-    /* =====================================================
+    /* =========================================================
        HEADER
-    ===================================================== */
+    ========================================================= */
 
     header {
       position: fixed;
       inset: 0 0 auto;
-
       z-index: 1000;
+
+      color: white;
 
       transition:
         background .3s ease,
@@ -175,17 +163,13 @@
     }
 
     header.scrolled {
-      background: rgba(245,240,232,.94);
+      background: rgba(245, 240, 232, .94);
       color: var(--black);
+
+      border-bottom: 1px solid var(--line);
 
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-
-      border-bottom: 1px solid var(--line);
-    }
-
-    header:not(.scrolled) {
-      color: white;
     }
 
     .nav {
@@ -207,12 +191,6 @@
 
       display: block;
       flex-shrink: 0;
-
-      transition: transform .25s ease;
-    }
-
-    .nav-logo:hover {
-      transform: translateY(-2px);
     }
 
     .nav-logo img {
@@ -247,14 +225,12 @@
     .nav-right {
       display: flex;
       align-items: center;
-
       gap: 22px;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-
       gap: 24px;
     }
 
@@ -283,8 +259,7 @@
       transform: scaleX(0);
       transform-origin: right;
 
-      transition:
-        transform .25s cubic-bezier(.2,.8,.2,1);
+      transition: transform .25s ease;
     }
 
     .nav-links a:hover::after {
@@ -293,9 +268,9 @@
     }
 
 
-    /* =====================================================
+    /* =========================================================
        LANGUAGE
-    ===================================================== */
+    ========================================================= */
 
     .language-switcher {
       position: relative;
@@ -308,8 +283,6 @@
       border-radius: 999px;
 
       padding: 3px;
-
-      flex-shrink: 0;
     }
 
     .language-switcher button {
@@ -324,27 +297,22 @@
 
       font-size: .7rem;
       font-weight: 900;
-
-      transition:
-        background .2s ease,
-        color .2s ease;
     }
 
-    .language-switcher button.active {
-      background: var(--black);
-      color: var(--cream);
-    }
-
-    header:not(.scrolled)
     .language-switcher button.active {
       background: white;
       color: var(--black);
     }
 
+    header.scrolled .language-switcher button.active {
+      background: var(--black);
+      color: white;
+    }
 
-    /* =====================================================
+
+    /* =========================================================
        MOBILE MENU
-    ===================================================== */
+    ========================================================= */
 
     .menu-toggle {
       position: relative;
@@ -422,14 +390,10 @@
     .mobile-menu.open {
       opacity: 1;
       visibility: visible;
-
       transform: translateY(0);
     }
 
     .mobile-menu-links {
-      display: flex;
-      flex-direction: column;
-
       border-top: 2px solid var(--black);
     }
 
@@ -440,25 +404,14 @@
       align-items: center;
       justify-content: space-between;
 
-      gap: 20px;
-
       border-bottom: 2px solid var(--black);
 
-      font-size: clamp(2rem,10vw,3.3rem);
+      font-size: clamp(2rem, 10vw, 3.3rem);
       font-weight: 900;
+      line-height: 1;
       letter-spacing: -.045em;
 
       text-transform: uppercase;
-    }
-
-    .mobile-menu-links .icon-arrow {
-      transition:
-        transform .25s cubic-bezier(.2,.8,.2,1);
-    }
-
-    .mobile-menu-links a:hover
-    .icon-arrow {
-      transform: translateX(5px);
     }
 
     .mobile-menu-footer {
@@ -469,23 +422,22 @@
 
       gap: 12px 28px;
 
-      padding-top: 28px;
-
       font-size: .72rem;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: .08em;
 
       text-transform: uppercase;
     }
 
 
-    /* =====================================================
+    /* =========================================================
        HERO
-    ===================================================== */
+    ========================================================= */
 
     .hero {
       position: relative;
 
+      width: 100%;
       min-height: 100svh;
 
       display: flex;
@@ -493,19 +445,16 @@
 
       overflow: hidden;
 
-      color: white;
-
       background:
         linear-gradient(
           90deg,
-          rgba(8,6,5,.80) 0%,
-          rgba(8,6,5,.44) 42%,
+          rgba(8,6,5,.82) 0%,
+          rgba(8,6,5,.48) 42%,
           rgba(8,6,5,.10) 78%
         ),
-        url("/images/hero.jpeg");
+        url("/images/hero.jpeg") center 40% / cover no-repeat;
 
-      background-size: cover;
-      background-position: center 40%;
+      color: white;
     }
 
     .hero::after {
@@ -514,12 +463,12 @@
       position: absolute;
       inset: auto 0 0;
 
-      height: 42%;
+      height: 45%;
 
       background:
         linear-gradient(
           to top,
-          rgba(0,0,0,.72),
+          rgba(0,0,0,.74),
           transparent
         );
 
@@ -529,6 +478,8 @@
     .hero-content {
       position: relative;
       z-index: 2;
+
+      width: 100%;
 
       padding-top: 145px;
       padding-bottom: 7vh;
@@ -561,7 +512,7 @@
     .hero h1 {
       max-width: 810px;
 
-      font-size: clamp(4.4rem,10vw,9.3rem);
+      font-size: clamp(4.4rem, 10vw, 9.3rem);
       font-weight: 900;
       line-height: .79;
       letter-spacing: -.068em;
@@ -586,21 +537,20 @@
     .hero-description {
       max-width: 455px;
 
-      font-size: clamp(1.05rem,1.65vw,1.42rem);
+      font-size: clamp(1.05rem, 1.65vw, 1.42rem);
       line-height: 1.38;
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
-
       gap: 12px;
     }
 
 
-    /* =====================================================
+    /* =========================================================
        BUTTONS
-    ===================================================== */
+    ========================================================= */
 
     .btn {
       min-height: 50px;
@@ -613,6 +563,7 @@
 
       padding: 0 22px;
 
+      border: 0;
       border-radius: 999px;
 
       font-size: .74rem;
@@ -622,9 +573,8 @@
       text-transform: uppercase;
 
       transition:
-        transform .25s cubic-bezier(.2,.8,.2,1),
-        box-shadow .25s ease,
-        background .25s ease;
+        transform .25s ease,
+        box-shadow .25s ease;
     }
 
     .btn:hover {
@@ -636,20 +586,20 @@
       color: white;
     }
 
-    .btn-orange:hover {
-      box-shadow:
-        0 10px 25px rgba(255,106,0,.22);
-    }
-
     .btn-white {
       background: white;
       color: var(--black);
     }
 
+    .btn-dark {
+      background: var(--black);
+      color: white;
+    }
 
-    /* =====================================================
+
+    /* =========================================================
        SOCIAL
-    ===================================================== */
+    ========================================================= */
 
     #social {
       padding: 115px 0;
@@ -670,7 +620,6 @@
 
     #social .section-label {
       margin-bottom: 18px;
-
       color: var(--black);
     }
 
@@ -687,7 +636,7 @@
     }
 
     .social-title {
-      font-size: clamp(4.4rem,8vw,8.8rem);
+      font-size: clamp(4.4rem, 8vw, 8.8rem);
       font-weight: 900;
       line-height: .8;
       letter-spacing: -.065em;
@@ -704,13 +653,12 @@
     }
 
     .social-copy p {
-      font-size: clamp(1.08rem,1.7vw,1.45rem);
+      font-size: clamp(1.08rem, 1.7vw, 1.45rem);
       line-height: 1.45;
     }
 
     .social-links {
       margin-top: 68px;
-
       border-top: 2px solid var(--black);
     }
 
@@ -726,7 +674,7 @@
       border-bottom: 2px solid var(--black);
 
       transition:
-        padding .3s cubic-bezier(.2,.8,.2,1),
+        padding .3s ease,
         background .3s ease;
     }
 
@@ -738,26 +686,17 @@
     }
 
     .social-name {
-      font-size: clamp(2rem,4.2vw,4.2rem);
+      font-size: clamp(2rem, 4.2vw, 4.2rem);
       font-weight: 900;
       letter-spacing: -.04em;
 
       text-transform: uppercase;
     }
 
-    .social-link .icon-arrow {
-      transition:
-        transform .3s cubic-bezier(.2,.8,.2,1);
-    }
 
-    .social-link:hover .icon-arrow {
-      transform: translate(5px,-5px);
-    }
-
-
-    /* =====================================================
+    /* =========================================================
        TICKER
-    ===================================================== */
+    ========================================================= */
 
     .ticker {
       overflow: hidden;
@@ -772,8 +711,7 @@
       display: flex;
       align-items: center;
 
-      animation:
-        ticker 26s linear infinite;
+      animation: ticker 26s linear infinite;
     }
 
     .ticker-content {
@@ -806,28 +744,25 @@
       to {
         transform: translateX(-50%);
       }
+
     }
 
 
-    /* =====================================================
+    /* =========================================================
        SHOWS
-    ===================================================== */
+    ========================================================= */
 
     #shows {
-      padding:
-        105px
-        0
-        120px;
-
+      padding: 105px 0 120px;
       background: var(--cream);
     }
 
-    #shows .section-header {
+    .shows-header {
       display: grid;
 
       grid-template-columns:
         150px
-        minmax(0,1fr);
+        minmax(0, 1fr);
 
       gap: 50px;
 
@@ -836,10 +771,10 @@
       margin-bottom: 48px;
     }
 
-    #shows .section-title {
+    .shows-title {
       max-width: 980px;
 
-      font-size: clamp(3.8rem,6vw,6.4rem);
+      font-size: clamp(3.8rem, 6vw, 6.4rem);
       font-weight: 900;
       line-height: .84;
       letter-spacing: -.065em;
@@ -860,20 +795,17 @@
       display: grid;
 
       grid-template-columns:
-        130px
+        125px
         minmax(0,1fr)
         200px;
 
-      gap: 34px;
+      gap: 32px;
 
       align-items: end;
 
-      min-height: 245px;
+      min-height: 240px;
 
-      padding:
-        40px
-        38px
-        36px;
+      padding: 40px 38px 34px;
 
       overflow: hidden;
 
@@ -886,18 +818,14 @@
 
       position: absolute;
 
-      right: -90px;
-      bottom: -120px;
+      right: -100px;
+      bottom: -130px;
 
-      width: 260px;
-      height: 260px;
+      width: 270px;
+      height: 270px;
 
-      border:
-        1px solid rgba(255,106,0,.5);
-
+      border: 1px solid rgba(255,106,0,.28);
       border-radius: 50%;
-
-      pointer-events: none;
     }
 
     .next-show-label {
@@ -906,7 +834,7 @@
       top: 24px;
       left: 38px;
 
-      z-index: 3;
+      z-index: 2;
 
       display: flex;
       align-items: center;
@@ -922,27 +850,22 @@
       text-transform: uppercase;
     }
 
-
-    /* WAVE */
-
     .mini-wave {
+      height: 16px;
+
       display: inline-flex;
       align-items: center;
 
       gap: 3px;
-
-      height: 16px;
     }
 
     .mini-wave span {
       width: 3px;
-
       border-radius: 99px;
 
       background: currentColor;
 
-      animation:
-        wave 1.1s ease-in-out infinite;
+      animation: wave 1.1s ease-in-out infinite;
     }
 
     .mini-wave span:nth-child(1) {
@@ -979,18 +902,14 @@
       50% {
         transform: scaleY(1);
       }
+
     }
-
-
-    /* DATE */
 
     .next-show-date {
       position: relative;
       z-index: 2;
 
       padding-top: 48px;
-
-      width: 130px;
 
       display: flex;
       flex-direction: column;
@@ -1000,20 +919,14 @@
     }
 
     .next-show-day {
-      display: block;
-
-      font-size: clamp(4.3rem,6vw,6.2rem);
+      font-size: clamp(4.3rem, 6vw, 6.2rem);
       font-weight: 900;
       line-height: .75;
       letter-spacing: -.075em;
     }
 
     .next-show-month {
-      display: block;
-
       margin-top: 13px;
-
-      padding-left: .18em;
 
       color: var(--orange);
 
@@ -1024,9 +937,6 @@
       text-transform: uppercase;
     }
 
-
-    /* CONTENT */
-
     .next-show-content {
       position: relative;
       z-index: 2;
@@ -1035,13 +945,12 @@
     .next-show-venue {
       max-width: 700px;
 
-      font-size: clamp(2.5rem,4vw,4.4rem);
+      font-size: clamp(2.5rem, 4vw, 4.4rem);
       font-weight: 900;
       line-height: .88;
       letter-spacing: -.055em;
 
       text-transform: uppercase;
-
       overflow-wrap: anywhere;
     }
 
@@ -1062,9 +971,7 @@
 
       margin-top: 16px;
 
-      padding:
-        0
-        11px;
+      padding: 0 11px;
 
       border-radius: 999px;
 
@@ -1089,9 +996,6 @@
       line-height: 1.45;
     }
 
-
-    /* RIGHT */
-
     .next-show-right {
       position: relative;
       z-index: 2;
@@ -1099,36 +1003,28 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      justify-content: flex-end;
     }
 
     .next-show-time {
-      font-size: clamp(1.15rem,1.7vw,1.55rem);
+      font-size: clamp(1.15rem, 1.7vw, 1.55rem);
       font-weight: 900;
-      letter-spacing: -.02em;
-
       white-space: nowrap;
     }
 
 
-    /* ACTIONS */
+    /* SHOW ACTION */
 
     .show-actions {
       display: flex;
-      align-items: center;
       flex-wrap: wrap;
 
       gap: 8px;
 
-      margin-top: 18px;
-    }
-
-    .next-show-right .show-actions {
-      justify-content: flex-end;
+      margin-top: 14px;
     }
 
     .show-action {
-      min-height: 37px;
+      min-height: 35px;
 
       display: inline-flex;
       align-items: center;
@@ -1136,18 +1032,14 @@
 
       gap: 7px;
 
-      padding:
-        0
-        13px;
+      padding: 0 12px;
 
-      border:
-        1px solid currentColor;
-
+      border: 1px solid currentColor;
       border-radius: 999px;
 
-      font-size: .56rem;
+      font-size: .54rem;
       font-weight: 900;
-      letter-spacing: .09em;
+      letter-spacing: .08em;
 
       text-transform: uppercase;
 
@@ -1187,12 +1079,8 @@
 
     .more-events {
       display: grid;
-
       gap: 10px;
     }
-
-
-    /* NORMAL EVENT */
 
     .event {
       position: relative;
@@ -1208,30 +1096,24 @@
 
       align-items: center;
 
-      min-height: 105px;
+      min-height: 103px;
 
-      padding:
-        20px
-        26px;
+      padding: 18px 25px;
 
       overflow: hidden;
 
       background: var(--cream-dark);
 
       transition:
-        transform .28s cubic-bezier(.2,.8,.2,1),
-        background .28s ease,
-        opacity .35s ease;
+        transform .25s ease,
+        background .25s ease;
     }
 
     .event::before {
       content: "";
 
       position: absolute;
-
-      left: 0;
-      top: 0;
-      bottom: 0;
+      inset: 0 auto 0 0;
 
       width: 4px;
 
@@ -1240,14 +1122,12 @@
       transform: scaleY(0);
       transform-origin: bottom;
 
-      transition:
-        transform .28s ease;
+      transition: transform .25s ease;
     }
 
     .event:hover {
       transform: translateY(-2px);
-
-      background: #e5ddd2;
+      background: #e4dcd1;
     }
 
     .event:hover::before {
@@ -1255,23 +1135,22 @@
     }
 
     .event.event-enter {
-      animation:
-        eventEnter .45s cubic-bezier(.2,.8,.2,1) both;
+      animation: eventEnter .42s ease both;
     }
 
     @keyframes eventEnter {
 
       from {
         opacity: 0;
-        transform: translateY(12px);
+        transform: translateY(10px);
       }
 
       to {
         opacity: 1;
         transform: translateY(0);
       }
-    }
 
+    }
 
     .event-date {
       width: 78px;
@@ -1284,7 +1163,7 @@
     }
 
     .event-day {
-      font-size: 2.65rem;
+      font-size: 2.55rem;
       font-weight: 900;
       line-height: .8;
       letter-spacing: -.06em;
@@ -1293,23 +1172,17 @@
     .event-month {
       margin-top: 7px;
 
-      padding-left: .16em;
-
       color: var(--orange);
 
-      font-size: .58rem;
+      font-size: .57rem;
       font-weight: 900;
       letter-spacing: .16em;
 
       text-transform: uppercase;
     }
 
-    .event-content {
-      min-width: 0;
-    }
-
     .event-venue {
-      font-size: clamp(1.4rem,1.9vw,2rem);
+      font-size: clamp(1.35rem, 1.9vw, 1.95rem);
       font-weight: 900;
       line-height: 1;
       letter-spacing: -.035em;
@@ -1322,46 +1195,42 @@
 
       color: #68615b;
 
-      font-size: .84rem;
+      font-size: .82rem;
       font-weight: 600;
     }
 
-    .event-badges {
-      margin-top: 9px;
-    }
-
     .event-badge {
-      min-height: 24px;
+      min-height: 23px;
 
       display: inline-flex;
       align-items: center;
 
-      padding:
-        0
-        9px;
+      margin-top: 7px;
+
+      padding: 0 8px;
 
       border-radius: 999px;
 
       background: #ffdcb6;
       color: #7c3c00;
 
-      font-size: .52rem;
+      font-size: .5rem;
       font-weight: 900;
-      letter-spacing: .09em;
+      letter-spacing: .08em;
 
       text-transform: uppercase;
     }
 
-    .event-note-text {
-      margin-top: 8px;
+    .event-note {
+      margin-top: 7px;
 
       color: #736c65;
 
-      font-size: .77rem;
+      font-size: .74rem;
     }
 
     .event-right {
-      min-width: 200px;
+      min-width: 195px;
 
       display: flex;
       flex-direction: column;
@@ -1369,7 +1238,7 @@
     }
 
     .event-time {
-      font-size: 1rem;
+      font-size: .96rem;
       font-weight: 900;
 
       white-space: nowrap;
@@ -1377,18 +1246,12 @@
 
     .event .show-actions {
       justify-content: flex-end;
-
-      margin-top: 9px;
+      margin-top: 8px;
     }
 
     .event .show-action {
-      min-height: 33px;
-
-      padding:
-        0
-        11px;
-
-      font-size: .51rem;
+      min-height: 31px;
+      font-size: .49rem;
     }
 
     .event .show-action:hover {
@@ -1403,7 +1266,7 @@
       display: flex;
       justify-content: center;
 
-      margin-top: 24px;
+      margin-top: 26px;
     }
 
     .show-more-button {
@@ -1415,13 +1278,9 @@
 
       gap: 10px;
 
-      padding:
-        0
-        22px;
+      padding: 0 22px;
 
-      border:
-        1px solid var(--black);
-
+      border: 1px solid var(--black);
       border-radius: 999px;
 
       background: transparent;
@@ -1446,33 +1305,24 @@
       transform: translateY(-2px);
     }
 
-    .show-more-button .icon-arrow {
-      transition:
-        transform .25s ease;
-    }
-
-    .show-more-button.is-less
-    .icon-arrow {
+    .show-more-button.is-less .down-arrow {
       transform: rotate(180deg);
     }
 
     .empty {
       padding: 40px 0;
-
       color: var(--grey);
     }
 
 
-    /* =====================================================
+    /* =========================================================
        CONTACT
-    ===================================================== */
+    ========================================================= */
 
     #contact {
       position: relative;
 
-      padding:
-        120px
-        0;
+      padding: 120px 0;
 
       overflow: hidden;
 
@@ -1503,12 +1353,8 @@
       left: -190px;
       bottom: -230px;
 
-      border:
-        1px solid rgba(255,106,0,.17);
-
+      border: 1px solid rgba(255,106,0,.17);
       border-radius: 50%;
-
-      pointer-events: none;
     }
 
     .contact-grid {
@@ -1533,13 +1379,7 @@
     .contact-title {
       max-width: 650px;
 
-      font-size:
-        clamp(
-          3.2rem,
-          6.2vw,
-          6.3rem
-        );
-
+      font-size: clamp(3.2rem, 6.2vw, 6.3rem);
       font-weight: 900;
       line-height: .89;
       letter-spacing: -.055em;
@@ -1556,21 +1396,13 @@
 
       margin-top: 30px;
 
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .69
-        );
+      color: rgba(255,255,255,.69);
 
       font-size: 1.04rem;
       line-height: 1.55;
     }
 
     .direct-contact {
-      width: 100%;
-
       margin-top: 46px;
 
       display: flex;
@@ -1581,63 +1413,27 @@
     }
 
     .email-link {
-      max-width: 100%;
-
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .7
-        );
-
-      border-bottom:
-        1px solid
-        rgba(
-          255,
-          255,
-          255,
-          .32
-        );
+      color: rgba(255,255,255,.7);
 
       padding-bottom: 3px;
 
-      font-size: .82rem;
+      border-bottom: 1px solid rgba(255,255,255,.32);
 
-      overflow-wrap: anywhere;
+      font-size: .82rem;
     }
 
 
     /* CONTACT PANEL */
 
     .contact-panel {
-      padding:
-        34px
-        34px
-        30px;
+      padding: 34px;
 
-      border:
-        1px solid
-        rgba(
-          255,
-          255,
-          255,
-          .13
-        );
+      border: 1px solid rgba(255,255,255,.13);
 
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          .045
-        );
+      background: rgba(255,255,255,.045);
 
-      backdrop-filter:
-        blur(8px);
-
-      -webkit-backdrop-filter:
-        blur(8px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     .contact-kicker {
@@ -1655,13 +1451,7 @@
     .contact-panel-heading {
       margin-bottom: 27px;
 
-      font-size:
-        clamp(
-          1.8rem,
-          2.8vw,
-          2.7rem
-        );
-
+      font-size: clamp(1.8rem, 2.8vw, 2.7rem);
       font-weight: 900;
       line-height: .95;
       letter-spacing: -.04em;
@@ -1672,13 +1462,7 @@
     .contact-choice-label {
       margin-bottom: 10px;
 
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .5
-        );
+      color: rgba(255,255,255,.5);
 
       font-size: .61rem;
       font-weight: 900;
@@ -1707,13 +1491,9 @@
       align-items: center;
       justify-content: center;
 
-      padding:
-        0
-        13px;
+      padding: 0 13px;
 
-      border:
-        1px solid rgba(255,255,255,.25);
-
+      border: 1px solid rgba(255,255,255,.25);
       border-radius: 999px;
 
       background: transparent;
@@ -1748,7 +1528,6 @@
       color: white;
     }
 
-
     .booking-details {
       overflow: hidden;
 
@@ -1758,13 +1537,13 @@
 
       transform: translateY(-8px);
 
+      margin-bottom: 0;
+
       transition:
-        max-height .45s cubic-bezier(.2,.8,.2,1),
+        max-height .4s ease,
         opacity .3s ease,
         transform .3s ease,
         margin .3s ease;
-
-      margin-bottom: 0;
     }
 
     .booking-details.open {
@@ -1781,10 +1560,8 @@
       margin-bottom: 18px;
     }
 
-
     .contact-form {
       display: grid;
-
       gap: 18px;
     }
 
@@ -1818,13 +1595,10 @@
 
       width: 100%;
 
-      padding:
-        15px
-        0;
+      padding: 15px 0;
 
       border: 0;
-      border-bottom:
-        1px solid rgba(255,255,255,.25);
+      border-bottom: 1px solid rgba(255,255,255,.25);
 
       border-radius: 0;
 
@@ -1843,7 +1617,6 @@
 
     .field textarea {
       min-height: 115px;
-
       resize: vertical;
     }
 
@@ -1853,32 +1626,39 @@
 
     .contact-submit {
       width: 100%;
-
-      border: 0;
-
       margin-top: 6px;
+    }
+
+    .contact-submit:disabled {
+      opacity: .55;
+      cursor: wait;
     }
 
     .form-message {
       min-height: 22px;
 
-      color: rgba(255,255,255,.7);
+      color: rgba(255,255,255,.72);
 
       font-size: .82rem;
     }
 
+    .form-message.success {
+      color: #9fe5a8;
+    }
 
-    /* =====================================================
-       OUR STORY
-    ===================================================== */
+    .form-message.error {
+      color: #ff9c91;
+    }
+
+
+    /* =========================================================
+       STORY
+    ========================================================= */
 
     #about {
       position: relative;
 
-      padding:
-        125px
-        0
-        135px;
+      padding: 125px 0 135px;
 
       overflow: hidden;
 
@@ -1896,12 +1676,8 @@
       right: -270px;
       top: 90px;
 
-      border:
-        1px solid rgba(255,106,0,.20);
-
+      border: 1px solid rgba(255,106,0,.20);
       border-radius: 50%;
-
-      pointer-events: none;
     }
 
     .story-grid {
@@ -1921,18 +1697,13 @@
 
     .story-visual {
       position: sticky;
-
       top: 104px;
     }
 
     .story-image-frame {
       position: relative;
 
-      padding:
-        0
-        18px
-        18px
-        0;
+      padding: 0 18px 18px 0;
     }
 
     .story-image-frame::after {
@@ -1946,30 +1717,24 @@
       width: calc(100% - 22px);
       height: calc(100% - 22px);
 
-      border:
-        2px solid var(--orange);
+      border: 2px solid var(--orange);
 
       z-index: -1;
     }
 
     .story-image-frame img {
-      width: 100%;
-
-      aspect-ratio:
-        4 / 5;
-
+      aspect-ratio: 4 / 5;
       object-fit: cover;
 
       filter: grayscale(100%);
 
       transition:
         filter .55s ease,
-        transform .55s cubic-bezier(.2,.8,.2,1);
+        transform .55s ease;
     }
 
     .story-image-frame:hover img {
-      filter: grayscale(35%);
-
+      filter: grayscale(30%);
       transform: translate(-3px,-3px);
     }
 
@@ -1977,15 +1742,13 @@
       margin-top: 18px;
 
       display: flex;
-      align-items: center;
       justify-content: space-between;
 
       gap: 20px;
 
       padding-top: 12px;
 
-      border-top:
-        1px solid rgba(17,16,15,.25);
+      border-top: 1px solid rgba(17,16,15,.25);
 
       font-size: .61rem;
       font-weight: 900;
@@ -1998,70 +1761,6 @@
       color: var(--orange);
     }
 
-
-    .story-signature {
-      position: relative;
-
-      margin-top: 36px;
-
-      padding-top: 24px;
-
-      border-top:
-        1px solid rgba(17,16,15,.20);
-
-      overflow: hidden;
-    }
-
-    .story-signature-big {
-      display: block;
-
-      color: rgba(17,16,15,.055);
-
-      font-size:
-        clamp(
-          4.8rem,
-          7.6vw,
-          7.8rem
-        );
-
-      font-weight: 900;
-      line-height: .72;
-      letter-spacing: -.075em;
-
-      text-transform: uppercase;
-
-      white-space: nowrap;
-
-      transform: translateX(-5px);
-    }
-
-    .story-signature-bottom {
-      margin-top: 20px;
-
-      display: flex;
-      align-items: center;
-
-      gap: 12px;
-
-      color: var(--grey);
-
-      font-size: .58rem;
-      font-weight: 900;
-      letter-spacing: .16em;
-
-      text-transform: uppercase;
-    }
-
-    .story-signature-bottom::before {
-      content: "";
-
-      width: 34px;
-      height: 2px;
-
-      background: var(--orange);
-    }
-
-
     .story-content .section-label {
       margin-bottom: 24px;
     }
@@ -2071,13 +1770,7 @@
 
       margin-bottom: 42px;
 
-      font-size:
-        clamp(
-          3.15rem,
-          5.5vw,
-          5.9rem
-        );
-
+      font-size: clamp(3.15rem, 5.5vw, 5.9rem);
       font-weight: 900;
       line-height: .86;
       letter-spacing: -.06em;
@@ -2094,13 +1787,7 @@
 
       margin-bottom: 39px;
 
-      font-size:
-        clamp(
-          1.35rem,
-          2vw,
-          1.8rem
-        );
-
+      font-size: clamp(1.35rem, 2vw, 1.8rem);
       line-height: 1.35;
       font-weight: 800;
       letter-spacing: -.02em;
@@ -2110,37 +1797,26 @@
       max-width: 650px;
 
       display: grid;
-
       gap: 26px;
     }
 
     .story-text p {
       color: #3c3732;
 
-      font-size:
-        clamp(
-          1rem,
-          1.2vw,
-          1.15rem
-        );
-
+      font-size: clamp(1rem, 1.2vw, 1.15rem);
       line-height: 1.68;
     }
 
-
     .story-dna {
       margin-top: 52px;
-
-      border-top:
-        2px solid var(--black);
-
-      border-bottom:
-        2px solid var(--black);
 
       display: grid;
 
       grid-template-columns:
         repeat(2,1fr);
+
+      border-top: 2px solid var(--black);
+      border-bottom: 2px solid var(--black);
     }
 
     .story-dna-item {
@@ -2150,15 +1826,10 @@
       flex-direction: column;
       justify-content: center;
 
-      padding:
-        18px
-        20px;
+      padding: 18px 20px;
 
-      border-right:
-        1px solid rgba(17,16,15,.22);
-
-      border-bottom:
-        1px solid rgba(17,16,15,.22);
+      border-right: 1px solid rgba(17,16,15,.22);
+      border-bottom: 1px solid rgba(17,16,15,.22);
     }
 
     .story-dna-item:nth-child(2n) {
@@ -2181,13 +1852,7 @@
     }
 
     .story-dna-name {
-      font-size:
-        clamp(
-          1.25rem,
-          1.9vw,
-          1.75rem
-        );
-
+      font-size: clamp(1.25rem,1.9vw,1.75rem);
       font-weight: 900;
       line-height: .95;
       letter-spacing: -.035em;
@@ -2195,17 +1860,12 @@
       text-transform: uppercase;
     }
 
-
     .story-ending {
       margin-top: 52px;
 
-      padding:
-        29px
-        0
-        4px;
+      padding-top: 29px;
 
-      border-top:
-        1px solid rgba(17,16,15,.25);
+      border-top: 1px solid rgba(17,16,15,.25);
     }
 
     .story-ending-small {
@@ -2223,13 +1883,7 @@
     .story-ending-main {
       max-width: 650px;
 
-      font-size:
-        clamp(
-          2.15rem,
-          3.55vw,
-          3.8rem
-        );
-
+      font-size: clamp(2.15rem,3.55vw,3.8rem);
       font-weight: 900;
       line-height: .9;
       letter-spacing: -.052em;
@@ -2242,9 +1896,9 @@
     }
 
 
-    /* =====================================================
-       LIVE
-    ===================================================== */
+    /* =========================================================
+       LIVE PHOTOS
+    ========================================================= */
 
     .live-section {
       background: var(--black);
@@ -2258,10 +1912,7 @@
 
       gap: 30px;
 
-      padding:
-        34px
-        0
-        28px;
+      padding: 34px 0 28px;
     }
 
     .live-section-label {
@@ -2300,10 +1951,9 @@
 
     .image-strip {
       width: 100%;
+      min-height: 72vh;
 
       display: flex;
-
-      min-height: 72vh;
 
       overflow: hidden;
 
@@ -2317,8 +1967,7 @@
 
       overflow: hidden;
 
-      transition:
-        flex .7s cubic-bezier(.2,.8,.2,1);
+      transition: flex .7s cubic-bezier(.2,.8,.2,1);
     }
 
     .image-strip:hover figure {
@@ -2335,23 +1984,18 @@
 
       object-fit: cover;
 
-      filter:
-        brightness(.80)
-        saturate(.92);
+      filter: brightness(.8) saturate(.92);
 
       transform: scale(1.01);
 
       transition:
-        transform .8s cubic-bezier(.2,.8,.2,1),
+        transform .8s ease,
         filter .55s ease;
     }
 
     .image-strip figure:hover img {
       transform: scale(1.05);
-
-      filter:
-        brightness(.96)
-        saturate(1);
+      filter: brightness(.96) saturate(1);
     }
 
     .image-strip figure::after {
@@ -2367,8 +2011,6 @@
           rgba(0,0,0,.18) 42%,
           transparent 68%
         );
-
-      z-index: 1;
     }
 
     .live-photo-overlay {
@@ -2380,10 +2022,7 @@
 
       z-index: 2;
 
-      padding:
-        0
-        38px
-        34px;
+      padding: 0 38px 34px;
     }
 
     .live-photo-top {
@@ -2403,23 +2042,8 @@
       text-transform: uppercase;
     }
 
-    .live-photo-top::before {
-      content: "";
-
-      width: 25px;
-      height: 2px;
-
-      background: var(--orange);
-    }
-
     .live-photo-name {
-      font-size:
-        clamp(
-          3rem,
-          5.8vw,
-          6rem
-        );
-
+      font-size: clamp(3rem, 5.8vw, 6rem);
       font-weight: 900;
       line-height: .82;
       letter-spacing: -.06em;
@@ -2439,55 +2063,20 @@
       text-transform: uppercase;
     }
 
-    .live-photo-index {
-      position: absolute;
 
-      top: 30px;
-      right: 32px;
-
-      z-index: 2;
-
-      color: rgba(255,255,255,.35);
-
-      font-size: .58rem;
-      font-weight: 900;
-      letter-spacing: .14em;
-    }
-
-
-    /* =====================================================
+    /* =========================================================
        FINAL CTA
-    ===================================================== */
+    ========================================================= */
 
     .final-cta {
       position: relative;
 
-      padding:
-        105px
-        0
-        100px;
+      padding: 105px 0 100px;
 
       overflow: hidden;
 
       background: var(--orange);
       color: var(--black);
-    }
-
-    .final-cta::after {
-      content: "";
-
-      position: absolute;
-
-      width: 420px;
-      height: 420px;
-
-      right: -160px;
-      bottom: -240px;
-
-      border:
-        1px solid rgba(17,16,15,.24);
-
-      border-radius: 50%;
     }
 
     .final-cta-inner {
@@ -2518,13 +2107,7 @@
     .final-cta-title {
       max-width: 930px;
 
-      font-size:
-        clamp(
-          3.5rem,
-          6.6vw,
-          6.9rem
-        );
-
+      font-size: clamp(3.5rem, 6.6vw, 6.9rem);
       font-weight: 900;
       line-height: .82;
       letter-spacing: -.065em;
@@ -2532,7 +2115,7 @@
       text-transform: uppercase;
     }
 
-    .final-cta-title span:last-child {
+    .final-cta-title span {
       color: var(--cream);
     }
 
@@ -2541,62 +2124,16 @@
       flex-direction: column;
       align-items: flex-end;
 
-      gap: 10px;
-    }
-
-    .btn-dark {
-      min-height: 52px;
-
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      gap: 10px;
-
-      padding:
-        0
-        22px;
-
-      border-radius: 999px;
-
-      background: var(--black);
-      color: white;
-
-      font-size: .68rem;
-      font-weight: 900;
-      letter-spacing: .09em;
-
-      text-transform: uppercase;
-    }
-
-    .final-cta-secondary {
-      display: inline-flex;
-      align-items: center;
-
-      gap: 7px;
-
-      font-size: .62rem;
-      font-weight: 900;
-      letter-spacing: .09em;
-
-      text-transform: uppercase;
-
-      border-bottom:
-        1px solid rgba(17,16,15,.45);
-
-      padding-bottom: 3px;
+      gap: 12px;
     }
 
 
-    /* =====================================================
+    /* =========================================================
        FOOTER
-    ===================================================== */
+    ========================================================= */
 
     footer {
-      padding:
-        64px
-        0
-        34px;
+      padding: 64px 0 34px;
 
       background: var(--black);
       color: white;
@@ -2615,26 +2152,19 @@
     }
 
     .footer-logo {
-      font-size:
-        clamp(
-          4rem,
-          8.5vw,
-          8.6rem
-        );
+      color: var(--orange);
 
+      font-size: clamp(4rem, 8.5vw, 8.6rem);
       font-weight: 900;
       line-height: .78;
       letter-spacing: -.065em;
 
       text-transform: uppercase;
-
-      color: var(--orange);
     }
 
     .footer-nav {
-      display: grid;
-
       min-width: 210px;
+      display: grid;
     }
 
     .footer-nav a {
@@ -2644,68 +2174,79 @@
 
       gap: 20px;
 
-      padding:
-        14px
-        0;
+      padding: 14px 0;
 
-      border-bottom:
-        1px solid rgba(255,255,255,.17);
+      border-bottom: 1px solid rgba(255,255,255,.18);
 
-      color: rgba(255,255,255,.76);
-
-      font-size: .7rem;
+      font-size: .68rem;
       font-weight: 900;
-      letter-spacing: .10em;
+      letter-spacing: .08em;
 
       text-transform: uppercase;
-    }
-
-    .footer-nav a:hover {
-      color: white;
     }
 
     .footer-bottom {
-      margin-top: 66px;
-
-      padding-top: 20px;
-
-      border-top:
-        1px solid rgba(255,255,255,.16);
+      margin-top: 72px;
 
       display: flex;
       justify-content: space-between;
-
-      gap: 24px;
-
-      color: rgba(255,255,255,.42);
-
-      font-size: .58rem;
-      font-weight: 800;
-      letter-spacing: .09em;
-
-      text-transform: uppercase;
-    }
-
-    .footer-bottom-left {
-      display: flex;
-      flex-wrap: wrap;
-
-      gap: 10px 22px;
-    }
-
-    .back-to-top {
-      display: inline-flex;
       align-items: center;
 
-      gap: 7px;
+      gap: 25px;
 
-      color: white;
+      padding-top: 20px;
+
+      border-top: 1px solid rgba(255,255,255,.16);
+
+      color: rgba(255,255,255,.5);
+
+      font-size: .64rem;
     }
 
 
-    /* =====================================================
+    /* =========================================================
+       TABLET
+    ========================================================= */
+
+    @media (max-width: 950px) {
+
+      .container {
+        width: min(calc(100% - 48px), var(--max));
+      }
+
+      .nav-links {
+        gap: 15px;
+      }
+
+      .contact-grid {
+        gap: 50px;
+      }
+
+      .story-grid {
+        gap: 50px;
+      }
+
+      .next-show {
+        grid-template-columns:
+          110px
+          minmax(0,1fr);
+      }
+
+      .next-show-right {
+        grid-column: 2;
+        align-items: flex-start;
+      }
+
+      .next-show-right .show-actions {
+        justify-content: flex-start;
+      }
+
+    }
+
+
+    /* =========================================================
        MOBILE
-    ===================================================== */
+    ========================================================= */
 
     @media (max-width: 700px) {
 
@@ -2753,17 +2294,15 @@
       .hero {
         min-height: 100svh;
 
-        background-position: 59% center;
-
-        background-image:
+        background:
           linear-gradient(
             to bottom,
-            rgba(5,4,3,.08) 0%,
-            rgba(5,4,3,.01) 30%,
-            rgba(5,4,3,.24) 56%,
+            rgba(5,4,3,.05) 0%,
+            rgba(5,4,3,.02) 30%,
+            rgba(5,4,3,.28) 58%,
             rgba(5,4,3,.94) 100%
           ),
-          url("/images/hero.jpeg");
+          url("/images/hero.jpeg") 59% center / cover no-repeat;
       }
 
       .hero-content {
@@ -2772,23 +2311,16 @@
       }
 
       .hero h1 {
-        font-size:
-          clamp(
-            3.8rem,
-            17.7vw,
-            5.4rem
-          );
+        font-size: clamp(3.8rem,17.7vw,5.4rem);
       }
 
       .hero-bottom {
         display: block;
-
         margin-top: 23px;
       }
 
       .hero-description {
         max-width: 310px;
-
         font-size: .96rem;
       }
 
@@ -2808,7 +2340,6 @@
 
       .hero-actions .btn {
         width: 100%;
-
         min-height: 45px;
 
         font-size: .61rem;
@@ -2818,9 +2349,7 @@
       /* SOCIAL */
 
       #social {
-        padding:
-          70px
-          0;
+        padding: 70px 0;
       }
 
       .social-top {
@@ -2830,12 +2359,7 @@
       .social-title {
         margin-top: 7px;
 
-        font-size:
-          clamp(
-            3rem,
-            14vw,
-            4.2rem
-          );
+        font-size: clamp(3rem,14vw,4.2rem);
       }
 
       .social-title span {
@@ -2864,44 +2388,25 @@
       }
 
       .social-name {
-        font-size:
-          clamp(
-            1.7rem,
-            8.5vw,
-            2.7rem
-          );
-      }
-
-      .social-link .icon-arrow {
-        width: 19px;
-        height: 19px;
+        font-size: clamp(1.7rem,8.5vw,2.7rem);
       }
 
 
       /* SHOWS */
 
       #shows {
-        padding:
-          68px
-          0
-          78px;
+        padding: 68px 0 78px;
       }
 
-      #shows .section-header {
+      .shows-header {
         display: block;
-
         margin-bottom: 30px;
       }
 
-      #shows .section-title {
+      .shows-title {
         margin-top: 10px;
 
-        font-size:
-          clamp(
-            2.8rem,
-            13vw,
-            4.25rem
-          );
+        font-size: clamp(2.8rem,13vw,4.25rem);
       }
 
       .next-show {
@@ -2909,9 +2414,7 @@
 
         min-height: 0;
 
-        padding:
-          22px
-          17px;
+        padding: 22px 17px;
       }
 
       .next-show-label {
@@ -2924,8 +2427,6 @@
       }
 
       .next-show-date {
-        width: auto;
-
         padding-top: 0;
 
         align-items: flex-start;
@@ -2939,23 +2440,14 @@
 
       .next-show-month {
         margin-top: 8px;
-
-        padding-left: 0;
-
-        font-size: .62rem;
       }
 
       .next-show-content {
-        margin-top: 29px;
+        margin-top: 28px;
       }
 
       .next-show-venue {
-        font-size:
-          clamp(
-            2rem,
-            9.6vw,
-            2.85rem
-          );
+        font-size: clamp(2rem,9.6vw,2.85rem);
       }
 
       .next-show-right {
@@ -2965,14 +2457,13 @@
 
         padding-top: 16px;
 
-        border-top:
-          1px solid rgba(255,255,255,.18);
+        border-top: 1px solid rgba(255,255,255,.18);
 
         align-items: flex-start;
       }
 
-      .next-show-right .show-actions {
-        justify-content: flex-start;
+      .more-shows-wrapper {
+        margin-top: 32px;
       }
 
       .more-events {
@@ -2988,50 +2479,88 @@
 
         min-height: 0;
 
-        padding:
-          17px
-          0;
+        padding: 15px 0;
 
-        border-bottom:
-          1px solid rgba(17,16,15,.15);
+        border-top: 1px solid rgba(17,16,15,.14);
 
         background: transparent;
       }
 
-      .event:first-child {
-        border-top:
-          1px solid rgba(17,16,15,.15);
+      .event:last-child {
+        border-bottom: 1px solid rgba(17,16,15,.14);
       }
 
       .event::before {
         display: none;
       }
 
+      .event:hover {
+        background: transparent;
+        transform: none;
+      }
+
       .event-date {
         width: 56px;
+
+        align-items: flex-start;
+
+        text-align: left;
       }
 
       .event-day {
         font-size: 2rem;
       }
 
+      .event-month {
+        margin-top: 4px;
+        font-size: .5rem;
+      }
+
       .event-venue {
-        font-size: 1.2rem;
+        font-size: 1.18rem;
+      }
+
+      .event-location {
+        margin-top: 4px;
+        font-size: .72rem;
+      }
+
+      .event-badge {
+        margin-top: 6px;
+      }
+
+      .event-note {
+        font-size: .68rem;
       }
 
       .event-right {
         grid-column: 2;
 
-        width: 100%;
         min-width: 0;
 
-        margin-top: 9px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
 
-        align-items: flex-start;
+        gap: 7px 12px;
+      }
+
+      .event-time {
+        font-size: .78rem;
       }
 
       .event .show-actions {
+        margin-top: 0;
         justify-content: flex-start;
+      }
+
+      .event .show-action {
+        min-height: 27px;
+
+        padding: 0 9px;
+
+        font-size: .44rem;
       }
 
       .show-more-button {
@@ -3042,9 +2571,7 @@
       /* CONTACT */
 
       #contact {
-        padding:
-          72px
-          0;
+        padding: 78px 0;
       }
 
       .contact-grid {
@@ -3052,54 +2579,36 @@
       }
 
       .contact-title {
-        font-size:
-          clamp(
-            2.6rem,
-            12.5vw,
-            4rem
-          );
+        font-size: clamp(3rem,14vw,4.4rem);
       }
 
       .contact-copy {
-        margin-top: 23px;
-
-        font-size: .94rem;
+        font-size: .95rem;
       }
 
       .direct-contact {
-        margin-top: 30px;
+        margin-top: 34px;
       }
 
       .contact-panel {
-        margin-top: 54px;
+        margin-top: 55px;
 
-        padding:
-          24px
-          18px
-          22px;
+        padding: 25px 18px;
       }
 
       .contact-panel-heading {
-        font-size: 1.75rem;
+        font-size: 2rem;
       }
 
       .booking-row {
         grid-template-columns: 1fr;
       }
 
-      .field input,
-      .field textarea {
-        font-size: 16px;
-      }
-
 
       /* STORY */
 
       #about {
-        padding:
-          78px
-          0
-          84px;
+        padding: 78px 0 84px;
       }
 
       #about::after {
@@ -3113,37 +2622,25 @@
         gap: 48px;
       }
 
+      .story-content {
+        order: 1;
+      }
+
       .story-visual {
         position: relative;
-
         top: auto;
 
         order: 2;
       }
 
-      .story-content {
-        order: 1;
-      }
-
       .story-heading {
-        font-size:
-          clamp(
-            2.75rem,
-            12.8vw,
-            4rem
-          );
-      }
-
-      .story-signature {
-        display: none;
+        font-size: clamp(2.75rem,12.8vw,4rem);
       }
 
       .story-dna-item {
         min-height: 82px;
 
-        padding:
-          15px
-          12px;
+        padding: 15px 12px;
       }
 
 
@@ -3152,10 +2649,7 @@
       .live-section-head {
         display: block;
 
-        padding:
-          25px
-          0
-          21px;
+        padding: 25px 0 21px;
       }
 
       .live-section-copy {
@@ -3164,13 +2658,11 @@
 
       .image-strip {
         display: block;
-
         min-height: 0;
       }
 
       .image-strip figure {
         height: 68svh;
-
         flex: none;
       }
 
@@ -3180,29 +2672,18 @@
       }
 
       .live-photo-overlay {
-        padding:
-          0
-          20px
-          24px;
+        padding: 0 20px 24px;
       }
 
       .live-photo-name {
-        font-size:
-          clamp(
-            3rem,
-            15vw,
-            4.5rem
-          );
+        font-size: clamp(3rem,15vw,4.5rem);
       }
 
 
       /* CTA */
 
       .final-cta {
-        padding:
-          72px
-          0
-          68px;
+        padding: 72px 0 68px;
       }
 
       .final-cta-inner {
@@ -3210,32 +2691,19 @@
       }
 
       .final-cta-title {
-        font-size:
-          clamp(
-            2.9rem,
-            13vw,
-            4.2rem
-          );
+        font-size: clamp(2.9rem,13vw,4.2rem);
       }
 
       .final-cta-actions {
         margin-top: 34px;
-
-        align-items: flex-start;
-      }
-
-      .btn-dark {
-        width: 100%;
+        align-items: stretch;
       }
 
 
       /* FOOTER */
 
       footer {
-        padding:
-          50px
-          0
-          28px;
+        padding: 50px 0 28px;
       }
 
       .footer-top {
@@ -3243,12 +2711,7 @@
       }
 
       .footer-logo {
-        font-size:
-          clamp(
-            4rem,
-            18vw,
-            5.7rem
-          );
+        font-size: clamp(4rem,18vw,5.7rem);
       }
 
       .footer-nav {
@@ -3259,16 +2722,13 @@
         margin-top: 48px;
 
         flex-direction: column;
+        align-items: flex-start;
 
         gap: 14px;
       }
 
     }
 
-
-    /* =====================================================
-       SMALL MOBILE
-    ===================================================== */
 
     @media (max-width: 390px) {
 
@@ -3281,18 +2741,12 @@
         grid-template-columns: 1fr;
       }
 
-      .event {
-        grid-template-columns:
-          51px
-          minmax(0,1fr);
-      }
-
     }
 
 
-    /* =====================================================
+    /* =========================================================
        REDUCED MOTION
-    ===================================================== */
+    ========================================================= */
 
     @media (prefers-reduced-motion: reduce) {
 
@@ -3318,7 +2772,9 @@
 <body>
 
 
-  <!-- HEADER -->
+  <!-- =======================================================
+       HEADER
+  ======================================================== -->
 
   <header id="header">
 
@@ -3342,6 +2798,7 @@
             src="/images/logo.png"
             alt=""
             class="logo-dark"
+            aria-hidden="true"
           >
 
         </a>
@@ -3351,19 +2808,35 @@
 
           <div class="nav-links">
 
-            <a href="#social" data-en="Social" data-it="Social">
+            <a
+              href="#social"
+              data-en="Social"
+              data-it="Social"
+            >
               Social
             </a>
 
-            <a href="#shows" data-en="Shows" data-it="Date">
+            <a
+              href="#shows"
+              data-en="Shows"
+              data-it="Date"
+            >
               Shows
             </a>
 
-            <a href="#contact" data-en="Contact" data-it="Contatti">
+            <a
+              href="#contact"
+              data-en="Contact"
+              data-it="Contatti"
+            >
               Contact
             </a>
 
-            <a href="#about" data-en="Our Story" data-it="La nostra storia">
+            <a
+              href="#about"
+              data-en="Our Story"
+              data-it="La nostra storia"
+            >
               Our Story
             </a>
 
@@ -3372,11 +2845,18 @@
 
           <div class="language-switcher">
 
-            <button id="enBtn" class="active">
+            <button
+              type="button"
+              id="enBtn"
+              class="active"
+            >
               EN
             </button>
 
-            <button id="itBtn">
+            <button
+              type="button"
+              id="itBtn"
+            >
               IT
             </button>
 
@@ -3384,6 +2864,7 @@
 
 
           <button
+            type="button"
             id="menuToggle"
             class="menu-toggle"
             aria-label="Open menu"
@@ -3401,7 +2882,9 @@
   </header>
 
 
-  <!-- MOBILE MENU -->
+  <!-- =======================================================
+       MOBILE MENU
+  ======================================================== -->
 
   <div
     id="mobileMenu"
@@ -3416,26 +2899,9 @@
           Social
         </span>
 
-        <svg
-          class="icon-arrow icon-arrow-menu"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path
-            d="M5 12H19"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <path
-            d="M14 7L19 12L14 17"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+        <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
+          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
         </svg>
 
       </a>
@@ -3447,9 +2913,9 @@
           Shows
         </span>
 
-        <svg class="icon-arrow icon-arrow-menu" viewBox="0 0 24 24">
-          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
+          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
         </svg>
 
       </a>
@@ -3461,9 +2927,9 @@
           Contact
         </span>
 
-        <svg class="icon-arrow icon-arrow-menu" viewBox="0 0 24 24">
-          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
+          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
         </svg>
 
       </a>
@@ -3471,13 +2937,16 @@
 
       <a href="#about" class="mobile-nav-link">
 
-        <span data-en="Our Story" data-it="La nostra storia">
+        <span
+          data-en="Our Story"
+          data-it="La nostra storia"
+        >
           Our Story
         </span>
 
-        <svg class="icon-arrow icon-arrow-menu" viewBox="0 0 24 24">
-          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
+          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
         </svg>
 
       </a>
@@ -3490,28 +2959,17 @@
       <a
         href="https://www.instagram.com/orangemay_acoustic/"
         target="_blank"
-        class="inline-link"
+        rel="noopener noreferrer"
       >
-        Instagram
-
-        <svg class="icon-arrow" viewBox="0 0 24 24">
-          <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        Instagram ↗
       </a>
-
 
       <a
         href="https://www.facebook.com/p/Orange-May-100092238015144/"
         target="_blank"
-        class="inline-link"
+        rel="noopener noreferrer"
       >
-        Facebook
-
-        <svg class="icon-arrow" viewBox="0 0 24 24">
-          <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        Facebook ↗
       </a>
 
     </div>
@@ -3522,7 +2980,9 @@
   <main id="top">
 
 
-    <!-- HERO -->
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
 
     <section class="hero">
 
@@ -3556,22 +3016,34 @@
 
           <div class="hero-actions">
 
-            <a href="#social" class="btn btn-orange">
-              <span data-en="Follow us" data-it="Seguici">
+            <a
+              href="#social"
+              class="btn btn-orange"
+            >
+              <span
+                data-en="Follow us"
+                data-it="Seguici"
+              >
                 Follow us
               </span>
             </a>
 
 
-            <a href="#shows" class="btn btn-white">
+            <a
+              href="#shows"
+              class="btn btn-white"
+            >
 
-              <span data-en="Next shows" data-it="Prossime date">
+              <span
+                data-en="Next shows"
+                data-it="Prossime date"
+              >
                 Next shows
               </span>
 
               <svg class="icon-arrow" viewBox="0 0 24 24">
-                <path d="M12 5V19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M7 14L12 19L17 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 5V19" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 14L12 19L17 14" fill="none" stroke="currentColor" stroke-width="2"/>
               </svg>
 
             </a>
@@ -3585,7 +3057,9 @@
     </section>
 
 
-    <!-- SOCIAL -->
+    <!-- =====================================================
+         SOCIAL
+    ====================================================== -->
 
     <section id="social">
 
@@ -3632,6 +3106,7 @@
           <a
             href="https://www.instagram.com/orangemay_acoustic/"
             target="_blank"
+            rel="noopener noreferrer"
             class="social-link"
           >
 
@@ -3639,9 +3114,9 @@
               Instagram
             </span>
 
-            <svg class="icon-arrow icon-arrow-social" viewBox="0 0 24 24">
-              <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
+              <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2"/>
             </svg>
 
           </a>
@@ -3650,6 +3125,7 @@
           <a
             href="https://www.facebook.com/p/Orange-May-100092238015144/"
             target="_blank"
+            rel="noopener noreferrer"
             class="social-link"
           >
 
@@ -3657,9 +3133,9 @@
               Facebook
             </span>
 
-            <svg class="icon-arrow icon-arrow-social" viewBox="0 0 24 24">
-              <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
+              <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2"/>
             </svg>
 
           </a>
@@ -3671,64 +3147,46 @@
     </section>
 
 
-    <!-- TICKER -->
+    <!-- =====================================================
+         TICKER
+    ====================================================== -->
 
     <div class="ticker">
 
       <div class="ticker-track">
 
         <div class="ticker-content">
-
-          <span>Live Music</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Acoustic</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Two Voices</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Guitar</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Percussion</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Live Loops</span>
-          <span class="ticker-dot">●</span>
-
           <span>Orange May</span>
           <span class="ticker-dot">●</span>
-
+          <span>Live Music</span>
+          <span class="ticker-dot">●</span>
+          <span>Acoustic</span>
+          <span class="ticker-dot">●</span>
+          <span>Two Voices</span>
+          <span class="ticker-dot">●</span>
+          <span>Guitar</span>
+          <span class="ticker-dot">●</span>
+          <span>Percussion</span>
+          <span class="ticker-dot">●</span>
+          <span>Live Loops</span>
+          <span class="ticker-dot">●</span>
         </div>
 
-
-        <div
-          class="ticker-content"
-          aria-hidden="true"
-        >
-
-          <span>Live Music</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Acoustic</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Two Voices</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Guitar</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Percussion</span>
-          <span class="ticker-dot">●</span>
-
-          <span>Live Loops</span>
-          <span class="ticker-dot">●</span>
-
+        <div class="ticker-content" aria-hidden="true">
           <span>Orange May</span>
           <span class="ticker-dot">●</span>
-
+          <span>Live Music</span>
+          <span class="ticker-dot">●</span>
+          <span>Acoustic</span>
+          <span class="ticker-dot">●</span>
+          <span>Two Voices</span>
+          <span class="ticker-dot">●</span>
+          <span>Guitar</span>
+          <span class="ticker-dot">●</span>
+          <span>Percussion</span>
+          <span class="ticker-dot">●</span>
+          <span>Live Loops</span>
+          <span class="ticker-dot">●</span>
         </div>
 
       </div>
@@ -3736,28 +3194,30 @@
     </div>
 
 
-    <!-- SHOWS -->
+    <!-- =====================================================
+         SHOWS
+    ====================================================== -->
 
     <section id="shows">
 
       <div class="container">
 
-        <div class="section-header reveal">
+        <div class="shows-header reveal">
 
           <div
             class="section-label"
             data-en="Live"
-            data-it="Dal vivo"
+            data-it="Live"
           >
             Live
           </div>
 
           <h2
-            class="section-title"
-            data-en="Upcoming shows."
-            data-it="Prossime date."
+            class="shows-title"
+            data-en="Upcoming Shows."
+            data-it="Prossime Date."
           >
-            Upcoming shows.
+            Upcoming Shows.
           </h2>
 
         </div>
@@ -3765,11 +3225,17 @@
 
         <div
           id="events"
-          class="events-list reveal"
+          class="events-list"
         >
-          <div class="empty">
-            Loading...
+
+          <div
+            class="empty"
+            data-en="Loading upcoming shows..."
+            data-it="Caricamento prossime date..."
+          >
+            Loading upcoming shows...
           </div>
+
         </div>
 
       </div>
@@ -3777,13 +3243,15 @@
     </section>
 
 
-    <!-- CONTACT -->
+    <!-- =====================================================
+         CONTACT
+    ====================================================== -->
 
     <section id="contact">
 
       <div class="container contact-grid">
 
-        <div class="reveal">
+        <div class="contact-intro reveal">
 
           <div
             class="section-label"
@@ -3799,7 +3267,7 @@
             <span
               class="orange"
               data-en="Get in"
-              data-it="Scrivici."
+              data-it="Mettiamoci"
             >
               Get in
             </span>
@@ -3808,7 +3276,7 @@
 
             <span
               data-en="touch."
-              data-it="Siamo qui."
+              data-it="in contatto."
             >
               touch.
             </span>
@@ -3819,10 +3287,10 @@
           <p
             class="contact-copy"
             data-en="Want to book us, ask something, work together or simply say hi? We'd love to hear from you."
-            data-it="Vuoi organizzare una serata, chiederci qualcosa, collaborare con noi o semplicemente salutarci? Scrivici."
+            data-it="Vuoi prenotare una serata, chiederci qualcosa, collaborare o semplicemente salutarci? Scrivici."
           >
-            Want to book us, ask something, work together
-            or simply say hi? We'd love to hear from you.
+            Want to book us, ask something, work together or simply say hi?
+            We'd love to hear from you.
           </p>
 
 
@@ -3832,6 +3300,7 @@
               id="whatsappLink"
               href="https://wa.me/393421670308"
               target="_blank"
+              rel="noopener noreferrer"
               class="btn btn-orange"
             >
 
@@ -3842,10 +3311,7 @@
                 Message us on WhatsApp
               </span>
 
-              <svg class="icon-arrow" viewBox="0 0 24 24">
-                <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              ↗
 
             </a>
 
@@ -3867,18 +3333,27 @@
           <div
             class="contact-kicker"
             data-en="Send us a message"
-            data-it="Mandaci un messaggio"
+            data-it="Inviaci un messaggio"
           >
             Send us a message
           </div>
 
 
-          <div
+          <h3
             class="contact-panel-heading"
             data-en="How can we help?"
-            data-it="Cosa hai in mente?"
+            data-it="Come possiamo aiutarti?"
           >
             How can we help?
+          </h3>
+
+
+          <div
+            class="contact-choice-label"
+            data-en="Why are you contacting us?"
+            data-it="Per cosa ci stai contattando?"
+          >
+            Why are you contacting us?
           </div>
 
 
@@ -3886,7 +3361,7 @@
 
             <button
               type="button"
-              class="contact-intent"
+              class="contact-intent active"
               data-intent="BOOKING"
               data-en="Booking"
               data-it="Booking"
@@ -3899,7 +3374,7 @@
               class="contact-intent"
               data-intent="INFO"
               data-en="Info"
-              data-it="Informazioni"
+              data-it="Info"
             >
               Info
             </button>
@@ -3934,13 +3409,13 @@
 
             <div
               id="bookingDetails"
-              class="booking-details"
+              class="booking-details open"
             >
 
               <div
                 class="contact-choice-label"
                 data-en="What are you planning?"
-                data-it="Che tipo di evento?"
+                data-it="Che tipo di evento stai organizzando?"
               >
                 What are you planning?
               </div>
@@ -3952,6 +3427,8 @@
                   type="button"
                   class="booking-type"
                   data-booking-type="HOTEL"
+                  data-en="Hotel"
+                  data-it="Hotel"
                 >
                   Hotel
                 </button>
@@ -4034,6 +3511,8 @@
                 <input
                   id="name"
                   type="text"
+                  maxlength="120"
+                  autocomplete="name"
                   required
                 >
 
@@ -4049,6 +3528,8 @@
                 <input
                   id="email"
                   type="email"
+                  maxlength="180"
+                  autocomplete="email"
                   required
                 >
 
@@ -4069,6 +3550,7 @@
 
               <textarea
                 id="message"
+                maxlength="4000"
                 required
               ></textarea>
 
@@ -4076,6 +3558,7 @@
 
 
             <button
+              id="contactSubmit"
               type="submit"
               class="btn btn-orange contact-submit"
             >
@@ -4088,8 +3571,8 @@
               </span>
 
               <svg class="icon-arrow" viewBox="0 0 24 24">
-                <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
               </svg>
 
             </button>
@@ -4098,6 +3581,7 @@
             <div
               id="formMessage"
               class="form-message"
+              role="status"
             ></div>
 
           </form>
@@ -4109,7 +3593,9 @@
     </section>
 
 
-    <!-- STORY -->
+    <!-- =====================================================
+         STORY
+    ====================================================== -->
 
     <section id="about">
 
@@ -4139,24 +3625,6 @@
 
           </div>
 
-
-          <div class="story-signature">
-
-            <span class="story-signature-big">
-              Orange<br>
-              May
-            </span>
-
-            <div
-              class="story-signature-bottom"
-              data-en="Acoustic live duo"
-              data-it="Duo acustico live"
-            >
-              Acoustic live duo
-            </div>
-
-          </div>
-
         </div>
 
 
@@ -4174,20 +3642,18 @@
           <h2 class="story-heading">
 
             <span
-              data-en="It started"
-              data-it="È iniziato"
+              data-en="It started with"
+              data-it="È iniziato tutto"
             >
-              It started
+              It started with
             </span>
-
-            <br>
 
             <span
               class="orange"
-              data-en="with family."
-              data-it="in famiglia."
+              data-en=" family."
+              data-it=" in famiglia."
             >
-              with family.
+              family.
             </span>
 
             <br>
@@ -4227,9 +3693,9 @@
               data-en="That connection eventually became Orange May: an acoustic project built around familiar songs, rearranged in the way we like to play them."
               data-it="Da quel legame è nato Orange May: un progetto acustico costruito intorno a canzoni che tutti conoscono, reinterpretate nel modo in cui piace suonarle a noi."
             >
-              That connection eventually became Orange May:
-              an acoustic project built around familiar songs,
-              rearranged in the way we like to play them.
+              That connection eventually became Orange May: an acoustic
+              project built around familiar songs, rearranged in the way
+              we like to play them.
             </p>
 
 
@@ -4249,31 +3715,70 @@
           <div class="story-dna">
 
             <div class="story-dna-item">
-              <span class="story-dna-number">01</span>
-              <span class="story-dna-name" data-en="Two voices" data-it="Due voci">
+
+              <div class="story-dna-number">
+                01
+              </div>
+
+              <div
+                class="story-dna-name"
+                data-en="Two voices"
+                data-it="Due voci"
+              >
                 Two voices
-              </span>
+              </div>
+
             </div>
 
+
             <div class="story-dna-item">
-              <span class="story-dna-number">02</span>
-              <span class="story-dna-name" data-en="One guitar" data-it="Una chitarra">
+
+              <div class="story-dna-number">
+                02
+              </div>
+
+              <div
+                class="story-dna-name"
+                data-en="One guitar"
+                data-it="Una chitarra"
+              >
                 One guitar
-              </span>
+              </div>
+
             </div>
 
-            <div class="story-dna-item">
-              <span class="story-dna-number">03</span>
-              <span class="story-dna-name" data-en="Percussion" data-it="Percussioni">
-                Percussion
-              </span>
-            </div>
 
             <div class="story-dna-item">
-              <span class="story-dna-number">04</span>
-              <span class="story-dna-name" data-en="Live loops" data-it="Loop live">
+
+              <div class="story-dna-number">
+                03
+              </div>
+
+              <div
+                class="story-dna-name"
+                data-en="Live loops"
+                data-it="Loop live"
+              >
                 Live loops
-              </span>
+              </div>
+
+            </div>
+
+
+            <div class="story-dna-item">
+
+              <div class="story-dna-number">
+                04
+              </div>
+
+              <div
+                class="story-dna-name"
+                data-en="Our sound"
+                data-it="Il nostro sound"
+              >
+                Our sound
+              </div>
+
             </div>
 
           </div>
@@ -4283,26 +3788,30 @@
 
             <div
               class="story-ending-small"
-              data-en="Different places. Different nights."
-              data-it="Posti diversi. Serate diverse."
+              data-en="Different every night"
+              data-it="Ogni sera è diversa"
             >
-              Different places. Different nights.
+              Different every night
             </div>
+
 
             <div class="story-ending-main">
 
-              <span data-en="Always live." data-it="Sempre live.">
-                Always live.
+              <span
+                data-en="Different places. Different nights."
+                data-it="Posti diversi. Serate diverse."
+              >
+                Different places. Different nights.
               </span>
 
               <br>
 
               <span
                 class="orange"
-                data-en="Always Orange May."
-                data-it="Sempre Orange May."
+                data-en="Always live. Always Orange May."
+                data-it="Sempre live. Sempre Orange May."
               >
-                Always Orange May.
+                Always live. Always Orange May.
               </span>
 
             </div>
@@ -4316,7 +3825,9 @@
     </section>
 
 
-    <!-- LIVE -->
+    <!-- =====================================================
+         LIVE PHOTOS
+    ====================================================== -->
 
     <section class="live-section">
 
@@ -4326,18 +3837,18 @@
 
           <div
             class="live-section-label"
-            data-en="On stage"
-            data-it="Sul palco"
+            data-en="Orange May Live"
+            data-it="Orange May Live"
           >
-            On stage
+            Orange May Live
           </div>
 
           <div
             class="live-section-copy"
-            data-en="Two people. One live sound."
-            data-it="Due persone. Un unico sound live."
+            data-en="Two voices. One stage."
+            data-it="Due voci. Un palco."
           >
-            Two people. One live sound.
+            Two voices. One stage.
           </div>
 
         </div>
@@ -4350,34 +3861,30 @@
         <figure>
 
           <img
-            src="/images/lara-live.jpeg"
-            alt="Lara performing live"
+            src="/images/cristian-live.jpeg"
+            alt="Cristian live with Orange May"
           >
-
-          <div class="live-photo-index">
-            01 / 02
-          </div>
 
           <div class="live-photo-overlay">
 
             <div
               class="live-photo-top"
-              data-en="Voice / Percussion"
-              data-it="Voce / Percussioni"
+              data-en="Live"
+              data-it="Live"
             >
-              Voice / Percussion
+              Live
             </div>
 
             <div class="live-photo-name">
-              Lara
+              Cristian
             </div>
 
             <div
               class="live-photo-role"
-              data-en="Live with Orange May"
-              data-it="Live con Orange May"
+              data-en="Voice · Guitar · Live loops"
+              data-it="Voce · Chitarra · Loop live"
             >
-              Live with Orange May
+              Voice · Guitar · Live loops
             </div>
 
           </div>
@@ -4388,34 +3895,30 @@
         <figure>
 
           <img
-            src="/images/cristian-live.jpeg"
-            alt="Cristian performing live"
+            src="/images/lara-live.jpeg"
+            alt="Lara live with Orange May"
           >
-
-          <div class="live-photo-index">
-            02 / 02
-          </div>
 
           <div class="live-photo-overlay">
 
             <div
               class="live-photo-top"
-              data-en="Voice / Guitar / Loops"
-              data-it="Voce / Chitarra / Loop"
+              data-en="Live"
+              data-it="Live"
             >
-              Voice / Guitar / Loops
+              Live
             </div>
 
             <div class="live-photo-name">
-              Cristian
+              Lara
             </div>
 
             <div
               class="live-photo-role"
-              data-en="Live with Orange May"
-              data-it="Live con Orange May"
+              data-en="Voice · Percussion"
+              data-it="Voce · Percussioni"
             >
-              Live with Orange May
+              Voice · Percussion
             </div>
 
           </div>
@@ -4427,7 +3930,9 @@
     </section>
 
 
-    <!-- FINAL CTA -->
+    <!-- =====================================================
+         FINAL CTA
+    ====================================================== -->
 
     <section class="final-cta">
 
@@ -4437,29 +3942,29 @@
 
           <div
             class="final-cta-label"
-            data-en="See you out there"
-            data-it="Ci vediamo dal vivo"
+            data-en="Planning something?"
+            data-it="Stai organizzando qualcosa?"
           >
-            See you out there
+            Planning something?
           </div>
 
 
           <div class="final-cta-title">
 
             <span
-              data-en="See you at"
-              data-it="Ci vediamo"
+              data-en="Let's make it"
+              data-it="Facciamolo"
             >
-              See you at
+              Let's make it
             </span>
 
             <br>
 
             <span
-              data-en="the next show."
-              data-it="alla prossima data."
+              data-en="sound good."
+              data-it="suonare bene."
             >
-              the next show.
+              sound good.
             </span>
 
           </div>
@@ -4469,40 +3974,29 @@
 
         <div class="final-cta-actions">
 
-          <a href="#shows" class="btn-dark">
+          <a
+            href="#contact"
+            class="btn btn-dark"
+          >
 
             <span
-              data-en="Upcoming shows"
-              data-it="Prossime date"
+              data-en="Contact us"
+              data-it="Contattaci"
             >
-              Upcoming shows
+              Contact us
             </span>
 
-            <svg class="icon-arrow" viewBox="0 0 24 24">
-              <path d="M12 5V19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M7 14L12 19L17 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            →
 
           </a>
 
 
           <a
-            href="#contact"
-            class="final-cta-secondary"
+            href="#shows"
+            data-en="See upcoming shows →"
+            data-it="Vedi le prossime date →"
           >
-
-            <span
-              data-en="Or get in touch"
-              data-it="Oppure scrivici"
-            >
-              Or get in touch
-            </span>
-
-            <svg class="icon-arrow" viewBox="0 0 24 24">
-              <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-
+            See upcoming shows →
           </a>
 
         </div>
@@ -4512,273 +4006,207 @@
     </section>
 
 
-    <!-- FOOTER -->
-
-    <footer>
-
-      <div class="container">
-
-        <div class="footer-top">
-
-          <div class="footer-logo">
-            Orange<br>
-            May
-          </div>
+  </main>
 
 
-          <nav class="footer-nav">
+  <!-- =======================================================
+       FOOTER
+  ======================================================== -->
 
-            <a
-              href="https://www.instagram.com/orangemay_acoustic/"
-              target="_blank"
-            >
-              <span>Instagram</span>
+  <footer>
 
-              <svg class="icon-arrow" viewBox="0 0 24 24">
-                <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
+    <div class="container">
 
+      <div class="footer-top">
 
-            <a
-              href="https://www.facebook.com/p/Orange-May-100092238015144/"
-              target="_blank"
-            >
-              <span>Facebook</span>
-
-              <svg class="icon-arrow" viewBox="0 0 24 24">
-                <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-
-
-            <a
-              href="https://wa.me/393421670308"
-              target="_blank"
-            >
-              <span>WhatsApp</span>
-
-              <svg class="icon-arrow" viewBox="0 0 24 24">
-                <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-
-
-            <a href="mailto:orangemayacoustic@gmail.com">
-              <span>Email</span>
-
-              <svg class="icon-arrow" viewBox="0 0 24 24">
-                <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-
-          </nav>
-
+        <div class="footer-logo">
+          Orange<br>
+          May
         </div>
 
 
-        <div class="footer-bottom">
+        <div class="footer-nav">
 
-          <div class="footer-bottom-left">
-
-            <span>
-              ©
-              <span id="currentYear"></span>
-              Orange May Acoustic
-            </span>
-
-            <span
-              data-en="Acoustic live duo"
-              data-it="Duo acustico live"
-            >
-              Acoustic live duo
-            </span>
-
-          </div>
-
+          <a href="#social">
+            Social
+            <span>→</span>
+          </a>
 
           <a
-            href="#top"
-            class="back-to-top"
+            href="#shows"
+            data-en="Shows"
+            data-it="Date"
           >
+            Shows
+            <span>→</span>
+          </a>
 
-            <span
-              data-en="Back to top"
-              data-it="Torna su"
-            >
-              Back to top
-            </span>
+          <a
+            href="#contact"
+            data-en="Contact"
+            data-it="Contatti"
+          >
+            Contact
+            <span>→</span>
+          </a>
 
-            <svg class="icon-arrow" viewBox="0 0 24 24">
-              <path d="M12 19V5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M7 10L12 5L17 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+          <a
+            href="#about"
+            data-en="Our Story"
+            data-it="La nostra storia"
+          >
+            Our Story
+            <span>→</span>
+          </a>
 
+          <a
+            href="https://www.instagram.com/orangemay_acoustic/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram
+            <span>↗</span>
           </a>
 
         </div>
 
       </div>
 
-    </footer>
+
+      <div class="footer-bottom">
+
+        <span>
+          © <span id="currentYear"></span> Orange May Acoustic
+        </span>
+
+        <a
+          href="#top"
+          data-en="Back to top ↑"
+          data-it="Torna su ↑"
+        >
+          Back to top ↑
+        </a>
+
+      </div>
+
+    </div>
+
+  </footer>
 
 
-  </main>
-
+  <!-- =======================================================
+       JAVASCRIPT
+  ======================================================== -->
 
   <script>
 
-    /* =====================================================
-       STATE
-    ===================================================== */
+    "use strict";
+
+
+    /* =========================================================
+       GLOBAL STATE
+    ========================================================= */
 
     let currentLanguage =
-      localStorage.getItem(
-        "orangeMayLanguage"
-      ) || "en";
+      localStorage.getItem("orangeMayLanguage") || "en";
+
+    let selectedContactIntent = "BOOKING";
+    let selectedBookingType = "";
 
     let cachedEvents = [];
-
     let visibleEventCount = 5;
-
-    let selectedContactIntent = "";
-
-    let selectedBookingType = "";
 
 
     const monthNames = {
 
       en: [
-        "JAN","FEB","MAR","APR","MAY","JUN",
-        "JUL","AUG","SEP","OCT","NOV","DEC"
+        "JAN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAY",
+        "JUN",
+        "JUL",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC"
       ],
 
       it: [
-        "GEN","FEB","MAR","APR","MAG","GIU",
-        "LUG","AGO","SET","OTT","NOV","DIC"
+        "GEN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAG",
+        "GIU",
+        "LUG",
+        "AGO",
+        "SET",
+        "OTT",
+        "NOV",
+        "DIC"
       ]
 
     };
 
 
-    /* =====================================================
-       SVG HELPERS
-    ===================================================== */
-
-    function svgExternalArrow() {
-
-      return `
-        <svg
-          class="icon-arrow icon-arrow-small"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path
-            d="M7 17L17 7"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <path
-            d="M8 7H17V16"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      `;
-    }
-
-
-    function svgDownArrow() {
-
-      return `
-        <svg
-          class="icon-arrow icon-arrow-small"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path
-            d="M12 5V19"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <path
-            d="M7 14L12 19L17 14"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      `;
-    }
-
-
-    /* =====================================================
+    /* =========================================================
        LANGUAGE
-    ===================================================== */
+    ========================================================= */
+
+    const enBtn =
+      document.getElementById("enBtn");
+
+    const itBtn =
+      document.getElementById("itBtn");
+
 
     function changeLanguage(language) {
 
       currentLanguage =
-        language;
+        language === "it"
+          ? "it"
+          : "en";
 
 
       localStorage.setItem(
         "orangeMayLanguage",
-        language
+        currentLanguage
       );
 
 
       document.documentElement.lang =
-        language;
+        currentLanguage;
 
 
       document
-        .querySelectorAll(
-          "[data-en][data-it]"
-        )
-        .forEach(
-          element => {
+        .querySelectorAll("[data-en][data-it]")
+        .forEach(element => {
 
-            element.textContent =
-              language === "it"
-                ? element.dataset.it
-                : element.dataset.en;
+          const text =
+            element.dataset[currentLanguage];
 
+          if (typeof text === "string") {
+            element.textContent = text;
           }
-        );
+
+        });
 
 
-      document
-        .getElementById("enBtn")
-        .classList.toggle(
-          "active",
-          language === "en"
-        );
+      enBtn.classList.toggle(
+        "active",
+        currentLanguage === "en"
+      );
 
-
-      document
-        .getElementById("itBtn")
-        .classList.toggle(
-          "active",
-          language === "it"
-        );
+      itBtn.classList.toggle(
+        "active",
+        currentLanguage === "it"
+      );
 
 
       updateWhatsApp();
-
 
       if (cachedEvents.length) {
         renderEvents();
@@ -4799,78 +4227,270 @@
     );
 
 
-    /* =====================================================
-       CONTACT HELPERS
-    ===================================================== */
+    /* =========================================================
+       HEADER
+    ========================================================= */
 
-    function getBookingTypeLabel(type) {
-
-      const labels = {
-
-        HOTEL: {
-          en: "Hotel",
-          it: "Hotel"
-        },
-
-        VENUE: {
-          en: "Venue",
-          it: "Locale"
-        },
-
-        WEDDING: {
-          en: "Wedding",
-          it: "Matrimonio"
-        },
-
-        PRIVATE_EVENT: {
-          en: "Private event",
-          it: "Evento privato"
-        },
-
-        OTHER: {
-          en: "Other",
-          it: "Altro"
-        }
-
-      };
+    const header =
+      document.getElementById("header");
 
 
-      return labels[type]
-        ? labels[type][currentLanguage]
-        : "";
+    function updateHeader() {
+
+      header.classList.toggle(
+        "scrolled",
+        window.scrollY > 70
+      );
+
     }
 
 
-    function getIntentLabel(intent) {
+    window.addEventListener(
+      "scroll",
+      updateHeader,
+      {
+        passive: true
+      }
+    );
+
+
+    updateHeader();
+
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    const menuToggle =
+      document.getElementById("menuToggle");
+
+    const mobileMenu =
+      document.getElementById("mobileMenu");
+
+
+    function closeMobileMenu() {
+
+      menuToggle.classList.remove("active");
+      mobileMenu.classList.remove("open");
+      document.body.classList.remove("menu-open");
+
+    }
+
+
+    menuToggle.addEventListener(
+      "click",
+      () => {
+
+        const open =
+          mobileMenu.classList.toggle("open");
+
+        menuToggle.classList.toggle(
+          "active",
+          open
+        );
+
+        document.body.classList.toggle(
+          "menu-open",
+          open
+        );
+
+      }
+    );
+
+
+    document
+      .querySelectorAll(".mobile-nav-link")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          closeMobileMenu
+        );
+
+      });
+
+
+    /* =========================================================
+       CONTACT OPTIONS
+    ========================================================= */
+
+    const bookingDetails =
+      document.getElementById("bookingDetails");
+
+    const eventDateContact =
+      document.getElementById("eventDateContact");
+
+    const whatsappLink =
+      document.getElementById("whatsappLink");
+
+
+    document
+      .querySelectorAll(".contact-intent")
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            document
+              .querySelectorAll(".contact-intent")
+              .forEach(item => {
+                item.classList.remove("active");
+              });
+
+
+            button.classList.add("active");
+
+            selectedContactIntent =
+              button.dataset.intent || "";
+
+
+            const isBooking =
+              selectedContactIntent === "BOOKING";
+
+
+            bookingDetails.classList.toggle(
+              "open",
+              isBooking
+            );
+
+
+            if (!isBooking) {
+
+              selectedBookingType = "";
+
+              document
+                .querySelectorAll(".booking-type")
+                .forEach(item => {
+                  item.classList.remove("active");
+                });
+
+              eventDateContact.value = "";
+
+            }
+
+
+            updateWhatsApp();
+
+          }
+        );
+
+      });
+
+
+    document
+      .querySelectorAll(".booking-type")
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const value =
+              button.dataset.bookingType || "";
+
+
+            const wasActive =
+              button.classList.contains("active");
+
+
+            document
+              .querySelectorAll(".booking-type")
+              .forEach(item => {
+                item.classList.remove("active");
+              });
+
+
+            if (wasActive) {
+
+              selectedBookingType = "";
+
+            } else {
+
+              selectedBookingType = value;
+              button.classList.add("active");
+
+            }
+
+
+            updateWhatsApp();
+
+          }
+        );
+
+      });
+
+
+    eventDateContact.addEventListener(
+      "change",
+      updateWhatsApp
+    );
+
+
+    function getIntentLabel(value) {
 
       const labels = {
 
-        BOOKING: {
-          en: "Booking",
-          it: "Booking"
-        },
+        BOOKING:
+          currentLanguage === "it"
+            ? "Booking"
+            : "Booking",
 
-        INFO: {
-          en: "Information",
-          it: "Informazioni"
-        },
+        INFO:
+          currentLanguage === "it"
+            ? "Informazioni"
+            : "Information",
 
-        COLLABORATION: {
-          en: "Collaboration",
-          it: "Collaborazione"
-        },
+        COLLABORATION:
+          currentLanguage === "it"
+            ? "Collaborazione"
+            : "Collaboration",
 
-        HELLO: {
-          en: "Just saying hi",
-          it: "Solo un saluto"
-        }
+        HELLO:
+          currentLanguage === "it"
+            ? "Saluto"
+            : "Just saying hi"
 
       };
 
 
-      return labels[intent]
-        ? labels[intent][currentLanguage]
-        : "";
+      return labels[value] || value;
+
+    }
+
+
+    function getBookingTypeLabel(value) {
+
+      const labels = {
+
+        HOTEL:
+          "Hotel",
+
+        VENUE:
+          currentLanguage === "it"
+            ? "Locale"
+            : "Venue",
+
+        WEDDING:
+          currentLanguage === "it"
+            ? "Matrimonio"
+            : "Wedding",
+
+        PRIVATE_EVENT:
+          currentLanguage === "it"
+            ? "Evento privato"
+            : "Private event",
+
+        OTHER:
+          currentLanguage === "it"
+            ? "Altro"
+            : "Other"
+
+      };
+
+
+      return labels[value] || value;
+
     }
 
 
@@ -4881,152 +4501,101 @@
       }
 
 
-      const [year,month,day] =
+      const parts =
         value.split("-");
 
 
-      return `${day}/${month}/${year}`;
+      if (parts.length !== 3) {
+        return value;
+      }
+
+
+      return `${parts[2]}/${parts[1]}/${parts[0]}`;
+
     }
 
 
-    /* =====================================================
-       WHATSAPP
-    ===================================================== */
-
     function updateWhatsApp() {
+
+      let message = "";
 
       const date =
         eventDateContact.value;
 
 
-      let message;
-
-
       if (currentLanguage === "it") {
 
-        if (
-          selectedContactIntent ===
-          "BOOKING"
-        ) {
+        if (selectedContactIntent === "BOOKING") {
 
           message =
-            "Ciao Orange May! Vorrei avere qualche informazione per una possibile serata o evento.";
+            "Ciao Orange May! Vorrei avere informazioni per prenotarvi per un evento.";
 
-        } else if (
-          selectedContactIntent ===
-          "INFO"
-        ) {
+        } else if (selectedContactIntent === "INFO") {
 
           message =
-            "Ciao Orange May! Avrei una domanda da farvi.";
+            "Ciao Orange May! Avrei bisogno di alcune informazioni.";
 
-        } else if (
-          selectedContactIntent ===
-          "COLLABORATION"
-        ) {
+        } else if (selectedContactIntent === "COLLABORATION") {
 
           message =
             "Ciao Orange May! Vorrei parlarvi di una possibile collaborazione.";
-
-        } else if (
-          selectedContactIntent ===
-          "HELLO"
-        ) {
-
-          message =
-            "Ciao Orange May! Volevo semplicemente scrivervi.";
 
         } else {
 
           message =
             "Ciao Orange May!";
+
         }
-
-
-        if (
-          selectedContactIntent ===
-          "BOOKING" &&
-          selectedBookingType
-        ) {
-
-          message +=
-            ` Tipo di evento: ${getBookingTypeLabel(selectedBookingType)}.`;
-        }
-
-
-        if (
-          selectedContactIntent ===
-          "BOOKING" &&
-          date
-        ) {
-
-          message +=
-            ` Data: ${formatContactDate(date)}.`;
-        }
-
 
       } else {
 
-
-        if (
-          selectedContactIntent ===
-          "BOOKING"
-        ) {
+        if (selectedContactIntent === "BOOKING") {
 
           message =
             "Hi Orange May! I'd like some information about booking you for an event.";
 
-        } else if (
-          selectedContactIntent ===
-          "INFO"
-        ) {
+        } else if (selectedContactIntent === "INFO") {
 
           message =
             "Hi Orange May! I have a question for you.";
 
-        } else if (
-          selectedContactIntent ===
-          "COLLABORATION"
-        ) {
+        } else if (selectedContactIntent === "COLLABORATION") {
 
           message =
             "Hi Orange May! I'd like to talk about a possible collaboration.";
-
-        } else if (
-          selectedContactIntent ===
-          "HELLO"
-        ) {
-
-          message =
-            "Hi Orange May! I just wanted to say hi.";
 
         } else {
 
           message =
             "Hi Orange May!";
+
         }
 
-
-        if (
-          selectedContactIntent ===
-          "BOOKING" &&
-          selectedBookingType
-        ) {
-
-          message +=
-            ` Event type: ${getBookingTypeLabel(selectedBookingType)}.`;
-        }
+      }
 
 
-        if (
-          selectedContactIntent ===
-          "BOOKING" &&
-          date
-        ) {
+      if (
+        selectedContactIntent === "BOOKING" &&
+        selectedBookingType
+      ) {
 
-          message +=
-            ` Date: ${formatContactDate(date)}.`;
-        }
+        message +=
+          currentLanguage === "it"
+            ? ` Tipo di evento: ${getBookingTypeLabel(selectedBookingType)}.`
+            : ` Event type: ${getBookingTypeLabel(selectedBookingType)}.`;
+
+      }
+
+
+      if (
+        selectedContactIntent === "BOOKING" &&
+        date
+      ) {
+
+        message +=
+          currentLanguage === "it"
+            ? ` Data: ${formatContactDate(date)}.`
+            : ` Date: ${formatContactDate(date)}.`;
 
       }
 
@@ -5034,189 +4603,231 @@
       whatsappLink.href =
         "https://wa.me/393421670308?text=" +
         encodeURIComponent(message);
+
     }
 
 
-    /* =====================================================
-       CONTACT BUTTONS
-    ===================================================== */
+    /* =========================================================
+       CONTACT SUBMIT
+    ========================================================= */
 
-    const bookingDetails =
-      document.getElementById(
-        "bookingDetails"
-      );
+    const contactForm =
+      document.getElementById("contactForm");
 
+    const contactSubmit =
+      document.getElementById("contactSubmit");
 
-    document
-      .querySelectorAll(
-        ".contact-intent"
-      )
-      .forEach(
-        button => {
+    const nameInput =
+      document.getElementById("name");
 
-          button.addEventListener(
-            "click",
-            () => {
+    const emailInput =
+      document.getElementById("email");
 
-              const intent =
-                button.dataset.intent;
+    const messageInput =
+      document.getElementById("message");
+
+    const formMessage =
+      document.getElementById("formMessage");
 
 
-              const alreadyActive =
-                button.classList.contains(
-                  "active"
-                );
+    contactForm.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
 
 
-              document
-                .querySelectorAll(
-                  ".contact-intent"
-                )
-                .forEach(
-                  item =>
-                    item.classList.remove(
-                      "active"
-                    )
-                );
+        formMessage.className =
+          "form-message";
+
+        formMessage.textContent =
+          currentLanguage === "it"
+            ? "Invio in corso..."
+            : "Sending...";
 
 
-              selectedContactIntent =
-                alreadyActive
-                  ? ""
-                  : intent;
+        contactSubmit.disabled = true;
 
 
-              if (!alreadyActive) {
-                button.classList.add(
-                  "active"
-                );
+        const payload = {
+
+          name:
+            nameInput.value.trim(),
+
+          email:
+            emailInput.value.trim(),
+
+          contact_intent:
+            selectedContactIntent || null,
+
+          booking_type:
+            selectedContactIntent === "BOOKING"
+              ? selectedBookingType || null
+              : null,
+
+          event_date:
+            selectedContactIntent === "BOOKING"
+              ? eventDateContact.value || null
+              : null,
+
+          message:
+            messageInput.value.trim()
+
+        };
+
+
+        try {
+
+          const response =
+            await fetch(
+              "/api/contact",
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify(payload)
               }
+            );
 
 
-              const isBooking =
-                selectedContactIntent ===
-                "BOOKING";
+          let result = {};
+
+          try {
+            result = await response.json();
+          } catch (_) {
+            result = {};
+          }
 
 
-              bookingDetails
-                .classList.toggle(
-                  "open",
-                  isBooking
-                );
+          if (!response.ok) {
+
+            console.error(
+              "Contact API error:",
+              response.status,
+              result
+            );
+
+            throw new Error(
+              result.error ||
+              "Contact request failed"
+            );
+
+          }
 
 
-              if (!isBooking) {
-
-                selectedBookingType =
-                  "";
-
-                document
-                  .querySelectorAll(
-                    ".booking-type"
-                  )
-                  .forEach(
-                    item =>
-                      item.classList.remove(
-                        "active"
-                      )
-                  );
-
-                eventDateContact.value =
-                  "";
-              }
+          contactForm.reset();
 
 
-              updateWhatsApp();
+          selectedContactIntent =
+            "BOOKING";
 
-            }
+          selectedBookingType =
+            "";
+
+
+          document
+            .querySelectorAll(".contact-intent")
+            .forEach(item => {
+
+              item.classList.toggle(
+                "active",
+                item.dataset.intent === "BOOKING"
+              );
+
+            });
+
+
+          document
+            .querySelectorAll(".booking-type")
+            .forEach(item => {
+              item.classList.remove("active");
+            });
+
+
+          bookingDetails.classList.add("open");
+
+
+          formMessage.className =
+            "form-message success";
+
+          formMessage.textContent =
+            currentLanguage === "it"
+              ? "Messaggio inviato. Grazie!"
+              : "Message sent. Thank you!";
+
+
+          updateWhatsApp();
+
+        } catch (error) {
+
+          console.error(
+            "Contact form submit failed:",
+            error
           );
 
-        }
-      );
 
+          formMessage.className =
+            "form-message error";
 
-    document
-      .querySelectorAll(
-        ".booking-type"
-      )
-      .forEach(
-        button => {
+          formMessage.textContent =
+            currentLanguage === "it"
+              ? "Non siamo riusciti a inviare il messaggio. Riprova tra poco."
+              : "We couldn't send the message. Please try again.";
 
-          button.addEventListener(
-            "click",
-            () => {
+        } finally {
 
-              const type =
-                button.dataset.bookingType;
-
-
-              const alreadyActive =
-                button.classList.contains(
-                  "active"
-                );
-
-
-              document
-                .querySelectorAll(
-                  ".booking-type"
-                )
-                .forEach(
-                  item =>
-                    item.classList.remove(
-                      "active"
-                    )
-                );
-
-
-              selectedBookingType =
-                alreadyActive
-                  ? ""
-                  : type;
-
-
-              if (!alreadyActive) {
-                button.classList.add(
-                  "active"
-                );
-              }
-
-
-              updateWhatsApp();
-
-            }
-          );
+          contactSubmit.disabled =
+            false;
 
         }
-      );
 
-
-    eventDateContact.addEventListener(
-      "change",
-      updateWhatsApp
+      }
     );
 
 
-    /* =====================================================
+    /* =========================================================
        EVENTS
-    ===================================================== */
+    ========================================================= */
 
     async function loadEvents() {
+
+      const container =
+        document.getElementById("events");
+
 
       try {
 
         const response =
           await fetch(
-            "/api/events"
+            "/api/events",
+            {
+              cache: "no-store"
+            }
           );
 
 
         if (!response.ok) {
-          throw new Error();
+          throw new Error(
+            `HTTP ${response.status}`
+          );
         }
 
 
-        let events =
+        const result =
           await response.json();
+
+
+        let events =
+          Array.isArray(result)
+            ? result
+            : Array.isArray(result.events)
+              ? result.events
+              : [];
 
 
         const now =
@@ -5225,20 +4836,21 @@
 
         events =
           events
-            .filter(
-              event =>
-                getEventEnd(event) >= now
-            )
-            .sort(
-              (a,b) =>
+
+            .filter(event => {
+              return getEventEnd(event) >= now;
+            })
+
+            .sort((a,b) => {
+              return (
                 getEventStart(a) -
                 getEventStart(b)
-            );
+              );
+            });
 
 
         cachedEvents =
           events;
-
 
         visibleEventCount =
           5;
@@ -5246,13 +4858,15 @@
 
         renderEvents();
 
-
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          "Unable to load events:",
+          error
+        );
 
 
-        events.innerHTML =
+        container.innerHTML =
           currentLanguage === "it"
             ? `<div class="empty">Impossibile caricare le prossime date.</div>`
             : `<div class="empty">Unable to load upcoming shows.</div>`;
@@ -5265,9 +4879,7 @@
     function renderEvents() {
 
       const container =
-        document.getElementById(
-          "events"
-        );
+        document.getElementById("events");
 
 
       if (!cachedEvents.length) {
@@ -5278,21 +4890,23 @@
             : `<div class="empty">No upcoming shows at the moment.</div>`;
 
         return;
+
       }
 
 
       const first =
         cachedEvents[0];
 
-
       const others =
         cachedEvents.slice(1);
 
-
-      const visible =
+      const visibleOthers =
         others.slice(
           0,
-          visibleEventCount - 1
+          Math.max(
+            visibleEventCount - 1,
+            0
+          )
         );
 
 
@@ -5316,7 +4930,7 @@
             <div class="more-events">
 
               ${
-                visible
+                visibleOthers
                   .map(
                     (event,index) =>
                       renderPublicEvent(
@@ -5331,7 +4945,7 @@
         `;
 
 
-        if (others.length > 4) {
+        if (cachedEvents.length > 5) {
 
           const allVisible =
             visibleEventCount >=
@@ -5342,15 +4956,13 @@
             <div class="show-more-wrap">
 
               <button
+                type="button"
                 id="showMoreButton"
-                class="
-                  show-more-button
-                  ${
-                    allVisible
-                      ? "is-less"
-                      : ""
-                  }
-                "
+                class="show-more-button ${
+                  allVisible
+                    ? "is-less"
+                    : ""
+                }"
               >
 
                 <span>
@@ -5369,18 +4981,26 @@
                   }
                 </span>
 
-                ${svgDownArrow()}
+                <svg
+                  class="icon-arrow down-arrow"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 5V19" fill="none" stroke="currentColor" stroke-width="2"/>
+                  <path d="M7 14L12 19L17 14" fill="none" stroke="currentColor" stroke-width="2"/>
+                </svg>
 
               </button>
 
             </div>
           `;
+
         }
 
 
         html += `
           </div>
         `;
+
       }
 
 
@@ -5388,18 +5008,19 @@
         html;
 
 
-      const button =
+      const showMoreButton =
         document.getElementById(
           "showMoreButton"
         );
 
 
-      if (button) {
+      if (showMoreButton) {
 
-        button.addEventListener(
+        showMoreButton.addEventListener(
           "click",
           handleShowMore
         );
+
       }
 
     }
@@ -5419,7 +5040,16 @@
 
         renderEvents();
 
+
+        document
+          .querySelector(".more-shows-label")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+
         return;
+
       }
 
 
@@ -5431,6 +5061,7 @@
 
 
       renderEvents();
+
     }
 
 
@@ -5444,8 +5075,9 @@
 
 
       const day =
-        String(date.getDate())
-        .padStart(2,"0");
+        String(
+          date.getDate()
+        ).padStart(2,"0");
 
 
       const month =
@@ -5474,14 +5106,21 @@
                 ? "Evento privato"
                 : "Private Event"
             )
-          : event.venue;
+          : (
+              event.venue ||
+              (
+                currentLanguage === "it"
+                  ? "Evento"
+                  : "Event"
+              )
+            );
 
 
       const time =
         formatTime(event);
 
 
-      const rawNote =
+      const note =
         String(
           event.note || ""
         ).trim();
@@ -5494,17 +5133,18 @@
               <a
                 href="${escapeAttribute(event.location_url)}"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="show-action"
               >
-                <span>
-                  ${
-                    currentLanguage === "it"
-                      ? "Indicazioni"
-                      : "Directions"
-                  }
-                </span>
 
-                ${svgExternalArrow()}
+                ${
+                  currentLanguage === "it"
+                    ? "Indicazioni"
+                    : "Directions"
+                }
+
+                ${externalArrow()}
+
               </a>
             `
           : "";
@@ -5517,17 +5157,18 @@
               <a
                 href="${escapeAttribute(event.public_url)}"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="show-action"
               >
-                <span>
-                  ${
-                    currentLanguage === "it"
-                      ? "Info"
-                      : "More info"
-                  }
-                </span>
 
-                ${svgExternalArrow()}
+                ${
+                  currentLanguage === "it"
+                    ? "Info"
+                    : "More info"
+                }
+
+                ${externalArrow()}
+
               </a>
             `
           : "";
@@ -5589,11 +5230,13 @@
               isGuestsOnly
                 ? `
                     <div class="next-show-badge">
+
                       ${
                         currentLanguage === "it"
                           ? "Solo ospiti"
                           : "Guests only"
                       }
+
                     </div>
                   `
                 : ""
@@ -5601,10 +5244,10 @@
 
 
             ${
-              shouldShowNote(rawNote)
+              shouldShowNote(note)
                 ? `
                     <div class="next-show-note">
-                      ${escapeHtml(rawNote)}
+                      ${escapeHtml(note)}
                     </div>
                   `
                 : ""
@@ -5627,8 +5270,7 @@
 
 
             ${
-              directions ||
-              info
+              directions || info
                 ? `
                     <div class="show-actions">
                       ${directions}
@@ -5642,6 +5284,7 @@
 
         </article>
       `;
+
     }
 
 
@@ -5658,8 +5301,9 @@
 
 
       const day =
-        String(date.getDate())
-        .padStart(2,"0");
+        String(
+          date.getDate()
+        ).padStart(2,"0");
 
 
       const month =
@@ -5677,6 +5321,10 @@
         type === "PRIVATE";
 
 
+      const isGuestsOnly =
+        type === "GUESTS_ONLY";
+
+
       const venue =
         isPrivate
           ? (
@@ -5684,7 +5332,20 @@
                 ? "Evento privato"
                 : "Private Event"
             )
-          : event.venue;
+          : (
+              event.venue ||
+              (
+                currentLanguage === "it"
+                  ? "Evento"
+                  : "Event"
+              )
+            );
+
+
+      const note =
+        String(
+          event.note || ""
+        ).trim();
 
 
       const directions =
@@ -5694,15 +5355,42 @@
               <a
                 href="${escapeAttribute(event.location_url)}"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="show-action"
               >
+
                 ${
                   currentLanguage === "it"
                     ? "Indicazioni"
                     : "Directions"
                 }
 
-                ${svgExternalArrow()}
+                ${externalArrow()}
+
+              </a>
+            `
+          : "";
+
+
+      const info =
+        type === "PUBLIC" &&
+        event.public_url
+          ? `
+              <a
+                href="${escapeAttribute(event.public_url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="show-action"
+              >
+
+                ${
+                  currentLanguage === "it"
+                    ? "Info"
+                    : "More info"
+                }
+
+                ${externalArrow()}
+
               </a>
             `
           : "";
@@ -5711,12 +5399,7 @@
       return `
         <article
           class="event event-enter"
-          style="
-            animation-delay:
-            ${
-              Math.min(index,4) * 55
-            }ms
-          "
+          style="animation-delay:${Math.min(index,4) * 55}ms"
         >
 
           <div class="event-date">
@@ -5750,21 +5433,58 @@
                 : ""
             }
 
+
+            ${
+              isGuestsOnly
+                ? `
+                    <div class="event-badge">
+
+                      ${
+                        currentLanguage === "it"
+                          ? "Solo ospiti"
+                          : "Guests only"
+                      }
+
+                    </div>
+                  `
+                : ""
+            }
+
+
+            ${
+              shouldShowNote(note)
+                ? `
+                    <div class="event-note">
+                      ${escapeHtml(note)}
+                    </div>
+                  `
+                : ""
+            }
+
           </div>
 
 
           <div class="event-right">
 
-            <div class="event-time">
-              ${escapeHtml(formatTime(event))}
-            </div>
+            ${
+              formatTime(event)
+                ? `
+                    <div class="event-time">
+                      ${escapeHtml(
+                        formatTime(event)
+                      )}
+                    </div>
+                  `
+                : ""
+            }
 
 
             ${
-              directions
+              directions || info
                 ? `
                     <div class="show-actions">
                       ${directions}
+                      ${info}
                     </div>
                   `
                 : ""
@@ -5774,17 +5494,20 @@
 
         </article>
       `;
+
     }
 
 
-    /* =====================================================
+    /* =========================================================
        EVENT HELPERS
-    ===================================================== */
+    ========================================================= */
 
     function getNextShowLabel(event) {
 
       const today =
-        startOfDay(new Date());
+        startOfDay(
+          new Date()
+        );
 
 
       const eventDate =
@@ -5811,6 +5534,7 @@
         return currentLanguage === "it"
           ? "Stasera"
           : "Tonight";
+
       }
 
 
@@ -5819,12 +5543,14 @@
         return currentLanguage === "it"
           ? "Domani"
           : "Tomorrow";
+
       }
 
 
       return currentLanguage === "it"
         ? "Prossima data"
         : "Next show";
+
     }
 
 
@@ -5835,6 +5561,7 @@
         date.getMonth(),
         date.getDate()
       );
+
     }
 
 
@@ -5850,7 +5577,12 @@
       }
 
 
-      return `${event.start_time} — ${event.end_time}`;
+      return (
+        event.start_time +
+        " — " +
+        event.end_time
+      );
+
     }
 
 
@@ -5859,14 +5591,44 @@
       return new Date(
         `${event.event_date}T${event.start_time || "00:00"}:00`
       );
+
     }
 
 
     function getEventEnd(event) {
 
-      return new Date(
-        `${event.event_date}T${event.end_time || event.start_time || "23:59"}:00`
-      );
+      let end =
+        new Date(
+          `${event.event_date}T${event.end_time || event.start_time || "23:59"}:00`
+        );
+
+
+      const start =
+        getEventStart(event);
+
+
+      /*
+        Se una serata finisce dopo mezzanotte,
+        per esempio 22:00 → 01:00,
+        consideriamo la fine il giorno successivo.
+      */
+
+      if (
+        event.end_time &&
+        end < start
+      ) {
+
+        end =
+          new Date(
+            end.getTime() +
+            86400000
+          );
+
+      }
+
+
+      return end;
+
     }
 
 
@@ -5878,195 +5640,27 @@
 
 
       const legacy = [
+
         "PRIVATE EVENT",
         "PRIVATE",
         "GUESTS ONLY",
         "ONLY GUESTS",
         "SOLO OSPITI",
         "EVENTO PRIVATO"
+
       ];
 
 
       return !legacy.includes(
         note.toUpperCase()
       );
+
     }
 
 
-        /* =====================================================
-       CONTACT SUBMIT
-    ===================================================== */
-
-    const contactForm =
-      document.getElementById(
-        "contactForm"
-      );
-
-    const nameInput =
-      document.getElementById(
-        "name"
-      );
-
-    const emailInput =
-      document.getElementById(
-        "email"
-      );
-
-    const messageInput =
-      document.getElementById(
-        "message"
-      );
-
-    const formMessage =
-      document.getElementById(
-        "formMessage"
-      );
-
-    const eventDateContact =
-      document.getElementById(
-        "eventDateContact"
-      );
-
-
-    contactForm.addEventListener(
-      "submit",
-      async event => {
-
-        event.preventDefault();
-
-
-        formMessage.textContent =
-          currentLanguage === "it"
-            ? "Invio in corso..."
-            : "Sending...";
-
-
-        let finalMessage =
-          messageInput.value.trim();
-
-
-        const details =
-          [];
-
-
-        if (selectedContactIntent) {
-
-          details.push(
-            `Reason: ${getIntentLabel(selectedContactIntent)}`
-          );
-
-        }
-
-
-        if (selectedBookingType) {
-
-          details.push(
-            `Event type: ${getBookingTypeLabel(selectedBookingType)}`
-          );
-
-        }
-
-
-        if (
-          eventDateContact &&
-          eventDateContact.value
-        ) {
-
-          details.push(
-            `Date: ${formatContactDate(eventDateContact.value)}`
-          );
-
-        }
-
-
-        if (details.length) {
-
-          finalMessage =
-            `${details.join("\n")}\n\n${finalMessage}`;
-
-        }
-
-
-        try {
-
-          const response =
-            await fetch(
-              "/api/contact",
-              {
-                method: "POST",
-
-                headers: {
-                  "Content-Type":
-                    "application/json"
-                },
-
-                body:
-                  JSON.stringify({
-                    name:
-                      nameInput.value.trim(),
-
-                    email:
-                      emailInput.value.trim(),
-
-                    message:
-                      finalMessage
-                  })
-              }
-            );
-
-
-          const result =
-            await response
-              .json()
-              .catch(() => ({}));
-
-
-          if (!response.ok) {
-
-            console.error(
-              "Contact form error:",
-              response.status,
-              result
-            );
-
-            throw new Error(
-              result.error ||
-              "Contact request failed"
-            );
-
-          }
-
-
-          contactForm.reset();
-
-
-          formMessage.textContent =
-            currentLanguage === "it"
-              ? "Messaggio inviato. Grazie!"
-              : "Message sent. Thank you!";
-
-
-        } catch (error) {
-
-          console.error(
-            "Contact form submit failed:",
-            error
-          );
-
-
-          formMessage.textContent =
-            currentLanguage === "it"
-              ? "Si è verificato un errore."
-              : "Something went wrong.";
-
-        }
-
-      }
-    );
-
-    /* =====================================================
-       ESCAPE
-    ===================================================== */
+    /* =========================================================
+       HTML ESCAPE
+    ========================================================= */
 
     function escapeHtml(value = "") {
 
@@ -6076,6 +5670,7 @@
         .replaceAll(">","&gt;")
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#039;");
+
     }
 
 
@@ -6084,159 +5679,104 @@
     }
 
 
-    /* =====================================================
-       HEADER
-    ===================================================== */
+    function externalArrow() {
 
-    const header =
-      document.getElementById(
-        "header"
-      );
-
-
-    function updateHeader() {
-
-      header.classList.toggle(
-        "scrolled",
-        window.scrollY > 70
-      );
-    }
-
-
-    window.addEventListener(
-      "scroll",
-      updateHeader,
-      {
-        passive: true
-      }
-    );
-
-
-    updateHeader();
-
-
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
-
-    const menuToggle =
-      document.getElementById(
-        "menuToggle"
-      );
-
-
-    const mobileMenu =
-      document.getElementById(
-        "mobileMenu"
-      );
-
-
-    function closeMobileMenu() {
-
-      menuToggle.classList.remove(
-        "active"
-      );
-
-      mobileMenu.classList.remove(
-        "open"
-      );
-
-      document.body.classList.remove(
-        "menu-open"
-      );
+      return `
+        <svg
+          class="icon-arrow"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M7 17L17 7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M8 7H17V16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      `;
 
     }
 
 
-    menuToggle.addEventListener(
-      "click",
-      () => {
-
-        const open =
-          mobileMenu.classList.toggle(
-            "open"
-          );
-
-
-        menuToggle.classList.toggle(
-          "active",
-          open
-        );
-
-
-        document.body.classList.toggle(
-          "menu-open",
-          open
-        );
-
-      }
-    );
-
-
-    document
-      .querySelectorAll(
-        ".mobile-nav-link"
-      )
-      .forEach(
-        link =>
-          link.addEventListener(
-            "click",
-            closeMobileMenu
-          )
-      );
-
-
-    /* =====================================================
+    /* =========================================================
        REVEAL
-    ===================================================== */
+    ========================================================= */
 
-    const observer =
-      new IntersectionObserver(
-        entries => {
+    if (
+      "IntersectionObserver" in window
+    ) {
 
-          entries.forEach(
-            entry => {
+      const observer =
+        new IntersectionObserver(
+          entries => {
 
-              if (
-                entry.isIntersecting
-              ) {
+            entries.forEach(
+              entry => {
 
-                entry.target
-                  .classList.add(
-                    "visible"
+                if (
+                  entry.isIntersecting
+                ) {
+
+                  entry.target
+                    .classList.add(
+                      "visible"
+                    );
+
+                  observer.unobserve(
+                    entry.target
                   );
 
+                }
+
               }
+            );
 
-            }
-          );
+          },
+          {
+            threshold: .1
+          }
+        );
 
-        },
 
-        {
-          threshold: .1
-        }
-      );
+      document
+        .querySelectorAll(".reveal")
+        .forEach(
+          element => {
+            observer.observe(element);
+          }
+        );
 
+    } else {
+
+      document
+        .querySelectorAll(".reveal")
+        .forEach(
+          element => {
+            element.classList.add("visible");
+          }
+        );
+
+    }
+
+
+    /* =========================================================
+       START
+    ========================================================= */
 
     document
-      .querySelectorAll(
-        ".reveal"
-      )
-      .forEach(
-        element =>
-          observer.observe(
-            element
-          )
-      );
-
-
-    /* =====================================================
-       START
-    ===================================================== */
-
-    currentYear.textContent =
-      new Date().getFullYear();
+      .getElementById("currentYear")
+      .textContent =
+        new Date().getFullYear();
 
 
     changeLanguage(
@@ -6244,9 +5784,13 @@
     );
 
 
+    updateWhatsApp();
+
+
     loadEvents();
 
   </script>
+
 
 </body>
 </html>
