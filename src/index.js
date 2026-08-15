@@ -6,10 +6,12 @@
    - sito statico
    - login admin
    - eventi
+   - eliminazione automatica eventi passati
    - venue salvate
    - form contatti
    - messaggi admin
 ============================================================ */
+
 
 export default {
 
@@ -25,9 +27,25 @@ export default {
     } catch (error) {
 
       console.error(
-        "Unhandled Worker error:",
+        "Worker error:",
         error
       );
+
+
+      if (
+        error instanceof HttpError
+      ) {
+
+        return jsonResponse(
+          {
+            error:
+              error.message
+          },
+          error.status
+        );
+
+      }
+
 
       return jsonResponse(
         {
@@ -513,12 +531,154 @@ async function handleRequest(
 
 
 /* ============================================================
+   AUTOMATIC EVENT CLEANUP
+============================================================ */
+
+/*
+   Restituisce la data corrente in Italia nel formato:
+
+   YYYY-MM-DD
+
+   Usiamo esplicitamente Europe/Rome così la cancellazione
+   segue il giorno italiano e non l'orario UTC di Cloudflare.
+*/
+
+function getTodayRome() {
+
+  const parts =
+    new Intl.DateTimeFormat(
+      "en-CA",
+      {
+        timeZone:
+          "Europe/Rome",
+
+        year:
+          "numeric",
+
+        month:
+          "2-digit",
+
+        day:
+          "2-digit"
+      }
+    )
+      .formatToParts(
+        new Date()
+      );
+
+
+  const values = {};
+
+
+  for (
+    const part of parts
+  ) {
+
+    if (
+      part.type !==
+      "literal"
+    ) {
+
+      values[
+        part.type
+      ] =
+        part.value;
+
+    }
+
+  }
+
+
+  return (
+    `${values.year}-` +
+    `${values.month}-` +
+    `${values.day}`
+  );
+
+}
+
+
+/*
+   Elimina definitivamente dal database
+   tutte le date precedenti a oggi.
+
+   Esempio:
+   oggi 16 agosto
+   → 15 agosto e precedenti eliminati
+   → 16 agosto resta
+*/
+
+async function cleanupPastEvents(
+  env
+) {
+
+  const today =
+    getTodayRome();
+
+
+  try {
+
+    const result =
+      await env.DB
+        .prepare(`
+          DELETE FROM events
+          WHERE event_date < ?
+        `)
+        .bind(
+          today
+        )
+        .run();
+
+
+    const deleted =
+      Number(
+        result?.meta?.changes ||
+        0
+      );
+
+
+    if (deleted > 0) {
+
+      console.log(
+        `Deleted ${deleted} past event(s).`
+      );
+
+    }
+
+  } catch (error) {
+
+    /*
+       Non blocchiamo il sito se per qualche
+       motivo la pulizia dovesse fallire.
+    */
+
+    console.error(
+      "Past events cleanup error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* ============================================================
    PUBLIC EVENTS
 ============================================================ */
 
 async function getPublicEvents(
   env
 ) {
+
+  /*
+    Prima di restituire le date,
+    puliamo automaticamente quelle vecchie.
+  */
+
+  await cleanupPastEvents(
+    env
+  );
+
 
   const result =
     await env.DB
@@ -535,16 +695,19 @@ async function getPublicEvents(
           event_type,
           public_url,
           created_at
+
         FROM events
-        WHERE event_date >= date('now', '-1 day')
+
         ORDER BY
           event_date ASC,
+
           CASE
             WHEN start_time IS NULL
             OR start_time = ''
             THEN '23:59'
             ELSE start_time
           END ASC,
+
           id ASC
       `)
       .all();
@@ -565,6 +728,16 @@ async function getAdminEvents(
   env
 ) {
 
+  /*
+    Anche aprendo il pannello admin
+    vengono eliminate le date passate.
+  */
+
+  await cleanupPastEvents(
+    env
+  );
+
+
   const result =
     await env.DB
       .prepare(`
@@ -580,15 +753,19 @@ async function getAdminEvents(
           event_type,
           public_url,
           created_at
+
         FROM events
+
         ORDER BY
           event_date ASC,
+
           CASE
             WHEN start_time IS NULL
             OR start_time = ''
             THEN '23:59'
             ELSE start_time
           END ASC,
+
           id ASC
       `)
       .all();
@@ -621,8 +798,11 @@ async function getEvent(
           event_type,
           public_url,
           created_at
+
         FROM events
+
         WHERE id = ?
+
         LIMIT 1
       `)
       .bind(id)
@@ -697,6 +877,7 @@ async function createEvent(
           event_type,
           public_url
         )
+
         VALUES (
           ?,
           ?,
@@ -980,6 +1161,28 @@ function validateEvent(
   }
 
 
+  /*
+    Non permettiamo di creare una nuova data
+    che è già precedente a oggi.
+  */
+
+  const today =
+    getTodayRome();
+
+
+  if (
+    eventDate < today
+  ) {
+
+    return {
+      valid: false,
+      error:
+        "Non puoi inserire una data già passata."
+    };
+
+  }
+
+
   if (!venue) {
 
     return {
@@ -1143,7 +1346,9 @@ async function getVenues(
           location_url,
           created_at,
           updated_at
+
         FROM venues
+
         ORDER BY
           name COLLATE NOCASE ASC,
           id ASC
@@ -1173,8 +1378,11 @@ async function getVenue(
           location_url,
           created_at,
           updated_at
+
         FROM venues
+
         WHERE id = ?
+
         LIMIT 1
       `)
       .bind(id)
@@ -1235,24 +1443,20 @@ async function createVenue(
     validation.data;
 
 
-  /*
-    Impediamo di creare accidentalmente
-    due venue completamente identiche.
-  */
-
   const duplicate =
     await env.DB
       .prepare(`
         SELECT id
+
         FROM venues
 
         WHERE
           lower(trim(name)) =
-            lower(trim(?))
+          lower(trim(?))
 
         AND
           lower(trim(location)) =
-            lower(trim(?))
+          lower(trim(?))
 
         LIMIT 1
       `)
@@ -1284,6 +1488,7 @@ async function createVenue(
           location,
           location_url
         )
+
         VALUES (
           ?,
           ?,
@@ -1376,18 +1581,18 @@ async function updateVenue(
     await env.DB
       .prepare(`
         SELECT id
+
         FROM venues
 
-        WHERE
-          id != ?
+        WHERE id != ?
 
         AND
           lower(trim(name)) =
-            lower(trim(?))
+          lower(trim(?))
 
         AND
           lower(trim(location)) =
-            lower(trim(?))
+          lower(trim(?))
 
         LIMIT 1
       `)
@@ -1451,8 +1656,11 @@ async function deleteVenue(
         SELECT
           id,
           name
+
         FROM venues
+
         WHERE id = ?
+
         LIMIT 1
       `)
       .bind(id)
@@ -1473,12 +1681,8 @@ async function deleteVenue(
 
 
   /*
-    Nessun evento viene eliminato o modificato.
-
-    La tabella events contiene già una copia
-    di venue/location/location_url, quindi
-    cancellare una venue dalla rubrica non
-    modifica le date esistenti.
+    Eliminare una venue salvata NON modifica
+    gli eventi già esistenti.
   */
 
   await env.DB
@@ -1779,6 +1983,7 @@ async function createContactMessage(
           event_date,
           status
         )
+
         VALUES (
           ?,
           ?,
@@ -1839,7 +2044,9 @@ async function getMessages(
           created_at,
           read_at,
           archived_at
+
         FROM contact_messages
+
         ORDER BY
           datetime(created_at) DESC,
           id DESC
@@ -1875,8 +2082,11 @@ async function getMessage(
           created_at,
           read_at,
           archived_at
+
         FROM contact_messages
+
         WHERE id = ?
+
         LIMIT 1
       `)
       .bind(id)
@@ -1912,7 +2122,9 @@ async function getUnreadMessageCount(
       .prepare(`
         SELECT
           COUNT(*) AS count
+
         FROM contact_messages
+
         WHERE status = 'UNREAD'
       `)
       .first();
@@ -1940,8 +2152,11 @@ async function updateMessage(
         SELECT
           id,
           status
+
         FROM contact_messages
+
         WHERE id = ?
+
         LIMIT 1
       `)
       .bind(id)
@@ -1999,7 +2214,10 @@ async function updateMessage(
   }
 
 
-  if (status === "UNREAD") {
+  if (
+    status ===
+    "UNREAD"
+  ) {
 
     await env.DB
       .prepare(`
@@ -2018,7 +2236,10 @@ async function updateMessage(
   }
 
 
-  if (status === "READ") {
+  if (
+    status ===
+    "READ"
+  ) {
 
     await env.DB
       .prepare(`
@@ -2043,7 +2264,10 @@ async function updateMessage(
   }
 
 
-  if (status === "ARCHIVED") {
+  if (
+    status ===
+    "ARCHIVED"
+  ) {
 
     await env.DB
       .prepare(`
@@ -2086,8 +2310,11 @@ async function deleteMessage(
     await env.DB
       .prepare(`
         SELECT id
+
         FROM contact_messages
+
         WHERE id = ?
+
         LIMIT 1
       `)
       .bind(id)
@@ -2157,11 +2384,14 @@ async function loginAdmin(
   }
 
 
-  if (!env.ADMIN_PASSWORD) {
+  if (
+    !env.ADMIN_PASSWORD
+  ) {
 
     console.error(
       "ADMIN_PASSWORD secret is missing"
     );
+
 
     return jsonResponse(
       {
@@ -2201,12 +2431,19 @@ async function loginAdmin(
 
 
   const cookie = [
+
     `om_admin=${token}`,
+
     "Path=/",
+
     "HttpOnly",
+
     "Secure",
+
     "SameSite=Lax",
+
     `Max-Age=${60 * 60 * 24 * 30}`
+
   ]
     .join("; ");
 
@@ -2254,8 +2491,12 @@ async function isAuthenticated(
   env
 ) {
 
-  if (!env.ADMIN_PASSWORD) {
+  if (
+    !env.ADMIN_PASSWORD
+  ) {
+
     return false;
+
   }
 
 
@@ -2272,7 +2513,9 @@ async function isAuthenticated(
 
 
   if (!suppliedToken) {
+
     return false;
+
   }
 
 
@@ -2293,13 +2536,6 @@ async function isAuthenticated(
 async function createAdminToken(
   env
 ) {
-
-  /*
-    Il cookie non contiene la password.
-
-    Il token viene derivato dalla password
-    segreta del Worker.
-  */
 
   const source =
     `orange-may-admin-v2:${env.ADMIN_PASSWORD}`;
@@ -2322,7 +2558,9 @@ async function serveAsset(
   pathname
 ) {
 
-  if (!env.ASSETS) {
+  if (
+    !env.ASSETS
+  ) {
 
     return new Response(
       "Assets binding not available",
@@ -2404,7 +2642,9 @@ function jsonResponse(
 ) {
 
   return new Response(
-    JSON.stringify(data),
+    JSON.stringify(
+      data
+    ),
     {
       status,
 
@@ -2554,8 +2794,12 @@ function parseCookies(
         part.indexOf("=");
 
 
-      if (index === -1) {
+      if (
+        index === -1
+      ) {
+
         return;
+
       }
 
 
@@ -2601,7 +2845,9 @@ async function sha256Hex(
 
   const data =
     new TextEncoder()
-      .encode(value);
+      .encode(
+        value
+      );
 
 
   const digest =
@@ -2611,16 +2857,20 @@ async function sha256Hex(
     );
 
 
-  return Array.from(
-    new Uint8Array(
-      digest
+  return Array
+    .from(
+      new Uint8Array(
+        digest
+      )
     )
-  )
     .map(
       byte =>
         byte
           .toString(16)
-          .padStart(2,"0")
+          .padStart(
+            2,
+            "0"
+          )
     )
     .join("");
 
@@ -2644,7 +2894,10 @@ async function secureStringCompare(
     );
 
 
-  return hashA === hashB;
+  return (
+    hashA ===
+    hashB
+  );
 
 }
 
@@ -2658,7 +2911,9 @@ function normalizePath(
 ) {
 
   if (!pathname) {
+
     return "/";
+
   }
 
 
@@ -2692,7 +2947,10 @@ class HttpError
     message
   ) {
 
-    super(message);
+    super(
+      message
+    );
+
 
     this.status =
       status;
