@@ -1,2149 +1,3192 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Orange May Acoustic</title>
-
-<meta
-  name="description"
-  content="Orange May Acoustic — two voices, one guitar, percussion and live loops. Live music for hotels, venues, weddings and private events."
->
-
-<style>
-
-:root{
-  --orange:#ff6a00;
-  --cream:#f5f0e8;
-  --black:#11100f;
-  --dark:#171412;
-  --brown:#2b211b;
-  --white:#ffffff;
-  --line:rgba(17,16,15,.14);
-  --muted:#726b64;
-  --header-height:84px;
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-  background:var(--black);
-}
-
-body{
-  margin:0;
-  background:var(--cream);
-  color:var(--black);
-  font-family:Arial,Helvetica,sans-serif;
-  overflow-x:hidden;
-}
-
-body.menu-open{
-  overflow:hidden;
-}
-
-button,
-input,
-textarea,
-select{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-a{
-  color:inherit;
-}
-
-img{
-  max-width:100%;
-  display:block;
-}
-
-.container{
-  width:min(1280px,calc(100% - 48px));
-  margin:0 auto;
-}
-
-
-/* ============================================================
-   HEADER
-============================================================ */
-
-header{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:100;
-  height:var(--header-height);
-  transition:
-    background .25s ease,
-    border-color .25s ease,
-    box-shadow .25s ease;
-}
-
-header.scrolled{
-  background:rgba(245,240,232,.96);
-  border-bottom:1px solid rgba(17,16,15,.1);
-  backdrop-filter:blur(12px);
-}
-
-.nav{
-  height:var(--header-height);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:30px;
-}
-
-.nav-logo{
-  position:relative;
-  width:104px;
-  height:56px;
-  display:block;
-  flex:0 0 auto;
-}
-
-.nav-logo img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  transition:opacity .2s ease;
-}
-
-.logo-white{
-  opacity:1;
-}
-
-.logo-dark{
-  opacity:0;
-}
-
-header.scrolled .logo-white{
-  opacity:0;
-}
-
-header.scrolled .logo-dark{
-  opacity:1;
-}
-
-.nav-right{
-  display:flex;
-  align-items:center;
-  gap:22px;
-}
-
-.nav-links{
-  display:flex;
-  align-items:center;
-  gap:29px;
-}
-
-.nav-links a{
-  color:white;
-  text-decoration:none;
-  font-size:.68rem;
-  font-weight:900;
-  letter-spacing:.09em;
-  text-transform:uppercase;
-  transition:opacity .2s ease;
-}
-
-.nav-links a:hover{
-  opacity:.65;
-}
-
-header.scrolled .nav-links a{
-  color:var(--black);
-}
-
-
-/* LANGUAGE */
-
-.language-switcher{
-  height:40px;
-  padding:3px;
-  display:flex;
-  align-items:center;
-  border:1px solid white;
-  border-radius:999px;
-}
-
-header.scrolled .language-switcher{
-  border-color:var(--black);
-}
-
-.language-switcher button{
-  width:40px;
-  height:32px;
-  border:0;
-  border-radius:999px;
-  background:transparent;
-  color:white;
-  font-size:.64rem;
-  font-weight:900;
-}
-
-header.scrolled .language-switcher button{
-  color:var(--black);
-}
-
-.language-switcher button.active{
-  background:white;
-  color:var(--black);
-}
-
-header.scrolled .language-switcher button.active{
-  background:var(--black);
-  color:white;
-}
-
-
-/* MENU MOBILE */
-
-.menu-toggle{
-  width:42px;
-  height:42px;
-  padding:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  border:1px solid white;
-  border-radius:50%;
-  background:transparent;
-}
-
-header.scrolled .menu-toggle{
-  border-color:var(--black);
-}
-
-.menu-toggle span,
-.menu-toggle::before,
-.menu-toggle::after{
-  content:"";
-  width:15px;
-  height:1.5px;
-  position:absolute;
-  background:white;
-  transition:.25s ease;
-}
-
-.menu-toggle::before{
-  transform:translateY(-5px);
-}
-
-.menu-toggle::after{
-  transform:translateY(5px);
-}
-
-header.scrolled .menu-toggle span,
-header.scrolled .menu-toggle::before,
-header.scrolled .menu-toggle::after{
-  background:var(--black);
-}
-
-.menu-toggle.active span{
-  opacity:0;
-}
-
-.menu-toggle.active::before{
-  transform:rotate(45deg);
-}
-
-.menu-toggle.active::after{
-  transform:rotate(-45deg);
-}
-
-
-/* MOBILE MENU */
-
-.mobile-menu{
-  position:fixed;
-  inset:0;
-  z-index:90;
-  padding:110px 24px 30px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  background:var(--orange);
-  opacity:0;
-  visibility:hidden;
-  transform:translateY(-15px);
-  transition:.25s ease;
-}
-
-.mobile-menu.open{
-  opacity:1;
-  visibility:visible;
-  transform:none;
-}
-
-.mobile-menu-links{
-  display:grid;
-}
-
-.mobile-menu-links a{
-  padding:16px 0;
-  color:var(--black);
-  text-decoration:none;
-  border-bottom:1px solid rgba(17,16,15,.2);
-  font-size:clamp(2.4rem,12vw,4.5rem);
-  font-weight:900;
-  line-height:.95;
-  letter-spacing:-.06em;
-  text-transform:uppercase;
-}
-
-.mobile-menu-bottom{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  align-items:flex-end;
-}
-
-.mobile-menu-bottom a{
-  font-size:.7rem;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-
-/* ============================================================
-   HERO
-============================================================ */
-
-.hero{
-  position:relative;
-  min-height:100svh;
-  display:flex;
-  align-items:flex-end;
-  overflow:hidden;
-  background:#000;
-  color:white;
-}
-
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(0,0,0,.68) 0%,
-      rgba(0,0,0,.30) 48%,
-      rgba(0,0,0,.14) 100%
-    ),
-    linear-gradient(
-      0deg,
-      rgba(0,0,0,.66) 0%,
-      transparent 55%
-    );
-  z-index:1;
-}
-
-.hero-image{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center;
-}
-
-.hero-content{
-  position:relative;
-  z-index:2;
-  width:100%;
-  padding-bottom:clamp(55px,8vh,95px);
-}
-
-.hero-grid{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
-  gap:50px;
-  align-items:end;
-}
-
-.hero-eyebrow{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:20px;
-  font-size:.72rem;
-  font-weight:900;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-}
-
-.hero-eyebrow::before{
-  content:"";
-  width:32px;
-  height:3px;
-  background:var(--orange);
-}
-
-.hero-title{
-  margin:0;
-  max-width:760px;
-  font-size:clamp(5rem,10.8vw,10rem);
-  line-height:.72;
-  letter-spacing:-.075em;
-  text-transform:uppercase;
-}
-
-.hero-title span{
-  display:block;
-}
-
-.hero-title .orange{
-  color:var(--orange);
-}
-
-.hero-subtitle{
-  margin:44px 0 0;
-  max-width:600px;
-  font-size:clamp(1rem,1.4vw,1.2rem);
-  line-height:1.45;
-  font-weight:600;
-}
-
-.hero-actions{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  padding-bottom:5px;
-}
-
-.cta{
-  min-height:52px;
-  padding:0 24px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  border:1px solid transparent;
-  border-radius:999px;
-  text-decoration:none;
-  font-size:.68rem;
-  font-weight:900;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  transition:.2s ease;
-}
-
-.cta.orange{
-  background:var(--orange);
-  color:white;
-}
-
-.cta.orange:hover{
-  background:white;
-  color:var(--black);
-}
-
-.cta.white{
-  background:white;
-  color:var(--black);
-}
-
-.cta.white:hover{
-  background:var(--orange);
-  color:white;
-}
-
-
-/* ============================================================
-   SOCIAL
-============================================================ */
-
-.social-section{
-  background:var(--orange);
-  padding:80px 0;
-}
-
-.social-grid{
-  display:grid;
-  grid-template-columns:1fr 1.35fr;
-  gap:50px;
-  align-items:end;
-}
-
-.section-kicker{
-  margin-bottom:15px;
-  font-size:.7rem;
-  font-weight:900;
-  letter-spacing:.15em;
-  text-transform:uppercase;
-}
-
-.section-title{
-  margin:0;
-  font-size:clamp(3.8rem,8vw,8.5rem);
-  line-height:.82;
-  letter-spacing:-.07em;
-  text-transform:uppercase;
-}
-
-.social-copy{
-  max-width:590px;
-  font-size:clamp(1.2rem,2vw,2rem);
-  line-height:1.25;
-  font-weight:700;
-}
-
-.social-links{
-  margin-top:30px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.social-link{
-  min-height:48px;
-  padding:0 20px;
-  display:inline-flex;
-  align-items:center;
-  border:1px solid var(--black);
-  border-radius:999px;
-  color:var(--black);
-  text-decoration:none;
-  font-size:.68rem;
-  font-weight:900;
-  text-transform:uppercase;
-  transition:.2s ease;
-}
-
-.social-link:hover{
-  background:var(--black);
-  color:white;
-}
-
-
-/* ============================================================
-   TICKER
-============================================================ */
-
-.ticker{
-  overflow:hidden;
-  background:var(--black);
-  color:white;
-  border-top:1px solid rgba(255,255,255,.08);
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.ticker-track{
-  width:max-content;
-  display:flex;
-  animation:tickerMove 28s linear infinite;
-}
-
-.ticker-set{
-  height:54px;
-  display:flex;
-  align-items:center;
-  gap:34px;
-  padding-right:34px;
-}
-
-.ticker-item{
-  display:flex;
-  align-items:center;
-  gap:28px;
-  white-space:nowrap;
-  font-size:.68rem;
-  font-weight:900;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-}
-
-.ticker-item::after{
-  content:"";
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:var(--orange);
-}
-
-@keyframes tickerMove{
-  to{
-    transform:translateX(-50%);
-  }
-}
-
-
-/* ============================================================
-   SHOWS
-============================================================ */
-
-.shows-section{
-  padding:100px 0 110px;
-  background:var(--cream);
-}
-
-.shows-heading{
-  margin-bottom:42px;
-}
-
-.shows-heading .section-kicker{
-  color:var(--orange);
-}
-
-
-/* NEXT SHOW */
-
-.next-show{
-  position:relative;
-  min-height:245px;
-  padding:38px;
-  display:grid;
-  grid-template-columns:125px minmax(0,1fr) 200px;
-  gap:34px;
-  align-items:end;
-  overflow:hidden;
-  background:var(--black);
-  color:white;
-}
-
-.next-show::after{
-  content:"";
-  position:absolute;
-  width:250px;
-  height:250px;
-  right:-75px;
-  bottom:-110px;
-  border:2px solid rgba(255,106,0,.22);
-  border-radius:50%;
-}
-
-.next-show-label{
-  position:absolute;
-  top:24px;
-  left:38px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  color:var(--orange);
-  font-size:.64rem;
-  font-weight:900;
-  letter-spacing:.11em;
-  text-transform:uppercase;
-}
-
-.waveform{
-  height:18px;
-  display:flex;
-  align-items:center;
-  gap:3px;
-}
-
-.waveform span{
-  width:2px;
-  height:5px;
-  background:var(--orange);
-  animation:wave 1s ease-in-out infinite;
-}
-
-.waveform span:nth-child(2){animation-delay:.1s}
-.waveform span:nth-child(3){animation-delay:.2s}
-.waveform span:nth-child(4){animation-delay:.3s}
-.waveform span:nth-child(5){animation-delay:.4s}
-.waveform span:nth-child(6){animation-delay:.2s}
-
-@keyframes wave{
-  0%,100%{height:5px}
-  50%{height:17px}
-}
-
-.next-show-date{
-  padding-top:46px;
-}
-
-.next-show-day{
-  display:block;
-  font-size:clamp(4.7rem,7vw,7rem);
-  line-height:.75;
-  font-weight:900;
-  letter-spacing:-.08em;
-}
-
-.next-show-month{
-  margin-top:12px;
-  display:block;
-  color:var(--orange);
-  font-size:.72rem;
-  font-weight:900;
-  letter-spacing:.12em;
-}
-
-.next-show-main{
-  min-width:0;
-}
-
-.next-show-venue{
-  font-size:clamp(2.6rem,4.6vw,5rem);
-  line-height:.86;
-  letter-spacing:-.06em;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.next-show-location{
-  margin-top:14px;
-  color:#bbb4ad;
-  font-size:.82rem;
-}
-
-.next-show-note{
-  margin-top:12px;
-  max-width:650px;
-  color:#dad4cf;
-  font-size:.74rem;
-  line-height:1.5;
-}
-
-.event-status{
-  margin-top:13px;
-  min-height:27px;
-  padding:0 10px;
-  display:inline-flex;
-  align-items:center;
-  border-radius:999px;
-  background:rgba(255,106,0,.16);
-  color:var(--orange);
-  font-size:.54rem;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.next-show-right{
-  position:relative;
-  z-index:2;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:15px;
-}
-
-.next-show-time{
-  font-size:clamp(1.2rem,2vw,1.65rem);
-  font-weight:900;
-  text-align:right;
-}
-
-.event-links{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-}
-
-.event-link{
-  min-height:39px;
-  padding:0 14px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border:1px solid rgba(255,255,255,.28);
-  border-radius:999px;
-  color:white;
-  text-decoration:none;
-  font-size:.58rem;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.event-link:hover{
-  border-color:var(--orange);
-  color:var(--orange);
-}
-
-
-/* OTHER SHOWS */
-
-.more-shows-label{
-  margin:36px 0 12px;
-  font-size:.64rem;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-
-.future-events{
-  border-top:1px solid var(--line);
-}
-
-.event{
-  position:relative;
-  min-height:104px;
-  padding:18px 24px;
-  display:grid;
-  grid-template-columns:82px minmax(0,1fr) auto;
-  gap:24px;
-  align-items:center;
-  border-bottom:1px solid var(--line);
-  transition:background .18s ease;
-}
-
-.event:hover{
-  background:#eee8de;
-}
-
-.event-date{
-  text-align:center;
-}
-
-.event-day{
-  display:block;
-  font-size:2.7rem;
-  line-height:.8;
-  font-weight:900;
-  letter-spacing:-.06em;
-}
-
-.event-month{
-  margin-top:8px;
-  display:block;
-  color:var(--orange);
-  font-size:.58rem;
-  font-weight:900;
-  letter-spacing:.1em;
-}
-
-.event-main{
-  min-width:0;
-}
-
-.event-venue{
-  font-size:clamp(1.3rem,2vw,1.8rem);
-  line-height:1;
-  font-weight:900;
-}
-
-.event-location{
-  margin-top:7px;
-  color:#756e67;
-  font-size:.72rem;
-}
-
-.event-note{
-  margin-top:7px;
-  color:#756e67;
-  font-size:.66rem;
-}
-
-.event-right{
-  min-width:210px;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:9px;
-}
-
-.event-time{
-  font-size:.84rem;
-  font-weight:900;
-}
-
-.event-meta-row{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-}
-
-.event-badge{
-  min-height:23px;
-  padding:0 8px;
-  display:inline-flex;
-  align-items:center;
-  border-radius:999px;
-  background:rgba(255,106,0,.13);
-  color:#a34800;
-  font-size:.5rem;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.event-small-link{
-  color:var(--black);
-  text-decoration:none;
-  font-size:.56rem;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.event-small-link:hover{
-  color:var(--orange);
-}
-
-.event-new{
-  animation:eventReveal .42s ease both;
-}
-
-@keyframes eventReveal{
-  from{
-    opacity:0;
-    transform:translateY(12px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-
-.show-more-wrap{
-  margin-top:28px;
-  display:flex;
-  justify-content:center;
-}
-
-.show-more-button{
-  min-height:48px;
-  padding:0 24px;
-  border:1.5px solid var(--black);
-  border-radius:999px;
-  background:transparent;
-  color:var(--black);
-  font-size:.62rem;
-  font-weight:900;
-  letter-spacing:.07em;
-  text-transform:uppercase;
-}
-
-.show-more-button:hover{
-  background:var(--black);
-  color:white;
-}
-
-.events-empty{
-  padding:40px 0;
-  color:var(--muted);
-  font-size:.9rem;
-}
-
-
-/* ============================================================
-   CONTACT
-============================================================ */
-
-.contact-section{
-  background:var(--black);
-  color:white;
-}
-
-.contact-grid{
-  display:grid;
-  grid-template-columns:1fr 1.15fr;
-}
-
-.contact-left{
-  min-height:760px;
-  padding:80px max(50px,calc((100vw - 1280px)/2));
-  padding-right:55px;
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(
-      circle at 0 100%,
-      transparent 0 135px,
-      rgba(255,106,0,.35) 136px,
-      transparent 138px
-    ),
-    linear-gradient(135deg,#171513,#0c0c0c);
-}
-
-.contact-left-inner{
-  max-width:550px;
-}
-
-.contact-left .section-kicker{
-  color:var(--orange);
-}
-
-.contact-title{
-  margin:22px 0 30px;
-  font-size:clamp(4.6rem,8vw,8rem);
-  line-height:.78;
-  letter-spacing:-.07em;
-  text-transform:uppercase;
-}
-
-.contact-title .orange{
-  color:var(--orange);
-}
-
-.contact-copy{
-  max-width:510px;
-  color:#d0cac4;
-  font-size:1.1rem;
-  line-height:1.5;
-}
-
-.contact-direct{
-  margin-top:42px;
-  display:grid;
-  gap:18px;
-  justify-items:start;
-}
-
-.whatsapp-button{
-  min-height:51px;
-  padding:0 21px;
-  display:inline-flex;
-  align-items:center;
-  border-radius:999px;
-  background:var(--orange);
-  color:white;
-  text-decoration:none;
-  font-size:.64rem;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.contact-email{
-  color:#cbc5bf;
-  font-size:.76rem;
-}
-
-
-/* FORM RIGHT */
-
-.contact-right{
-  padding:80px clamp(32px,5vw,70px);
-  background:
-    linear-gradient(
-      135deg,
-      #28201b,
-      #211b17
-    );
-}
-
-.contact-form-kicker{
-  color:var(--orange);
-  font-size:.62rem;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-
-.contact-form-title{
-  margin:10px 0 28px;
-  font-size:clamp(2.2rem,4vw,4rem);
-  line-height:.9;
-  letter-spacing:-.055em;
-  text-transform:uppercase;
-}
-
-.option-label{
-  margin:23px 0 10px;
-  color:#938b84;
-  font-size:.56rem;
-  font-weight:900;
-  letter-spacing:.09em;
-  text-transform:uppercase;
-}
-
-.option-group{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.option-button{
-  min-height:38px;
-  padding:0 14px;
-  border:1px solid #625a55;
-  border-radius:999px;
-  background:transparent;
-  color:#c7c0bb;
-  font-size:.56rem;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.option-button.active{
-  background:var(--orange);
-  border-color:var(--orange);
-  color:white;
-}
-
-.form-field{
-  margin-top:22px;
-}
-
-.form-field label{
-  display:block;
-  margin-bottom:8px;
-  color:#938b84;
-  font-size:.56rem;
-  font-weight:900;
-  letter-spacing:.09em;
-  text-transform:uppercase;
-}
-
-.form-field input,
-.form-field textarea{
-  width:100%;
-  padding:12px 0;
-  border:0;
-  border-bottom:1px solid #5e5650;
-  border-radius:0;
-  background:transparent;
-  color:white;
-  outline:none;
-}
-
-.form-field textarea{
-  min-height:120px;
-  resize:vertical;
-}
-
-.form-field input:focus,
-.form-field textarea:focus{
-  border-color:var(--orange);
-}
-
-.form-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
-}
-
-.submit-button{
-  width:100%;
-  min-height:52px;
-  margin-top:24px;
-  border:0;
-  border-radius:999px;
-  background:var(--orange);
-  color:white;
-  font-size:.64rem;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.submit-button:disabled{
-  opacity:.5;
-  cursor:not-allowed;
-}
-
-.form-message{
-  min-height:19px;
-  margin-top:12px;
-  color:#bfb8b2;
-  font-size:.68rem;
-}
-
-.form-message.success{
-  color:#7fd4a5;
-}
-
-.form-message.error{
-  color:#ff8f8f;
-}
-
-
-/* ============================================================
-   STORY
-============================================================ */
-
-.story-section{
-  padding:110px 0;
-  background:var(--cream);
-}
-
-.story-grid{
-  display:grid;
-  grid-template-columns:.85fr 1.15fr;
-  gap:80px;
-  align-items:start;
-}
-
-.story-image{
-  position:sticky;
-  top:120px;
-}
-
-.story-image img{
-  width:100%;
-  aspect-ratio:4/5;
-  object-fit:cover;
-}
-
-.story-copy .section-kicker{
-  color:var(--orange);
-}
-
-.story-heading{
-  margin:0 0 36px;
-  font-size:clamp(3.2rem,6vw,6.5rem);
-  line-height:.85;
-  letter-spacing:-.07em;
-}
-
-.story-text{
-  display:grid;
-  gap:19px;
-}
-
-.story-text p{
-  margin:0;
-  max-width:730px;
-  font-size:clamp(1rem,1.45vw,1.25rem);
-  line-height:1.58;
-}
-
-.story-text p:first-child{
-  font-size:clamp(1.25rem,2vw,1.8rem);
-  font-weight:900;
-}
-
-
-/* ============================================================
-   PHOTO STRIP
-============================================================ */
-
-.photo-strip{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  height:min(70vw,700px);
-  max-height:700px;
-  min-height:400px;
-}
-
-.photo-strip img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-
-/* ============================================================
-   FOOTER
-============================================================ */
-
-footer{
-  padding:70px 0 30px;
-  background:var(--orange);
-  color:var(--black);
-}
-
-.footer-top{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:40px;
-  align-items:end;
-}
-
-.footer-title{
-  margin:0;
-  font-size:clamp(3.2rem,7vw,7rem);
-  line-height:.82;
-  letter-spacing:-.07em;
-  text-transform:uppercase;
-}
-
-.footer-links{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.footer-link{
-  min-height:44px;
-  padding:0 17px;
-  display:inline-flex;
-  align-items:center;
-  border:1px solid var(--black);
-  border-radius:999px;
-  text-decoration:none;
-  font-size:.62rem;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.footer-link:hover{
-  background:var(--black);
-  color:white;
-}
-
-.footer-bottom{
-  margin-top:55px;
-  padding-top:22px;
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  border-top:1px solid rgba(17,16,15,.25);
-  font-size:.58rem;
-  font-weight:800;
-  text-transform:uppercase;
-}
-
-
-/* ============================================================
-   REVEAL
-============================================================ */
-
-.reveal{
-  opacity:0;
-  transform:translateY(22px);
-  transition:
-    opacity .6s ease,
-    transform .6s ease;
-}
-
-.reveal.visible{
-  opacity:1;
-  transform:none;
-}
-
-
-/* ============================================================
-   RESPONSIVE
-============================================================ */
-
-@media(max-width:1000px){
-
-  .nav-links{
-    display:none;
-  }
-
-  .menu-toggle{
-    position:relative;
-    display:flex;
-  }
-
-  .hero-grid{
-    grid-template-columns:1fr;
-  }
-
-  .hero-actions{
-    padding:0;
-  }
-
-  .social-grid,
-  .story-grid{
-    grid-template-columns:1fr;
-    gap:45px;
-  }
-
-  .story-image{
-    position:static;
-  }
-
-  .contact-grid{
-    grid-template-columns:1fr;
-  }
-
-  .contact-left{
-    min-height:auto;
-    padding:80px 35px;
-  }
-
-  .footer-top{
-    grid-template-columns:1fr;
-  }
-
-}
-
-
-@media(max-width:800px){
-
-  :root{
-    --header-height:72px;
-  }
-
-  .container{
-    width:calc(100% - 30px);
-  }
-
-  .nav-logo{
-    width:90px;
-    height:48px;
-  }
-
-  .language-switcher{
-    display:none;
-  }
-
-  .hero{
-    min-height:92svh;
-  }
-
-  .hero::before{
-    background:
-      linear-gradient(
-        0deg,
-        rgba(0,0,0,.82) 0%,
-        rgba(0,0,0,.2) 65%
-      );
-  }
-
-  .hero-image{
-    object-position:55% center;
-  }
-
-  .hero-content{
-    padding-bottom:38px;
-  }
-
-  .hero-title{
-    font-size:clamp(4.4rem,22vw,7rem);
-  }
-
-  .hero-subtitle{
-    margin-top:28px;
-  }
-
-  .hero-actions{
-    flex-wrap:wrap;
-  }
-
-  .social-section{
-    padding:70px 0;
-  }
-
-  .shows-section{
-    padding:75px 0 80px;
-  }
-
-  .next-show{
-    min-height:0;
-    padding:28px 22px;
-    display:block;
-  }
-
-  .next-show-label{
-    position:static;
-    margin-bottom:30px;
-  }
-
-  .next-show-date{
-    padding:0;
-  }
-
-  .next-show-day{
-    font-size:4.5rem;
-  }
-
-  .next-show-month{
-    margin-top:8px;
-  }
-
-  .next-show-main{
-    margin-top:26px;
-  }
-
-  .next-show-venue{
-    font-size:clamp(2.3rem,10vw,3.8rem);
-  }
-
-  .next-show-right{
-    margin-top:24px;
-    padding-top:20px;
-    align-items:flex-start;
-    border-top:1px solid rgba(255,255,255,.14);
-  }
-
-  .next-show-time{
-    text-align:left;
-  }
-
-  .event-links{
-    justify-content:flex-start;
-  }
-
-  .event{
-    min-height:0;
-    padding:15px 0;
-    grid-template-columns:58px minmax(0,1fr);
-    gap:14px;
-    background:transparent;
-  }
-
-  .event:hover{
-    background:transparent;
-  }
-
-  .event-day{
-    font-size:2rem;
-  }
-
-  .event-month{
-    margin-top:5px;
-    font-size:.5rem;
-  }
-
-  .event-venue{
-    font-size:1.17rem;
-  }
-
-  .event-location{
-    margin-top:4px;
-    font-size:.67rem;
-  }
-
-  .event-note{
-    font-size:.62rem;
-  }
-
-  .event-right{
-    grid-column:2;
-    min-width:0;
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    justify-content:space-between;
-    gap:9px;
-    flex-wrap:wrap;
-  }
-
-  .event-meta-row{
-    justify-content:flex-start;
-  }
-
-  .event-time{
-    font-size:.72rem;
-  }
-
-  .show-more-button{
-    width:100%;
-  }
-
-  .contact-right{
-    padding:65px 22px;
-  }
-
-  .story-section{
-    padding:80px 0;
-  }
-
-  .photo-strip{
-    grid-template-columns:1fr;
-    height:auto;
-    min-height:0;
-  }
-
-  .photo-strip img{
-    aspect-ratio:4/3;
-  }
-
-  footer{
-    padding-top:55px;
-  }
-
-}
-
-
-@media(max-width:560px){
-
-  .hero-actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    width:100%;
-  }
-
-  .cta{
-    padding:0 13px;
-    font-size:.58rem;
-  }
-
-  .section-title{
-    font-size:3.9rem;
-  }
-
-  .form-row{
-    grid-template-columns:1fr;
-  }
-
-  .contact-left{
-    padding:65px 20px;
-  }
-
-  .contact-title{
-    font-size:4.4rem;
-  }
-
-  .option-button{
-    padding:0 11px;
-    font-size:.51rem;
-  }
-
-  .footer-bottom{
-    flex-direction:column;
-  }
-
-}
-
-
-@media(prefers-reduced-motion:reduce){
-
-  html{
-    scroll-behavior:auto;
-  }
-
-  *,
-  *::before,
-  *::after{
-    animation-duration:.01ms !important;
-    animation-iteration-count:1 !important;
-    transition-duration:.01ms !important;
-  }
-
-}
-
-</style>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Orange May Acoustic — live acoustic music for venues, hotels, weddings and private events."
+  >
+
+  <title>Orange May Acoustic</title>
+
+
+  <style>
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      min-width: 0;
+    }
+
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --orange: #ff6a00;
+      --cream: #f5f0e8;
+      --cream-dark: #ebe5dc;
+      --black: #11100f;
+      --grey: #77716a;
+      --line: rgba(17, 16, 15, .16);
+      --max: 1260px;
+    }
+
+    html {
+      width: 100%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      width: 100%;
+      overflow-x: hidden;
+
+      background: var(--cream);
+      color: var(--black);
+
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.4;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    svg {
+      display: block;
+    }
+
+    ::selection {
+      background: var(--orange);
+      color: white;
+    }
+
+    .container {
+      width: min(calc(100% - 96px), var(--max));
+      margin: 0 auto;
+    }
+
+
+    /* =========================================================
+       ICONS
+    ========================================================= */
+
+    .icon-arrow {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+
+    .icon-arrow-big {
+      width: 22px;
+      height: 22px;
+    }
+
+    .inline-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+
+    /* =========================================================
+       REVEAL
+    ========================================================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+
+      transition:
+        opacity .7s cubic-bezier(.2,.8,.2,1),
+        transform .7s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
+    header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 1000;
+
+      color: white;
+
+      transition:
+        background .3s ease,
+        color .3s ease,
+        border-color .3s ease,
+        backdrop-filter .3s ease;
+    }
+
+    header.scrolled {
+      background: rgba(245, 240, 232, .94);
+      color: var(--black);
+
+      border-bottom: 1px solid var(--line);
+
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .nav {
+      height: 88px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 28px;
+    }
+
+    .nav-logo {
+      position: relative;
+      z-index: 1200;
+
+      width: 128px;
+      height: 58px;
+
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .nav-logo img {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+      object-position: left center;
+
+      transition: opacity .3s ease;
+    }
+
+    .logo-white {
+      opacity: 1;
+    }
+
+    .logo-dark {
+      opacity: 0;
+    }
+
+    header.scrolled .logo-white {
+      opacity: 0;
+    }
+
+    header.scrolled .logo-dark {
+      opacity: 1;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      position: relative;
+
+      font-size: .76rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+    }
+
+    .nav-links a::after {
+      content: "";
+
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+
+      width: 100%;
+      height: 2px;
+
+      background: currentColor;
+
+      transform: scaleX(0);
+      transform-origin: right;
+
+      transition: transform .25s ease;
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+
+    /* =========================================================
+       LANGUAGE
+    ========================================================= */
+
+    .language-switcher {
+      position: relative;
+      z-index: 1200;
+
+      display: flex;
+      align-items: center;
+
+      border: 1px solid currentColor;
+      border-radius: 999px;
+
+      padding: 3px;
+    }
+
+    .language-switcher button {
+      width: 38px;
+      height: 32px;
+
+      border: 0;
+      border-radius: 999px;
+
+      background: transparent;
+      color: inherit;
+
+      font-size: .7rem;
+      font-weight: 900;
+    }
+
+    .language-switcher button.active {
+      background: white;
+      color: var(--black);
+    }
+
+    header.scrolled .language-switcher button.active {
+      background: var(--black);
+      color: white;
+    }
+
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    .menu-toggle {
+      position: relative;
+      z-index: 1200;
+
+      display: none;
+
+      width: 42px;
+      height: 42px;
+
+      border: 1px solid currentColor;
+      border-radius: 50%;
+
+      background: transparent;
+      color: inherit;
+    }
+
+    .menu-toggle span {
+      position: absolute;
+      left: 11px;
+
+      width: 18px;
+      height: 2px;
+
+      background: currentColor;
+
+      transition:
+        transform .25s ease,
+        top .25s ease;
+    }
+
+    .menu-toggle span:first-child {
+      top: 16px;
+    }
+
+    .menu-toggle span:last-child {
+      top: 23px;
+    }
+
+    .menu-toggle.active span:first-child {
+      top: 20px;
+      transform: rotate(45deg);
+    }
+
+    .menu-toggle.active span:last-child {
+      top: 20px;
+      transform: rotate(-45deg);
+    }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+
+      z-index: 1100;
+
+      display: flex;
+      flex-direction: column;
+
+      padding: 115px 24px 28px;
+
+      background: var(--orange);
+      color: var(--black);
+
+      opacity: 0;
+      visibility: hidden;
+
+      transform: translateY(-10px);
+
+      transition:
+        opacity .25s ease,
+        visibility .25s ease,
+        transform .25s ease;
+    }
+
+    .mobile-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .mobile-menu-links {
+      border-top: 2px solid var(--black);
+    }
+
+    .mobile-menu-links a {
+      min-height: 72px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      border-bottom: 2px solid var(--black);
+
+      font-size: clamp(2rem, 10vw, 3.3rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.045em;
+
+      text-transform: uppercase;
+    }
+
+    .mobile-menu-footer {
+      margin-top: auto;
+
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 12px 28px;
+
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+    }
+
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      position: relative;
+
+      width: 100%;
+      min-height: 100svh;
+
+      display: flex;
+      align-items: flex-end;
+
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(8,6,5,.82) 0%,
+          rgba(8,6,5,.48) 42%,
+          rgba(8,6,5,.10) 78%
+        ),
+        url("/images/hero.jpeg") center 40% / cover no-repeat;
+
+      color: white;
+    }
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+      inset: auto 0 0;
+
+      height: 45%;
+
+      background:
+        linear-gradient(
+          to top,
+          rgba(0,0,0,.74),
+          transparent
+        );
+
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+
+      width: 100%;
+
+      padding-top: 145px;
+      padding-bottom: 7vh;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      margin-bottom: 20px;
+
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .20em;
+
+      text-transform: uppercase;
+    }
+
+    .hero-eyebrow::before {
+      content: "";
+
+      width: 37px;
+      height: 3px;
+
+      background: var(--orange);
+    }
+
+    .hero h1 {
+      max-width: 810px;
+
+      font-size: clamp(4.4rem, 10vw, 9.3rem);
+      font-weight: 900;
+      line-height: .79;
+      letter-spacing: -.068em;
+
+      text-transform: uppercase;
+    }
+
+    .hero h1 span {
+      color: var(--orange);
+    }
+
+    .hero-bottom {
+      margin-top: 38px;
+
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      gap: 50px;
+    }
+
+    .hero-description {
+      max-width: 455px;
+
+      font-size: clamp(1.05rem, 1.65vw, 1.42rem);
+      line-height: 1.38;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
+
+    .btn {
+      min-height: 50px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 10px;
+
+      padding: 0 22px;
+
+      border: 0;
+      border-radius: 999px;
+
+      font-size: .74rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .btn-orange {
+      background: var(--orange);
+      color: white;
+    }
+
+    .btn-white {
+      background: white;
+      color: var(--black);
+    }
+
+    .btn-dark {
+      background: var(--black);
+      color: white;
+    }
+
+
+    /* =========================================================
+       SOCIAL
+    ========================================================= */
+
+    #social {
+      padding: 115px 0;
+
+      background: var(--orange);
+      color: var(--black);
+    }
+
+    .section-label {
+      color: var(--orange);
+
+      font-size: .66rem;
+      font-weight: 900;
+      letter-spacing: .21em;
+
+      text-transform: uppercase;
+    }
+
+    #social .section-label {
+      margin-bottom: 18px;
+      color: var(--black);
+    }
+
+    .social-top {
+      display: grid;
+
+      grid-template-columns:
+        1.08fr
+        .92fr;
+
+      gap: 70px;
+
+      align-items: center;
+    }
+
+    .social-title {
+      font-size: clamp(4.4rem, 8vw, 8.8rem);
+      font-weight: 900;
+      line-height: .8;
+      letter-spacing: -.065em;
+
+      text-transform: uppercase;
+    }
+
+    .social-title span {
+      color: var(--cream);
+    }
+
+    .social-copy {
+      max-width: 470px;
+    }
+
+    .social-copy p {
+      font-size: clamp(1.08rem, 1.7vw, 1.45rem);
+      line-height: 1.45;
+    }
+
+    .social-links {
+      margin-top: 68px;
+      border-top: 2px solid var(--black);
+    }
+
+    .social-link {
+      min-height: 108px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      border-bottom: 2px solid var(--black);
+
+      transition:
+        padding .3s ease,
+        background .3s ease;
+    }
+
+    .social-link:hover {
+      padding-left: 18px;
+      padding-right: 18px;
+
+      background: rgba(255,255,255,.08);
+    }
+
+    .social-name {
+      font-size: clamp(2rem, 4.2vw, 4.2rem);
+      font-weight: 900;
+      letter-spacing: -.04em;
+
+      text-transform: uppercase;
+    }
+
+
+    /* =========================================================
+       TICKER
+    ========================================================= */
+
+    .ticker {
+      overflow: hidden;
+
+      background: var(--black);
+      color: var(--cream);
+    }
+
+    .ticker-track {
+      width: max-content;
+
+      display: flex;
+      align-items: center;
+
+      animation: ticker 26s linear infinite;
+    }
+
+    .ticker-content {
+      display: flex;
+      align-items: center;
+
+      gap: 28px;
+
+      padding: 18px 14px;
+
+      white-space: nowrap;
+
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+
+      text-transform: uppercase;
+    }
+
+    .ticker-dot {
+      color: var(--orange);
+    }
+
+    @keyframes ticker {
+
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+
+    }
+
+
+    /* =========================================================
+       SHOWS
+    ========================================================= */
+
+    #shows {
+      padding: 105px 0 120px;
+      background: var(--cream);
+    }
+
+    .shows-header {
+      display: grid;
+
+      grid-template-columns:
+        150px
+        minmax(0, 1fr);
+
+      gap: 50px;
+
+      align-items: end;
+
+      margin-bottom: 48px;
+    }
+
+    .shows-title {
+      max-width: 980px;
+
+      font-size: clamp(3.8rem, 6vw, 6.4rem);
+      font-weight: 900;
+      line-height: .84;
+      letter-spacing: -.065em;
+
+      text-transform: uppercase;
+    }
+
+    .events-list {
+      display: grid;
+    }
+
+
+    /* NEXT SHOW */
+
+    .next-show {
+      position: relative;
+
+      display: grid;
+
+      grid-template-columns:
+        125px
+        minmax(0,1fr)
+        200px;
+
+      gap: 32px;
+
+      align-items: end;
+
+      min-height: 240px;
+
+      padding: 40px 38px 34px;
+
+      overflow: hidden;
+
+      background: var(--black);
+      color: white;
+    }
+
+    .next-show::after {
+      content: "";
+
+      position: absolute;
+
+      right: -100px;
+      bottom: -130px;
+
+      width: 270px;
+      height: 270px;
+
+      border: 1px solid rgba(255,106,0,.28);
+      border-radius: 50%;
+    }
+
+    .next-show-label {
+      position: absolute;
+
+      top: 24px;
+      left: 38px;
+
+      z-index: 2;
+
+      display: flex;
+      align-items: center;
+
+      gap: 11px;
+
+      color: var(--orange);
+
+      font-size: .64rem;
+      font-weight: 900;
+      letter-spacing: .17em;
+
+      text-transform: uppercase;
+    }
+
+    .mini-wave {
+      height: 16px;
+
+      display: inline-flex;
+      align-items: center;
+
+      gap: 3px;
+    }
+
+    .mini-wave span {
+      width: 3px;
+      border-radius: 99px;
+
+      background: currentColor;
+
+      animation: wave 1.1s ease-in-out infinite;
+    }
+
+    .mini-wave span:nth-child(1) {
+      height: 6px;
+    }
+
+    .mini-wave span:nth-child(2) {
+      height: 12px;
+      animation-delay: .1s;
+    }
+
+    .mini-wave span:nth-child(3) {
+      height: 16px;
+      animation-delay: .2s;
+    }
+
+    .mini-wave span:nth-child(4) {
+      height: 10px;
+      animation-delay: .3s;
+    }
+
+    .mini-wave span:nth-child(5) {
+      height: 14px;
+      animation-delay: .4s;
+    }
+
+    @keyframes wave {
+
+      0%,
+      100% {
+        transform: scaleY(.55);
+      }
+
+      50% {
+        transform: scaleY(1);
+      }
+
+    }
+
+    .next-show-date {
+      position: relative;
+      z-index: 2;
+
+      padding-top: 48px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      text-align: center;
+    }
+
+    .next-show-day {
+      font-size: clamp(4.3rem, 6vw, 6.2rem);
+      font-weight: 900;
+      line-height: .75;
+      letter-spacing: -.075em;
+    }
+
+    .next-show-month {
+      margin-top: 13px;
+
+      color: var(--orange);
+
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+
+      text-transform: uppercase;
+    }
+
+    .next-show-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .next-show-venue {
+      max-width: 700px;
+
+      font-size: clamp(2.5rem, 4vw, 4.4rem);
+      font-weight: 900;
+      line-height: .88;
+      letter-spacing: -.055em;
+
+      text-transform: uppercase;
+      overflow-wrap: anywhere;
+    }
+
+    .next-show-location {
+      margin-top: 15px;
+
+      color: rgba(255,255,255,.64);
+
+      font-size: .96rem;
+      font-weight: 600;
+    }
+
+    .next-show-badge {
+      min-height: 27px;
+
+      display: inline-flex;
+      align-items: center;
+
+      margin-top: 16px;
+
+      padding: 0 11px;
+
+      border-radius: 999px;
+
+      background: var(--orange);
+      color: white;
+
+      font-size: .55rem;
+      font-weight: 900;
+      letter-spacing: .09em;
+
+      text-transform: uppercase;
+    }
+
+    .next-show-note {
+      max-width: 580px;
+
+      margin-top: 12px;
+
+      color: rgba(255,255,255,.56);
+
+      font-size: .82rem;
+      line-height: 1.45;
+    }
+
+    .next-show-right {
+      position: relative;
+      z-index: 2;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .next-show-time {
+      font-size: clamp(1.15rem, 1.7vw, 1.55rem);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+
+    /* SHOW ACTION */
+
+    .show-actions {
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+      margin-top: 14px;
+    }
+
+    .show-action {
+      min-height: 35px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 7px;
+
+      padding: 0 12px;
+
+      border: 1px solid currentColor;
+      border-radius: 999px;
+
+      font-size: .54rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+
+      transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+    }
+
+    .show-action:hover {
+      transform: translateY(-2px);
+    }
+
+    .next-show .show-action:hover {
+      background: white;
+      color: var(--black);
+    }
+
+
+    /* MORE SHOWS */
+
+    .more-shows-wrapper {
+      margin-top: 42px;
+    }
+
+    .more-shows-label {
+      margin-bottom: 14px;
+
+      color: var(--grey);
+
+      font-size: .64rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+
+      text-transform: uppercase;
+    }
+
+    .more-events {
+      display: grid;
+      gap: 10px;
+    }
+
+    .event {
+      position: relative;
+
+      display: grid;
+
+      grid-template-columns:
+        78px
+        minmax(0,1fr)
+        auto;
+
+      gap: 28px;
+
+      align-items: center;
+
+      min-height: 103px;
+
+      padding: 18px 25px;
+
+      overflow: hidden;
+
+      background: var(--cream-dark);
+
+      transition:
+        transform .25s ease,
+        background .25s ease;
+    }
+
+    .event::before {
+      content: "";
+
+      position: absolute;
+      inset: 0 auto 0 0;
+
+      width: 4px;
+
+      background: var(--orange);
+
+      transform: scaleY(0);
+      transform-origin: bottom;
+
+      transition: transform .25s ease;
+    }
+
+    .event:hover {
+      transform: translateY(-2px);
+      background: #e4dcd1;
+    }
+
+    .event:hover::before {
+      transform: scaleY(1);
+    }
+
+    .event.event-enter {
+      animation: eventEnter .42s ease both;
+    }
+
+    @keyframes eventEnter {
+
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+    }
+
+    .event-date {
+      width: 78px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      text-align: center;
+    }
+
+    .event-day {
+      font-size: 2.55rem;
+      font-weight: 900;
+      line-height: .8;
+      letter-spacing: -.06em;
+    }
+
+    .event-month {
+      margin-top: 7px;
+
+      color: var(--orange);
+
+      font-size: .57rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+
+      text-transform: uppercase;
+    }
+
+    .event-venue {
+      font-size: clamp(1.35rem, 1.9vw, 1.95rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.035em;
+
+      overflow-wrap: anywhere;
+    }
+
+    .event-location {
+      margin-top: 6px;
+
+      color: #68615b;
+
+      font-size: .82rem;
+      font-weight: 600;
+    }
+
+    .event-badge {
+      min-height: 23px;
+
+      display: inline-flex;
+      align-items: center;
+
+      margin-top: 7px;
+
+      padding: 0 8px;
+
+      border-radius: 999px;
+
+      background: #ffdcb6;
+      color: #7c3c00;
+
+      font-size: .5rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+    }
+
+    .event-note {
+      margin-top: 7px;
+
+      color: #736c65;
+
+      font-size: .74rem;
+    }
+
+    .event-right {
+      min-width: 195px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .event-time {
+      font-size: .96rem;
+      font-weight: 900;
+
+      white-space: nowrap;
+    }
+
+    .event .show-actions {
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+
+    .event .show-action {
+      min-height: 31px;
+      font-size: .49rem;
+    }
+
+    .event .show-action:hover {
+      background: var(--black);
+      color: white;
+    }
+
+
+    /* SHOW MORE */
+
+    .show-more-wrap {
+      display: flex;
+      justify-content: center;
+
+      margin-top: 26px;
+    }
+
+    .show-more-button {
+      min-height: 48px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 10px;
+
+      padding: 0 22px;
+
+      border: 1px solid var(--black);
+      border-radius: 999px;
+
+      background: transparent;
+      color: var(--black);
+
+      font-size: .64rem;
+      font-weight: 900;
+      letter-spacing: .11em;
+
+      text-transform: uppercase;
+
+      transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+    }
+
+    .show-more-button:hover {
+      background: var(--black);
+      color: white;
+
+      transform: translateY(-2px);
+    }
+
+    .show-more-button.is-less .down-arrow {
+      transform: rotate(180deg);
+    }
+
+    .empty {
+      padding: 40px 0;
+      color: var(--grey);
+    }
+
+
+    /* =========================================================
+       CONTACT
+    ========================================================= */
+
+    #contact {
+      position: relative;
+
+      padding: 120px 0;
+
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          circle at 82% 20%,
+          rgba(255,106,0,.10),
+          transparent 34%
+        ),
+        linear-gradient(
+          135deg,
+          #1b1815 0%,
+          #100f0e 65%,
+          #21130b 100%
+        );
+
+      color: white;
+    }
+
+    #contact::before {
+      content: "";
+
+      position: absolute;
+
+      width: 380px;
+      height: 380px;
+
+      left: -190px;
+      bottom: -230px;
+
+      border: 1px solid rgba(255,106,0,.17);
+      border-radius: 50%;
+    }
+
+    .contact-grid {
+      position: relative;
+      z-index: 2;
+
+      display: grid;
+
+      grid-template-columns:
+        .88fr
+        1.12fr;
+
+      gap: 90px;
+
+      align-items: start;
+    }
+
+    #contact .section-label {
+      margin-bottom: 22px;
+    }
+
+    .contact-title {
+      max-width: 650px;
+
+      font-size: clamp(3.2rem, 6.2vw, 6.3rem);
+      font-weight: 900;
+      line-height: .89;
+      letter-spacing: -.055em;
+
+      text-transform: uppercase;
+    }
+
+    .contact-title .orange {
+      color: var(--orange);
+    }
+
+    .contact-copy {
+      max-width: 480px;
+
+      margin-top: 30px;
+
+      color: rgba(255,255,255,.69);
+
+      font-size: 1.04rem;
+      line-height: 1.55;
+    }
+
+    .direct-contact {
+      margin-top: 46px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      gap: 14px;
+    }
+
+    .email-link {
+      color: rgba(255,255,255,.7);
+
+      padding-bottom: 3px;
+
+      border-bottom: 1px solid rgba(255,255,255,.32);
+
+      font-size: .82rem;
+    }
+
+
+    /* CONTACT PANEL */
+
+    .contact-panel {
+      padding: 34px;
+
+      border: 1px solid rgba(255,255,255,.13);
+
+      background: rgba(255,255,255,.045);
+
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .contact-kicker {
+      margin-bottom: 8px;
+
+      color: var(--orange);
+
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+
+      text-transform: uppercase;
+    }
+
+    .contact-panel-heading {
+      margin-bottom: 27px;
+
+      font-size: clamp(1.8rem, 2.8vw, 2.7rem);
+      font-weight: 900;
+      line-height: .95;
+      letter-spacing: -.04em;
+
+      text-transform: uppercase;
+    }
+
+    .contact-choice-label {
+      margin-bottom: 10px;
+
+      color: rgba(255,255,255,.5);
+
+      font-size: .61rem;
+      font-weight: 900;
+      letter-spacing: .13em;
+
+      text-transform: uppercase;
+    }
+
+    .contact-intents,
+    .booking-types {
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 7px;
+    }
+
+    .contact-intents {
+      margin-bottom: 28px;
+    }
+
+    .contact-intent,
+    .booking-type {
+      min-height: 37px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0 13px;
+
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 999px;
+
+      background: transparent;
+      color: rgba(255,255,255,.72);
+
+      font-size: .56rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+
+      transition:
+        background .2s ease,
+        color .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+    }
+
+    .contact-intent:hover,
+    .booking-type:hover {
+      transform: translateY(-2px);
+
+      border-color: white;
+      color: white;
+    }
+
+    .contact-intent.active,
+    .booking-type.active {
+      border-color: var(--orange);
+
+      background: var(--orange);
+      color: white;
+    }
+
+    .booking-details {
+      overflow: hidden;
+
+      max-height: 0;
+
+      opacity: 0;
+
+      transform: translateY(-8px);
+
+      margin-bottom: 0;
+
+      transition:
+        max-height .4s ease,
+        opacity .3s ease,
+        transform .3s ease,
+        margin .3s ease;
+    }
+
+    .booking-details.open {
+      max-height: 500px;
+
+      opacity: 1;
+
+      transform: translateY(0);
+
+      margin-bottom: 28px;
+    }
+
+    .booking-types {
+      margin-bottom: 18px;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 18px;
+    }
+
+    .booking-row {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap: 18px;
+    }
+
+    .field label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: rgba(255,255,255,.5);
+
+      font-size: .61rem;
+      font-weight: 900;
+      letter-spacing: .13em;
+
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field textarea {
+      display: block;
+
+      width: 100%;
+
+      padding: 15px 0;
+
+      border: 0;
+      border-bottom: 1px solid rgba(255,255,255,.25);
+
+      border-radius: 0;
+
+      outline: none;
+
+      background: transparent;
+      color: white;
+
+      font-size: 1rem;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--orange);
+    }
+
+    .field textarea {
+      min-height: 115px;
+      resize: vertical;
+    }
+
+    input[type="date"] {
+      color-scheme: dark;
+    }
+
+    .contact-submit {
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    .contact-submit:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+
+    .form-message {
+      min-height: 22px;
+
+      color: rgba(255,255,255,.72);
+
+      font-size: .82rem;
+    }
+
+    .form-message.success {
+      color: #9fe5a8;
+    }
+
+    .form-message.error {
+      color: #ff9c91;
+    }
+
+
+    /* =========================================================
+       STORY
+    ========================================================= */
+
+    #about {
+      position: relative;
+
+      padding: 125px 0 135px;
+
+      overflow: hidden;
+
+      background: var(--cream);
+    }
+
+    #about::after {
+      content: "";
+
+      position: absolute;
+
+      width: 440px;
+      height: 440px;
+
+      right: -270px;
+      top: 90px;
+
+      border: 1px solid rgba(255,106,0,.20);
+      border-radius: 50%;
+    }
+
+    .story-grid {
+      position: relative;
+      z-index: 2;
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(0,.95fr)
+        minmax(0,1.05fr);
+
+      gap: 86px;
+
+      align-items: start;
+    }
+
+    .story-visual {
+      position: sticky;
+      top: 104px;
+    }
+
+    .story-image-frame {
+      position: relative;
+
+      padding: 0 18px 18px 0;
+    }
+
+    .story-image-frame::after {
+      content: "";
+
+      position: absolute;
+
+      right: 0;
+      bottom: 0;
+
+      width: calc(100% - 22px);
+      height: calc(100% - 22px);
+
+      border: 2px solid var(--orange);
+
+      z-index: -1;
+    }
+
+    .story-image-frame img {
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+
+      filter: grayscale(100%);
+
+      transition:
+        filter .55s ease,
+        transform .55s ease;
+    }
+
+    .story-image-frame:hover img {
+      filter: grayscale(30%);
+      transform: translate(-3px,-3px);
+    }
+
+    .story-image-meta {
+      margin-top: 18px;
+
+      display: flex;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      padding-top: 12px;
+
+      border-top: 1px solid rgba(17,16,15,.25);
+
+      font-size: .61rem;
+      font-weight: 900;
+      letter-spacing: .13em;
+
+      text-transform: uppercase;
+    }
+
+    .story-image-meta span:last-child {
+      color: var(--orange);
+    }
+
+    .story-content .section-label {
+      margin-bottom: 24px;
+    }
+
+    .story-heading {
+      max-width: 720px;
+
+      margin-bottom: 42px;
+
+      font-size: clamp(3.15rem, 5.5vw, 5.9rem);
+      font-weight: 900;
+      line-height: .86;
+      letter-spacing: -.06em;
+
+      text-transform: uppercase;
+    }
+
+    .story-heading .orange {
+      color: var(--orange);
+    }
+
+    .story-lead {
+      max-width: 640px;
+
+      margin-bottom: 39px;
+
+      font-size: clamp(1.35rem, 2vw, 1.8rem);
+      line-height: 1.35;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .story-text {
+      max-width: 650px;
+
+      display: grid;
+      gap: 26px;
+    }
+
+    .story-text p {
+      color: #3c3732;
+
+      font-size: clamp(1rem, 1.2vw, 1.15rem);
+      line-height: 1.68;
+    }
+
+    .story-dna {
+      margin-top: 52px;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(2,1fr);
+
+      border-top: 2px solid var(--black);
+      border-bottom: 2px solid var(--black);
+    }
+
+    .story-dna-item {
+      min-height: 98px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 18px 20px;
+
+      border-right: 1px solid rgba(17,16,15,.22);
+      border-bottom: 1px solid rgba(17,16,15,.22);
+    }
+
+    .story-dna-item:nth-child(2n) {
+      border-right: 0;
+    }
+
+    .story-dna-item:nth-child(3),
+    .story-dna-item:nth-child(4) {
+      border-bottom: 0;
+    }
+
+    .story-dna-number {
+      margin-bottom: 6px;
+
+      color: var(--orange);
+
+      font-size: .57rem;
+      font-weight: 900;
+      letter-spacing: .15em;
+    }
+
+    .story-dna-name {
+      font-size: clamp(1.25rem,1.9vw,1.75rem);
+      font-weight: 900;
+      line-height: .95;
+      letter-spacing: -.035em;
+
+      text-transform: uppercase;
+    }
+
+    .story-ending {
+      margin-top: 52px;
+
+      padding-top: 29px;
+
+      border-top: 1px solid rgba(17,16,15,.25);
+    }
+
+    .story-ending-small {
+      margin-bottom: 12px;
+
+      color: var(--grey);
+
+      font-size: .59rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+
+      text-transform: uppercase;
+    }
+
+    .story-ending-main {
+      max-width: 650px;
+
+      font-size: clamp(2.15rem,3.55vw,3.8rem);
+      font-weight: 900;
+      line-height: .9;
+      letter-spacing: -.052em;
+
+      text-transform: uppercase;
+    }
+
+    .story-ending-main .orange {
+      color: var(--orange);
+    }
+
+
+    /* =========================================================
+       LIVE PHOTOS
+    ========================================================= */
+
+    .live-section {
+      background: var(--black);
+      color: white;
+    }
+
+    .live-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 30px;
+
+      padding: 34px 0 28px;
+    }
+
+    .live-section-label {
+      display: flex;
+      align-items: center;
+
+      gap: 11px;
+
+      color: var(--orange);
+
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+
+      text-transform: uppercase;
+    }
+
+    .live-section-label::before {
+      content: "";
+
+      width: 34px;
+      height: 2px;
+
+      background: var(--orange);
+    }
+
+    .live-section-copy {
+      color: rgba(255,255,255,.5);
+
+      font-size: .61rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+
+      text-transform: uppercase;
+    }
+
+    .image-strip {
+      width: 100%;
+      min-height: 72vh;
+
+      display: flex;
+
+      overflow: hidden;
+
+      background: var(--black);
+    }
+
+    .image-strip figure {
+      position: relative;
+
+      flex: 1;
+
+      overflow: hidden;
+
+      transition: flex .7s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .image-strip:hover figure {
+      flex: .82;
+    }
+
+    .image-strip figure:hover {
+      flex: 1.18;
+    }
+
+    .image-strip img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      filter: brightness(.8) saturate(.92);
+
+      transform: scale(1.01);
+
+      transition:
+        transform .8s ease,
+        filter .55s ease;
+    }
+
+    .image-strip figure:hover img {
+      transform: scale(1.05);
+      filter: brightness(.96) saturate(1);
+    }
+
+    .image-strip figure::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          to top,
+          rgba(0,0,0,.82) 0%,
+          rgba(0,0,0,.18) 42%,
+          transparent 68%
+        );
+    }
+
+    .live-photo-overlay {
+      position: absolute;
+
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      z-index: 2;
+
+      padding: 0 38px 34px;
+    }
+
+    .live-photo-top {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+
+      margin-bottom: 12px;
+
+      color: var(--orange);
+
+      font-size: .57rem;
+      font-weight: 900;
+      letter-spacing: .15em;
+
+      text-transform: uppercase;
+    }
+
+    .live-photo-name {
+      font-size: clamp(3rem, 5.8vw, 6rem);
+      font-weight: 900;
+      line-height: .82;
+      letter-spacing: -.06em;
+
+      text-transform: uppercase;
+    }
+
+    .live-photo-role {
+      margin-top: 14px;
+
+      color: rgba(255,255,255,.62);
+
+      font-size: .66rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+
+      text-transform: uppercase;
+    }
+
+
+    /* =========================================================
+       FINAL CTA
+    ========================================================= */
+
+    .final-cta {
+      position: relative;
+
+      padding: 105px 0 100px;
+
+      overflow: hidden;
+
+      background: var(--orange);
+      color: var(--black);
+    }
+
+    .final-cta-inner {
+      position: relative;
+      z-index: 2;
+
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        auto;
+
+      gap: 60px;
+
+      align-items: end;
+    }
+
+    .final-cta-label {
+      margin-bottom: 17px;
+
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+
+      text-transform: uppercase;
+    }
+
+    .final-cta-title {
+      max-width: 930px;
+
+      font-size: clamp(3.5rem, 6.6vw, 6.9rem);
+      font-weight: 900;
+      line-height: .82;
+      letter-spacing: -.065em;
+
+      text-transform: uppercase;
+    }
+
+    .final-cta-title span {
+      color: var(--cream);
+    }
+
+    .final-cta-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      gap: 12px;
+    }
+
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    footer {
+      padding: 64px 0 34px;
+
+      background: var(--black);
+      color: white;
+    }
+
+    .footer-top {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        auto;
+
+      gap: 60px;
+
+      align-items: start;
+    }
+
+    .footer-logo {
+      color: var(--orange);
+
+      font-size: clamp(4rem, 8.5vw, 8.6rem);
+      font-weight: 900;
+      line-height: .78;
+      letter-spacing: -.065em;
+
+      text-transform: uppercase;
+    }
+
+    .footer-nav {
+      min-width: 210px;
+      display: grid;
+    }
+
+    .footer-nav a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      padding: 14px 0;
+
+      border-bottom: 1px solid rgba(255,255,255,.18);
+
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+    }
+
+    .footer-bottom {
+      margin-top: 72px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 25px;
+
+      padding-top: 20px;
+
+      border-top: 1px solid rgba(255,255,255,.16);
+
+      color: rgba(255,255,255,.5);
+
+      font-size: .64rem;
+    }
+
+
+    /* =========================================================
+       TABLET
+    ========================================================= */
+
+    @media (max-width: 950px) {
+
+      .container {
+        width: min(calc(100% - 48px), var(--max));
+      }
+
+      .nav-links {
+        gap: 15px;
+      }
+
+      .contact-grid {
+        gap: 50px;
+      }
+
+      .story-grid {
+        gap: 50px;
+      }
+
+      .next-show {
+        grid-template-columns:
+          110px
+          minmax(0,1fr);
+      }
+
+      .next-show-right {
+        grid-column: 2;
+        align-items: flex-start;
+      }
+
+      .next-show-right .show-actions {
+        justify-content: flex-start;
+      }
+
+    }
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 700px) {
+
+      .container {
+        width: 100%;
+
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+
+      /* HEADER */
+
+      .nav {
+        height: 68px;
+      }
+
+      .nav-logo {
+        width: 92px;
+        height: 46px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-right {
+        gap: 8px;
+      }
+
+      .language-switcher button {
+        width: 31px;
+        height: 28px;
+
+        font-size: .62rem;
+      }
+
+
+      /* HERO */
+
+      .hero {
+        min-height: 100svh;
+
+        background:
+          linear-gradient(
+            to bottom,
+            rgba(5,4,3,.05) 0%,
+            rgba(5,4,3,.02) 30%,
+            rgba(5,4,3,.28) 58%,
+            rgba(5,4,3,.94) 100%
+          ),
+          url("/images/hero.jpeg") 59% center / cover no-repeat;
+      }
+
+      .hero-content {
+        padding-top: 92px;
+        padding-bottom: 28px;
+      }
+
+      .hero h1 {
+        font-size: clamp(3.8rem,17.7vw,5.4rem);
+      }
+
+      .hero-bottom {
+        display: block;
+        margin-top: 23px;
+      }
+
+      .hero-description {
+        max-width: 310px;
+        font-size: .96rem;
+      }
+
+      .hero-actions {
+        width: 100%;
+
+        margin-top: 22px;
+
+        display: grid;
+
+        grid-template-columns:
+          1fr
+          1fr;
+
+        gap: 9px;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+        min-height: 45px;
+
+        font-size: .61rem;
+      }
+
+
+      /* SOCIAL */
+
+      #social {
+        padding: 70px 0;
+      }
+
+      .social-top {
+        display: block;
+      }
+
+      .social-title {
+        margin-top: 7px;
+
+        font-size: clamp(3rem,14vw,4.2rem);
+      }
+
+      .social-title span {
+        display: block;
+      }
+
+      .social-copy {
+        margin-top: 30px;
+      }
+
+      .social-copy p {
+        font-size: .96rem;
+      }
+
+      .social-links {
+        margin-top: 36px;
+      }
+
+      .social-link {
+        min-height: 74px;
+      }
+
+      .social-link:hover {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .social-name {
+        font-size: clamp(1.7rem,8.5vw,2.7rem);
+      }
+
+
+      /* SHOWS */
+
+      #shows {
+        padding: 68px 0 78px;
+      }
+
+      .shows-header {
+        display: block;
+        margin-bottom: 30px;
+      }
+
+      .shows-title {
+        margin-top: 10px;
+
+        font-size: clamp(2.8rem,13vw,4.25rem);
+      }
+
+      .next-show {
+        display: block;
+
+        min-height: 0;
+
+        padding: 22px 17px;
+      }
+
+      .next-show-label {
+        position: relative;
+
+        top: auto;
+        left: auto;
+
+        margin-bottom: 30px;
+      }
+
+      .next-show-date {
+        padding-top: 0;
+
+        align-items: flex-start;
+
+        text-align: left;
+      }
+
+      .next-show-day {
+        font-size: 4rem;
+      }
+
+      .next-show-month {
+        margin-top: 8px;
+      }
+
+      .next-show-content {
+        margin-top: 28px;
+      }
+
+      .next-show-venue {
+        font-size: clamp(2rem,9.6vw,2.85rem);
+      }
+
+      .next-show-right {
+        width: 100%;
+
+        margin-top: 25px;
+
+        padding-top: 16px;
+
+        border-top: 1px solid rgba(255,255,255,.18);
+
+        align-items: flex-start;
+      }
+
+      .more-shows-wrapper {
+        margin-top: 32px;
+      }
+
+      .more-events {
+        gap: 0;
+      }
+
+      .event {
+        grid-template-columns:
+          56px
+          minmax(0,1fr);
+
+        gap: 13px;
+
+        min-height: 0;
+
+        padding: 15px 0;
+
+        border-top: 1px solid rgba(17,16,15,.14);
+
+        background: transparent;
+      }
+
+      .event:last-child {
+        border-bottom: 1px solid rgba(17,16,15,.14);
+      }
+
+      .event::before {
+        display: none;
+      }
+
+      .event:hover {
+        background: transparent;
+        transform: none;
+      }
+
+      .event-date {
+        width: 56px;
+
+        align-items: flex-start;
+
+        text-align: left;
+      }
+
+      .event-day {
+        font-size: 2rem;
+      }
+
+      .event-month {
+        margin-top: 4px;
+        font-size: .5rem;
+      }
+
+      .event-venue {
+        font-size: 1.18rem;
+      }
+
+      .event-location {
+        margin-top: 4px;
+        font-size: .72rem;
+      }
+
+      .event-badge {
+        margin-top: 6px;
+      }
+
+      .event-note {
+        font-size: .68rem;
+      }
+
+      .event-right {
+        grid-column: 2;
+
+        min-width: 0;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+
+        gap: 7px 12px;
+      }
+
+      .event-time {
+        font-size: .78rem;
+      }
+
+      .event .show-actions {
+        margin-top: 0;
+        justify-content: flex-start;
+      }
+
+      .event .show-action {
+        min-height: 27px;
+
+        padding: 0 9px;
+
+        font-size: .44rem;
+      }
+
+      .show-more-button {
+        width: 100%;
+      }
+
+
+      /* CONTACT */
+
+      #contact {
+        padding: 78px 0;
+      }
+
+      .contact-grid {
+        display: block;
+      }
+
+      .contact-title {
+        font-size: clamp(3rem,14vw,4.4rem);
+      }
+
+      .contact-copy {
+        font-size: .95rem;
+      }
+
+      .direct-contact {
+        margin-top: 34px;
+      }
+
+      .contact-panel {
+        margin-top: 55px;
+
+        padding: 25px 18px;
+      }
+
+      .contact-panel-heading {
+        font-size: 2rem;
+      }
+
+      .booking-row {
+        grid-template-columns: 1fr;
+      }
+
+
+      /* STORY */
+
+      #about {
+        padding: 78px 0 84px;
+      }
+
+      #about::after {
+        display: none;
+      }
+
+      .story-grid {
+        display: flex;
+        flex-direction: column;
+
+        gap: 48px;
+      }
+
+      .story-content {
+        order: 1;
+      }
+
+      .story-visual {
+        position: relative;
+        top: auto;
+
+        order: 2;
+      }
+
+      .story-heading {
+        font-size: clamp(2.75rem,12.8vw,4rem);
+      }
+
+      .story-dna-item {
+        min-height: 82px;
+
+        padding: 15px 12px;
+      }
+
+
+      /* LIVE */
+
+      .live-section-head {
+        display: block;
+
+        padding: 25px 0 21px;
+      }
+
+      .live-section-copy {
+        margin-top: 8px;
+      }
+
+      .image-strip {
+        display: block;
+        min-height: 0;
+      }
+
+      .image-strip figure {
+        height: 68svh;
+        flex: none;
+      }
+
+      .image-strip:hover figure,
+      .image-strip figure:hover {
+        flex: none;
+      }
+
+      .live-photo-overlay {
+        padding: 0 20px 24px;
+      }
+
+      .live-photo-name {
+        font-size: clamp(3rem,15vw,4.5rem);
+      }
+
+
+      /* CTA */
+
+      .final-cta {
+        padding: 72px 0 68px;
+      }
+
+      .final-cta-inner {
+        display: block;
+      }
+
+      .final-cta-title {
+        font-size: clamp(2.9rem,13vw,4.2rem);
+      }
+
+      .final-cta-actions {
+        margin-top: 34px;
+        align-items: stretch;
+      }
+
+
+      /* FOOTER */
+
+      footer {
+        padding: 50px 0 28px;
+      }
+
+      .footer-top {
+        display: block;
+      }
+
+      .footer-logo {
+        font-size: clamp(4rem,18vw,5.7rem);
+      }
+
+      .footer-nav {
+        margin-top: 42px;
+      }
+
+      .footer-bottom {
+        margin-top: 48px;
+
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 14px;
+      }
+
+    }
+
+
+    @media (max-width: 390px) {
+
+      .container {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .hero-actions {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+
+    /* =========================================================
+       REDUCED MOTION
+    ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+
+    }
+
+  </style>
+
 </head>
 
-<body id="top">
+
+<body>
 
 
-<!-- ============================================================
-     HEADER
-============================================================ -->
+  <!-- =======================================================
+       HEADER
+  ======================================================== -->
 
-<header id="header">
+  <header id="header">
 
-  <div class="container">
+    <div class="container">
 
-    <nav class="nav">
+      <nav class="nav">
 
-      <a
-        href="#top"
-        class="nav-logo"
-        aria-label="Orange May home"
-      >
-
-        <img
-          src="/images/logo-white.png"
-          alt="Orange May Acoustic"
-          class="logo-white"
+        <a
+          href="#top"
+          class="nav-logo"
+          aria-label="Orange May home"
         >
 
-        <img
-          src="/images/logo.png"
-          alt=""
-          aria-hidden="true"
-          class="logo-dark"
-        >
+          <img
+            src="/images/logo-white.png"
+            alt="Orange May Acoustic"
+            class="logo-white"
+          >
+
+          <img
+            src="/images/logo.png"
+            alt=""
+            class="logo-dark"
+            aria-hidden="true"
+          >
+
+        </a>
+
+
+        <div class="nav-right">
+
+          <div class="nav-links">
+
+            <a
+              href="#social"
+              data-en="Social"
+              data-it="Social"
+            >
+              Social
+            </a>
+
+            <a
+              href="#shows"
+              data-en="Shows"
+              data-it="Date"
+            >
+              Shows
+            </a>
+
+            <a
+              href="#contact"
+              data-en="Contact"
+              data-it="Contatti"
+            >
+              Contact
+            </a>
+
+            <a
+              href="#about"
+              data-en="Our Story"
+              data-it="La nostra storia"
+            >
+              Our Story
+            </a>
+
+          </div>
+
+
+          <div class="language-switcher">
+
+            <button
+              type="button"
+              id="enBtn"
+              class="active"
+            >
+              EN
+            </button>
+
+            <button
+              type="button"
+              id="itBtn"
+            >
+              IT
+            </button>
+
+          </div>
+
+
+          <button
+            type="button"
+            id="menuToggle"
+            class="menu-toggle"
+            aria-label="Open menu"
+          >
+            <span></span>
+            <span></span>
+          </button>
+
+        </div>
+
+      </nav>
+
+    </div>
+
+  </header>
+
+
+  <!-- =======================================================
+       MOBILE MENU
+  ======================================================== -->
+
+  <div
+    id="mobileMenu"
+    class="mobile-menu"
+  >
+
+    <div class="mobile-menu-links">
+
+      <a href="#social" class="mobile-nav-link">
+
+        <span data-en="Social" data-it="Social">
+          Social
+        </span>
+
+        <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
+          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>
 
       </a>
 
 
-      <div class="nav-right">
+      <a href="#shows" class="mobile-nav-link">
 
-        <div class="nav-links">
+        <span data-en="Shows" data-it="Date">
+          Shows
+        </span>
 
-          <a
-            href="#social"
-            data-en="Social"
-            data-it="Social"
-          >
-            Social
-          </a>
+        <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
+          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>
 
-          <a
-            href="#shows"
-            data-en="Shows"
-            data-it="Date"
-          >
-            Shows
-          </a>
-
-          <a
-            href="#contact"
-            data-en="Contact"
-            data-it="Contatti"
-          >
-            Contact
-          </a>
-
-          <a
-            href="#story"
-            data-en="Our Story"
-            data-it="La nostra storia"
-          >
-            Our Story
-          </a>
-
-        </div>
+      </a>
 
 
-        <div class="language-switcher">
+      <a href="#contact" class="mobile-nav-link">
 
-          <button
-            id="enBtn"
-            class="active"
-            type="button"
-          >
-            EN
-          </button>
+        <span data-en="Contact" data-it="Contatti">
+          Contact
+        </span>
 
-          <button
-            id="itBtn"
-            type="button"
-          >
-            IT
-          </button>
+        <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
+          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>
 
-        </div>
+      </a>
 
 
-        <button
-          id="menuToggle"
-          class="menu-toggle"
-          type="button"
-          aria-label="Menu"
+      <a href="#about" class="mobile-nav-link">
+
+        <span
+          data-en="Our Story"
+          data-it="La nostra storia"
         >
-          <span></span>
-        </button>
+          Our Story
+        </span>
 
-      </div>
+        <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
+          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>
 
-    </nav>
-
-  </div>
-
-</header>
-
-
-<!-- MOBILE MENU -->
-
-<div
-  id="mobileMenu"
-  class="mobile-menu"
->
-
-  <div class="mobile-menu-links">
-
-    <a
-      href="#social"
-      data-mobile-link
-      data-en="Social"
-      data-it="Social"
-    >
-      Social
-    </a>
-
-    <a
-      href="#shows"
-      data-mobile-link
-      data-en="Shows"
-      data-it="Date"
-    >
-      Shows
-    </a>
-
-    <a
-      href="#contact"
-      data-mobile-link
-      data-en="Contact"
-      data-it="Contatti"
-    >
-      Contact
-    </a>
-
-    <a
-      href="#story"
-      data-mobile-link
-      data-en="Our Story"
-      data-it="La nostra storia"
-    >
-      Our Story
-    </a>
-
-  </div>
-
-
-  <div class="mobile-menu-bottom">
-
-    <div>
-
-      <button
-        id="mobileEnBtn"
-        class="option-button active"
-        type="button"
-      >
-        EN
-      </button>
-
-      <button
-        id="mobileItBtn"
-        class="option-button"
-        type="button"
-      >
-        IT
-      </button>
+      </a>
 
     </div>
 
-    <a
-      href="https://www.instagram.com/orangemay_acoustic/"
-      target="_blank"
-      rel="noopener"
-    >
-      Instagram ↗
-    </a>
+
+    <div class="mobile-menu-footer">
+
+      <a
+        href="https://www.instagram.com/orangemay_acoustic/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Instagram ↗
+      </a>
+
+      <a
+        href="https://www.facebook.com/p/Orange-May-100092238015144/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Facebook ↗
+      </a>
+
+    </div>
 
   </div>
 
-</div>
+
+  <main id="top">
 
 
-<!-- ============================================================
-     HERO
-============================================================ -->
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
 
-<section class="hero">
+    <section class="hero">
 
-  <img
-    class="hero-image"
-    src="/images/hero.jpeg"
-    alt="Orange May live"
-  >
+      <div class="container hero-content">
 
-
-  <div class="hero-content">
-
-    <div class="container">
-
-      <div class="hero-grid">
-
-        <div>
-
-          <div
-            class="hero-eyebrow"
-            data-en="Acoustic live duo"
-            data-it="Duo acustico live"
-          >
-            Acoustic live duo
-          </div>
+        <div
+          class="hero-eyebrow"
+          data-en="Acoustic live duo"
+          data-it="Duo acustico live"
+        >
+          Acoustic live duo
+        </div>
 
 
-          <h1 class="hero-title">
+        <h1>
+          Orange<br>
+          <span>May</span>
+        </h1>
 
-            <span>
-              Orange
-            </span>
 
-            <span class="orange">
-              May
-            </span>
-
-          </h1>
-
+        <div class="hero-bottom">
 
           <p
-            class="hero-subtitle"
+            class="hero-description"
             data-en="Two voices. One guitar. Every song made our own."
             data-it="Due voci. Una chitarra. Ogni canzone a modo nostro."
           >
             Two voices. One guitar. Every song made our own.
           </p>
 
-        </div>
 
+          <div class="hero-actions">
 
-        <div class="hero-actions">
-
-          <a
-            class="cta orange"
-            href="#social"
-            data-en="Follow us"
-            data-it="Seguici"
-          >
-            Follow us
-          </a>
-
-          <a
-            class="cta white"
-            href="#shows"
-          >
-            <span
-              data-en="Next shows"
-              data-it="Prossime date"
+            <a
+              href="#social"
+              class="btn btn-orange"
             >
-              Next shows
-            </span>
-            ↓
-          </a>
+              <span
+                data-en="Follow us"
+                data-it="Seguici"
+              >
+                Follow us
+              </span>
+            </a>
+
+
+            <a
+              href="#shows"
+              class="btn btn-white"
+            >
+
+              <span
+                data-en="Next shows"
+                data-it="Prossime date"
+              >
+                Next shows
+              </span>
+
+              <svg class="icon-arrow" viewBox="0 0 24 24">
+                <path d="M12 5V19" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 14L12 19L17 14" fill="none" stroke="currentColor" stroke-width="2"/>
+              </svg>
+
+            </a>
+
+          </div>
 
         </div>
 
       </div>
 
-    </div>
-
-  </div>
-
-</section>
+    </section>
 
 
-<!-- ============================================================
-     SOCIAL
-============================================================ -->
+    <!-- =====================================================
+         SOCIAL
+    ====================================================== -->
 
-<section
-  id="social"
-  class="social-section"
->
+    <section id="social">
 
-  <div class="container">
+      <div class="container">
 
-    <div class="social-grid reveal">
+        <div class="social-top reveal">
 
-      <div>
+          <div>
 
-        <div
-          class="section-kicker"
-          data-en="Stay connected"
-          data-it="Resta connesso"
-        >
-          Stay connected
-        </div>
+            <div
+              class="section-label"
+              data-en="Follow Orange May"
+              data-it="Segui Orange May"
+            >
+              Follow Orange May
+            </div>
 
-        <h2
-          class="section-title"
-          data-en="FOLLOW THE MUSIC."
-          data-it="SEGUI LA MUSICA."
-        >
-          FOLLOW THE MUSIC.
-        </h2>
+            <div class="social-title">
+              Stay
+              <span>connected.</span>
+            </div>
 
-      </div>
+          </div>
 
 
-      <div>
+          <div class="social-copy">
 
-        <div
-          class="social-copy"
-          data-en="Live moments, new shows and everything happening around Orange May."
-          data-it="Momenti live, nuove date e tutto quello che succede intorno agli Orange May."
-        >
-          Live moments, new shows and everything happening around Orange May.
+            <p
+              data-en="Follow us for live clips, behind-the-scenes moments, upcoming shows and everything that happens between one song and the next."
+              data-it="Seguici per video live, backstage, prossime date e tutto quello che succede tra una canzone e l'altra."
+            >
+              Follow us for live clips, behind-the-scenes moments,
+              upcoming shows and everything that happens between
+              one song and the next.
+            </p>
+
+          </div>
+
         </div>
 
 
-        <div class="social-links">
+        <div class="social-links reveal">
 
           <a
-            class="social-link"
             href="https://www.instagram.com/orangemay_acoustic/"
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
+            class="social-link"
           >
-            Instagram ↗
+
+            <span class="social-name">
+              Instagram
+            </span>
+
+            <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
+              <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+
           </a>
 
+
           <a
-            class="social-link"
             href="https://www.facebook.com/p/Orange-May-100092238015144/"
             target="_blank"
-            rel="noopener"
-          >
-            Facebook ↗
-          </a>
-
-          <a
+            rel="noopener noreferrer"
             class="social-link"
-            href="https://wa.me/393421670308"
-            target="_blank"
-            rel="noopener"
           >
-            WhatsApp ↗
-          </a>
 
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ============================================================
-     TICKER
-============================================================ -->
-
-<div class="ticker">
-
-  <div class="ticker-track">
-
-    <div class="ticker-set">
-
-      <div class="ticker-item">Two voices</div>
-      <div class="ticker-item">Guitar</div>
-      <div class="ticker-item">Percussion</div>
-      <div class="ticker-item">Live loops</div>
-      <div class="ticker-item">Orange May</div>
-      <div class="ticker-item">Live music</div>
-      <div class="ticker-item">Acoustic</div>
-
-    </div>
-
-    <div class="ticker-set">
-
-      <div class="ticker-item">Two voices</div>
-      <div class="ticker-item">Guitar</div>
-      <div class="ticker-item">Percussion</div>
-      <div class="ticker-item">Live loops</div>
-      <div class="ticker-item">Orange May</div>
-      <div class="ticker-item">Live music</div>
-      <div class="ticker-item">Acoustic</div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- ============================================================
-     SHOWS
-============================================================ -->
-
-<section
-  id="shows"
-  class="shows-section"
->
-
-  <div class="container">
-
-    <div class="shows-heading reveal">
-
-      <div
-        class="section-kicker"
-        data-en="Live"
-        data-it="Live"
-      >
-        Live
-      </div>
-
-      <h2
-        class="section-title"
-        data-en="UPCOMING SHOWS."
-        data-it="PROSSIME DATE."
-      >
-        UPCOMING SHOWS.
-      </h2>
-
-    </div>
-
-
-    <div
-      id="eventsContainer"
-      class="reveal"
-    >
-
-      <div
-        class="events-empty"
-        data-en="Loading shows..."
-        data-it="Caricamento date..."
-      >
-        Loading shows...
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ============================================================
-     CONTACT
-============================================================ -->
-
-<section
-  id="contact"
-  class="contact-section"
->
-
-  <div class="contact-grid">
-
-    <div class="contact-left">
-
-      <div class="contact-left-inner reveal">
-
-        <div
-          class="section-kicker"
-          data-en="Contact Orange May"
-          data-it="Contatta Orange May"
-        >
-          Contact Orange May
-        </div>
-
-
-        <h2 class="contact-title">
-
-          <span
-            class="orange"
-            data-en="GET IN"
-            data-it="SCRIVICI"
-          >
-            GET IN
-          </span>
-
-          <br>
-
-          <span
-            data-en="TOUCH."
-            data-it="ORA."
-          >
-            TOUCH.
-          </span>
-
-        </h2>
-
-
-        <div
-          class="contact-copy"
-          data-en="Want to book us, ask something, work together or simply say hi? We'd love to hear from you."
-          data-it="Vuoi prenotarci, chiederci qualcosa, collaborare o semplicemente salutarci? Scrivici."
-        >
-          Want to book us, ask something, work together or simply say hi?
-          We'd love to hear from you.
-        </div>
-
-
-        <div class="contact-direct">
-
-          <a
-            class="whatsapp-button"
-            href="https://wa.me/393421670308"
-            target="_blank"
-            rel="noopener"
-          >
-            <span
-              data-en="Message us on WhatsApp"
-              data-it="Scrivici su WhatsApp"
-            >
-              Message us on WhatsApp
+            <span class="social-name">
+              Facebook
             </span>
-            &nbsp; ↗
+
+            <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
+              <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+
           </a>
 
+        </div>
 
-          <a
-            class="contact-email"
-            href="mailto:orangemayacoustic@gmail.com"
-          >
-            orangemayacoustic@gmail.com
-          </a>
+      </div>
 
+    </section>
+
+
+    <!-- =====================================================
+         TICKER
+    ====================================================== -->
+
+    <div class="ticker">
+
+      <div class="ticker-track">
+
+        <div class="ticker-content">
+          <span>Orange May</span>
+          <span class="ticker-dot">●</span>
+          <span>Live Music</span>
+          <span class="ticker-dot">●</span>
+          <span>Acoustic</span>
+          <span class="ticker-dot">●</span>
+          <span>Two Voices</span>
+          <span class="ticker-dot">●</span>
+          <span>Guitar</span>
+          <span class="ticker-dot">●</span>
+          <span>Percussion</span>
+          <span class="ticker-dot">●</span>
+          <span>Live Loops</span>
+          <span class="ticker-dot">●</span>
+        </div>
+
+        <div class="ticker-content" aria-hidden="true">
+          <span>Orange May</span>
+          <span class="ticker-dot">●</span>
+          <span>Live Music</span>
+          <span class="ticker-dot">●</span>
+          <span>Acoustic</span>
+          <span class="ticker-dot">●</span>
+          <span>Two Voices</span>
+          <span class="ticker-dot">●</span>
+          <span>Guitar</span>
+          <span class="ticker-dot">●</span>
+          <span>Percussion</span>
+          <span class="ticker-dot">●</span>
+          <span>Live Loops</span>
+          <span class="ticker-dot">●</span>
         </div>
 
       </div>
@@ -2151,38 +3194,175 @@ footer{
     </div>
 
 
-    <div class="contact-right">
+    <!-- =====================================================
+         SHOWS
+    ====================================================== -->
 
-      <div class="reveal">
+    <section id="shows">
 
-        <div
-          class="contact-form-kicker"
-          data-en="Send us a message"
-          data-it="Mandaci un messaggio"
-        >
-          Send us a message
+      <div class="container">
+
+        <div class="shows-header reveal">
+
+          <div
+            class="section-label"
+            data-en="Live"
+            data-it="Live"
+          >
+            Live
+          </div>
+
+          <h2
+            class="shows-title"
+            data-en="Upcoming Shows."
+            data-it="Prossime Date."
+          >
+            Upcoming Shows.
+          </h2>
+
         </div>
 
 
-        <h3
-          class="contact-form-title"
-          data-en="HOW CAN WE HELP?"
-          data-it="COME POSSIAMO AIUTARTI?"
+        <div
+          id="events"
+          class="events-list"
         >
-          HOW CAN WE HELP?
-        </h3>
+
+          <div
+            class="empty"
+            data-en="Loading upcoming shows..."
+            data-it="Caricamento prossime date..."
+          >
+            Loading upcoming shows...
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
 
 
-        <form id="contactForm">
+    <!-- =====================================================
+         CONTACT
+    ====================================================== -->
 
-          <!-- CONTACT INTENT -->
+    <section id="contact">
 
-          <div class="option-group">
+      <div class="container contact-grid">
+
+        <div class="contact-intro reveal">
+
+          <div
+            class="section-label"
+            data-en="Contact Orange May"
+            data-it="Contatta Orange May"
+          >
+            Contact Orange May
+          </div>
+
+
+          <h2 class="contact-title">
+
+            <span
+              class="orange"
+              data-en="Get in"
+              data-it="Mettiamoci"
+            >
+              Get in
+            </span>
+
+            <br>
+
+            <span
+              data-en="touch."
+              data-it="in contatto."
+            >
+              touch.
+            </span>
+
+          </h2>
+
+
+          <p
+            class="contact-copy"
+            data-en="Want to book us, ask something, work together or simply say hi? We'd love to hear from you."
+            data-it="Vuoi prenotare una serata, chiederci qualcosa, collaborare o semplicemente salutarci? Scrivici."
+          >
+            Want to book us, ask something, work together or simply say hi?
+            We'd love to hear from you.
+          </p>
+
+
+          <div class="direct-contact">
+
+            <a
+              id="whatsappLink"
+              href="https://wa.me/393421670308"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-orange"
+            >
+
+              <span
+                data-en="Message us on WhatsApp"
+                data-it="Scrivici su WhatsApp"
+              >
+                Message us on WhatsApp
+              </span>
+
+              ↗
+
+            </a>
+
+
+            <a
+              href="mailto:orangemayacoustic@gmail.com"
+              class="email-link"
+            >
+              orangemayacoustic@gmail.com
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="contact-panel reveal">
+
+          <div
+            class="contact-kicker"
+            data-en="Send us a message"
+            data-it="Inviaci un messaggio"
+          >
+            Send us a message
+          </div>
+
+
+          <h3
+            class="contact-panel-heading"
+            data-en="How can we help?"
+            data-it="Come possiamo aiutarti?"
+          >
+            How can we help?
+          </h3>
+
+
+          <div
+            class="contact-choice-label"
+            data-en="Why are you contacting us?"
+            data-it="Per cosa ci stai contattando?"
+          >
+            Why are you contacting us?
+          </div>
+
+
+          <div class="contact-intents">
 
             <button
               type="button"
-              class="option-button active"
-              data-contact-intent="BOOKING"
+              class="contact-intent active"
+              data-intent="BOOKING"
               data-en="Booking"
               data-it="Booking"
             >
@@ -2191,8 +3371,8 @@ footer{
 
             <button
               type="button"
-              class="option-button"
-              data-contact-intent="INFO"
+              class="contact-intent"
+              data-intent="INFO"
               data-en="Info"
               data-it="Info"
             >
@@ -2201,8 +3381,8 @@ footer{
 
             <button
               type="button"
-              class="option-button"
-              data-contact-intent="COLLABORATION"
+              class="contact-intent"
+              data-intent="COLLABORATION"
               data-en="Collaboration"
               data-it="Collaborazione"
             >
@@ -2211,8 +3391,8 @@ footer{
 
             <button
               type="button"
-              class="option-button"
-              data-contact-intent="HELLO"
+              class="contact-intent"
+              data-intent="HELLO"
               data-en="Just saying hi"
               data-it="Solo un saluto"
             >
@@ -2222,234 +3402,274 @@ footer{
           </div>
 
 
-          <!-- BOOKING TYPE -->
-
-          <div id="bookingOptions">
+          <form
+            id="contactForm"
+            class="contact-form"
+          >
 
             <div
-              class="option-label"
-              data-en="What are you planning?"
-              data-it="Cosa stai organizzando?"
+              id="bookingDetails"
+              class="booking-details open"
             >
-              What are you planning?
+
+              <div
+                class="contact-choice-label"
+                data-en="What are you planning?"
+                data-it="Che tipo di evento stai organizzando?"
+              >
+                What are you planning?
+              </div>
+
+
+              <div class="booking-types">
+
+                <button
+                  type="button"
+                  class="booking-type"
+                  data-booking-type="HOTEL"
+                  data-en="Hotel"
+                  data-it="Hotel"
+                >
+                  Hotel
+                </button>
+
+                <button
+                  type="button"
+                  class="booking-type"
+                  data-booking-type="VENUE"
+                  data-en="Venue"
+                  data-it="Locale"
+                >
+                  Venue
+                </button>
+
+                <button
+                  type="button"
+                  class="booking-type"
+                  data-booking-type="WEDDING"
+                  data-en="Wedding"
+                  data-it="Matrimonio"
+                >
+                  Wedding
+                </button>
+
+                <button
+                  type="button"
+                  class="booking-type"
+                  data-booking-type="PRIVATE_EVENT"
+                  data-en="Private event"
+                  data-it="Evento privato"
+                >
+                  Private event
+                </button>
+
+                <button
+                  type="button"
+                  class="booking-type"
+                  data-booking-type="OTHER"
+                  data-en="Other"
+                  data-it="Altro"
+                >
+                  Other
+                </button>
+
+              </div>
+
+
+              <div class="field">
+
+                <label
+                  for="eventDateContact"
+                  data-en="Event date"
+                  data-it="Data evento"
+                >
+                  Event date
+                </label>
+
+                <input
+                  id="eventDateContact"
+                  type="date"
+                >
+
+              </div>
+
             </div>
 
 
-            <div class="option-group">
+            <div class="booking-row">
 
-              <button
-                type="button"
-                class="option-button"
-                data-booking-type="HOTEL"
-              >
-                Hotel
-              </button>
+              <div class="field">
 
-              <button
-                type="button"
-                class="option-button"
-                data-booking-type="VENUE"
-                data-en="Venue"
-                data-it="Locale"
-              >
-                Venue
-              </button>
+                <label
+                  for="name"
+                  data-en="First & Last Name"
+                  data-it="Nome e cognome"
+                >
+                  First & Last Name
+                </label>
 
-              <button
-                type="button"
-                class="option-button"
-                data-booking-type="WEDDING"
-                data-en="Wedding"
-                data-it="Matrimonio"
-              >
-                Wedding
-              </button>
+                <input
+                  id="name"
+                  type="text"
+                  maxlength="120"
+                  autocomplete="name"
+                  required
+                >
 
-              <button
-                type="button"
-                class="option-button"
-                data-booking-type="PRIVATE_EVENT"
-                data-en="Private event"
-                data-it="Evento privato"
-              >
-                Private event
-              </button>
+              </div>
 
-              <button
-                type="button"
-                class="option-button"
-                data-booking-type="OTHER"
-                data-en="Other"
-                data-it="Altro"
-              >
-                Other
-              </button>
+
+              <div class="field">
+
+                <label for="email">
+                  Email
+                </label>
+
+                <input
+                  id="email"
+                  type="email"
+                  maxlength="180"
+                  autocomplete="email"
+                  required
+                >
+
+              </div>
 
             </div>
 
-          </div>
 
-
-          <div
-            id="eventDateField"
-            class="form-field"
-          >
-
-            <label
-              for="contactEventDate"
-              data-en="Event date"
-              data-it="Data evento"
-            >
-              Event date
-            </label>
-
-            <input
-              id="contactEventDate"
-              type="date"
-            >
-
-          </div>
-
-
-          <div class="form-row">
-
-            <div class="form-field">
+            <div class="field">
 
               <label
-                for="contactName"
-                data-en="First & last name"
-                data-it="Nome e cognome"
+                for="message"
+                data-en="Your message"
+                data-it="Il tuo messaggio"
               >
-                First & last name
+                Your message
               </label>
 
-              <input
-                id="contactName"
-                type="text"
-                autocomplete="name"
+              <textarea
+                id="message"
+                maxlength="4000"
                 required
-              >
+              ></textarea>
 
             </div>
 
 
-            <div class="form-field">
+            <button
+              id="contactSubmit"
+              type="submit"
+              class="btn btn-orange contact-submit"
+            >
 
-              <label
-                for="contactEmail"
-                data-en="Email"
-                data-it="Email"
+              <span
+                data-en="Send message"
+                data-it="Invia messaggio"
               >
-                Email
-              </label>
+                Send message
+              </span>
 
-              <input
-                id="contactEmail"
-                type="email"
-                autocomplete="email"
-                required
-              >
+              <svg class="icon-arrow" viewBox="0 0 24 24">
+                <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
+              </svg>
 
-            </div>
+            </button>
+
+
+            <div
+              id="formMessage"
+              class="form-message"
+              role="status"
+            ></div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         STORY
+    ====================================================== -->
+
+    <section id="about">
+
+      <div class="container story-grid">
+
+        <div class="story-visual reveal">
+
+          <div class="story-image-frame">
+
+            <img
+              src="/images/story.jpg"
+              alt="Cristian and Lara — Orange May Acoustic"
+            >
 
           </div>
 
 
-          <div class="form-field">
+          <div class="story-image-meta">
 
-            <label
-              for="contactMessage"
-              data-en="Your message"
-              data-it="Il tuo messaggio"
-            >
-              Your message
-            </label>
-
-            <textarea
-              id="contactMessage"
-              required
-            ></textarea>
-
-          </div>
-
-
-          <button
-            id="contactSubmitButton"
-            class="submit-button"
-            type="submit"
-          >
-            <span
-              data-en="Send message"
-              data-it="Invia messaggio"
-            >
-              Send message
+            <span>
+              Cristian + Lara
             </span>
-            &nbsp; →
-          </button>
 
+            <span>
+              Orange May
+            </span>
 
-          <div
-            id="contactFormMessage"
-            class="form-message"
-          ></div>
+          </div>
 
-        </form>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ============================================================
-     STORY
-============================================================ -->
-
-<section
-  id="story"
-  class="story-section"
->
-
-  <div class="container">
-
-    <div class="story-grid">
-
-      <div class="story-image reveal">
-
-        <img
-          src="/images/story.jpg"
-          alt="Orange May"
-        >
-
-      </div>
-
-
-      <div class="story-copy reveal">
-
-        <div
-          class="section-kicker"
-          data-en="Our Story"
-          data-it="La nostra storia"
-        >
-          Our Story
         </div>
 
 
-        <h2
-          class="story-heading"
-          data-en="It started with family. Then came the music."
-          data-it="È iniziato tutto in famiglia. Poi è arrivata la musica."
-        >
-          It started with family. Then came the music.
-        </h2>
+        <div class="story-content reveal">
+
+          <div
+            class="section-label"
+            data-en="Our Story"
+            data-it="La nostra storia"
+          >
+            Our Story
+          </div>
 
 
-        <div class="story-text">
+          <h2 class="story-heading">
+
+            <span
+              data-en="It started with"
+              data-it="È iniziato tutto"
+            >
+              It started with
+            </span>
+
+            <span
+              class="orange"
+              data-en=" family."
+              data-it=" in famiglia."
+            >
+              family.
+            </span>
+
+            <br>
+
+            <span
+              data-en="Then came the music."
+              data-it="Poi è arrivata la musica."
+            >
+              Then came the music.
+            </span>
+
+          </h2>
+
 
           <p
+            class="story-lead"
             data-en="We're Cristian and Lara, the two voices behind Orange May."
             data-it="Siamo Cristian e Lara, le due voci degli Orange May."
           >
@@ -2457,1790 +3677,2120 @@ footer{
           </p>
 
 
-          <p
-            data-en="Our story began almost by chance: our siblings are married to each other, which brought us into the same family long before it brought us onto the same stage."
-            data-it="La nostra storia è iniziata quasi per caso: i nostri fratelli sono sposati tra loro e questo ci ha fatti entrare nella stessa famiglia molto prima di portarci sullo stesso palco."
-          >
-            Our story began almost by chance: our siblings are married to each
-            other, which brought us into the same family long before it brought
-            us onto the same stage.
-          </p>
+          <div class="story-text">
+
+            <p
+              data-en="Our story began almost by chance: our siblings are married to each other, which brought us into the same family long before it brought us onto the same stage."
+              data-it="La nostra storia è iniziata quasi per caso: i nostri fratelli sono sposati tra loro e questo ci ha fatti entrare nella stessa famiglia molto prima di portarci sullo stesso palco."
+            >
+              Our story began almost by chance: our siblings are married
+              to each other, which brought us into the same family long
+              before it brought us onto the same stage.
+            </p>
 
 
-          <p
-            data-en="That connection eventually became Orange May: an acoustic project built around familiar songs, rearranged in the way we like to play them."
-            data-it="Da quel legame è nato Orange May: un progetto acustico costruito intorno a canzoni che tutti conoscono, reinterpretate nel modo in cui piace suonarle a noi."
-          >
-            That connection eventually became Orange May: an acoustic project
-            built around familiar songs, rearranged in the way we like to play
-            them.
-          </p>
+            <p
+              data-en="That connection eventually became Orange May: an acoustic project built around familiar songs, rearranged in the way we like to play them."
+              data-it="Da quel legame è nato Orange May: un progetto acustico costruito intorno a canzoni che tutti conoscono, reinterpretate nel modo in cui piace suonarle a noi."
+            >
+              That connection eventually became Orange May: an acoustic
+              project built around familiar songs, rearranged in the way
+              we like to play them.
+            </p>
 
 
-          <p
-            data-en="Guitar, two voices, percussion and live loops let us move from intimate acoustic moments to energetic nights. We play hotels, venues, weddings and private events, adapting every set to the atmosphere in front of us."
-            data-it="Chitarra, due voci, percussioni e loop registrati dal vivo ci permettono di passare dai momenti più intimi a serate molto più energiche. Suoniamo in hotel, locali, matrimoni ed eventi privati, adattando ogni set all'atmosfera che abbiamo davanti."
-          >
-            Guitar, two voices, percussion and live loops let us move from
-            intimate acoustic moments to energetic nights. We play hotels,
-            venues, weddings and private events, adapting every set to the
-            atmosphere in front of us.
-          </p>
+            <p
+              data-en="Guitar, two voices, percussion and live loops let us move from intimate acoustic moments to energetic nights. We play hotels, venues, weddings and private events, adapting every set to the atmosphere in front of us."
+              data-it="Chitarra, due voci, percussioni e loop registrati dal vivo ci permettono di passare dai momenti più intimi a serate molto più energiche. Suoniamo in hotel, locali, matrimoni ed eventi privati, adattando ogni set all'atmosfera che abbiamo davanti."
+            >
+              Guitar, two voices, percussion and live loops let us move
+              from intimate acoustic moments to energetic nights.
+              We play hotels, venues, weddings and private events,
+              adapting every set to the atmosphere in front of us.
+            </p>
+
+          </div>
 
 
-          <p
-            data-en="Different places. Different nights. Always live. Always Orange May."
-            data-it="Posti diversi. Serate diverse. Sempre live. Sempre Orange May."
-          >
-            Different places. Different nights. Always live. Always Orange May.
-          </p>
+          <div class="story-dna">
+
+            <div class="story-dna-item">
+
+              <div class="story-dna-number">
+                01
+              </div>
+
+              <div
+                class="story-dna-name"
+                data-en="Two voices"
+                data-it="Due voci"
+              >
+                Two voices
+              </div>
+
+            </div>
+
+
+            <div class="story-dna-item">
+
+              <div class="story-dna-number">
+                02
+              </div>
+
+              <div
+                class="story-dna-name"
+                data-en="One guitar"
+                data-it="Una chitarra"
+              >
+                One guitar
+              </div>
+
+            </div>
+
+
+            <div class="story-dna-item">
+
+              <div class="story-dna-number">
+                03
+              </div>
+
+              <div
+                class="story-dna-name"
+                data-en="Live loops"
+                data-it="Loop live"
+              >
+                Live loops
+              </div>
+
+            </div>
+
+
+            <div class="story-dna-item">
+
+              <div class="story-dna-number">
+                04
+              </div>
+
+              <div
+                class="story-dna-name"
+                data-en="Our sound"
+                data-it="Il nostro sound"
+              >
+                Our sound
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="story-ending">
+
+            <div
+              class="story-ending-small"
+              data-en="Different every night"
+              data-it="Ogni sera è diversa"
+            >
+              Different every night
+            </div>
+
+
+            <div class="story-ending-main">
+
+              <span
+                data-en="Different places. Different nights."
+                data-it="Posti diversi. Serate diverse."
+              >
+                Different places. Different nights.
+              </span>
+
+              <br>
+
+              <span
+                class="orange"
+                data-en="Always live. Always Orange May."
+                data-it="Sempre live. Sempre Orange May."
+              >
+                Always live. Always Orange May.
+              </span>
+
+            </div>
+
+          </div>
 
         </div>
 
       </div>
 
-    </div>
-
-  </div>
-
-</section>
+    </section>
 
 
-<!-- ============================================================
-     PHOTO STRIP
-============================================================ -->
+    <!-- =====================================================
+         LIVE PHOTOS
+    ====================================================== -->
 
-<section class="photo-strip">
+    <section class="live-section">
 
-  <img
-    src="/images/cristian-live.jpeg"
-    alt="Cristian live"
-  >
+      <div class="container">
 
-  <img
-    src="/images/lara-live.jpeg"
-    alt="Lara live"
-  >
+        <div class="live-section-head">
 
-</section>
+          <div
+            class="live-section-label"
+            data-en="Orange May Live"
+            data-it="Orange May Live"
+          >
+            Orange May Live
+          </div>
 
+          <div
+            class="live-section-copy"
+            data-en="Two voices. One stage."
+            data-it="Due voci. Un palco."
+          >
+            Two voices. One stage.
+          </div>
 
-<!-- ============================================================
-     FOOTER
-============================================================ -->
+        </div>
 
-<footer>
-
-  <div class="container">
-
-    <div class="footer-top">
-
-      <h2
-        class="footer-title"
-        data-en="SEE YOU AT THE NEXT SHOW."
-        data-it="CI VEDIAMO ALLA PROSSIMA DATA."
-      >
-        SEE YOU AT THE NEXT SHOW.
-      </h2>
+      </div>
 
 
-      <div class="footer-links">
+      <div class="image-strip">
+
+        <figure>
+
+          <img
+            src="/images/cristian-live.jpeg"
+            alt="Cristian live with Orange May"
+          >
+
+          <div class="live-photo-overlay">
+
+            <div
+              class="live-photo-top"
+              data-en="Live"
+              data-it="Live"
+            >
+              Live
+            </div>
+
+            <div class="live-photo-name">
+              Cristian
+            </div>
+
+            <div
+              class="live-photo-role"
+              data-en="Voice · Guitar · Live loops"
+              data-it="Voce · Chitarra · Loop live"
+            >
+              Voice · Guitar · Live loops
+            </div>
+
+          </div>
+
+        </figure>
+
+
+        <figure>
+
+          <img
+            src="/images/lara-live.jpeg"
+            alt="Lara live with Orange May"
+          >
+
+          <div class="live-photo-overlay">
+
+            <div
+              class="live-photo-top"
+              data-en="Live"
+              data-it="Live"
+            >
+              Live
+            </div>
+
+            <div class="live-photo-name">
+              Lara
+            </div>
+
+            <div
+              class="live-photo-role"
+              data-en="Voice · Percussion"
+              data-it="Voce · Percussioni"
+            >
+              Voice · Percussion
+            </div>
+
+          </div>
+
+        </figure>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FINAL CTA
+    ====================================================== -->
+
+    <section class="final-cta">
+
+      <div class="container final-cta-inner">
+
+        <div>
+
+          <div
+            class="final-cta-label"
+            data-en="Planning something?"
+            data-it="Stai organizzando qualcosa?"
+          >
+            Planning something?
+          </div>
+
+
+          <div class="final-cta-title">
+
+            <span
+              data-en="Let's make it"
+              data-it="Facciamolo"
+            >
+              Let's make it
+            </span>
+
+            <br>
+
+            <span
+              data-en="sound good."
+              data-it="suonare bene."
+            >
+              sound good.
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="final-cta-actions">
+
+          <a
+            href="#contact"
+            class="btn btn-dark"
+          >
+
+            <span
+              data-en="Contact us"
+              data-it="Contattaci"
+            >
+              Contact us
+            </span>
+
+            →
+
+          </a>
+
+
+          <a
+            href="#shows"
+            data-en="See upcoming shows →"
+            data-it="Vedi le prossime date →"
+          >
+            See upcoming shows →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =======================================================
+       FOOTER
+  ======================================================== -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-logo">
+          Orange<br>
+          May
+        </div>
+
+
+        <div class="footer-nav">
+
+          <a href="#social">
+            Social
+            <span>→</span>
+          </a>
+
+          <a
+            href="#shows"
+            data-en="Shows"
+            data-it="Date"
+          >
+            Shows
+            <span>→</span>
+          </a>
+
+          <a
+            href="#contact"
+            data-en="Contact"
+            data-it="Contatti"
+          >
+            Contact
+            <span>→</span>
+          </a>
+
+          <a
+            href="#about"
+            data-en="Our Story"
+            data-it="La nostra storia"
+          >
+            Our Story
+            <span>→</span>
+          </a>
+
+          <a
+            href="https://www.instagram.com/orangemay_acoustic/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram
+            <span>↗</span>
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        <span>
+          © <span id="currentYear"></span> Orange May Acoustic
+        </span>
 
         <a
-          class="footer-link"
-          href="https://www.instagram.com/orangemay_acoustic/"
-          target="_blank"
-          rel="noopener"
+          href="#top"
+          data-en="Back to top ↑"
+          data-it="Torna su ↑"
         >
-          Instagram ↗
-        </a>
-
-        <a
-          class="footer-link"
-          href="https://www.facebook.com/p/Orange-May-100092238015144/"
-          target="_blank"
-          rel="noopener"
-        >
-          Facebook ↗
-        </a>
-
-        <a
-          class="footer-link"
-          href="#contact"
-          data-en="Contact"
-          data-it="Contatti"
-        >
-          Contact
+          Back to top ↑
         </a>
 
       </div>
 
     </div>
 
-
-    <div class="footer-bottom">
-
-      <span>
-        © Orange May Acoustic
-      </span>
-
-      <span
-        data-en="Two voices · one guitar · live loops"
-        data-it="Due voci · una chitarra · loop live"
-      >
-        Two voices · one guitar · live loops
-      </span>
-
-    </div>
-
-  </div>
-
-</footer>
+  </footer>
 
 
-<script>
+  <!-- =======================================================
+       JAVASCRIPT
+  ======================================================== -->
 
-/* ============================================================
-   LANGUAGE
-============================================================ */
+  <script>
 
-let currentLanguage =
-  localStorage.getItem(
-    "orangeMayLanguage"
-  ) || "en";
+    "use strict";
 
 
-const enBtn =
-  document.getElementById(
-    "enBtn"
-  );
+    /* =========================================================
+       GLOBAL STATE
+    ========================================================= */
 
-const itBtn =
-  document.getElementById(
-    "itBtn"
-  );
+    let currentLanguage =
+      localStorage.getItem("orangeMayLanguage") || "en";
 
-const mobileEnBtn =
-  document.getElementById(
-    "mobileEnBtn"
-  );
+    let selectedContactIntent = "BOOKING";
+    let selectedBookingType = "";
 
-const mobileItBtn =
-  document.getElementById(
-    "mobileItBtn"
-  );
+    let cachedEvents = [];
+    let visibleEventCount = 5;
 
 
-function setLanguage(language){
+    const monthNames = {
 
-  currentLanguage =
-    language === "it"
-      ? "it"
-      : "en";
+      en: [
+        "JAN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAY",
+        "JUN",
+        "JUL",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC"
+      ],
 
+      it: [
+        "GEN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAG",
+        "GIU",
+        "LUG",
+        "AGO",
+        "SET",
+        "OTT",
+        "NOV",
+        "DIC"
+      ]
 
-  localStorage.setItem(
-    "orangeMayLanguage",
-    currentLanguage
-  );
-
-
-  document.documentElement.lang =
-    currentLanguage;
-
-
-  document
-    .querySelectorAll(
-      "[data-en][data-it]"
-    )
-    .forEach(element=>{
-
-      element.textContent =
-        currentLanguage === "it"
-          ? element.dataset.it
-          : element.dataset.en;
-
-    });
-
-
-  enBtn.classList.toggle(
-    "active",
-    currentLanguage === "en"
-  );
-
-  itBtn.classList.toggle(
-    "active",
-    currentLanguage === "it"
-  );
-
-  mobileEnBtn.classList.toggle(
-    "active",
-    currentLanguage === "en"
-  );
-
-  mobileItBtn.classList.toggle(
-    "active",
-    currentLanguage === "it"
-  );
+    };
 
 
-  renderEvents();
+    /* =========================================================
+       LANGUAGE
+    ========================================================= */
 
-  updateContactInterface();
+    const enBtn =
+      document.getElementById("enBtn");
 
-}
-
-
-enBtn.addEventListener(
-  "click",
-  () => setLanguage("en")
-);
-
-itBtn.addEventListener(
-  "click",
-  () => setLanguage("it")
-);
-
-mobileEnBtn.addEventListener(
-  "click",
-  () => setLanguage("en")
-);
-
-mobileItBtn.addEventListener(
-  "click",
-  () => setLanguage("it")
-);
+    const itBtn =
+      document.getElementById("itBtn");
 
 
-/* ============================================================
-   HEADER
-============================================================ */
+    function changeLanguage(language) {
 
-const header =
-  document.getElementById(
-    "header"
-  );
+      currentLanguage =
+        language === "it"
+          ? "it"
+          : "en";
 
 
-function updateHeader(){
-
-  header.classList.toggle(
-    "scrolled",
-    window.scrollY > 70
-  );
-
-}
-
-
-window.addEventListener(
-  "scroll",
-  updateHeader,
-  {
-    passive:true
-  }
-);
-
-updateHeader();
-
-
-/* ============================================================
-   MOBILE MENU
-============================================================ */
-
-const menuToggle =
-  document.getElementById(
-    "menuToggle"
-  );
-
-const mobileMenu =
-  document.getElementById(
-    "mobileMenu"
-  );
-
-
-function closeMenu(){
-
-  menuToggle.classList.remove(
-    "active"
-  );
-
-  mobileMenu.classList.remove(
-    "open"
-  );
-
-  document.body.classList.remove(
-    "menu-open"
-  );
-
-}
-
-
-menuToggle.addEventListener(
-  "click",
-  () => {
-
-    const open =
-      !mobileMenu.classList.contains(
-        "open"
+      localStorage.setItem(
+        "orangeMayLanguage",
+        currentLanguage
       );
 
 
-    menuToggle.classList.toggle(
-      "active",
-      open
-    );
-
-    mobileMenu.classList.toggle(
-      "open",
-      open
-    );
-
-    document.body.classList.toggle(
-      "menu-open",
-      open
-    );
-
-  }
-);
+      document.documentElement.lang =
+        currentLanguage;
 
 
-document
-  .querySelectorAll(
-    "[data-mobile-link]"
-  )
-  .forEach(link=>{
+      document
+        .querySelectorAll("[data-en][data-it]")
+        .forEach(element => {
 
-    link.addEventListener(
+          const text =
+            element.dataset[currentLanguage];
+
+          if (typeof text === "string") {
+            element.textContent = text;
+          }
+
+        });
+
+
+      enBtn.classList.toggle(
+        "active",
+        currentLanguage === "en"
+      );
+
+      itBtn.classList.toggle(
+        "active",
+        currentLanguage === "it"
+      );
+
+
+      updateWhatsApp();
+
+      if (cachedEvents.length) {
+        renderEvents();
+      }
+
+    }
+
+
+    enBtn.addEventListener(
       "click",
-      closeMenu
+      () => changeLanguage("en")
     );
 
-  });
+
+    itBtn.addEventListener(
+      "click",
+      () => changeLanguage("it")
+    );
 
 
-/* ============================================================
-   REVEAL
-============================================================ */
+    /* =========================================================
+       HEADER
+    ========================================================= */
 
-const observer =
-  new IntersectionObserver(
-    entries=>{
+    const header =
+      document.getElementById("header");
 
-      entries.forEach(entry=>{
 
-        if(entry.isIntersecting){
+    function updateHeader() {
 
-          entry.target.classList.add(
-            "visible"
-          );
+      header.classList.toggle(
+        "scrolled",
+        window.scrollY > 70
+      );
 
-          observer.unobserve(
-            entry.target
-          );
+    }
 
-        }
+
+    window.addEventListener(
+      "scroll",
+      updateHeader,
+      {
+        passive: true
+      }
+    );
+
+
+    updateHeader();
+
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    const menuToggle =
+      document.getElementById("menuToggle");
+
+    const mobileMenu =
+      document.getElementById("mobileMenu");
+
+
+    function closeMobileMenu() {
+
+      menuToggle.classList.remove("active");
+      mobileMenu.classList.remove("open");
+      document.body.classList.remove("menu-open");
+
+    }
+
+
+    menuToggle.addEventListener(
+      "click",
+      () => {
+
+        const open =
+          mobileMenu.classList.toggle("open");
+
+        menuToggle.classList.toggle(
+          "active",
+          open
+        );
+
+        document.body.classList.toggle(
+          "menu-open",
+          open
+        );
+
+      }
+    );
+
+
+    document
+      .querySelectorAll(".mobile-nav-link")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          closeMobileMenu
+        );
 
       });
 
-    },
-    {
-      threshold:.12
+
+    /* =========================================================
+       CONTACT OPTIONS
+    ========================================================= */
+
+    const bookingDetails =
+      document.getElementById("bookingDetails");
+
+    const eventDateContact =
+      document.getElementById("eventDateContact");
+
+    const whatsappLink =
+      document.getElementById("whatsappLink");
+
+
+    document
+      .querySelectorAll(".contact-intent")
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            document
+              .querySelectorAll(".contact-intent")
+              .forEach(item => {
+                item.classList.remove("active");
+              });
+
+
+            button.classList.add("active");
+
+            selectedContactIntent =
+              button.dataset.intent || "";
+
+
+            const isBooking =
+              selectedContactIntent === "BOOKING";
+
+
+            bookingDetails.classList.toggle(
+              "open",
+              isBooking
+            );
+
+
+            if (!isBooking) {
+
+              selectedBookingType = "";
+
+              document
+                .querySelectorAll(".booking-type")
+                .forEach(item => {
+                  item.classList.remove("active");
+                });
+
+              eventDateContact.value = "";
+
+            }
+
+
+            updateWhatsApp();
+
+          }
+        );
+
+      });
+
+
+    document
+      .querySelectorAll(".booking-type")
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const value =
+              button.dataset.bookingType || "";
+
+
+            const wasActive =
+              button.classList.contains("active");
+
+
+            document
+              .querySelectorAll(".booking-type")
+              .forEach(item => {
+                item.classList.remove("active");
+              });
+
+
+            if (wasActive) {
+
+              selectedBookingType = "";
+
+            } else {
+
+              selectedBookingType = value;
+              button.classList.add("active");
+
+            }
+
+
+            updateWhatsApp();
+
+          }
+        );
+
+      });
+
+
+    eventDateContact.addEventListener(
+      "change",
+      updateWhatsApp
+    );
+
+
+    function getIntentLabel(value) {
+
+      const labels = {
+
+        BOOKING:
+          currentLanguage === "it"
+            ? "Booking"
+            : "Booking",
+
+        INFO:
+          currentLanguage === "it"
+            ? "Informazioni"
+            : "Information",
+
+        COLLABORATION:
+          currentLanguage === "it"
+            ? "Collaborazione"
+            : "Collaboration",
+
+        HELLO:
+          currentLanguage === "it"
+            ? "Saluto"
+            : "Just saying hi"
+
+      };
+
+
+      return labels[value] || value;
+
     }
-  );
 
 
-document
-  .querySelectorAll(
-    ".reveal"
-  )
-  .forEach(element=>{
+    function getBookingTypeLabel(value) {
 
-    observer.observe(
-      element
-    );
+      const labels = {
 
-  });
+        HOTEL:
+          "Hotel",
 
-
-/* ============================================================
-   EVENTS
-============================================================ */
-
-const INITIAL_VISIBLE_EVENTS = 5;
-const LOAD_MORE_STEP = 5;
-
-let publicEvents = [];
-let visibleEventCount =
-  INITIAL_VISIBLE_EVENTS;
-
-
-const eventsContainer =
-  document.getElementById(
-    "eventsContainer"
-  );
-
-
-function escapeHtml(value){
-
-  return String(
-    value ?? ""
-  )
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-function parseDateParts(
-  dateString
-){
-
-  if(!dateString){
-
-    return {
-      day:"—",
-      month:""
-    };
-
-  }
-
-
-  const [
-    year,
-    month,
-    day
-  ] =
-    dateString.split("-");
-
-
-  const monthsEn = [
-    "JAN",
-    "FEB",
-    "MAR",
-    "APR",
-    "MAY",
-    "JUN",
-    "JUL",
-    "AUG",
-    "SEP",
-    "OCT",
-    "NOV",
-    "DEC"
-  ];
-
-
-  const monthsIt = [
-    "GEN",
-    "FEB",
-    "MAR",
-    "APR",
-    "MAG",
-    "GIU",
-    "LUG",
-    "AGO",
-    "SET",
-    "OTT",
-    "NOV",
-    "DIC"
-  ];
-
-
-  const months =
-    currentLanguage === "it"
-      ? monthsIt
-      : monthsEn;
-
-
-  return {
-
-    day,
-
-    month:
-      months[
-        Number(month)-1
-      ] || ""
-
-  };
-
-}
-
-
-function eventStartDate(
-  event
-){
-
-  if(
-    !event.event_date
-  ){
-    return null;
-  }
-
-
-  const time =
-    event.start_time ||
-    "00:00";
-
-
-  return new Date(
-    `${event.event_date}T${time}:00`
-  );
-
-}
-
-
-function eventEndDate(
-  event
-){
-
-  if(
-    !event.event_date
-  ){
-    return null;
-  }
-
-
-  const time =
-    event.end_time ||
-    event.start_time ||
-    "23:59";
-
-
-  return new Date(
-    `${event.event_date}T${time}:00`
-  );
-
-}
-
-
-function isEventStillRelevant(
-  event
-){
-
-  const end =
-    eventEndDate(
-      event
-    );
-
-  if(!end){
-    return false;
-  }
-
-
-  return (
-    end.getTime() >=
-    Date.now()
-  );
-
-}
-
-
-function formatTime(
-  event
-){
-
-  if(
-    event.start_time &&
-    event.end_time
-  ){
-
-    return (
-      `${event.start_time} — ` +
-      `${event.end_time}`
-    );
-
-  }
-
-
-  return (
-    event.start_time ||
-    ""
-  );
-
-}
-
-
-function getNextShowLabel(
-  event
-){
-
-  const start =
-    eventStartDate(
-      event
-    );
-
-
-  if(!start){
-
-    return currentLanguage === "it"
-      ? "Prossima data"
-      : "Next show";
-
-  }
-
-
-  const now =
-    new Date();
-
-
-  const today =
-    new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
-
-
-  const tomorrow =
-    new Date(
-      today
-    );
-
-  tomorrow.setDate(
-    tomorrow.getDate()+1
-  );
-
-
-  const eventDay =
-    new Date(
-      start.getFullYear(),
-      start.getMonth(),
-      start.getDate()
-    );
-
-
-  if(
-    eventDay.getTime() ===
-    today.getTime()
-  ){
-
-    return currentLanguage === "it"
-      ? "Stasera"
-      : "Tonight";
-
-  }
-
-
-  if(
-    eventDay.getTime() ===
-    tomorrow.getTime()
-  ){
-
-    return currentLanguage === "it"
-      ? "Domani"
-      : "Tomorrow";
-
-  }
-
-
-  return currentLanguage === "it"
-    ? "Prossima data"
-    : "Next show";
-
-}
-
-
-function getPublicEventData(
-  event
-){
-
-  const isPrivate =
-    event.event_type ===
-    "PRIVATE";
-
-
-  return {
-
-    venue:
-      isPrivate
-        ? (
-            currentLanguage === "it"
-              ? "Evento privato"
-              : "Private Event"
-          )
-        : (
-            event.venue ||
-            ""
-          ),
-
-    location:
-      isPrivate
-        ? ""
-        : (
-            event.location ||
-            ""
-          ),
-
-    locationUrl:
-      isPrivate
-        ? ""
-        : (
-            event.location_url ||
-            ""
-          ),
-
-    publicUrl:
-      event.event_type === "PUBLIC"
-        ? (
-            event.public_url ||
-            ""
-          )
-        : ""
-
-  };
-
-}
-
-
-function getStatusLabel(
-  event
-){
-
-  if(
-    event.event_type ===
-    "GUESTS_ONLY"
-  ){
-
-    return currentLanguage === "it"
-      ? "Solo ospiti"
-      : "Guests only";
-
-  }
-
-
-  if(
-    event.event_type ===
-    "PRIVATE"
-  ){
-
-    return currentLanguage === "it"
-      ? "Evento privato"
-      : "Private event";
-
-  }
-
-
-  return "";
-
-}
-
-
-function shouldShowNote(
-  note
-){
-
-  if(!note){
-    return false;
-  }
-
-
-  const legacy = [
-    "PRIVATE EVENT",
-    "PRIVATE",
-    "GUESTS ONLY",
-    "ONLY GUESTS",
-    "SOLO OSPITI",
-    "EVENTO PRIVATO"
-  ];
-
-
-  return !legacy.includes(
-    String(note)
-      .trim()
-      .toUpperCase()
-  );
-
-}
-
-
-function renderNextShow(
-  event
-){
-
-  const date =
-    parseDateParts(
-      event.event_date
-    );
-
-
-  const data =
-    getPublicEventData(
-      event
-    );
-
-
-  const status =
-    getStatusLabel(
-      event
-    );
-
-
-  const time =
-    formatTime(
-      event
-    );
-
-
-  const noteHtml =
-    shouldShowNote(
-      event.note
-    )
-      ? `
-          <div class="next-show-note">
-            ${escapeHtml(event.note)}
-          </div>
-        `
-      : "";
-
-
-  const statusHtml =
-    status
-      ? `
-          <div class="event-status">
-            ${escapeHtml(status)}
-          </div>
-        `
-      : "";
-
-
-  let links = "";
-
-
-  if(
-    data.locationUrl
-  ){
-
-    links += `
-      <a
-        class="event-link"
-        href="${escapeHtml(data.locationUrl)}"
-        target="_blank"
-        rel="noopener"
-      >
-        ${
+        VENUE:
           currentLanguage === "it"
-            ? "Indicazioni ↗"
-            : "Directions ↗"
-        }
-      </a>
-    `;
+            ? "Locale"
+            : "Venue",
 
-  }
-
-
-  if(
-    data.publicUrl
-  ){
-
-    links += `
-      <a
-        class="event-link"
-        href="${escapeHtml(data.publicUrl)}"
-        target="_blank"
-        rel="noopener"
-      >
-        ${
+        WEDDING:
           currentLanguage === "it"
-            ? "Info ↗"
-            : "More info ↗"
-        }
-      </a>
-    `;
+            ? "Matrimonio"
+            : "Wedding",
 
-  }
-
-
-  return `
-    <article class="next-show">
-
-      <div class="next-show-label">
-
-        <div
-          class="waveform"
-          aria-hidden="true"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-
-        ${escapeHtml(getNextShowLabel(event))}
-
-      </div>
-
-
-      <div class="next-show-date">
-
-        <span class="next-show-day">
-          ${escapeHtml(date.day)}
-        </span>
-
-        <span class="next-show-month">
-          ${escapeHtml(date.month)}
-        </span>
-
-      </div>
-
-
-      <div class="next-show-main">
-
-        <div class="next-show-venue">
-          ${escapeHtml(data.venue)}
-        </div>
-
-        ${
-          data.location
-            ? `
-                <div class="next-show-location">
-                  ${escapeHtml(data.location)}
-                </div>
-              `
-            : ""
-        }
-
-        ${statusHtml}
-
-        ${noteHtml}
-
-      </div>
-
-
-      <div class="next-show-right">
-
-        ${
-          time
-            ? `
-                <div class="next-show-time">
-                  ${escapeHtml(time)}
-                </div>
-              `
-            : ""
-        }
-
-        ${
-          links
-            ? `
-                <div class="event-links">
-                  ${links}
-                </div>
-              `
-            : ""
-        }
-
-      </div>
-
-    </article>
-  `;
-
-}
-
-
-function renderPublicEvent(
-  event,
-  isNew=false,
-  animationIndex=0
-){
-
-  const date =
-    parseDateParts(
-      event.event_date
-    );
-
-
-  const data =
-    getPublicEventData(
-      event
-    );
-
-
-  const status =
-    getStatusLabel(
-      event
-    );
-
-
-  const time =
-    formatTime(
-      event
-    );
-
-
-  let links = "";
-
-
-  if(
-    data.locationUrl
-  ){
-
-    links += `
-      <a
-        class="event-small-link"
-        href="${escapeHtml(data.locationUrl)}"
-        target="_blank"
-        rel="noopener"
-      >
-        ${
+        PRIVATE_EVENT:
           currentLanguage === "it"
-            ? "Indicazioni ↗"
-            : "Directions ↗"
-        }
-      </a>
-    `;
+            ? "Evento privato"
+            : "Private event",
 
-  }
-
-
-  if(
-    data.publicUrl
-  ){
-
-    links += `
-      <a
-        class="event-small-link"
-        href="${escapeHtml(data.publicUrl)}"
-        target="_blank"
-        rel="noopener"
-      >
-        ${
+        OTHER:
           currentLanguage === "it"
-            ? "Info ↗"
-            : "Info ↗"
-        }
-      </a>
-    `;
+            ? "Altro"
+            : "Other"
 
-  }
+      };
 
 
-  return `
-    <article
-      class="event ${isNew ? "event-new" : ""}"
-      ${
-        isNew
-          ? `style="animation-delay:${Math.min(animationIndex,6)*55}ms"`
-          : ""
+      return labels[value] || value;
+
+    }
+
+
+    function formatContactDate(value) {
+
+      if (!value) {
+        return "";
       }
-    >
-
-      <div class="event-date">
-
-        <span class="event-day">
-          ${escapeHtml(date.day)}
-        </span>
-
-        <span class="event-month">
-          ${escapeHtml(date.month)}
-        </span>
-
-      </div>
 
 
-      <div class="event-main">
+      const parts =
+        value.split("-");
 
-        <div class="event-venue">
-          ${escapeHtml(data.venue)}
-        </div>
 
-        ${
-          data.location
-            ? `
-                <div class="event-location">
-                  ${escapeHtml(data.location)}
-                </div>
-              `
-            : ""
+      if (parts.length !== 3) {
+        return value;
+      }
+
+
+      return `${parts[2]}/${parts[1]}/${parts[0]}`;
+
+    }
+
+
+    function updateWhatsApp() {
+
+      let message = "";
+
+      const date =
+        eventDateContact.value;
+
+
+      if (currentLanguage === "it") {
+
+        if (selectedContactIntent === "BOOKING") {
+
+          message =
+            "Ciao Orange May! Vorrei avere informazioni per prenotarvi per un evento.";
+
+        } else if (selectedContactIntent === "INFO") {
+
+          message =
+            "Ciao Orange May! Avrei bisogno di alcune informazioni.";
+
+        } else if (selectedContactIntent === "COLLABORATION") {
+
+          message =
+            "Ciao Orange May! Vorrei parlarvi di una possibile collaborazione.";
+
+        } else {
+
+          message =
+            "Ciao Orange May!";
+
         }
 
-        ${
-          shouldShowNote(event.note)
-            ? `
-                <div class="event-note">
-                  ${escapeHtml(event.note)}
-                </div>
-              `
-            : ""
+      } else {
+
+        if (selectedContactIntent === "BOOKING") {
+
+          message =
+            "Hi Orange May! I'd like some information about booking you for an event.";
+
+        } else if (selectedContactIntent === "INFO") {
+
+          message =
+            "Hi Orange May! I have a question for you.";
+
+        } else if (selectedContactIntent === "COLLABORATION") {
+
+          message =
+            "Hi Orange May! I'd like to talk about a possible collaboration.";
+
+        } else {
+
+          message =
+            "Hi Orange May!";
+
         }
 
-      </div>
+      }
 
 
-      <div class="event-right">
+      if (
+        selectedContactIntent === "BOOKING" &&
+        selectedBookingType
+      ) {
 
-        ${
-          time
-            ? `
-                <div class="event-time">
-                  ${escapeHtml(time)}
-                </div>
-              `
-            : ""
-        }
+        message +=
+          currentLanguage === "it"
+            ? ` Tipo di evento: ${getBookingTypeLabel(selectedBookingType)}.`
+            : ` Event type: ${getBookingTypeLabel(selectedBookingType)}.`;
+
+      }
 
 
-        <div class="event-meta-row">
+      if (
+        selectedContactIntent === "BOOKING" &&
+        date
+      ) {
 
-          ${
-            status
-              ? `
-                  <span class="event-badge">
-                    ${escapeHtml(status)}
-                  </span>
-                `
-              : ""
+        message +=
+          currentLanguage === "it"
+            ? ` Data: ${formatContactDate(date)}.`
+            : ` Date: ${formatContactDate(date)}.`;
+
+      }
+
+
+      whatsappLink.href =
+        "https://wa.me/393421670308?text=" +
+        encodeURIComponent(message);
+
+    }
+
+
+    /* =========================================================
+       CONTACT SUBMIT
+    ========================================================= */
+
+    const contactForm =
+      document.getElementById("contactForm");
+
+    const contactSubmit =
+      document.getElementById("contactSubmit");
+
+    const nameInput =
+      document.getElementById("name");
+
+    const emailInput =
+      document.getElementById("email");
+
+    const messageInput =
+      document.getElementById("message");
+
+    const formMessage =
+      document.getElementById("formMessage");
+
+
+    contactForm.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        formMessage.className =
+          "form-message";
+
+        formMessage.textContent =
+          currentLanguage === "it"
+            ? "Invio in corso..."
+            : "Sending...";
+
+
+        contactSubmit.disabled = true;
+
+
+        const payload = {
+
+          name:
+            nameInput.value.trim(),
+
+          email:
+            emailInput.value.trim(),
+
+          contact_intent:
+            selectedContactIntent || null,
+
+          booking_type:
+            selectedContactIntent === "BOOKING"
+              ? selectedBookingType || null
+              : null,
+
+          event_date:
+            selectedContactIntent === "BOOKING"
+              ? eventDateContact.value || null
+              : null,
+
+          message:
+            messageInput.value.trim()
+
+        };
+
+
+        try {
+
+          const response =
+            await fetch(
+              "/api/contact",
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify(payload)
+              }
+            );
+
+
+          let result = {};
+
+          try {
+            result = await response.json();
+          } catch (_) {
+            result = {};
           }
 
-          ${links}
 
-        </div>
+          if (!response.ok) {
 
-      </div>
+            console.error(
+              "Contact API error:",
+              response.status,
+              result
+            );
 
-    </article>
-  `;
-
-}
-
-
-function renderEvents(
-  newStartIndex=Infinity
-){
-
-  if(
-    !publicEvents.length
-  ){
-
-    eventsContainer.innerHTML = `
-      <div class="events-empty">
-        ${
-          currentLanguage === "it"
-            ? "Al momento non ci sono nuove date pubblicate."
-            : "No upcoming shows published yet."
-        }
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  const firstEvent =
-    publicEvents[0];
-
-
-  const visibleOthers =
-    publicEvents.slice(
-      1,
-      visibleEventCount
-    );
-
-
-  let html =
-    renderNextShow(
-      firstEvent
-    );
-
-
-  if(
-    publicEvents.length > 1
-  ){
-
-    html += `
-      <div class="more-shows-label">
-        ${
-          currentLanguage === "it"
-            ? "Altre date"
-            : "More shows"
-        }
-      </div>
-
-      <div class="future-events">
-    `;
-
-
-    html +=
-      visibleOthers
-        .map(
-          (event,index)=>{
-
-            const globalIndex =
-              index+1;
-
-
-            return renderPublicEvent(
-              event,
-              globalIndex >=
-                newStartIndex,
-              globalIndex -
-                newStartIndex
+            throw new Error(
+              result.error ||
+              "Contact request failed"
             );
 
           }
-        )
-        .join("");
 
 
-    html += `
-      </div>
-    `;
+          contactForm.reset();
 
 
-    if(
-      publicEvents.length >
-      INITIAL_VISIBLE_EVENTS
-    ){
+          selectedContactIntent =
+            "BOOKING";
+
+          selectedBookingType =
+            "";
+
+
+          document
+            .querySelectorAll(".contact-intent")
+            .forEach(item => {
+
+              item.classList.toggle(
+                "active",
+                item.dataset.intent === "BOOKING"
+              );
+
+            });
+
+
+          document
+            .querySelectorAll(".booking-type")
+            .forEach(item => {
+              item.classList.remove("active");
+            });
+
+
+          bookingDetails.classList.add("open");
+
+
+          formMessage.className =
+            "form-message success";
+
+          formMessage.textContent =
+            currentLanguage === "it"
+              ? "Messaggio inviato. Grazie!"
+              : "Message sent. Thank you!";
+
+
+          updateWhatsApp();
+
+        } catch (error) {
+
+          console.error(
+            "Contact form submit failed:",
+            error
+          );
+
+
+          formMessage.className =
+            "form-message error";
+
+          formMessage.textContent =
+            currentLanguage === "it"
+              ? "Non siamo riusciti a inviare il messaggio. Riprova tra poco."
+              : "We couldn't send the message. Please try again.";
+
+        } finally {
+
+          contactSubmit.disabled =
+            false;
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       EVENTS
+    ========================================================= */
+
+    async function loadEvents() {
+
+      const container =
+        document.getElementById("events");
+
+
+      try {
+
+        const response =
+          await fetch(
+            "/api/events",
+            {
+              cache: "no-store"
+            }
+          );
+
+
+        if (!response.ok) {
+          throw new Error(
+            `HTTP ${response.status}`
+          );
+        }
+
+
+        const result =
+          await response.json();
+
+
+        let events =
+          Array.isArray(result)
+            ? result
+            : Array.isArray(result.events)
+              ? result.events
+              : [];
+
+
+        const now =
+          new Date();
+
+
+        events =
+          events
+
+            .filter(event => {
+              return getEventEnd(event) >= now;
+            })
+
+            .sort((a,b) => {
+              return (
+                getEventStart(a) -
+                getEventStart(b)
+              );
+            });
+
+
+        cachedEvents =
+          events;
+
+        visibleEventCount =
+          5;
+
+
+        renderEvents();
+
+      } catch (error) {
+
+        console.error(
+          "Unable to load events:",
+          error
+        );
+
+
+        container.innerHTML =
+          currentLanguage === "it"
+            ? `<div class="empty">Impossibile caricare le prossime date.</div>`
+            : `<div class="empty">Unable to load upcoming shows.</div>`;
+
+      }
+
+    }
+
+
+    function renderEvents() {
+
+      const container =
+        document.getElementById("events");
+
+
+      if (!cachedEvents.length) {
+
+        container.innerHTML =
+          currentLanguage === "it"
+            ? `<div class="empty">Nessuna data in programma al momento.</div>`
+            : `<div class="empty">No upcoming shows at the moment.</div>`;
+
+        return;
+
+      }
+
+
+      const first =
+        cachedEvents[0];
+
+      const others =
+        cachedEvents.slice(1);
+
+      const visibleOthers =
+        others.slice(
+          0,
+          Math.max(
+            visibleEventCount - 1,
+            0
+          )
+        );
+
+
+      let html =
+        renderNextShow(first);
+
+
+      if (others.length) {
+
+        html += `
+          <div class="more-shows-wrapper">
+
+            <div class="more-shows-label">
+              ${
+                currentLanguage === "it"
+                  ? "Altre date"
+                  : "More shows"
+              }
+            </div>
+
+            <div class="more-events">
+
+              ${
+                visibleOthers
+                  .map(
+                    (event,index) =>
+                      renderPublicEvent(
+                        event,
+                        index
+                      )
+                  )
+                  .join("")
+              }
+
+            </div>
+        `;
+
+
+        if (cachedEvents.length > 5) {
+
+          const allVisible =
+            visibleEventCount >=
+            cachedEvents.length;
+
+
+          html += `
+            <div class="show-more-wrap">
+
+              <button
+                type="button"
+                id="showMoreButton"
+                class="show-more-button ${
+                  allVisible
+                    ? "is-less"
+                    : ""
+                }"
+              >
+
+                <span>
+                  ${
+                    allVisible
+                      ? (
+                          currentLanguage === "it"
+                            ? "Mostra meno"
+                            : "Show less"
+                        )
+                      : (
+                          currentLanguage === "it"
+                            ? "Mostra altre date"
+                            : "Show more dates"
+                        )
+                  }
+                </span>
+
+                <svg
+                  class="icon-arrow down-arrow"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 5V19" fill="none" stroke="currentColor" stroke-width="2"/>
+                  <path d="M7 14L12 19L17 14" fill="none" stroke="currentColor" stroke-width="2"/>
+                </svg>
+
+              </button>
+
+            </div>
+          `;
+
+        }
+
+
+        html += `
+          </div>
+        `;
+
+      }
+
+
+      container.innerHTML =
+        html;
+
+
+      const showMoreButton =
+        document.getElementById(
+          "showMoreButton"
+        );
+
+
+      if (showMoreButton) {
+
+        showMoreButton.addEventListener(
+          "click",
+          handleShowMore
+        );
+
+      }
+
+    }
+
+
+    function handleShowMore() {
 
       const allVisible =
         visibleEventCount >=
-        publicEvents.length;
+        cachedEvents.length;
 
 
-      html += `
-        <div class="show-more-wrap">
+      if (allVisible) {
 
-          <button
-            id="showMoreEvents"
-            class="show-more-button"
-            type="button"
-          >
+        visibleEventCount =
+          5;
+
+        renderEvents();
+
+
+        document
+          .querySelector(".more-shows-label")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+
+        return;
+
+      }
+
+
+      visibleEventCount =
+        Math.min(
+          visibleEventCount + 5,
+          cachedEvents.length
+        );
+
+
+      renderEvents();
+
+    }
+
+
+    function renderNextShow(event) {
+
+      const date =
+        new Date(
+          event.event_date +
+          "T12:00:00"
+        );
+
+
+      const day =
+        String(
+          date.getDate()
+        ).padStart(2,"0");
+
+
+      const month =
+        monthNames[currentLanguage][
+          date.getMonth()
+        ];
+
+
+      const type =
+        event.event_type ||
+        "PUBLIC";
+
+
+      const isPrivate =
+        type === "PRIVATE";
+
+
+      const isGuestsOnly =
+        type === "GUESTS_ONLY";
+
+
+      const venue =
+        isPrivate
+          ? (
+              currentLanguage === "it"
+                ? "Evento privato"
+                : "Private Event"
+            )
+          : (
+              event.venue ||
+              (
+                currentLanguage === "it"
+                  ? "Evento"
+                  : "Event"
+              )
+            );
+
+
+      const time =
+        formatTime(event);
+
+
+      const note =
+        String(
+          event.note || ""
+        ).trim();
+
+
+      const directions =
+        !isPrivate &&
+        event.location_url
+          ? `
+              <a
+                href="${escapeAttribute(event.location_url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="show-action"
+              >
+
+                ${
+                  currentLanguage === "it"
+                    ? "Indicazioni"
+                    : "Directions"
+                }
+
+                ${externalArrow()}
+
+              </a>
+            `
+          : "";
+
+
+      const info =
+        type === "PUBLIC" &&
+        event.public_url
+          ? `
+              <a
+                href="${escapeAttribute(event.public_url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="show-action"
+              >
+
+                ${
+                  currentLanguage === "it"
+                    ? "Info"
+                    : "More info"
+                }
+
+                ${externalArrow()}
+
+              </a>
+            `
+          : "";
+
+
+      return `
+        <article class="next-show">
+
+          <div class="next-show-label">
+
+            <span class="mini-wave">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+
+            ${escapeHtml(
+              getNextShowLabel(event)
+            )}
+
+          </div>
+
+
+          <div class="next-show-date">
+
+            <span class="next-show-day">
+              ${day}
+            </span>
+
+            <span class="next-show-month">
+              ${month}
+            </span>
+
+          </div>
+
+
+          <div class="next-show-content">
+
+            <div class="next-show-venue">
+              ${escapeHtml(venue)}
+            </div>
+
+
             ${
-              allVisible
-                ? (
-                    currentLanguage === "it"
-                      ? "Mostra meno ↑"
-                      : "Show less ↑"
-                  )
-                : (
-                    currentLanguage === "it"
-                      ? "Mostra altre date ↓"
-                      : "Show more dates ↓"
-                  )
+              !isPrivate &&
+              event.location
+                ? `
+                    <div class="next-show-location">
+                      ${escapeHtml(event.location)}
+                    </div>
+                  `
+                : ""
             }
-          </button>
 
-        </div>
+
+            ${
+              isGuestsOnly
+                ? `
+                    <div class="next-show-badge">
+
+                      ${
+                        currentLanguage === "it"
+                          ? "Solo ospiti"
+                          : "Guests only"
+                      }
+
+                    </div>
+                  `
+                : ""
+            }
+
+
+            ${
+              shouldShowNote(note)
+                ? `
+                    <div class="next-show-note">
+                      ${escapeHtml(note)}
+                    </div>
+                  `
+                : ""
+            }
+
+          </div>
+
+
+          <div class="next-show-right">
+
+            ${
+              time
+                ? `
+                    <div class="next-show-time">
+                      ${escapeHtml(time)}
+                    </div>
+                  `
+                : ""
+            }
+
+
+            ${
+              directions || info
+                ? `
+                    <div class="show-actions">
+                      ${directions}
+                      ${info}
+                    </div>
+                  `
+                : ""
+            }
+
+          </div>
+
+        </article>
       `;
 
     }
 
-  }
+
+    function renderPublicEvent(
+      event,
+      index
+    ) {
+
+      const date =
+        new Date(
+          event.event_date +
+          "T12:00:00"
+        );
 
 
-  eventsContainer.innerHTML =
-    html;
+      const day =
+        String(
+          date.getDate()
+        ).padStart(2,"0");
 
 
-  const showMoreButton =
-    document.getElementById(
-      "showMoreEvents"
-    );
+      const month =
+        monthNames[currentLanguage][
+          date.getMonth()
+        ];
 
 
-  if(showMoreButton){
-
-    showMoreButton.addEventListener(
-      "click",
-      ()=>{
-
-        const allVisible =
-          visibleEventCount >=
-          publicEvents.length;
+      const type =
+        event.event_type ||
+        "PUBLIC";
 
 
-        if(allVisible){
-
-          visibleEventCount =
-            INITIAL_VISIBLE_EVENTS;
+      const isPrivate =
+        type === "PRIVATE";
 
 
-          renderEvents();
+      const isGuestsOnly =
+        type === "GUESTS_ONLY";
 
 
-          document
-            .querySelector(
-              ".more-shows-label"
+      const venue =
+        isPrivate
+          ? (
+              currentLanguage === "it"
+                ? "Evento privato"
+                : "Private Event"
             )
-            ?.scrollIntoView(
-              {
-                behavior:"smooth",
-                block:"start"
+          : (
+              event.venue ||
+              (
+                currentLanguage === "it"
+                  ? "Evento"
+                  : "Event"
+              )
+            );
+
+
+      const note =
+        String(
+          event.note || ""
+        ).trim();
+
+
+      const directions =
+        !isPrivate &&
+        event.location_url
+          ? `
+              <a
+                href="${escapeAttribute(event.location_url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="show-action"
+              >
+
+                ${
+                  currentLanguage === "it"
+                    ? "Indicazioni"
+                    : "Directions"
+                }
+
+                ${externalArrow()}
+
+              </a>
+            `
+          : "";
+
+
+      const info =
+        type === "PUBLIC" &&
+        event.public_url
+          ? `
+              <a
+                href="${escapeAttribute(event.public_url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="show-action"
+              >
+
+                ${
+                  currentLanguage === "it"
+                    ? "Info"
+                    : "More info"
+                }
+
+                ${externalArrow()}
+
+              </a>
+            `
+          : "";
+
+
+      return `
+        <article
+          class="event event-enter"
+          style="animation-delay:${Math.min(index,4) * 55}ms"
+        >
+
+          <div class="event-date">
+
+            <span class="event-day">
+              ${day}
+            </span>
+
+            <span class="event-month">
+              ${month}
+            </span>
+
+          </div>
+
+
+          <div class="event-content">
+
+            <div class="event-venue">
+              ${escapeHtml(venue)}
+            </div>
+
+
+            ${
+              !isPrivate &&
+              event.location
+                ? `
+                    <div class="event-location">
+                      ${escapeHtml(event.location)}
+                    </div>
+                  `
+                : ""
+            }
+
+
+            ${
+              isGuestsOnly
+                ? `
+                    <div class="event-badge">
+
+                      ${
+                        currentLanguage === "it"
+                          ? "Solo ospiti"
+                          : "Guests only"
+                      }
+
+                    </div>
+                  `
+                : ""
+            }
+
+
+            ${
+              shouldShowNote(note)
+                ? `
+                    <div class="event-note">
+                      ${escapeHtml(note)}
+                    </div>
+                  `
+                : ""
+            }
+
+          </div>
+
+
+          <div class="event-right">
+
+            ${
+              formatTime(event)
+                ? `
+                    <div class="event-time">
+                      ${escapeHtml(
+                        formatTime(event)
+                      )}
+                    </div>
+                  `
+                : ""
+            }
+
+
+            ${
+              directions || info
+                ? `
+                    <div class="show-actions">
+                      ${directions}
+                      ${info}
+                    </div>
+                  `
+                : ""
+            }
+
+          </div>
+
+        </article>
+      `;
+
+    }
+
+
+    /* =========================================================
+       EVENT HELPERS
+    ========================================================= */
+
+    function getNextShowLabel(event) {
+
+      const today =
+        startOfDay(
+          new Date()
+        );
+
+
+      const eventDate =
+        startOfDay(
+          new Date(
+            event.event_date +
+            "T12:00:00"
+          )
+        );
+
+
+      const difference =
+        Math.round(
+          (
+            eventDate -
+            today
+          ) /
+          86400000
+        );
+
+
+      if (difference === 0) {
+
+        return currentLanguage === "it"
+          ? "Stasera"
+          : "Tonight";
+
+      }
+
+
+      if (difference === 1) {
+
+        return currentLanguage === "it"
+          ? "Domani"
+          : "Tomorrow";
+
+      }
+
+
+      return currentLanguage === "it"
+        ? "Prossima data"
+        : "Next show";
+
+    }
+
+
+    function startOfDay(date) {
+
+      return new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      );
+
+    }
+
+
+    function formatTime(event) {
+
+      if (!event.start_time) {
+        return "";
+      }
+
+
+      if (!event.end_time) {
+        return event.start_time;
+      }
+
+
+      return (
+        event.start_time +
+        " — " +
+        event.end_time
+      );
+
+    }
+
+
+    function getEventStart(event) {
+
+      return new Date(
+        `${event.event_date}T${event.start_time || "00:00"}:00`
+      );
+
+    }
+
+
+    function getEventEnd(event) {
+
+      let end =
+        new Date(
+          `${event.event_date}T${event.end_time || event.start_time || "23:59"}:00`
+        );
+
+
+      const start =
+        getEventStart(event);
+
+
+      /*
+        Se una serata finisce dopo mezzanotte,
+        per esempio 22:00 → 01:00,
+        consideriamo la fine il giorno successivo.
+      */
+
+      if (
+        event.end_time &&
+        end < start
+      ) {
+
+        end =
+          new Date(
+            end.getTime() +
+            86400000
+          );
+
+      }
+
+
+      return end;
+
+    }
+
+
+    function shouldShowNote(note) {
+
+      if (!note) {
+        return false;
+      }
+
+
+      const legacy = [
+
+        "PRIVATE EVENT",
+        "PRIVATE",
+        "GUESTS ONLY",
+        "ONLY GUESTS",
+        "SOLO OSPITI",
+        "EVENTO PRIVATO"
+
+      ];
+
+
+      return !legacy.includes(
+        note.toUpperCase()
+      );
+
+    }
+
+
+    /* =========================================================
+       HTML ESCAPE
+    ========================================================= */
+
+    function escapeHtml(value = "") {
+
+      return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+    }
+
+
+    function escapeAttribute(value = "") {
+      return escapeHtml(value);
+    }
+
+
+    function externalArrow() {
+
+      return `
+        <svg
+          class="icon-arrow"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M7 17L17 7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M8 7H17V16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      `;
+
+    }
+
+
+    /* =========================================================
+       REVEAL
+    ========================================================= */
+
+    if (
+      "IntersectionObserver" in window
+    ) {
+
+      const observer =
+        new IntersectionObserver(
+          entries => {
+
+            entries.forEach(
+              entry => {
+
+                if (
+                  entry.isIntersecting
+                ) {
+
+                  entry.target
+                    .classList.add(
+                      "visible"
+                    );
+
+                  observer.unobserve(
+                    entry.target
+                  );
+
+                }
+
               }
             );
 
-          return;
-
-        }
-
-
-        const previousCount =
-          visibleEventCount;
-
-
-        visibleEventCount =
-          Math.min(
-            publicEvents.length,
-            visibleEventCount +
-            LOAD_MORE_STEP
-          );
-
-
-        renderEvents(
-          previousCount
-        );
-
-      }
-    );
-
-  }
-
-}
-
-
-async function loadEvents(){
-
-  try{
-
-    const response =
-      await fetch(
-        "/api/events",
-        {
-          cache:"no-store"
-        }
-      );
-
-
-    if(!response.ok){
-
-      throw new Error(
-        "Events request failed"
-      );
-
-    }
-
-
-    const result =
-      await response.json();
-
-
-    publicEvents =
-      (
-        Array.isArray(result)
-          ? result
-          : []
-      )
-        .filter(
-          isEventStillRelevant
-        )
-        .sort(
-          (a,b)=>{
-
-            const aDate =
-              eventStartDate(a);
-
-            const bDate =
-              eventStartDate(b);
-
-
-            return (
-              (aDate?.getTime() || 0) -
-              (bDate?.getTime() || 0)
-            );
-
+          },
+          {
+            threshold: .1
           }
         );
 
 
-    visibleEventCount =
-      INITIAL_VISIBLE_EVENTS;
+      document
+        .querySelectorAll(".reveal")
+        .forEach(
+          element => {
+            observer.observe(element);
+          }
+        );
+
+    } else {
+
+      document
+        .querySelectorAll(".reveal")
+        .forEach(
+          element => {
+            element.classList.add("visible");
+          }
+        );
+
+    }
 
 
-    renderEvents();
-
-  }catch(error){
-
-    console.error(
-      "Events error:",
-      error
-    );
-
-
-    eventsContainer.innerHTML = `
-      <div class="events-empty">
-        ${
-          currentLanguage === "it"
-            ? "Impossibile caricare le date."
-            : "Unable to load upcoming shows."
-        }
-      </div>
-    `;
-
-  }
-
-}
-
-
-/* ============================================================
-   CONTACT FORM
-============================================================ */
-
-let selectedContactIntent =
-  "BOOKING";
-
-let selectedBookingType =
-  "";
-
-
-const contactForm =
-  document.getElementById(
-    "contactForm"
-  );
-
-const bookingOptions =
-  document.getElementById(
-    "bookingOptions"
-  );
-
-const eventDateField =
-  document.getElementById(
-    "eventDateField"
-  );
-
-const contactEventDate =
-  document.getElementById(
-    "contactEventDate"
-  );
-
-const contactName =
-  document.getElementById(
-    "contactName"
-  );
-
-const contactEmail =
-  document.getElementById(
-    "contactEmail"
-  );
-
-const contactMessage =
-  document.getElementById(
-    "contactMessage"
-  );
-
-const contactSubmitButton =
-  document.getElementById(
-    "contactSubmitButton"
-  );
-
-const contactFormMessage =
-  document.getElementById(
-    "contactFormMessage"
-  );
-
-
-document
-  .querySelectorAll(
-    "[data-contact-intent]"
-  )
-  .forEach(button=>{
-
-    button.addEventListener(
-      "click",
-      ()=>{
-
-        selectedContactIntent =
-          button.dataset
-            .contactIntent;
-
-
-        document
-          .querySelectorAll(
-            "[data-contact-intent]"
-          )
-          .forEach(item=>{
-
-            item.classList.toggle(
-              "active",
-              item === button
-            );
-
-          });
-
-
-        updateContactInterface();
-
-      }
-    );
-
-  });
-
-
-document
-  .querySelectorAll(
-    "[data-booking-type]"
-  )
-  .forEach(button=>{
-
-    button.addEventListener(
-      "click",
-      ()=>{
-
-        selectedBookingType =
-          button.dataset
-            .bookingType;
-
-
-        document
-          .querySelectorAll(
-            "[data-booking-type]"
-          )
-          .forEach(item=>{
-
-            item.classList.toggle(
-              "active",
-              item === button
-            );
-
-          });
-
-      }
-    );
-
-  });
-
-
-function updateContactInterface(){
-
-  const booking =
-    selectedContactIntent ===
-    "BOOKING";
-
-
-  bookingOptions.style.display =
-    booking
-      ? ""
-      : "none";
-
-
-  eventDateField.style.display =
-    booking
-      ? ""
-      : "none";
-
-
-  if(!booking){
-
-    selectedBookingType =
-      "";
-
-    contactEventDate.value =
-      "";
-
+    /* =========================================================
+       START
+    ========================================================= */
 
     document
-      .querySelectorAll(
-        "[data-booking-type]"
-      )
-      .forEach(button=>{
+      .getElementById("currentYear")
+      .textContent =
+        new Date().getFullYear();
 
-        button.classList.remove(
-          "active"
-        );
 
-      });
+    changeLanguage(
+      currentLanguage
+    );
 
-  }
 
-}
+    updateWhatsApp();
 
 
-contactForm.addEventListener(
-  "submit",
-  async event=>{
+    loadEvents();
 
-    event.preventDefault();
+  </script>
 
-
-    contactFormMessage.className =
-      "form-message";
-
-    contactFormMessage.textContent =
-      currentLanguage === "it"
-        ? "Invio in corso..."
-        : "Sending...";
-
-
-    contactSubmitButton.disabled =
-      true;
-
-
-    const payload = {
-
-      name:
-        contactName
-          .value
-          .trim(),
-
-      email:
-        contactEmail
-          .value
-          .trim(),
-
-      message:
-        contactMessage
-          .value
-          .trim(),
-
-      contact_intent:
-        selectedContactIntent,
-
-      booking_type:
-        selectedContactIntent ===
-        "BOOKING"
-          ? selectedBookingType
-          : "",
-
-      event_date:
-        selectedContactIntent ===
-        "BOOKING"
-          ? contactEventDate.value
-          : ""
-
-    };
-
-
-    try{
-
-      const response =
-        await fetch(
-          "/api/contact",
-          {
-            method:"POST",
-
-            headers:{
-              "Content-Type":
-                "application/json"
-            },
-
-            body:
-              JSON.stringify(
-                payload
-              )
-          }
-        );
-
-
-      const result =
-        await response
-          .json()
-          .catch(
-            () => ({})
-          );
-
-
-      if(!response.ok){
-
-        throw new Error(
-          result.error ||
-          "Request failed"
-        );
-
-      }
-
-
-      contactFormMessage.className =
-        "form-message success";
-
-
-      contactFormMessage.textContent =
-        currentLanguage === "it"
-          ? "Messaggio inviato! Ti risponderemo il prima possibile."
-          : "Message sent! We'll get back to you as soon as possible.";
-
-
-      contactForm.reset();
-
-
-      selectedContactIntent =
-        "BOOKING";
-
-      selectedBookingType =
-        "";
-
-
-      document
-        .querySelectorAll(
-          "[data-contact-intent]"
-        )
-        .forEach(button=>{
-
-          button.classList.toggle(
-            "active",
-            button.dataset
-              .contactIntent ===
-              "BOOKING"
-          );
-
-        });
-
-
-      document
-        .querySelectorAll(
-          "[data-booking-type]"
-        )
-        .forEach(button=>{
-
-          button.classList.remove(
-            "active"
-          );
-
-        });
-
-
-      updateContactInterface();
-
-    }catch(error){
-
-      console.error(
-        "Contact error:",
-        error
-      );
-
-
-      contactFormMessage.className =
-        "form-message error";
-
-
-      contactFormMessage.textContent =
-        currentLanguage === "it"
-          ? "Qualcosa è andato storto. Riprova."
-          : "Something went wrong. Please try again.";
-
-    }finally{
-
-      contactSubmitButton.disabled =
-        false;
-
-    }
-
-  }
-);
-
-
-/* ============================================================
-   INITIALIZATION
-============================================================ */
-
-setLanguage(
-  currentLanguage
-);
-
-loadEvents();
-
-</script>
 
 </body>
 </html>
