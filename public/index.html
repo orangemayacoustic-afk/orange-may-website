@@ -73,6 +73,10 @@
       max-width: 100%;
     }
 
+    svg {
+      display: block;
+    }
+
     a {
       color: inherit;
       text-decoration: none;
@@ -100,163 +104,37 @@
 
 
     /* =====================================================
-       CSS ARROWS — NO EMOJI
+       SVG ICONS
     ===================================================== */
 
-    .css-arrow {
-      position: relative;
+    .icon-arrow {
+      width: 15px;
+      height: 15px;
 
-      display: inline-block;
-
-      width: 14px;
-      height: 14px;
-
+      display: block;
       flex-shrink: 0;
     }
 
-    .css-arrow::before,
-    .css-arrow::after {
-      content: "";
-
-      position: absolute;
-
-      display: block;
-
-      background: currentColor;
+    .icon-arrow-menu {
+      width: 22px;
+      height: 22px;
     }
 
-
-    /* UP RIGHT */
-
-    .css-arrow-up-right::before {
-      width: 9px;
-      height: 2px;
-
-      right: 1px;
-      top: 2px;
-
-      transform: rotate(-45deg);
-
-      transform-origin: right center;
+    .icon-arrow-social {
+      width: 22px;
+      height: 22px;
     }
 
-    .css-arrow-up-right::after {
-      width: 7px;
-      height: 7px;
-
-      right: 0;
-      top: 0;
-
-      background: transparent;
-
-      border-top: 2px solid currentColor;
-      border-right: 2px solid currentColor;
+    .icon-arrow-small {
+      width: 13px;
+      height: 13px;
     }
 
+    .inline-link {
+      display: inline-flex;
+      align-items: center;
 
-    /* DOWN RIGHT */
-
-    .css-arrow-down-right::before {
-      width: 9px;
-      height: 2px;
-
-      right: 1px;
-      bottom: 2px;
-
-      transform: rotate(45deg);
-
-      transform-origin: right center;
-    }
-
-    .css-arrow-down-right::after {
-      width: 7px;
-      height: 7px;
-
-      right: 0;
-      bottom: 0;
-
-      background: transparent;
-
-      border-right: 2px solid currentColor;
-      border-bottom: 2px solid currentColor;
-    }
-
-
-    /* RIGHT */
-
-    .css-arrow-right::before {
-      width: 12px;
-      height: 2px;
-
-      left: 0;
-      top: 6px;
-    }
-
-    .css-arrow-right::after {
-      width: 7px;
-      height: 7px;
-
-      right: 0;
-      top: 3px;
-
-      background: transparent;
-
-      border-top: 2px solid currentColor;
-      border-right: 2px solid currentColor;
-
-      transform: rotate(45deg);
-    }
-
-
-    /* DOWN */
-
-    .css-arrow-down::before {
-      width: 2px;
-      height: 12px;
-
-      left: 6px;
-      top: 0;
-    }
-
-    .css-arrow-down::after {
-      width: 7px;
-      height: 7px;
-
-      left: 3px;
-      bottom: 0;
-
-      background: transparent;
-
-      border-right: 2px solid currentColor;
-      border-bottom: 2px solid currentColor;
-
-      transform: rotate(45deg);
-    }
-
-
-    /* UP */
-
-    .css-arrow-up::before {
-      width: 2px;
-      height: 12px;
-
-      left: 6px;
-      top: 1px;
-    }
-
-    .css-arrow-up::after {
-      width: 7px;
-      height: 7px;
-
-      left: 3px;
-      top: 0;
-
-      background: transparent;
-
-      border-left: 2px solid currentColor;
-      border-top: 2px solid currentColor;
-
-      transform: rotate(45deg);
+      gap: 8px;
     }
 
 
@@ -562,6 +440,8 @@
       align-items: center;
       justify-content: space-between;
 
+      gap: 20px;
+
       border-bottom: 2px solid var(--black);
 
       font-size: clamp(2rem,10vw,3.3rem);
@@ -571,9 +451,14 @@
       text-transform: uppercase;
     }
 
-    .mobile-menu-links .css-arrow {
-      width: 18px;
-      height: 18px;
+    .mobile-menu-links .icon-arrow {
+      transition:
+        transform .25s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .mobile-menu-links a:hover
+    .icon-arrow {
+      transform: translateX(5px);
     }
 
     .mobile-menu-footer {
@@ -582,7 +467,7 @@
       display: flex;
       flex-wrap: wrap;
 
-      gap: 12px 20px;
+      gap: 12px 28px;
 
       padding-top: 28px;
 
@@ -591,12 +476,6 @@
       letter-spacing: .08em;
 
       text-transform: uppercase;
-    }
-
-    .inline-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
     }
 
 
@@ -791,6 +670,7 @@
 
     #social .section-label {
       margin-bottom: 18px;
+
       color: var(--black);
     }
 
@@ -865,15 +745,12 @@
       text-transform: uppercase;
     }
 
-    .social-link .css-arrow {
-      width: 22px;
-      height: 22px;
-
+    .social-link .icon-arrow {
       transition:
         transform .3s cubic-bezier(.2,.8,.2,1);
     }
 
-    .social-link:hover .css-arrow {
+    .social-link:hover .icon-arrow {
       transform: translate(5px,-5px);
     }
 
@@ -1105,7 +982,7 @@
     }
 
 
-    /* NEXT DATE */
+    /* DATE */
 
     .next-show-date {
       position: relative;
@@ -1148,7 +1025,7 @@
     }
 
 
-    /* NEXT CONTENT */
+    /* CONTENT */
 
     .next-show-content {
       position: relative;
@@ -1213,7 +1090,7 @@
     }
 
 
-    /* NEXT RIGHT */
+    /* RIGHT */
 
     .next-show-right {
       position: relative;
@@ -1257,7 +1134,7 @@
       align-items: center;
       justify-content: center;
 
-      gap: 8px;
+      gap: 7px;
 
       padding:
         0
@@ -1396,8 +1273,6 @@
     }
 
 
-    /* EVENT DATE */
-
     .event-date {
       width: 78px;
 
@@ -1428,9 +1303,6 @@
 
       text-transform: uppercase;
     }
-
-
-    /* EVENT CONTENT */
 
     .event-content {
       min-width: 0;
@@ -1488,9 +1360,6 @@
       font-size: .77rem;
     }
 
-
-    /* EVENT RIGHT */
-
     .event-right {
       min-width: 200px;
 
@@ -1544,7 +1413,7 @@
       align-items: center;
       justify-content: center;
 
-      gap: 12px;
+      gap: 10px;
 
       padding:
         0
@@ -1577,13 +1446,13 @@
       transform: translateY(-2px);
     }
 
-    .show-more-arrow {
+    .show-more-button .icon-arrow {
       transition:
         transform .25s ease;
     }
 
     .show-more-button.is-less
-    .show-more-arrow {
+    .icon-arrow {
       transform: rotate(180deg);
     }
 
@@ -1736,15 +1605,6 @@
       font-size: .82rem;
 
       overflow-wrap: anywhere;
-
-      transition:
-        color .2s ease,
-        border-color .2s ease;
-    }
-
-    .email-link:hover {
-      color: white;
-      border-color: white;
     }
 
 
@@ -1809,9 +1669,6 @@
       text-transform: uppercase;
     }
 
-
-    /* INTENT */
-
     .contact-choice-label {
       margin-bottom: 10px;
 
@@ -1855,25 +1712,12 @@
         13px;
 
       border:
-        1px solid
-        rgba(
-          255,
-          255,
-          255,
-          .25
-        );
+        1px solid rgba(255,255,255,.25);
 
       border-radius: 999px;
 
       background: transparent;
-
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .72
-        );
+      color: rgba(255,255,255,.72);
 
       font-size: .56rem;
       font-weight: 900;
@@ -1905,8 +1749,6 @@
     }
 
 
-    /* BOOKING DETAILS */
-
     .booking-details {
       overflow: hidden;
 
@@ -1914,12 +1756,10 @@
 
       opacity: 0;
 
-      transform:
-        translateY(-8px);
+      transform: translateY(-8px);
 
       transition:
-        max-height .45s
-        cubic-bezier(.2,.8,.2,1),
+        max-height .45s cubic-bezier(.2,.8,.2,1),
         opacity .3s ease,
         transform .3s ease,
         margin .3s ease;
@@ -1932,8 +1772,7 @@
 
       opacity: 1;
 
-      transform:
-        translateY(0);
+      transform: translateY(0);
 
       margin-bottom: 28px;
     }
@@ -1942,8 +1781,6 @@
       margin-bottom: 18px;
     }
 
-
-    /* FORM */
 
     .contact-form {
       display: grid;
@@ -1961,22 +1798,12 @@
       gap: 18px;
     }
 
-    .field {
-      min-width: 0;
-    }
-
     .field label {
       display: block;
 
       margin-bottom: 7px;
 
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .5
-        );
+      color: rgba(255,255,255,.5);
 
       font-size: .61rem;
       font-weight: 900;
@@ -1990,23 +1817,14 @@
       display: block;
 
       width: 100%;
-      max-width: 100%;
-      min-width: 0;
 
       padding:
         15px
         0;
 
       border: 0;
-
       border-bottom:
-        1px solid
-        rgba(
-          255,
-          255,
-          255,
-          .25
-        );
+        1px solid rgba(255,255,255,.25);
 
       border-radius: 0;
 
@@ -2016,25 +1834,11 @@
       color: white;
 
       font-size: 1rem;
-
-      transition:
-        border-color .2s ease;
     }
 
     .field input:focus,
     .field textarea:focus {
       border-color: var(--orange);
-    }
-
-    .field input::placeholder,
-    .field textarea::placeholder {
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .25
-        );
     }
 
     .field textarea {
@@ -2058,13 +1862,7 @@
     .form-message {
       min-height: 22px;
 
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .7
-        );
+      color: rgba(255,255,255,.7);
 
       font-size: .82rem;
     }
@@ -2099,13 +1897,7 @@
       top: 90px;
 
       border:
-        1px solid
-        rgba(
-          255,
-          106,
-          0,
-          .20
-        );
+        1px solid rgba(255,106,0,.20);
 
       border-radius: 50%;
 
@@ -2126,9 +1918,6 @@
 
       align-items: start;
     }
-
-
-    /* STORY VISUAL */
 
     .story-visual {
       position: sticky;
@@ -2154,19 +1943,11 @@
       right: 0;
       bottom: 0;
 
-      width:
-        calc(
-          100% - 22px
-        );
-
-      height:
-        calc(
-          100% - 22px
-        );
+      width: calc(100% - 22px);
+      height: calc(100% - 22px);
 
       border:
-        2px solid
-        var(--orange);
+        2px solid var(--orange);
 
       z-index: -1;
     }
@@ -2179,25 +1960,18 @@
 
       object-fit: cover;
 
-      filter:
-        grayscale(100%);
+      filter: grayscale(100%);
 
       transition:
         filter .55s ease,
-        transform .55s
-        cubic-bezier(.2,.8,.2,1);
+        transform .55s cubic-bezier(.2,.8,.2,1);
     }
 
     .story-image-frame:hover img {
-      filter:
-        grayscale(35%);
+      filter: grayscale(35%);
 
-      transform:
-        translate(-3px,-3px);
+      transform: translate(-3px,-3px);
     }
-
-
-    /* META */
 
     .story-image-meta {
       margin-top: 18px;
@@ -2211,13 +1985,7 @@
       padding-top: 12px;
 
       border-top:
-        1px solid
-        rgba(
-          17,
-          16,
-          15,
-          .25
-        );
+        1px solid rgba(17,16,15,.25);
 
       font-size: .61rem;
       font-weight: 900;
@@ -2231,8 +1999,6 @@
     }
 
 
-    /* SIGNATURE */
-
     .story-signature {
       position: relative;
 
@@ -2241,13 +2007,7 @@
       padding-top: 24px;
 
       border-top:
-        1px solid
-        rgba(
-          17,
-          16,
-          15,
-          .20
-        );
+        1px solid rgba(17,16,15,.20);
 
       overflow: hidden;
     }
@@ -2255,13 +2015,7 @@
     .story-signature-big {
       display: block;
 
-      color:
-        rgba(
-          17,
-          16,
-          15,
-          .055
-        );
+      color: rgba(17,16,15,.055);
 
       font-size:
         clamp(
@@ -2278,10 +2032,7 @@
 
       white-space: nowrap;
 
-      transform:
-        translateX(-5px);
-
-      user-select: none;
+      transform: translateX(-5px);
     }
 
     .story-signature-bottom {
@@ -2308,12 +2059,8 @@
       height: 2px;
 
       background: var(--orange);
-
-      flex-shrink: 0;
     }
 
-
-    /* STORY CONTENT */
 
     .story-content .section-label {
       margin-bottom: 24px;
@@ -2381,18 +2128,14 @@
     }
 
 
-    /* DNA */
-
     .story-dna {
       margin-top: 52px;
 
       border-top:
-        2px solid
-        var(--black);
+        2px solid var(--black);
 
       border-bottom:
-        2px solid
-        var(--black);
+        2px solid var(--black);
 
       display: grid;
 
@@ -2412,22 +2155,10 @@
         20px;
 
       border-right:
-        1px solid
-        rgba(
-          17,
-          16,
-          15,
-          .22
-        );
+        1px solid rgba(17,16,15,.22);
 
       border-bottom:
-        1px solid
-        rgba(
-          17,
-          16,
-          15,
-          .22
-        );
+        1px solid rgba(17,16,15,.22);
     }
 
     .story-dna-item:nth-child(2n) {
@@ -2465,11 +2196,7 @@
     }
 
 
-    /* STORY ENDING */
-
     .story-ending {
-      position: relative;
-
       margin-top: 52px;
 
       padding:
@@ -2478,13 +2205,7 @@
         4px;
 
       border-top:
-        1px solid
-        rgba(
-          17,
-          16,
-          15,
-          .25
-        );
+        1px solid rgba(17,16,15,.25);
     }
 
     .story-ending-small {
@@ -2522,16 +2243,12 @@
 
 
     /* =====================================================
-       LIVE SECTION
+       LIVE
     ===================================================== */
 
     .live-section {
-      position: relative;
-
       background: var(--black);
       color: white;
-
-      overflow: hidden;
     }
 
     .live-section-head {
@@ -2572,13 +2289,7 @@
     }
 
     .live-section-copy {
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .5
-        );
+      color: rgba(255,255,255,.5);
 
       font-size: .61rem;
       font-weight: 800;
@@ -2586,9 +2297,6 @@
 
       text-transform: uppercase;
     }
-
-
-    /* PHOTOS */
 
     .image-strip {
       width: 100%;
@@ -2607,13 +2315,10 @@
 
       flex: 1;
 
-      min-width: 0;
-
       overflow: hidden;
 
       transition:
-        flex .7s
-        cubic-bezier(.2,.8,.2,1);
+        flex .7s cubic-bezier(.2,.8,.2,1);
     }
 
     .image-strip:hover figure {
@@ -2634,26 +2339,20 @@
         brightness(.80)
         saturate(.92);
 
-      transform:
-        scale(1.01);
+      transform: scale(1.01);
 
       transition:
-        transform .8s
-        cubic-bezier(.2,.8,.2,1),
+        transform .8s cubic-bezier(.2,.8,.2,1),
         filter .55s ease;
     }
 
     .image-strip figure:hover img {
-      transform:
-        scale(1.05);
+      transform: scale(1.05);
 
       filter:
         brightness(.96)
         saturate(1);
     }
-
-
-    /* DARK GRADIENT */
 
     .image-strip figure::after {
       content: "";
@@ -2669,13 +2368,8 @@
           transparent 68%
         );
 
-      pointer-events: none;
-
       z-index: 1;
     }
-
-
-    /* PHOTO TEXT */
 
     .live-photo-overlay {
       position: absolute;
@@ -2690,10 +2384,6 @@
         0
         38px
         34px;
-
-      color: white;
-
-      pointer-events: none;
     }
 
     .live-photo-top {
@@ -2711,15 +2401,6 @@
       letter-spacing: .15em;
 
       text-transform: uppercase;
-
-      transform:
-        translateY(4px);
-
-      opacity: .75;
-
-      transition:
-        opacity .4s ease,
-        transform .4s ease;
     }
 
     .live-photo-top::before {
@@ -2744,58 +2425,19 @@
       letter-spacing: -.06em;
 
       text-transform: uppercase;
-
-      transform:
-        translateY(8px);
-
-      transition:
-        transform .45s
-        cubic-bezier(.2,.8,.2,1);
     }
 
     .live-photo-role {
       margin-top: 14px;
 
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .62
-        );
+      color: rgba(255,255,255,.62);
 
       font-size: .66rem;
       font-weight: 800;
       letter-spacing: .12em;
 
       text-transform: uppercase;
-
-      opacity: .72;
-
-      transform:
-        translateY(7px);
-
-      transition:
-        opacity .4s ease,
-        transform .4s ease;
     }
-
-    .image-strip figure:hover
-    .live-photo-top,
-
-    .image-strip figure:hover
-    .live-photo-name,
-
-    .image-strip figure:hover
-    .live-photo-role {
-      opacity: 1;
-
-      transform:
-        translateY(0);
-    }
-
-
-    /* NUMBER */
 
     .live-photo-index {
       position: absolute;
@@ -2805,30 +2447,11 @@
 
       z-index: 2;
 
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .35
-        );
+      color: rgba(255,255,255,.35);
 
       font-size: .58rem;
       font-weight: 900;
       letter-spacing: .14em;
-
-      text-transform: uppercase;
-    }
-
-    .image-strip figure:first-child {
-      border-right:
-        1px solid
-        rgba(
-          255,
-          255,
-          255,
-          .10
-        );
     }
 
 
@@ -2862,17 +2485,9 @@
       bottom: -240px;
 
       border:
-        1px solid
-        rgba(
-          17,
-          16,
-          15,
-          .24
-        );
+        1px solid rgba(17,16,15,.24);
 
       border-radius: 50%;
-
-      pointer-events: none;
     }
 
     .final-cta-inner {
@@ -2929,7 +2544,7 @@
       gap: 10px;
     }
 
-    .final-cta .btn-dark {
+    .btn-dark {
       min-height: 52px;
 
       display: inline-flex;
@@ -2952,17 +2567,6 @@
       letter-spacing: .09em;
 
       text-transform: uppercase;
-
-      transition:
-        transform .25s ease,
-        background .25s ease;
-    }
-
-    .final-cta .btn-dark:hover {
-      transform:
-        translateY(-3px);
-
-      background: #27231f;
     }
 
     .final-cta-secondary {
@@ -2978,13 +2582,7 @@
       text-transform: uppercase;
 
       border-bottom:
-        1px solid
-        rgba(
-          17,
-          16,
-          15,
-          .45
-        );
+        1px solid rgba(17,16,15,.45);
 
       padding-bottom: 3px;
     }
@@ -3036,8 +2634,6 @@
     .footer-nav {
       display: grid;
 
-      gap: 10px;
-
       min-width: 210px;
     }
 
@@ -3049,41 +2645,23 @@
       gap: 20px;
 
       padding:
-        11px
+        14px
         0;
 
       border-bottom:
-        1px solid
-        rgba(
-          255,
-          255,
-          255,
-          .17
-        );
+        1px solid rgba(255,255,255,.17);
 
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .76
-        );
+      color: rgba(255,255,255,.76);
 
       font-size: .7rem;
       font-weight: 900;
       letter-spacing: .10em;
 
       text-transform: uppercase;
-
-      transition:
-        color .2s ease,
-        padding .2s ease;
     }
 
     .footer-nav a:hover {
       color: white;
-
-      padding-left: 5px;
     }
 
     .footer-bottom {
@@ -3092,27 +2670,14 @@
       padding-top: 20px;
 
       border-top:
-        1px solid
-        rgba(
-          255,
-          255,
-          255,
-          .16
-        );
+        1px solid rgba(255,255,255,.16);
 
       display: flex;
-      align-items: center;
       justify-content: space-between;
 
       gap: 24px;
 
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          .42
-        );
+      color: rgba(255,255,255,.42);
 
       font-size: .58rem;
       font-weight: 800;
@@ -3135,13 +2700,6 @@
       gap: 7px;
 
       color: white;
-
-      transition:
-        color .2s ease;
-    }
-
-    .back-to-top:hover {
-      color: var(--orange);
     }
 
 
@@ -3195,8 +2753,7 @@
       .hero {
         min-height: 100svh;
 
-        background-position:
-          59% center;
+        background-position: 59% center;
 
         background-image:
           linear-gradient(
@@ -3215,16 +2772,12 @@
       }
 
       .hero h1 {
-        max-width: 100%;
-
         font-size:
           clamp(
             3.8rem,
             17.7vw,
             5.4rem
           );
-
-        line-height: .8;
       }
 
       .hero-bottom {
@@ -3258,10 +2811,6 @@
 
         min-height: 45px;
 
-        padding:
-          0
-          8px;
-
         font-size: .61rem;
       }
 
@@ -3287,8 +2836,6 @@
             14vw,
             4.2rem
           );
-
-        line-height: .84;
       }
 
       .social-title span {
@@ -3314,8 +2861,6 @@
       .social-link:hover {
         padding-left: 0;
         padding-right: 0;
-
-        background: transparent;
       }
 
       .social-name {
@@ -3327,17 +2872,9 @@
           );
       }
 
-      .social-link .css-arrow {
-        width: 18px;
-        height: 18px;
-      }
-
-      .ticker-content {
-        padding:
-          15px
-          10px;
-
-        font-size: .61rem;
+      .social-link .icon-arrow {
+        width: 19px;
+        height: 19px;
       }
 
 
@@ -3365,8 +2902,6 @@
             13vw,
             4.25rem
           );
-
-        line-height: .86;
       }
 
       .next-show {
@@ -3376,16 +2911,7 @@
 
         padding:
           22px
-          17px
-          22px;
-      }
-
-      .next-show::after {
-        right: -110px;
-        bottom: -130px;
-
-        width: 240px;
-        height: 240px;
+          17px;
       }
 
       .next-show-label {
@@ -3409,8 +2935,6 @@
 
       .next-show-day {
         font-size: 4rem;
-
-        line-height: .75;
       }
 
       .next-show-month {
@@ -3426,36 +2950,12 @@
       }
 
       .next-show-venue {
-        max-width: 100%;
-
         font-size:
           clamp(
             2rem,
             9.6vw,
             2.85rem
           );
-
-        line-height: .9;
-      }
-
-      .next-show-location {
-        margin-top: 10px;
-
-        font-size: .85rem;
-      }
-
-      .next-show-badge {
-        min-height: 26px;
-
-        margin-top: 14px;
-
-        font-size: .52rem;
-      }
-
-      .next-show-note {
-        margin-top: 11px;
-
-        font-size: .78rem;
       }
 
       .next-show-right {
@@ -3466,34 +2966,13 @@
         padding-top: 16px;
 
         border-top:
-          1px solid
-          rgba(
-            255,
-            255,
-            255,
-            .18
-          );
+          1px solid rgba(255,255,255,.18);
 
         align-items: flex-start;
       }
 
-      .next-show-time {
-        font-size: 1.2rem;
-      }
-
-      .next-show-right
-      .show-actions {
+      .next-show-right .show-actions {
         justify-content: flex-start;
-
-        margin-top: 15px;
-      }
-
-      .more-shows-wrapper {
-        margin-top: 38px;
-      }
-
-      .more-shows-label {
-        margin-bottom: 12px;
       }
 
       .more-events {
@@ -3501,15 +2980,11 @@
       }
 
       .event {
-        display: grid;
-
         grid-template-columns:
           56px
           minmax(0,1fr);
 
         gap: 13px;
-
-        align-items: start;
 
         min-height: 0;
 
@@ -3518,98 +2993,30 @@
           0;
 
         border-bottom:
-          1px solid
-          rgba(
-            17,
-            16,
-            15,
-            .15
-          );
+          1px solid rgba(17,16,15,.15);
 
         background: transparent;
-
-        overflow: visible;
       }
 
       .event:first-child {
         border-top:
-          1px solid
-          rgba(
-            17,
-            16,
-            15,
-            .15
-          );
+          1px solid rgba(17,16,15,.15);
       }
 
       .event::before {
         display: none;
       }
 
-      .event:hover {
-        transform: none;
-
-        background: transparent;
-      }
-
       .event-date {
         width: 56px;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        text-align: center;
       }
 
       .event-day {
         font-size: 2rem;
-
-        line-height: .82;
-      }
-
-      .event-month {
-        margin-top: 6px;
-
-        padding-left: .16em;
-
-        font-size: .52rem;
-      }
-
-      .event-content {
-        padding-right: 2px;
       }
 
       .event-venue {
         font-size: 1.2rem;
-
-        line-height: 1.02;
-      }
-
-      .event-location {
-        margin-top: 5px;
-
-        font-size: .76rem;
-      }
-
-      .event-badges {
-        margin-top: 8px;
-      }
-
-      .event-badge {
-        min-height: 22px;
-
-        padding:
-          0
-          8px;
-
-        font-size: .48rem;
-      }
-
-      .event-note-text {
-        margin-top: 7px;
-
-        font-size: .72rem;
       }
 
       .event-right {
@@ -3623,32 +3030,12 @@
         align-items: flex-start;
       }
 
-      .event-time {
-        font-size: .88rem;
-      }
-
       .event .show-actions {
         justify-content: flex-start;
-
-        margin-top: 9px;
-      }
-
-      .event .show-action {
-        min-height: 31px;
-
-        font-size: .48rem;
-      }
-
-      .show-more-wrap {
-        margin-top: 20px;
       }
 
       .show-more-button {
         width: 100%;
-
-        min-height: 46px;
-
-        font-size: .59rem;
       }
 
 
@@ -3693,45 +3080,16 @@
       }
 
       .contact-panel-heading {
-        margin-bottom: 24px;
-
         font-size: 1.75rem;
       }
 
-      .contact-intents,
-      .booking-types {
-        gap: 6px;
-      }
-
-      .contact-intent,
-      .booking-type {
-        min-height: 35px;
-
-        padding:
-          0
-          10px;
-
-        font-size: .51rem;
-      }
-
-      .contact-intents {
-        margin-bottom: 25px;
-      }
-
       .booking-row {
-        grid-template-columns:
-          1fr;
-
-        gap: 18px;
+        grid-template-columns: 1fr;
       }
 
       .field input,
       .field textarea {
         font-size: 16px;
-      }
-
-      .field textarea {
-        min-height: 110px;
       }
 
 
@@ -3768,57 +3126,16 @@
       }
 
       .story-heading {
-        max-width: 100%;
-
-        margin-bottom: 28px;
-
         font-size:
           clamp(
             2.75rem,
             12.8vw,
             4rem
           );
-
-        line-height: .88;
-      }
-
-      .story-lead {
-        margin-bottom: 30px;
-
-        font-size: 1.22rem;
-      }
-
-      .story-text {
-        gap: 22px;
-      }
-
-      .story-text p {
-        font-size: .98rem;
-      }
-
-      .story-image-frame {
-        padding:
-          0
-          12px
-          12px
-          0;
-      }
-
-      .story-image-frame img {
-        aspect-ratio:
-          4 / 5;
-      }
-
-      .story-image-meta {
-        font-size: .54rem;
       }
 
       .story-signature {
         display: none;
-      }
-
-      .story-dna {
-        margin-top: 40px;
       }
 
       .story-dna-item {
@@ -3827,27 +3144,6 @@
         padding:
           15px
           12px;
-      }
-
-      .story-dna-name {
-        font-size: 1.05rem;
-      }
-
-      .story-ending {
-        margin-top: 42px;
-
-        padding-top: 27px;
-      }
-
-      .story-ending-main {
-        max-width: 100%;
-
-        font-size:
-          clamp(
-            2rem,
-            9.8vw,
-            3.15rem
-          );
       }
 
 
@@ -3873,37 +3169,14 @@
       }
 
       .image-strip figure {
-        width: 100%;
-
         height: 68svh;
 
         flex: none;
-
-        border-right: 0 !important;
-
-        border-bottom:
-          1px solid
-          rgba(
-            255,
-            255,
-            255,
-            .10
-          );
       }
 
       .image-strip:hover figure,
       .image-strip figure:hover {
         flex: none;
-      }
-
-      .image-strip img,
-      .image-strip figure:hover img {
-        transform:
-          scale(1.01);
-
-        filter:
-          brightness(.86)
-          saturate(.95);
       }
 
       .live-photo-overlay {
@@ -3922,19 +3195,8 @@
           );
       }
 
-      .live-photo-role {
-        margin-top: 10px;
 
-        font-size: .57rem;
-      }
-
-      .live-photo-index {
-        top: 20px;
-        right: 20px;
-      }
-
-
-      /* FINAL CTA */
+      /* CTA */
 
       .final-cta {
         padding:
@@ -3948,16 +3210,12 @@
       }
 
       .final-cta-title {
-        max-width: 100%;
-
         font-size:
           clamp(
             2.9rem,
             13vw,
             4.2rem
           );
-
-        line-height: .84;
       }
 
       .final-cta-actions {
@@ -3966,16 +3224,8 @@
         align-items: flex-start;
       }
 
-      .final-cta .btn-dark {
+      .btn-dark {
         width: 100%;
-      }
-
-      .final-cta::after {
-        width: 300px;
-        height: 300px;
-
-        right: -180px;
-        bottom: -150px;
       }
 
 
@@ -4003,23 +3253,12 @@
 
       .footer-nav {
         margin-top: 42px;
-
-        min-width: 0;
-      }
-
-      .footer-nav a {
-        min-height: 46px;
-
-        padding:
-          10px
-          0;
       }
 
       .footer-bottom {
         margin-top: 48px;
 
         flex-direction: column;
-        align-items: flex-start;
 
         gap: 14px;
       }
@@ -4038,60 +3277,14 @@
         padding-right: 14px;
       }
 
-      .hero h1 {
-        font-size: 17vw;
-      }
-
       .hero-actions {
-        grid-template-columns:
-          1fr;
-      }
-
-      .social-title {
-        font-size: 13.5vw;
-      }
-
-      .contact-title {
-        font-size: 11.7vw;
-      }
-
-      .next-show {
-        padding:
-          20px
-          16px
-          21px;
-      }
-
-      .next-show-day {
-        font-size: 3.7rem;
-      }
-
-      .next-show-venue {
-        font-size: 8.9vw;
+        grid-template-columns: 1fr;
       }
 
       .event {
         grid-template-columns:
           51px
           minmax(0,1fr);
-
-        gap: 11px;
-      }
-
-      .event-date {
-        width: 51px;
-      }
-
-      .event-day {
-        font-size: 1.85rem;
-      }
-
-      .story-heading {
-        font-size: 12vw;
-      }
-
-      .story-dna-name {
-        font-size: .96rem;
       }
 
     }
@@ -4125,9 +3318,7 @@
 <body>
 
 
-  <!-- ===================================================
-       HEADER
-  ==================================================== -->
+  <!-- HEADER -->
 
   <header id="header">
 
@@ -4151,7 +3342,6 @@
             src="/images/logo.png"
             alt=""
             class="logo-dark"
-            aria-hidden="true"
           >
 
         </a>
@@ -4159,38 +3349,21 @@
 
         <div class="nav-right">
 
-
           <div class="nav-links">
 
-            <a
-              href="#social"
-              data-en="Social"
-              data-it="Social"
-            >
+            <a href="#social" data-en="Social" data-it="Social">
               Social
             </a>
 
-            <a
-              href="#shows"
-              data-en="Shows"
-              data-it="Date"
-            >
+            <a href="#shows" data-en="Shows" data-it="Date">
               Shows
             </a>
 
-            <a
-              href="#contact"
-              data-en="Contact"
-              data-it="Contatti"
-            >
+            <a href="#contact" data-en="Contact" data-it="Contatti">
               Contact
             </a>
 
-            <a
-              href="#about"
-              data-en="Our Story"
-              data-it="La nostra storia"
-            >
+            <a href="#about" data-en="Our Story" data-it="La nostra storia">
               Our Story
             </a>
 
@@ -4199,10 +3372,7 @@
 
           <div class="language-switcher">
 
-            <button
-              id="enBtn"
-              class="active"
-            >
+            <button id="enBtn" class="active">
               EN
             </button>
 
@@ -4217,12 +3387,10 @@
             id="menuToggle"
             class="menu-toggle"
             aria-label="Open menu"
-            aria-expanded="false"
           >
             <span></span>
             <span></span>
           </button>
-
 
         </div>
 
@@ -4233,9 +3401,7 @@
   </header>
 
 
-  <!-- ===================================================
-       MOBILE MENU
-  ==================================================== -->
+  <!-- MOBILE MENU -->
 
   <div
     id="mobileMenu"
@@ -4244,86 +3410,77 @@
 
     <div class="mobile-menu-links">
 
+      <a href="#social" class="mobile-nav-link">
 
-      <a
-        href="#social"
-        class="mobile-nav-link"
-      >
-
-        <span
-          data-en="Social"
-          data-it="Social"
-        >
+        <span data-en="Social" data-it="Social">
           Social
         </span>
 
-        <span
-          class="css-arrow css-arrow-down-right"
+        <svg
+          class="icon-arrow icon-arrow-menu"
+          viewBox="0 0 24 24"
           aria-hidden="true"
-        ></span>
+        >
+          <path
+            d="M5 12H19"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M14 7L19 12L14 17"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
 
       </a>
 
 
-      <a
-        href="#shows"
-        class="mobile-nav-link"
-      >
+      <a href="#shows" class="mobile-nav-link">
 
-        <span
-          data-en="Shows"
-          data-it="Date"
-        >
+        <span data-en="Shows" data-it="Date">
           Shows
         </span>
 
-        <span
-          class="css-arrow css-arrow-down-right"
-          aria-hidden="true"
-        ></span>
+        <svg class="icon-arrow icon-arrow-menu" viewBox="0 0 24 24">
+          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
 
       </a>
 
 
-      <a
-        href="#contact"
-        class="mobile-nav-link"
-      >
+      <a href="#contact" class="mobile-nav-link">
 
-        <span
-          data-en="Contact"
-          data-it="Contatti"
-        >
+        <span data-en="Contact" data-it="Contatti">
           Contact
         </span>
 
-        <span
-          class="css-arrow css-arrow-down-right"
-          aria-hidden="true"
-        ></span>
+        <svg class="icon-arrow icon-arrow-menu" viewBox="0 0 24 24">
+          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
 
       </a>
 
 
-      <a
-        href="#about"
-        class="mobile-nav-link"
-      >
+      <a href="#about" class="mobile-nav-link">
 
-        <span
-          data-en="Our Story"
-          data-it="La nostra storia"
-        >
+        <span data-en="Our Story" data-it="La nostra storia">
           Our Story
         </span>
 
-        <span
-          class="css-arrow css-arrow-down-right"
-          aria-hidden="true"
-        ></span>
+        <svg class="icon-arrow icon-arrow-menu" viewBox="0 0 24 24">
+          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
 
       </a>
-
 
     </div>
 
@@ -4333,33 +3490,28 @@
       <a
         href="https://www.instagram.com/orangemay_acoustic/"
         target="_blank"
-        rel="noopener noreferrer"
         class="inline-link"
       >
-        <span>
-          Instagram
-        </span>
+        Instagram
 
-        <span
-          class="css-arrow css-arrow-up-right"
-          aria-hidden="true"
-        ></span>
+        <svg class="icon-arrow" viewBox="0 0 24 24">
+          <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </a>
+
 
       <a
         href="https://www.facebook.com/p/Orange-May-100092238015144/"
         target="_blank"
-        rel="noopener noreferrer"
         class="inline-link"
       >
-        <span>
-          Facebook
-        </span>
+        Facebook
 
-        <span
-          class="css-arrow css-arrow-up-right"
-          aria-hidden="true"
-        ></span>
+        <svg class="icon-arrow" viewBox="0 0 24 24">
+          <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </a>
 
     </div>
@@ -4370,14 +3522,11 @@
   <main id="top">
 
 
-    <!-- =================================================
-         HERO
-    ================================================== -->
+    <!-- HERO -->
 
     <section class="hero">
 
       <div class="container hero-content">
-
 
         <div
           class="hero-eyebrow"
@@ -4396,7 +3545,6 @@
 
         <div class="hero-bottom">
 
-
           <p
             class="hero-description"
             data-en="Two voices. One guitar. Every song made our own."
@@ -4408,34 +3556,27 @@
 
           <div class="hero-actions">
 
-            <a
-              href="#social"
-              class="btn btn-orange"
-              data-en="Follow us"
-              data-it="Seguici"
-            >
-              Follow us
+            <a href="#social" class="btn btn-orange">
+              <span data-en="Follow us" data-it="Seguici">
+                Follow us
+              </span>
             </a>
 
-            <a
-              href="#shows"
-              class="btn btn-white"
-            >
-              <span
-                data-en="Next shows"
-                data-it="Prossime date"
-              >
+
+            <a href="#shows" class="btn btn-white">
+
+              <span data-en="Next shows" data-it="Prossime date">
                 Next shows
               </span>
 
-              <span
-                class="css-arrow css-arrow-down"
-                aria-hidden="true"
-              ></span>
+              <svg class="icon-arrow" viewBox="0 0 24 24">
+                <path d="M12 5V19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M7 14L12 19L17 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+
             </a>
 
           </div>
-
 
         </div>
 
@@ -4444,17 +3585,13 @@
     </section>
 
 
-    <!-- =================================================
-         SOCIAL
-    ================================================== -->
+    <!-- SOCIAL -->
 
     <section id="social">
 
       <div class="container">
 
-
         <div class="social-top reveal">
-
 
           <div>
 
@@ -4468,9 +3605,7 @@
 
             <div class="social-title">
               Stay
-              <span>
-                connected.
-              </span>
+              <span>connected.</span>
             </div>
 
           </div>
@@ -4483,23 +3618,20 @@
               data-it="Seguici per video live, backstage, prossime date e tutto quello che succede tra una canzone e l'altra."
             >
               Follow us for live clips, behind-the-scenes moments,
-              upcoming shows and everything that happens between one
-              song and the next.
+              upcoming shows and everything that happens between
+              one song and the next.
             </p>
 
           </div>
-
 
         </div>
 
 
         <div class="social-links reveal">
 
-
           <a
             href="https://www.instagram.com/orangemay_acoustic/"
             target="_blank"
-            rel="noopener noreferrer"
             class="social-link"
           >
 
@@ -4507,10 +3639,10 @@
               Instagram
             </span>
 
-            <span
-              class="css-arrow css-arrow-up-right"
-              aria-hidden="true"
-            ></span>
+            <svg class="icon-arrow icon-arrow-social" viewBox="0 0 24 24">
+              <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
 
           </a>
 
@@ -4518,7 +3650,6 @@
           <a
             href="https://www.facebook.com/p/Orange-May-100092238015144/"
             target="_blank"
-            rel="noopener noreferrer"
             class="social-link"
           >
 
@@ -4526,13 +3657,12 @@
               Facebook
             </span>
 
-            <span
-              class="css-arrow css-arrow-up-right"
-              aria-hidden="true"
-            ></span>
+            <svg class="icon-arrow icon-arrow-social" viewBox="0 0 24 24">
+              <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
 
           </a>
-
 
         </div>
 
@@ -4541,14 +3671,11 @@
     </section>
 
 
-    <!-- =================================================
-         TICKER
-    ================================================== -->
+    <!-- TICKER -->
 
     <div class="ticker">
 
       <div class="ticker-track">
-
 
         <div class="ticker-content">
 
@@ -4604,23 +3731,18 @@
 
         </div>
 
-
       </div>
 
     </div>
 
 
-    <!-- =================================================
-         SHOWS
-    ================================================== -->
+    <!-- SHOWS -->
 
     <section id="shows">
 
       <div class="container">
 
-
         <div class="section-header reveal">
-
 
           <div
             class="section-label"
@@ -4630,7 +3752,6 @@
             Live
           </div>
 
-
           <h2
             class="section-title"
             data-en="Upcoming shows."
@@ -4639,7 +3760,6 @@
             Upcoming shows.
           </h2>
 
-
         </div>
 
 
@@ -4647,32 +3767,23 @@
           id="events"
           class="events-list reveal"
         >
-
           <div class="empty">
             Loading...
           </div>
-
         </div>
-
 
       </div>
 
     </section>
 
 
-    <!-- =================================================
-         CONTACT
-    ================================================== -->
+    <!-- CONTACT -->
 
     <section id="contact">
 
       <div class="container contact-grid">
 
-
-        <!-- LEFT -->
-
         <div class="reveal">
-
 
           <div
             class="section-label"
@@ -4684,7 +3795,6 @@
 
 
           <h2 class="contact-title">
-
 
             <span
               class="orange"
@@ -4703,7 +3813,6 @@
               touch.
             </span>
 
-
           </h2>
 
 
@@ -4719,14 +3828,13 @@
 
           <div class="direct-contact">
 
-
             <a
               id="whatsappLink"
               href="https://wa.me/393421670308"
               target="_blank"
-              rel="noopener noreferrer"
               class="btn btn-orange"
             >
+
               <span
                 data-en="Message us on WhatsApp"
                 data-it="Scrivici su WhatsApp"
@@ -4734,10 +3842,11 @@
                 Message us on WhatsApp
               </span>
 
-              <span
-                class="css-arrow css-arrow-up-right"
-                aria-hidden="true"
-              ></span>
+              <svg class="icon-arrow" viewBox="0 0 24 24">
+                <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+
             </a>
 
 
@@ -4748,17 +3857,12 @@
               orangemayacoustic@gmail.com
             </a>
 
-
           </div>
-
 
         </div>
 
 
-        <!-- RIGHT -->
-
         <div class="contact-panel reveal">
-
 
           <div
             class="contact-kicker"
@@ -4780,7 +3884,6 @@
 
           <div class="contact-intents">
 
-
             <button
               type="button"
               class="contact-intent"
@@ -4790,7 +3893,6 @@
             >
               Booking
             </button>
-
 
             <button
               type="button"
@@ -4802,7 +3904,6 @@
               Info
             </button>
 
-
             <button
               type="button"
               class="contact-intent"
@@ -4812,7 +3913,6 @@
             >
               Collaboration
             </button>
-
 
             <button
               type="button"
@@ -4824,7 +3924,6 @@
               Just saying hi
             </button>
 
-
           </div>
 
 
@@ -4833,12 +3932,10 @@
             class="contact-form"
           >
 
-
             <div
               id="bookingDetails"
               class="booking-details"
             >
-
 
               <div
                 class="contact-choice-label"
@@ -4851,17 +3948,13 @@
 
               <div class="booking-types">
 
-
                 <button
                   type="button"
                   class="booking-type"
                   data-booking-type="HOTEL"
-                  data-en="Hotel"
-                  data-it="Hotel"
                 >
                   Hotel
                 </button>
-
 
                 <button
                   type="button"
@@ -4873,7 +3966,6 @@
                   Venue
                 </button>
 
-
                 <button
                   type="button"
                   class="booking-type"
@@ -4883,7 +3975,6 @@
                 >
                   Wedding
                 </button>
-
 
                 <button
                   type="button"
@@ -4895,7 +3986,6 @@
                   Private event
                 </button>
 
-
                 <button
                   type="button"
                   class="booking-type"
@@ -4906,12 +3996,10 @@
                   Other
                 </button>
 
-
               </div>
 
 
               <div class="field">
-
 
                 <label
                   for="eventDateContact"
@@ -4921,24 +4009,19 @@
                   Event date
                 </label>
 
-
                 <input
                   id="eventDateContact"
                   type="date"
                 >
 
-
               </div>
-
 
             </div>
 
 
             <div class="booking-row">
 
-
               <div class="field">
-
 
                 <label
                   for="name"
@@ -4948,44 +4031,33 @@
                   First & Last Name
                 </label>
 
-
                 <input
                   id="name"
                   type="text"
-                  name="name"
-                  autocomplete="name"
                   required
                 >
-
 
               </div>
 
 
               <div class="field">
 
-
                 <label for="email">
                   Email
                 </label>
 
-
                 <input
                   id="email"
                   type="email"
-                  name="email"
-                  autocomplete="email"
                   required
                 >
 
-
               </div>
-
 
             </div>
 
 
             <div class="field">
-
 
               <label
                 for="message"
@@ -4995,13 +4067,10 @@
                 Your message
               </label>
 
-
               <textarea
                 id="message"
-                name="message"
                 required
               ></textarea>
-
 
             </div>
 
@@ -5010,6 +4079,7 @@
               type="submit"
               class="btn btn-orange contact-submit"
             >
+
               <span
                 data-en="Send message"
                 data-it="Invia messaggio"
@@ -5017,51 +4087,41 @@
                 Send message
               </span>
 
-              <span
-                class="css-arrow css-arrow-right"
-                aria-hidden="true"
-              ></span>
+              <svg class="icon-arrow" viewBox="0 0 24 24">
+                <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+
             </button>
 
 
             <div
               id="formMessage"
               class="form-message"
-              aria-live="polite"
             ></div>
-
 
           </form>
 
-
         </div>
-
 
       </div>
 
     </section>
 
 
-    <!-- =================================================
-         OUR STORY
-    ================================================== -->
+    <!-- STORY -->
 
     <section id="about">
 
       <div class="container story-grid">
 
-
-        <!-- LEFT -->
-
         <div class="story-visual reveal">
-
 
           <div class="story-image-frame">
 
             <img
               src="/images/story.jpg"
               alt="Cristian and Lara — Orange May Acoustic"
-              loading="lazy"
             >
 
           </div>
@@ -5082,14 +4142,10 @@
 
           <div class="story-signature">
 
-            <span
-              class="story-signature-big"
-              aria-hidden="true"
-            >
+            <span class="story-signature-big">
               Orange<br>
               May
             </span>
-
 
             <div
               class="story-signature-bottom"
@@ -5099,17 +4155,12 @@
               Acoustic live duo
             </div>
 
-
           </div>
-
 
         </div>
 
 
-        <!-- RIGHT -->
-
         <div class="story-content reveal">
-
 
           <div
             class="section-label"
@@ -5121,7 +4172,6 @@
 
 
           <h2 class="story-heading">
-
 
             <span
               data-en="It started"
@@ -5149,7 +4199,6 @@
               Then came the music.
             </span>
 
-
           </h2>
 
 
@@ -5163,7 +4212,6 @@
 
 
           <div class="story-text">
-
 
             <p
               data-en="Our story began almost by chance: our siblings are married to each other, which brought us into the same family long before it brought us onto the same stage."
@@ -5195,90 +4243,43 @@
               adapting every set to the atmosphere in front of us.
             </p>
 
-
           </div>
 
-
-          <!-- DNA -->
 
           <div class="story-dna">
 
-
             <div class="story-dna-item">
-
-              <span class="story-dna-number">
-                01
-              </span>
-
-              <span
-                class="story-dna-name"
-                data-en="Two voices"
-                data-it="Due voci"
-              >
+              <span class="story-dna-number">01</span>
+              <span class="story-dna-name" data-en="Two voices" data-it="Due voci">
                 Two voices
               </span>
-
             </div>
 
-
             <div class="story-dna-item">
-
-              <span class="story-dna-number">
-                02
-              </span>
-
-              <span
-                class="story-dna-name"
-                data-en="One guitar"
-                data-it="Una chitarra"
-              >
+              <span class="story-dna-number">02</span>
+              <span class="story-dna-name" data-en="One guitar" data-it="Una chitarra">
                 One guitar
               </span>
-
             </div>
 
-
             <div class="story-dna-item">
-
-              <span class="story-dna-number">
-                03
-              </span>
-
-              <span
-                class="story-dna-name"
-                data-en="Percussion"
-                data-it="Percussioni"
-              >
+              <span class="story-dna-number">03</span>
+              <span class="story-dna-name" data-en="Percussion" data-it="Percussioni">
                 Percussion
               </span>
-
             </div>
-
 
             <div class="story-dna-item">
-
-              <span class="story-dna-number">
-                04
-              </span>
-
-              <span
-                class="story-dna-name"
-                data-en="Live loops"
-                data-it="Loop live"
-              >
+              <span class="story-dna-number">04</span>
+              <span class="story-dna-name" data-en="Live loops" data-it="Loop live">
                 Live loops
               </span>
-
             </div>
-
 
           </div>
 
 
-          <!-- ENDING -->
-
           <div class="story-ending">
-
 
             <div
               class="story-ending-small"
@@ -5288,14 +4289,9 @@
               Different places. Different nights.
             </div>
 
-
             <div class="story-ending-main">
 
-
-              <span
-                data-en="Always live."
-                data-it="Sempre live."
-              >
+              <span data-en="Always live." data-it="Sempre live.">
                 Always live.
               </span>
 
@@ -5309,33 +4305,24 @@
                 Always Orange May.
               </span>
 
-
             </div>
-
 
           </div>
 
-
         </div>
-
 
       </div>
 
     </section>
 
 
-    <!-- =================================================
-         ON STAGE
-    ================================================== -->
+    <!-- LIVE -->
 
     <section class="live-section">
 
-
       <div class="container">
 
-
         <div class="live-section-head">
-
 
           <div
             class="live-section-label"
@@ -5345,7 +4332,6 @@
             On stage
           </div>
 
-
           <div
             class="live-section-copy"
             data-en="Two people. One live sound."
@@ -5354,35 +4340,25 @@
             Two people. One live sound.
           </div>
 
-
         </div>
-
 
       </div>
 
 
       <div class="image-strip">
 
-
-        <!-- LARA -->
-
         <figure>
-
 
           <img
             src="/images/lara-live.jpeg"
-            alt="Lara performing live with Orange May"
-            loading="lazy"
+            alt="Lara performing live"
           >
-
 
           <div class="live-photo-index">
             01 / 02
           </div>
 
-
           <div class="live-photo-overlay">
-
 
             <div
               class="live-photo-top"
@@ -5392,11 +4368,9 @@
               Voice / Percussion
             </div>
 
-
             <div class="live-photo-name">
               Lara
             </div>
-
 
             <div
               class="live-photo-role"
@@ -5406,32 +4380,23 @@
               Live with Orange May
             </div>
 
-
           </div>
-
 
         </figure>
 
 
-        <!-- CRISTIAN -->
-
         <figure>
-
 
           <img
             src="/images/cristian-live.jpeg"
-            alt="Cristian performing live with Orange May"
-            loading="lazy"
+            alt="Cristian performing live"
           >
-
 
           <div class="live-photo-index">
             02 / 02
           </div>
 
-
           <div class="live-photo-overlay">
-
 
             <div
               class="live-photo-top"
@@ -5441,11 +4406,9 @@
               Voice / Guitar / Loops
             </div>
 
-
             <div class="live-photo-name">
               Cristian
             </div>
-
 
             <div
               class="live-photo-role"
@@ -5455,31 +4418,22 @@
               Live with Orange May
             </div>
 
-
           </div>
-
 
         </figure>
 
-
       </div>
-
 
     </section>
 
 
-    <!-- =================================================
-         FINAL CTA
-    ================================================== -->
+    <!-- FINAL CTA -->
 
     <section class="final-cta">
 
-
       <div class="container final-cta-inner">
 
-
         <div>
-
 
           <div
             class="final-cta-label"
@@ -5491,7 +4445,6 @@
 
 
           <div class="final-cta-title">
-
 
             <span
               data-en="See you at"
@@ -5509,20 +4462,15 @@
               the next show.
             </span>
 
-
           </div>
-
 
         </div>
 
 
         <div class="final-cta-actions">
 
+          <a href="#shows" class="btn-dark">
 
-          <a
-            href="#shows"
-            class="btn-dark"
-          >
             <span
               data-en="Upcoming shows"
               data-it="Prossime date"
@@ -5530,10 +4478,11 @@
               Upcoming shows
             </span>
 
-            <span
-              class="css-arrow css-arrow-down"
-              aria-hidden="true"
-            ></span>
+            <svg class="icon-arrow" viewBox="0 0 24 24">
+              <path d="M12 5V19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M7 14L12 19L17 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
           </a>
 
 
@@ -5541,6 +4490,7 @@
             href="#contact"
             class="final-cta-secondary"
           >
+
             <span
               data-en="Or get in touch"
               data-it="Oppure scrivici"
@@ -5548,34 +4498,27 @@
               Or get in touch
             </span>
 
-            <span
-              class="css-arrow css-arrow-right"
-              aria-hidden="true"
-            ></span>
-          </a>
+            <svg class="icon-arrow" viewBox="0 0 24 24">
+              <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
 
+          </a>
 
         </div>
 
-
       </div>
-
 
     </section>
 
 
-    <!-- =================================================
-         FOOTER
-    ================================================== -->
+    <!-- FOOTER -->
 
     <footer>
 
-
       <div class="container">
 
-
         <div class="footer-top">
-
 
           <div class="footer-logo">
             Orange<br>
@@ -5585,87 +4528,68 @@
 
           <nav class="footer-nav">
 
-
             <a
               href="https://www.instagram.com/orangemay_acoustic/"
               target="_blank"
-              rel="noopener noreferrer"
             >
-              <span>
-                Instagram
-              </span>
+              <span>Instagram</span>
 
-              <span
-                class="css-arrow css-arrow-up-right"
-                aria-hidden="true"
-              ></span>
+              <svg class="icon-arrow" viewBox="0 0 24 24">
+                <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </a>
 
 
             <a
               href="https://www.facebook.com/p/Orange-May-100092238015144/"
               target="_blank"
-              rel="noopener noreferrer"
             >
-              <span>
-                Facebook
-              </span>
+              <span>Facebook</span>
 
-              <span
-                class="css-arrow css-arrow-up-right"
-                aria-hidden="true"
-              ></span>
+              <svg class="icon-arrow" viewBox="0 0 24 24">
+                <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </a>
 
 
             <a
               href="https://wa.me/393421670308"
               target="_blank"
-              rel="noopener noreferrer"
             >
-              <span>
-                WhatsApp
-              </span>
+              <span>WhatsApp</span>
 
-              <span
-                class="css-arrow css-arrow-up-right"
-                aria-hidden="true"
-              ></span>
+              <svg class="icon-arrow" viewBox="0 0 24 24">
+                <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </a>
 
 
-            <a
-              href="mailto:orangemayacoustic@gmail.com"
-            >
-              <span>
-                Email
-              </span>
+            <a href="mailto:orangemayacoustic@gmail.com">
+              <span>Email</span>
 
-              <span
-                class="css-arrow css-arrow-up-right"
-                aria-hidden="true"
-              ></span>
+              <svg class="icon-arrow" viewBox="0 0 24 24">
+                <path d="M7 17L17 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M8 7H17V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </a>
-
 
           </nav>
-
 
         </div>
 
 
         <div class="footer-bottom">
 
-
           <div class="footer-bottom-left">
-
 
             <span>
               ©
               <span id="currentYear"></span>
               Orange May Acoustic
             </span>
-
 
             <span
               data-en="Acoustic live duo"
@@ -5674,7 +4598,6 @@
               Acoustic live duo
             </span>
 
-
           </div>
 
 
@@ -5682,6 +4605,7 @@
             href="#top"
             class="back-to-top"
           >
+
             <span
               data-en="Back to top"
               data-it="Torna su"
@@ -5689,18 +4613,16 @@
               Back to top
             </span>
 
-            <span
-              class="css-arrow css-arrow-up"
-              aria-hidden="true"
-            ></span>
-          </a>
+            <svg class="icon-arrow" viewBox="0 0 24 24">
+              <path d="M12 19V5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M7 10L12 5L17 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
 
+          </a>
 
         </div>
 
-
       </div>
-
 
     </footer>
 
@@ -5719,65 +4641,95 @@
         "orangeMayLanguage"
       ) || "en";
 
+    let cachedEvents = [];
 
-    let cachedEvents =
-      [];
+    let visibleEventCount = 5;
 
+    let selectedContactIntent = "";
 
-    let visibleEventCount =
-      5;
-
-
-    let selectedContactIntent =
-      "";
-
-
-    let selectedBookingType =
-      "";
+    let selectedBookingType = "";
 
 
     const monthNames = {
 
       en: [
-        "JAN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAY",
-        "JUN",
-        "JUL",
-        "AUG",
-        "SEP",
-        "OCT",
-        "NOV",
-        "DEC"
+        "JAN","FEB","MAR","APR","MAY","JUN",
+        "JUL","AUG","SEP","OCT","NOV","DEC"
       ],
 
       it: [
-        "GEN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAG",
-        "GIU",
-        "LUG",
-        "AGO",
-        "SET",
-        "OTT",
-        "NOV",
-        "DIC"
+        "GEN","FEB","MAR","APR","MAG","GIU",
+        "LUG","AGO","SET","OTT","NOV","DIC"
       ]
 
     };
 
 
     /* =====================================================
+       SVG HELPERS
+    ===================================================== */
+
+    function svgExternalArrow() {
+
+      return `
+        <svg
+          class="icon-arrow icon-arrow-small"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M7 17L17 7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M8 7H17V16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      `;
+    }
+
+
+    function svgDownArrow() {
+
+      return `
+        <svg
+          class="icon-arrow icon-arrow-small"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M12 5V19"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M7 14L12 19L17 14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      `;
+    }
+
+
+    /* =====================================================
        LANGUAGE
     ===================================================== */
 
-    function changeLanguage(
-      language
-    ) {
+    function changeLanguage(language) {
 
       currentLanguage =
         language;
@@ -5810,9 +4762,7 @@
 
 
       document
-        .getElementById(
-          "enBtn"
-        )
+        .getElementById("enBtn")
         .classList.toggle(
           "active",
           language === "en"
@@ -5820,9 +4770,7 @@
 
 
       document
-        .getElementById(
-          "itBtn"
-        )
+        .getElementById("itBtn")
         .classList.toggle(
           "active",
           language === "it"
@@ -5832,49 +4780,30 @@
       updateWhatsApp();
 
 
-      if (
-        cachedEvents.length
-      ) {
-
+      if (cachedEvents.length) {
         renderEvents();
       }
 
     }
 
 
-    document
-      .getElementById(
-        "enBtn"
-      )
-      .addEventListener(
-        "click",
-        () =>
-          changeLanguage(
-            "en"
-          )
-      );
+    enBtn.addEventListener(
+      "click",
+      () => changeLanguage("en")
+    );
 
 
-    document
-      .getElementById(
-        "itBtn"
-      )
-      .addEventListener(
-        "click",
-        () =>
-          changeLanguage(
-            "it"
-          )
-      );
+    itBtn.addEventListener(
+      "click",
+      () => changeLanguage("it")
+    );
 
 
     /* =====================================================
        CONTACT HELPERS
     ===================================================== */
 
-    function getBookingTypeLabel(
-      type
-    ) {
+    function getBookingTypeLabel(type) {
 
       const labels = {
 
@@ -5906,23 +4835,13 @@
       };
 
 
-      if (
-        !labels[type]
-      ) {
-
-        return "";
-      }
-
-
-      return labels[type][
-        currentLanguage
-      ];
+      return labels[type]
+        ? labels[type][currentLanguage]
+        : "";
     }
 
 
-    function getIntentLabel(
-      intent
-    ) {
+    function getIntentLabel(intent) {
 
       const labels = {
 
@@ -5949,44 +4868,24 @@
       };
 
 
-      if (
-        !labels[intent]
-      ) {
-
-        return "";
-      }
-
-
-      return labels[intent][
-        currentLanguage
-      ];
+      return labels[intent]
+        ? labels[intent][currentLanguage]
+        : "";
     }
 
 
-    function formatContactDate(
-      value
-    ) {
+    function formatContactDate(value) {
 
       if (!value) {
         return "";
       }
 
 
-      const [
-        year,
-        month,
-        day
-      ] =
+      const [year,month,day] =
         value.split("-");
 
 
-      return `${
-        day
-      }/${
-        month
-      }/${
-        year
-      }`;
+      return `${day}/${month}/${year}`;
     }
 
 
@@ -5996,25 +4895,14 @@
 
     function updateWhatsApp() {
 
-      const dateInput =
-        document.getElementById(
-          "eventDateContact"
-        );
-
-
       const date =
-        dateInput
-          ? dateInput.value
-          : "";
+        eventDateContact.value;
 
 
       let message;
 
 
-      if (
-        currentLanguage === "it"
-      ) {
-
+      if (currentLanguage === "it") {
 
         if (
           selectedContactIntent ===
@@ -6062,11 +4950,7 @@
         ) {
 
           message +=
-            ` Tipo di evento: ${
-              getBookingTypeLabel(
-                selectedBookingType
-              )
-            }.`;
+            ` Tipo di evento: ${getBookingTypeLabel(selectedBookingType)}.`;
         }
 
 
@@ -6077,11 +4961,7 @@
         ) {
 
           message +=
-            ` Data: ${
-              formatContactDate(
-                date
-              )
-            }.`;
+            ` Data: ${formatContactDate(date)}.`;
         }
 
 
@@ -6134,11 +5014,7 @@
         ) {
 
           message +=
-            ` Event type: ${
-              getBookingTypeLabel(
-                selectedBookingType
-              )
-            }.`;
+            ` Event type: ${getBookingTypeLabel(selectedBookingType)}.`;
         }
 
 
@@ -6149,30 +5025,20 @@
         ) {
 
           message +=
-            ` Date: ${
-              formatContactDate(
-                date
-              )
-            }.`;
+            ` Date: ${formatContactDate(date)}.`;
         }
 
       }
 
 
-      document
-        .getElementById(
-          "whatsappLink"
-        )
-        .href =
-          "https://wa.me/393421670308?text=" +
-          encodeURIComponent(
-            message
-          );
+      whatsappLink.href =
+        "https://wa.me/393421670308?text=" +
+        encodeURIComponent(message);
     }
 
 
     /* =====================================================
-       CONTACT INTENT
+       CONTACT BUTTONS
     ===================================================== */
 
     const bookingDetails =
@@ -6214,23 +5080,16 @@
                 );
 
 
-              if (
+              selectedContactIntent =
                 alreadyActive
-              ) {
-
-                selectedContactIntent =
-                  "";
-
-              } else {
-
-                selectedContactIntent =
-                  intent;
+                  ? ""
+                  : intent;
 
 
+              if (!alreadyActive) {
                 button.classList.add(
                   "active"
                 );
-
               }
 
 
@@ -6240,20 +5099,16 @@
 
 
               bookingDetails
-                .classList
-                .toggle(
+                .classList.toggle(
                   "open",
                   isBooking
                 );
 
 
-              if (
-                !isBooking
-              ) {
+              if (!isBooking) {
 
                 selectedBookingType =
                   "";
-
 
                 document
                   .querySelectorAll(
@@ -6266,13 +5121,8 @@
                       )
                   );
 
-
-                document
-                  .getElementById(
-                    "eventDateContact"
-                  )
-                  .value =
-                    "";
+                eventDateContact.value =
+                  "";
               }
 
 
@@ -6284,10 +5134,6 @@
         }
       );
 
-
-    /* =====================================================
-       BOOKING TYPE
-    ===================================================== */
 
     document
       .querySelectorAll(
@@ -6322,19 +5168,13 @@
                 );
 
 
-              if (
+              selectedBookingType =
                 alreadyActive
-              ) {
-
-                selectedBookingType =
-                  "";
-
-              } else {
-
-                selectedBookingType =
-                  type;
+                  ? ""
+                  : type;
 
 
+              if (!alreadyActive) {
                 button.classList.add(
                   "active"
                 );
@@ -6350,27 +5190,17 @@
       );
 
 
-    document
-      .getElementById(
-        "eventDateContact"
-      )
-      .addEventListener(
-        "change",
-        updateWhatsApp
-      );
+    eventDateContact.addEventListener(
+      "change",
+      updateWhatsApp
+    );
 
 
     /* =====================================================
-       LOAD EVENTS
+       EVENTS
     ===================================================== */
 
     async function loadEvents() {
-
-      const container =
-        document.getElementById(
-          "events"
-        );
-
 
       try {
 
@@ -6380,10 +5210,7 @@
           );
 
 
-        if (
-          !response.ok
-        ) {
-
+        if (!response.ok) {
           throw new Error();
         }
 
@@ -6400,9 +5227,7 @@
           events
             .filter(
               event =>
-                getEventEnd(
-                  event
-                ) >= now
+                getEventEnd(event) >= now
             )
             .sort(
               (a,b) =>
@@ -6424,30 +5249,18 @@
 
       } catch (error) {
 
-
-        console.error(
-          error
-        );
+        console.error(error);
 
 
-        container.innerHTML =
-          `
-            <div class="empty">
-              ${
-                currentLanguage === "it"
-                  ? "Impossibile caricare le prossime date."
-                  : "Unable to load upcoming shows."
-              }
-            </div>
-          `;
+        events.innerHTML =
+          currentLanguage === "it"
+            ? `<div class="empty">Impossibile caricare le prossime date.</div>`
+            : `<div class="empty">Unable to load upcoming shows.</div>`;
+
       }
 
     }
 
-
-    /* =====================================================
-       RENDER EVENTS
-    ===================================================== */
 
     function renderEvents() {
 
@@ -6457,72 +5270,53 @@
         );
 
 
-      if (
-        !cachedEvents.length
-      ) {
+      if (!cachedEvents.length) {
 
         container.innerHTML =
-          `
-            <div class="empty">
-              ${
-                currentLanguage === "it"
-                  ? "Nessuna data in programma al momento."
-                  : "No upcoming shows at the moment."
-              }
-            </div>
-          `;
+          currentLanguage === "it"
+            ? `<div class="empty">Nessuna data in programma al momento.</div>`
+            : `<div class="empty">No upcoming shows at the moment.</div>`;
 
         return;
       }
 
 
-      const firstEvent =
+      const first =
         cachedEvents[0];
 
 
-      const otherEvents =
-        cachedEvents.slice(
-          1
-        );
+      const others =
+        cachedEvents.slice(1);
 
 
-      const visibleOtherEvents =
-        otherEvents.slice(
+      const visible =
+        others.slice(
           0,
-          Math.max(
-            0,
-            visibleEventCount - 1
-          )
+          visibleEventCount - 1
         );
 
 
       let html =
-        renderNextShow(
-          firstEvent
-        );
+        renderNextShow(first);
 
 
-      if (
-        otherEvents.length
-      ) {
+      if (others.length) {
 
         html += `
           <div class="more-shows-wrapper">
 
             <div class="more-shows-label">
-
               ${
                 currentLanguage === "it"
                   ? "Altre date"
                   : "More shows"
               }
-
             </div>
 
             <div class="more-events">
 
               ${
-                visibleOtherEvents
+                visible
                   .map(
                     (event,index) =>
                       renderPublicEvent(
@@ -6537,9 +5331,7 @@
         `;
 
 
-        if (
-          otherEvents.length > 4
-        ) {
+        if (others.length > 4) {
 
           const allVisible =
             visibleEventCount >=
@@ -6551,7 +5343,6 @@
 
               <button
                 id="showMoreButton"
-                type="button"
                 class="
                   show-more-button
                   ${
@@ -6578,10 +5369,7 @@
                   }
                 </span>
 
-                <span
-                  class="css-arrow css-arrow-down show-more-arrow"
-                  aria-hidden="true"
-                ></span>
+                ${svgDownArrow()}
 
               </button>
 
@@ -6600,21 +5388,18 @@
         html;
 
 
-      const showMoreButton =
+      const button =
         document.getElementById(
           "showMoreButton"
         );
 
 
-      if (
-        showMoreButton
-      ) {
+      if (button) {
 
-        showMoreButton
-          .addEventListener(
-            "click",
-            handleShowMore
-          );
+        button.addEventListener(
+          "click",
+          handleShowMore
+        );
       }
 
     }
@@ -6627,36 +5412,12 @@
         cachedEvents.length;
 
 
-      if (
-        allVisible
-      ) {
+      if (allVisible) {
 
         visibleEventCount =
           5;
 
-
         renderEvents();
-
-
-        const moreShows =
-          document.querySelector(
-            ".more-shows-wrapper"
-          );
-
-
-        if (
-          moreShows
-        ) {
-
-          moreShows.scrollIntoView({
-            behavior:
-              "smooth",
-
-            block:
-              "start"
-          });
-        }
-
 
         return;
       }
@@ -6673,13 +5434,7 @@
     }
 
 
-    /* =====================================================
-       NEXT SHOW
-    ===================================================== */
-
-    function renderNextShow(
-      event
-    ) {
+    function renderNextShow(event) {
 
       const date =
         new Date(
@@ -6689,19 +5444,12 @@
 
 
       const day =
-        String(
-          date.getDate()
-        )
-        .padStart(
-          2,
-          "0"
-        );
+        String(date.getDate())
+        .padStart(2,"0");
 
 
       const month =
-        monthNames[
-          currentLanguage
-        ][
+        monthNames[currentLanguage][
           date.getMonth()
         ];
 
@@ -6712,13 +5460,11 @@
 
 
       const isPrivate =
-        type ===
-        "PRIVATE";
+        type === "PRIVATE";
 
 
       const isGuestsOnly =
-        type ===
-        "GUESTS_ONLY";
+        type === "GUESTS_ONLY";
 
 
       const venue =
@@ -6731,55 +5477,23 @@
           : event.venue;
 
 
-      const label =
-        getNextShowLabel(
-          event
-        );
-
-
       const time =
-        formatTime(
-          event
-        );
+        formatTime(event);
 
 
       const rawNote =
         String(
-          event.note ||
-          ""
-        )
-        .trim();
-
-
-      const showNote =
-        shouldShowNote(
-          rawNote
-        );
-
-
-      const arrow =
-        `
-          <span
-            class="css-arrow css-arrow-up-right"
-            aria-hidden="true"
-          ></span>
-        `;
+          event.note || ""
+        ).trim();
 
 
       const directions =
-        (
-          !isPrivate &&
-          event.location_url
-        )
+        !isPrivate &&
+        event.location_url
           ? `
               <a
-                href="${
-                  escapeAttribute(
-                    event.location_url
-                  )
-                }"
+                href="${escapeAttribute(event.location_url)}"
                 target="_blank"
-                rel="noopener noreferrer"
                 class="show-action"
               >
                 <span>
@@ -6790,26 +5504,19 @@
                   }
                 </span>
 
-                ${arrow}
+                ${svgExternalArrow()}
               </a>
             `
           : "";
 
 
-      const moreInfo =
-        (
-          type === "PUBLIC" &&
-          event.public_url
-        )
+      const info =
+        type === "PUBLIC" &&
+        event.public_url
           ? `
               <a
-                href="${
-                  escapeAttribute(
-                    event.public_url
-                  )
-                }"
+                href="${escapeAttribute(event.public_url)}"
                 target="_blank"
-                rel="noopener noreferrer"
                 class="show-action"
               >
                 <span>
@@ -6820,7 +5527,7 @@
                   }
                 </span>
 
-                ${arrow}
+                ${svgExternalArrow()}
               </a>
             `
           : "";
@@ -6839,13 +5546,9 @@
               <span></span>
             </span>
 
-            <span>
-              ${
-                escapeHtml(
-                  label
-                )
-              }
-            </span>
+            ${escapeHtml(
+              getNextShowLabel(event)
+            )}
 
           </div>
 
@@ -6866,26 +5569,16 @@
           <div class="next-show-content">
 
             <div class="next-show-venue">
-              ${
-                escapeHtml(
-                  venue
-                )
-              }
+              ${escapeHtml(venue)}
             </div>
 
 
             ${
-              (
-                !isPrivate &&
-                event.location
-              )
+              !isPrivate &&
+              event.location
                 ? `
                     <div class="next-show-location">
-                      ${
-                        escapeHtml(
-                          event.location
-                        )
-                      }
+                      ${escapeHtml(event.location)}
                     </div>
                   `
                 : ""
@@ -6896,13 +5589,11 @@
               isGuestsOnly
                 ? `
                     <div class="next-show-badge">
-
                       ${
                         currentLanguage === "it"
                           ? "Solo ospiti"
                           : "Guests only"
                       }
-
                     </div>
                   `
                 : ""
@@ -6910,16 +5601,10 @@
 
 
             ${
-              showNote
+              shouldShowNote(rawNote)
                 ? `
                     <div class="next-show-note">
-
-                      ${
-                        escapeHtml(
-                          rawNote
-                        )
-                      }
-
+                      ${escapeHtml(rawNote)}
                     </div>
                   `
                 : ""
@@ -6934,13 +5619,7 @@
               time
                 ? `
                     <div class="next-show-time">
-
-                      ${
-                        escapeHtml(
-                          time
-                        )
-                      }
-
+                      ${escapeHtml(time)}
                     </div>
                   `
                 : ""
@@ -6948,16 +5627,12 @@
 
 
             ${
-              (
-                directions ||
-                moreInfo
-              )
+              directions ||
+              info
                 ? `
                     <div class="show-actions">
-
                       ${directions}
-                      ${moreInfo}
-
+                      ${info}
                     </div>
                   `
                 : ""
@@ -6969,10 +5644,6 @@
       `;
     }
 
-
-    /* =====================================================
-       NORMAL EVENT
-    ===================================================== */
 
     function renderPublicEvent(
       event,
@@ -6987,19 +5658,12 @@
 
 
       const day =
-        String(
-          date.getDate()
-        )
-        .padStart(
-          2,
-          "0"
-        );
+        String(date.getDate())
+        .padStart(2,"0");
 
 
       const month =
-        monthNames[
-          currentLanguage
-        ][
+        monthNames[currentLanguage][
           date.getMonth()
         ];
 
@@ -7010,13 +5674,7 @@
 
 
       const isPrivate =
-        type ===
-        "PRIVATE";
-
-
-      const isGuestsOnly =
-        type ===
-        "GUESTS_ONLY";
+        type === "PRIVATE";
 
 
       const venue =
@@ -7029,90 +5687,22 @@
           : event.venue;
 
 
-      const time =
-        formatTime(
-          event
-        );
-
-
-      const rawNote =
-        String(
-          event.note ||
-          ""
-        )
-        .trim();
-
-
-      const showNote =
-        shouldShowNote(
-          rawNote
-        );
-
-
-      const arrow =
-        `
-          <span
-            class="css-arrow css-arrow-up-right"
-            aria-hidden="true"
-          ></span>
-        `;
-
-
       const directions =
-        (
-          !isPrivate &&
-          event.location_url
-        )
+        !isPrivate &&
+        event.location_url
           ? `
               <a
-                href="${
-                  escapeAttribute(
-                    event.location_url
-                  )
-                }"
+                href="${escapeAttribute(event.location_url)}"
                 target="_blank"
-                rel="noopener noreferrer"
                 class="show-action"
               >
-                <span>
-                  ${
-                    currentLanguage === "it"
-                      ? "Indicazioni"
-                      : "Directions"
-                  }
-                </span>
+                ${
+                  currentLanguage === "it"
+                    ? "Indicazioni"
+                    : "Directions"
+                }
 
-                ${arrow}
-              </a>
-            `
-          : "";
-
-
-      const moreInfo =
-        (
-          type === "PUBLIC" &&
-          event.public_url
-        )
-          ? `
-              <a
-                href="${
-                  escapeAttribute(
-                    event.public_url
-                  )
-                }"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="show-action"
-              >
-                <span>
-                  ${
-                    currentLanguage === "it"
-                      ? "Info"
-                      : "More info"
-                  }
-                </span>
-
-                ${arrow}
+                ${svgExternalArrow()}
               </a>
             `
           : "";
@@ -7124,14 +5714,10 @@
           style="
             animation-delay:
             ${
-              Math.min(
-                index,
-                4
-              ) * 55
+              Math.min(index,4) * 55
             }ms
           "
         >
-
 
           <div class="event-date">
 
@@ -7149,66 +5735,16 @@
           <div class="event-content">
 
             <div class="event-venue">
-              ${
-                escapeHtml(
-                  venue
-                )
-              }
+              ${escapeHtml(venue)}
             </div>
 
 
             ${
-              (
-                !isPrivate &&
-                event.location
-              )
+              !isPrivate &&
+              event.location
                 ? `
                     <div class="event-location">
-
-                      ${
-                        escapeHtml(
-                          event.location
-                        )
-                      }
-
-                    </div>
-                  `
-                : ""
-            }
-
-
-            ${
-              isGuestsOnly
-                ? `
-                    <div class="event-badges">
-
-                      <span class="event-badge">
-
-                        ${
-                          currentLanguage === "it"
-                            ? "Solo ospiti"
-                            : "Guests only"
-                        }
-
-                      </span>
-
-                    </div>
-                  `
-                : ""
-            }
-
-
-            ${
-              showNote
-                ? `
-                    <div class="event-note-text">
-
-                      ${
-                        escapeHtml(
-                          rawNote
-                        )
-                      }
-
+                      ${escapeHtml(event.location)}
                     </div>
                   `
                 : ""
@@ -7219,41 +5755,22 @@
 
           <div class="event-right">
 
-            ${
-              time
-                ? `
-                    <div class="event-time">
-
-                      ${
-                        escapeHtml(
-                          time
-                        )
-                      }
-
-                    </div>
-                  `
-                : ""
-            }
+            <div class="event-time">
+              ${escapeHtml(formatTime(event))}
+            </div>
 
 
             ${
-              (
-                directions ||
-                moreInfo
-              )
+              directions
                 ? `
                     <div class="show-actions">
-
                       ${directions}
-                      ${moreInfo}
-
                     </div>
                   `
                 : ""
             }
 
           </div>
-
 
         </article>
       `;
@@ -7264,14 +5781,10 @@
        EVENT HELPERS
     ===================================================== */
 
-    function getNextShowLabel(
-      event
-    ) {
+    function getNextShowLabel(event) {
 
       const today =
-        startOfDay(
-          new Date()
-        );
+        startOfDay(new Date());
 
 
       const eventDate =
@@ -7293,10 +5806,7 @@
         );
 
 
-      if (
-        difference ===
-        0
-      ) {
+      if (difference === 0) {
 
         return currentLanguage === "it"
           ? "Stasera"
@@ -7304,10 +5814,7 @@
       }
 
 
-      if (
-        difference ===
-        1
-      ) {
+      if (difference === 1) {
 
         return currentLanguage === "it"
           ? "Domani"
@@ -7321,9 +5828,7 @@
     }
 
 
-    function startOfDay(
-      date
-    ) {
+    function startOfDay(date) {
 
       return new Date(
         date.getFullYear(),
@@ -7333,84 +5838,46 @@
     }
 
 
-    function formatTime(
-      event
-    ) {
+    function formatTime(event) {
 
-      if (
-        !event.start_time
-      ) {
-
+      if (!event.start_time) {
         return "";
       }
 
 
-      if (
-        !event.end_time
-      ) {
-
+      if (!event.end_time) {
         return event.start_time;
       }
 
 
-      return `${
-        event.start_time
-      } — ${
-        event.end_time
-      }`;
+      return `${event.start_time} — ${event.end_time}`;
     }
 
 
-    function getEventStart(
-      event
-    ) {
-
-      const startTime =
-        event.start_time ||
-        "00:00";
-
+    function getEventStart(event) {
 
       return new Date(
-        `${
-          event.event_date
-        }T${
-          startTime
-        }:00`
+        `${event.event_date}T${event.start_time || "00:00"}:00`
       );
     }
 
 
-    function getEventEnd(
-      event
-    ) {
-
-      const endTime =
-        event.end_time ||
-        event.start_time ||
-        "23:59";
-
+    function getEventEnd(event) {
 
       return new Date(
-        `${
-          event.event_date
-        }T${
-          endTime
-        }:00`
+        `${event.event_date}T${event.end_time || event.start_time || "23:59"}:00`
       );
     }
 
 
-    function shouldShowNote(
-      note
-    ) {
+    function shouldShowNote(note) {
 
       if (!note) {
-
         return false;
       }
 
 
-      const legacyNotes = [
+      const legacy = [
         "PRIVATE EVENT",
         "PRIVATE",
         "GUESTS ONLY",
@@ -7420,295 +5887,140 @@
       ];
 
 
-      return !legacyNotes.includes(
+      return !legacy.includes(
         note.toUpperCase()
       );
     }
 
 
     /* =====================================================
-       CONTACT FORM
+       CONTACT SUBMIT
     ===================================================== */
 
-    document
-      .getElementById(
-        "contactForm"
-      )
-      .addEventListener(
-        "submit",
-        async event => {
+    contactForm.addEventListener(
+      "submit",
+      async event => {
 
-          event.preventDefault();
+        event.preventDefault();
 
 
-          const form =
-            event.target;
+        formMessage.textContent =
+          currentLanguage === "it"
+            ? "Invio in corso..."
+            : "Sending...";
 
 
-          const messageBox =
-            document.getElementById(
-              "formMessage"
+        let finalMessage =
+          message.value.trim();
+
+
+        const details =
+          [];
+
+
+        if (selectedContactIntent) {
+
+          details.push(
+            `Reason: ${getIntentLabel(selectedContactIntent)}`
+          );
+        }
+
+
+        if (selectedBookingType) {
+
+          details.push(
+            `Event type: ${getBookingTypeLabel(selectedBookingType)}`
+          );
+        }
+
+
+        if (eventDateContact.value) {
+
+          details.push(
+            `Date: ${formatContactDate(eventDateContact.value)}`
+          );
+        }
+
+
+        if (details.length) {
+
+          finalMessage =
+            `${details.join("\n")}\n\n${finalMessage}`;
+        }
+
+
+        try {
+
+          const response =
+            await fetch(
+              "/api/contact",
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify({
+                    name:
+                      name.value.trim(),
+
+                    email:
+                      email.value.trim(),
+
+                    message:
+                      finalMessage
+                  })
+              }
             );
 
 
-          messageBox.textContent =
+          if (!response.ok) {
+            throw new Error();
+          }
+
+
+          contactForm.reset();
+
+
+          formMessage.textContent =
             currentLanguage === "it"
-              ? "Invio in corso..."
-              : "Sending...";
+              ? "Messaggio inviato. Grazie!"
+              : "Message sent. Thank you!";
 
 
-          const name =
-            document
-              .getElementById(
-                "name"
-              )
-              .value
-              .trim();
+        } catch {
 
-
-          const email =
-            document
-              .getElementById(
-                "email"
-              )
-              .value
-              .trim();
-
-
-          const originalMessage =
-            document
-              .getElementById(
-                "message"
-              )
-              .value
-              .trim();
-
-
-          const date =
-            document
-              .getElementById(
-                "eventDateContact"
-              )
-              .value;
-
-
-          const details =
-            [];
-
-
-          if (
-            selectedContactIntent
-          ) {
-
-            details.push(
-              currentLanguage === "it"
-                ? `Motivo del contatto: ${
-                    getIntentLabel(
-                      selectedContactIntent
-                    )
-                  }`
-                : `Reason for contact: ${
-                    getIntentLabel(
-                      selectedContactIntent
-                    )
-                  }`
-            );
-          }
-
-
-          if (
-            selectedContactIntent ===
-            "BOOKING" &&
-            selectedBookingType
-          ) {
-
-            details.push(
-              currentLanguage === "it"
-                ? `Tipo evento: ${
-                    getBookingTypeLabel(
-                      selectedBookingType
-                    )
-                  }`
-                : `Event type: ${
-                    getBookingTypeLabel(
-                      selectedBookingType
-                    )
-                  }`
-            );
-          }
-
-
-          if (
-            selectedContactIntent ===
-            "BOOKING" &&
-            date
-          ) {
-
-            details.push(
-              currentLanguage === "it"
-                ? `Data evento: ${
-                    formatContactDate(
-                      date
-                    )
-                  }`
-                : `Event date: ${
-                    formatContactDate(
-                      date
-                    )
-                  }`
-            );
-          }
-
-
-          let finalMessage =
-            originalMessage;
-
-
-          if (
-            details.length
-          ) {
-
-            finalMessage =
-              `${
-                details.join(
-                  "\n"
-                )
-              }\n\n${
-                originalMessage
-              }`;
-          }
-
-
-          try {
-
-
-            const response =
-              await fetch(
-                "/api/contact",
-                {
-                  method:
-                    "POST",
-
-                  headers: {
-                    "Content-Type":
-                      "application/json"
-                  },
-
-                  body:
-                    JSON.stringify({
-                      name,
-                      email,
-                      message:
-                        finalMessage
-                    })
-                }
-              );
-
-
-            if (
-              !response.ok
-            ) {
-
-              throw new Error();
-            }
-
-
-            form.reset();
-
-
-            selectedContactIntent =
-              "";
-
-
-            selectedBookingType =
-              "";
-
-
-            document
-              .querySelectorAll(
-                ".contact-intent, .booking-type"
-              )
-              .forEach(
-                button =>
-                  button
-                    .classList
-                    .remove(
-                      "active"
-                    )
-              );
-
-
-            bookingDetails
-              .classList
-              .remove(
-                "open"
-              );
-
-
-            updateWhatsApp();
-
-
-            messageBox.textContent =
-              currentLanguage === "it"
-                ? "Messaggio inviato. Grazie!"
-                : "Message sent. Thank you!";
-
-
-          } catch {
-
-
-            messageBox.textContent =
-              currentLanguage === "it"
-                ? "Si è verificato un errore. Puoi riprovare oppure scriverci su WhatsApp."
-                : "Something went wrong. Please try again or message us on WhatsApp.";
-
-          }
+          formMessage.textContent =
+            currentLanguage === "it"
+              ? "Si è verificato un errore."
+              : "Something went wrong.";
 
         }
-      );
+
+      }
+    );
 
 
     /* =====================================================
        ESCAPE
     ===================================================== */
 
-    function escapeHtml(
-      value = ""
-    ) {
+    function escapeHtml(value = "") {
 
-      return String(
-        value
-      )
-        .replaceAll(
-          "&",
-          "&amp;"
-        )
-        .replaceAll(
-          "<",
-          "&lt;"
-        )
-        .replaceAll(
-          ">",
-          "&gt;"
-        )
-        .replaceAll(
-          '"',
-          "&quot;"
-        )
-        .replaceAll(
-          "'",
-          "&#039;"
-        );
+      return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
     }
 
 
-    function escapeAttribute(
-      value = ""
-    ) {
-
-      return escapeHtml(
-        value
-      );
+    function escapeAttribute(value = "") {
+      return escapeHtml(value);
     }
 
 
@@ -7761,74 +6073,44 @@
 
     function closeMobileMenu() {
 
-      menuToggle
-        .classList
-        .remove(
-          "active"
-        );
+      menuToggle.classList.remove(
+        "active"
+      );
 
+      mobileMenu.classList.remove(
+        "open"
+      );
 
-      mobileMenu
-        .classList
-        .remove(
-          "open"
-        );
+      document.body.classList.remove(
+        "menu-open"
+      );
 
-
-      document.body
-        .classList
-        .remove(
-          "menu-open"
-        );
-
-
-      menuToggle
-        .setAttribute(
-          "aria-expanded",
-          "false"
-        );
     }
 
 
-    menuToggle
-      .addEventListener(
-        "click",
-        () => {
+    menuToggle.addEventListener(
+      "click",
+      () => {
 
-          const isOpen =
-            mobileMenu
-              .classList
-              .toggle(
-                "open"
-              );
+        const open =
+          mobileMenu.classList.toggle(
+            "open"
+          );
 
 
-          menuToggle
-            .classList
-            .toggle(
-              "active",
-              isOpen
-            );
+        menuToggle.classList.toggle(
+          "active",
+          open
+        );
 
 
-          document.body
-            .classList
-            .toggle(
-              "menu-open",
-              isOpen
-            );
+        document.body.classList.toggle(
+          "menu-open",
+          open
+        );
 
-
-          menuToggle
-            .setAttribute(
-              "aria-expanded",
-              String(
-                isOpen
-              )
-            );
-
-        }
-      );
+      }
+    );
 
 
     document
@@ -7836,15 +6118,11 @@
         ".mobile-nav-link"
       )
       .forEach(
-        link => {
-
-          link
-            .addEventListener(
-              "click",
-              closeMobileMenu
-            );
-
-        }
+        link =>
+          link.addEventListener(
+            "click",
+            closeMobileMenu
+          )
       );
 
 
@@ -7856,38 +6134,27 @@
       new IntersectionObserver(
         entries => {
 
-          entries
-            .forEach(
-              entry => {
+          entries.forEach(
+            entry => {
 
-                if (
-                  entry.isIntersecting
-                ) {
+              if (
+                entry.isIntersecting
+              ) {
 
-                  entry.target
-                    .classList
-                    .add(
-                      "visible"
-                    );
-
-
-                  observer
-                    .unobserve(
-                      entry.target
-                    );
-                }
+                entry.target
+                  .classList.add(
+                    "visible"
+                  );
 
               }
-            );
+
+            }
+          );
 
         },
 
         {
-          threshold:
-            .1,
-
-          rootMargin:
-            "0px 0px -30px 0px"
+          threshold: .1
         }
       );
 
@@ -7897,33 +6164,20 @@
         ".reveal"
       )
       .forEach(
-        element => {
-
-          observer
-            .observe(
-              element
-            );
-
-        }
+        element =>
+          observer.observe(
+            element
+          )
       );
-
-
-    /* =====================================================
-       YEAR
-    ===================================================== */
-
-    document
-      .getElementById(
-        "currentYear"
-      )
-      .textContent =
-        new Date()
-          .getFullYear();
 
 
     /* =====================================================
        START
     ===================================================== */
+
+    currentYear.textContent =
+      new Date().getFullYear();
+
 
     changeLanguage(
       currentLanguage
@@ -7932,9 +6186,7 @@
 
     loadEvents();
 
-
   </script>
-
 
 </body>
 </html>
