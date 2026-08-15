@@ -5893,9 +5893,40 @@
     }
 
 
-    /* =====================================================
+        /* =====================================================
        CONTACT SUBMIT
     ===================================================== */
+
+    const contactForm =
+      document.getElementById(
+        "contactForm"
+      );
+
+    const nameInput =
+      document.getElementById(
+        "name"
+      );
+
+    const emailInput =
+      document.getElementById(
+        "email"
+      );
+
+    const messageInput =
+      document.getElementById(
+        "message"
+      );
+
+    const formMessage =
+      document.getElementById(
+        "formMessage"
+      );
+
+    const eventDateContact =
+      document.getElementById(
+        "eventDateContact"
+      );
+
 
     contactForm.addEventListener(
       "submit",
@@ -5911,7 +5942,7 @@
 
 
         let finalMessage =
-          message.value.trim();
+          messageInput.value.trim();
 
 
         const details =
@@ -5923,6 +5954,7 @@
           details.push(
             `Reason: ${getIntentLabel(selectedContactIntent)}`
           );
+
         }
 
 
@@ -5931,14 +5963,19 @@
           details.push(
             `Event type: ${getBookingTypeLabel(selectedBookingType)}`
           );
+
         }
 
 
-        if (eventDateContact.value) {
+        if (
+          eventDateContact &&
+          eventDateContact.value
+        ) {
 
           details.push(
             `Date: ${formatContactDate(eventDateContact.value)}`
           );
+
         }
 
 
@@ -5946,6 +5983,7 @@
 
           finalMessage =
             `${details.join("\n")}\n\n${finalMessage}`;
+
         }
 
 
@@ -5965,10 +6003,10 @@
                 body:
                   JSON.stringify({
                     name:
-                      name.value.trim(),
+                      nameInput.value.trim(),
 
                     email:
-                      email.value.trim(),
+                      emailInput.value.trim(),
 
                     message:
                       finalMessage
@@ -5977,8 +6015,25 @@
             );
 
 
+          const result =
+            await response
+              .json()
+              .catch(() => ({}));
+
+
           if (!response.ok) {
-            throw new Error();
+
+            console.error(
+              "Contact form error:",
+              response.status,
+              result
+            );
+
+            throw new Error(
+              result.error ||
+              "Contact request failed"
+            );
+
           }
 
 
@@ -5991,7 +6046,13 @@
               : "Message sent. Thank you!";
 
 
-        } catch {
+        } catch (error) {
+
+          console.error(
+            "Contact form submit failed:",
+            error
+          );
+
 
           formMessage.textContent =
             currentLanguage === "it"
@@ -6002,7 +6063,6 @@
 
       }
     );
-
 
     /* =====================================================
        ESCAPE
