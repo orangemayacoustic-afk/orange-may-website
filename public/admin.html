@@ -1,53 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="robots" content="noindex,nofollow">
   <title>Orange May Admin</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-      min-width: 0;
-    }
-
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
     :root {
       --orange: #ff6a00;
-      --orange-soft: #ffefe3;
       --cream: #f5f0e8;
-      --white: #ffffff;
       --black: #11100f;
-      --grey: #77716a;
-      --line: rgba(17, 16, 15, .14);
-      --red: #b3261e;
-      --green: #1d6f42;
+      --white: #ffffff;
+      --muted: #817a73;
+      --line: rgba(17, 16, 15, 0.14);
+      --danger: #d63c3c;
+      --success: #23855a;
+      --radius: 18px;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     html {
-      scroll-behavior: smooth;
-      width: 100%;
-      max-width: 100%;
-      overflow-x: hidden;
+      background: var(--black);
     }
 
     body {
       margin: 0;
-
-      width: 100%;
-      max-width: 100%;
-
-      overflow-x: hidden;
-
-      background: var(--cream);
-      color: var(--black);
-
+      min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
+      color: var(--black);
+      background: var(--cream);
     }
 
     button,
@@ -57,1026 +43,919 @@
       font: inherit;
     }
 
-    button,
-    select {
+    button {
       cursor: pointer;
     }
 
     a {
       color: inherit;
-      text-decoration: none;
     }
 
-    .page {
-      width: min(calc(100% - 56px), 1180px);
-
-      margin: 0 auto;
-
-      padding: 38px 0 90px;
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
     }
 
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      background: var(--black);
+      color: var(--white);
+    }
 
-    /* =====================================================
-       HEADER
-    ===================================================== */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 6px 22px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
 
-    .topbar {
+    .brand img {
+      width: 82px;
+      height: 54px;
+      object-fit: contain;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 5px;
+      color: #8e8881;
+      font-size: .62rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      margin-top: 22px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav-button {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
+      border: 1px solid transparent;
+      border-radius: 13px;
+      background: transparent;
+      color: #d9d4ce;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: .2s ease;
+    }
 
-      gap: 28px;
+    .nav-button:hover {
+      background: rgba(255,255,255,.05);
+    }
 
-      margin-bottom: 42px;
+    .nav-button.active {
+      background: var(--orange);
+      color: var(--black);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .badge {
+      min-width: 25px;
+      height: 25px;
+      padding: 0 7px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--black);
+      font-size: .64rem;
+      font-weight: 900;
+    }
+
+    .badge.visible {
+      display: inline-flex;
+    }
+
+    .nav-button:not(.active) .badge {
+      background: var(--orange);
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.12);
+    }
+
+    .sidebar-link,
+    .sidebar-action {
+      width: 100%;
+      min-height: 42px;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 0;
+      background: transparent;
+      color: #aaa39d;
+      text-decoration: none;
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-link:hover,
+    .sidebar-action:hover {
+      color: #fff;
+    }
+
+    .mobile-header {
+      display: none;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 30px clamp(20px, 4vw, 58px) 60px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 22px;
+      margin-bottom: 26px;
+      border-bottom: 1px solid var(--line);
     }
 
     .eyebrow {
-      margin-bottom: 8px;
-
-      color: var(--grey);
-
+      color: var(--orange);
       font-size: .68rem;
       font-weight: 900;
       letter-spacing: .16em;
-
       text-transform: uppercase;
     }
 
-    h1 {
-      margin: 0;
-
-      font-size: clamp(3rem, 7vw, 5.6rem);
-      line-height: .86;
+    .page-title {
+      margin: 7px 0 0;
+      font-size: clamp(2.4rem, 5vw, 4.6rem);
+      line-height: .9;
       letter-spacing: -.06em;
-
       text-transform: uppercase;
-    }
-
-    h1 span {
-      color: var(--orange);
     }
 
     .top-actions {
       display: flex;
-      align-items: center;
-      justify-content: flex-end;
+      gap: 8px;
       flex-wrap: wrap;
-
-      gap: 10px;
     }
 
-
-    /* =====================================================
-       BUTTONS
-    ===================================================== */
-
-    .btn {
-      min-height: 46px;
-
+    .button {
+      min-height: 40px;
+      padding: 0 14px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-
-      padding: 0 18px;
-
+      gap: 8px;
+      border: 1px solid var(--black);
       border-radius: 999px;
-
-      font-size: .72rem;
+      background: transparent;
+      color: var(--black);
+      text-decoration: none;
+      font-size: .64rem;
       font-weight: 900;
       letter-spacing: .06em;
-      line-height: 1;
-
-      text-align: center;
       text-transform: uppercase;
-
-      white-space: nowrap;
-
-      cursor: pointer;
-
-      transition:
-        transform .18s ease,
-        opacity .18s ease,
-        background .18s ease;
+      transition: .2s ease;
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
+    .button:hover {
+      background: var(--black);
+      color: #fff;
     }
 
-    .btn-primary {
-      border: 0;
-
+    .button.primary {
       background: var(--orange);
-      color: white;
-    }
-
-    .btn-dark {
-      border: 0;
-
-      background: var(--black);
-      color: white;
-    }
-
-    .btn-light {
-      border: 1px solid var(--line);
-
-      background: white;
-      color: var(--black);
-    }
-
-    .btn-danger {
-      border: 1px solid rgba(179,38,30,.35);
-
-      background: transparent;
-      color: var(--red);
-    }
-
-    .top-actions .btn {
-      min-width: 120px;
-    }
-
-
-    /* =====================================================
-       STATS
-    ===================================================== */
-
-    .stats {
-      width: 100%;
-
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-
-      gap: 14px;
-
-      margin-bottom: 34px;
-    }
-
-    .stat-card {
-      min-width: 0;
-
-      padding: 22px;
-
-      border: 1px solid var(--line);
-
-      background: white;
-    }
-
-    .stat-label {
-      color: var(--grey);
-
-      font-size: .65rem;
-      font-weight: 900;
-      letter-spacing: .12em;
-
-      text-transform: uppercase;
-    }
-
-    .stat-number {
-      margin-top: 7px;
-
-      font-size: 2.4rem;
-      font-weight: 900;
-      line-height: 1;
-      letter-spacing: -.04em;
-    }
-
-
-    /* =====================================================
-       TOOLBAR
-    ===================================================== */
-
-    .toolbar {
-      width: 100%;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 20px;
-
-      margin-bottom: 24px;
-    }
-
-    .tabs {
-      display: inline-flex;
-
-      max-width: 100%;
-
-      padding: 4px;
-
-      border: 1px solid var(--line);
-      border-radius: 999px;
-
-      background: white;
-    }
-
-    .tab {
-      padding: 10px 15px;
-
-      border: 0;
-      border-radius: 999px;
-
-      background: transparent;
-
-      font-size: .7rem;
-      font-weight: 900;
-      letter-spacing: .07em;
-
-      text-transform: uppercase;
-    }
-
-    .tab.active {
-      background: var(--black);
-      color: white;
-    }
-
-
-    /* =====================================================
-       PANEL
-    ===================================================== */
-
-    .panel {
-      width: 100%;
-      max-width: 100%;
-
-      overflow: hidden;
-
-      padding: 28px;
-
-      margin-bottom: 34px;
-
-      border: 1px solid var(--line);
-
-      background: white;
-    }
-
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 20px;
-
-      margin-bottom: 26px;
-    }
-
-    .panel-header h2 {
-      margin: 0;
-
-      font-size: 1.6rem;
-      letter-spacing: -.03em;
-    }
-
-    .panel-subtitle {
-      margin-top: 4px;
-
-      color: var(--grey);
-
-      font-size: .9rem;
-    }
-
-
-    /* =====================================================
-       FORM
-    ===================================================== */
-
-    form {
-      width: 100%;
-      max-width: 100%;
-
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-
-      gap: 18px;
-    }
-
-    .field,
-    .field-row,
-    .type-picker,
-    .type-options {
-      min-width: 0;
-    }
-
-    .field {
-      width: 100%;
-      max-width: 100%;
-
-      display: grid;
-
-      gap: 7px;
-    }
-
-    .field.full {
-      grid-column: 1 / -1;
-    }
-
-    .field-row {
-      width: 100%;
-      max-width: 100%;
-
-      display: grid;
-      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-
-      gap: 18px;
-
-      grid-column: 1 / -1;
-    }
-
-    label {
-      color: #4d4945;
-
-      font-size: .67rem;
-      font-weight: 900;
-      letter-spacing: .1em;
-
-      text-transform: uppercase;
-    }
-
-    input,
-    textarea,
-    select {
-      display: block;
-
-      width: 100%;
-      max-width: 100%;
-      min-width: 0;
-
-      margin: 0;
-
-      padding: 13px 14px;
-
-      border: 1px solid var(--line);
-      border-radius: 0;
-
-      outline: none;
-
-      background: var(--cream);
-      color: var(--black);
-
-      font-size: 16px;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
       border-color: var(--orange);
+      color: var(--black);
     }
 
-    textarea {
-      min-height: 100px;
-
-      resize: vertical;
+    .button.primary:hover {
+      background: var(--black);
+      border-color: var(--black);
+      color: #fff;
     }
 
-    input[type="date"],
-    input[type="time"],
-    input[type="url"],
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      max-width: 100%;
-      min-width: 0;
+    .button.danger {
+      border-color: #d9a0a0;
+      color: #a32727;
     }
 
-    input::-webkit-date-and-time-value {
-      min-width: 0;
-
-      text-align: left;
+    .button.danger:hover {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: #fff;
     }
 
-    .field-help {
-      margin-top: 1px;
-
-      color: #817a72;
-
-      font-size: .72rem;
-      line-height: 1.4;
+    .button.small {
+      min-height: 35px;
+      padding: 0 12px;
+      font-size: .58rem;
     }
 
-
-    /* =====================================================
-       EVENT TYPE
-    ===================================================== */
-
-    .type-picker {
-      grid-column: 1 / -1;
+    .view {
+      display: none;
     }
 
-    .type-options {
-      width: 100%;
+    .view.active {
+      display: block;
+    }
 
+    .stats-grid {
+      margin-bottom: 20px;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-
-      gap: 10px;
-    }
-
-    .type-option {
-      position: relative;
-
-      min-width: 0;
-    }
-
-    .type-option input {
-      position: absolute;
-
-      opacity: 0;
-
-      pointer-events: none;
-    }
-
-    .type-option label {
-      width: 100%;
-      max-width: 100%;
-      min-width: 0;
-
-      min-height: 74px;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
-      gap: 5px;
-
-      padding: 14px;
-
-      border: 1px solid var(--line);
-
-      background: var(--cream);
-
-      cursor: pointer;
-
-      transition:
-        border-color .18s ease,
-        background .18s ease;
-    }
-
-    .type-option strong {
-      font-size: .82rem;
-      letter-spacing: .03em;
-    }
-
-    .type-option span {
-      color: var(--grey);
-
-      font-size: .75rem;
-      font-weight: 400;
-      line-height: 1.3;
-      letter-spacing: 0;
-
-      text-transform: none;
-    }
-
-    .type-option input:checked + label {
-      border-color: var(--orange);
-
-      background: var(--orange-soft);
-    }
-
-
-    /* =====================================================
-       FORM ACTIONS
-    ===================================================== */
-
-    .form-actions {
-      grid-column: 1 / -1;
-
-      display: flex;
-      flex-wrap: wrap;
-
-      gap: 10px;
-
-      margin-top: 5px;
-    }
-
-    .status {
-      min-height: 22px;
-
-      margin-top: 14px;
-
-      color: var(--grey);
-
-      font-size: .86rem;
-    }
-
-    .status.success {
-      color: var(--green);
-    }
-
-    .status.error {
-      color: var(--red);
-    }
-
-
-    /* =====================================================
-       EVENTS LIST
-    ===================================================== */
-
-    .events-section-title {
-      margin: 0 0 16px;
-
-      font-size: 1.35rem;
-    }
-
-    .events-list {
-      display: grid;
-
       gap: 12px;
     }
 
-    .event-card {
-      width: 100%;
-
-      display: grid;
-      grid-template-columns:
-        110px
-        minmax(0, 1fr)
-        auto;
-
-      gap: 24px;
-
-      align-items: center;
-
-      padding: 20px;
-
+    .stat-card {
+      padding: 19px;
       border: 1px solid var(--line);
-
-      background: white;
+      border-radius: var(--radius);
+      background: #fff;
     }
 
-    .event-card.past {
-      opacity: .66;
-    }
-
-    .date-box {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .date-day {
-      font-size: 2.6rem;
+    .stat-card small {
+      color: var(--muted);
+      font-size: .61rem;
       font-weight: 900;
-      line-height: .9;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      display: block;
+      margin-top: 8px;
+      font-size: 2rem;
+      font-weight: 900;
       letter-spacing: -.05em;
     }
 
-    .date-month {
-      margin-top: 5px;
-
+    .stat-value.orange {
       color: var(--orange);
+    }
 
-      font-size: .68rem;
+    .panel {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .panel-header {
+      padding: 17px 19px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-title {
+      font-size: .7rem;
       font-weight: 900;
-      letter-spacing: .13em;
-
+      letter-spacing: .08em;
       text-transform: uppercase;
     }
 
-    .date-year {
-      margin-top: 3px;
+    .events-grid {
+      display: grid;
+      grid-template-columns: minmax(300px, .75fr) minmax(0, 1.25fr);
+      gap: 20px;
+      align-items: start;
+    }
 
-      color: var(--grey);
+    .event-form {
+      padding: 19px;
+      display: grid;
+      gap: 13px;
+    }
 
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: .57rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      min-height: 42px;
+      padding: 9px 11px;
+      border: 1px solid #d7d0c9;
+      border-radius: 10px;
+      background: #fbf9f5;
+      color: var(--black);
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 82px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(255,106,0,.08);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .form-status {
+      min-height: 17px;
+      color: var(--muted);
       font-size: .7rem;
     }
 
-    .event-main {
-      width: 100%;
-      min-width: 0;
-
+    .event-card {
+      padding: 16px 18px;
       display: grid;
-
-      gap: 7px;
+      grid-template-columns: 66px minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
     }
 
-    .event-title-row {
-      width: 100%;
+    .event-card:last-child {
+      border-bottom: 0;
+    }
 
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
+    .event-date {
+      padding-right: 12px;
+      text-align: center;
+      border-right: 1px solid var(--line);
+    }
 
-      gap: 10px;
+    .event-day {
+      font-size: 1.8rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .event-month {
+      margin-top: 4px;
+      color: var(--orange);
+      font-size: .57rem;
+      font-weight: 900;
     }
 
     .event-venue {
-      max-width: 100%;
-
-      font-size: 1.35rem;
       font-weight: 900;
-      line-height: 1.05;
-
-      overflow-wrap: anywhere;
-    }
-
-    .badge {
-      min-height: 25px;
-
-      display: inline-flex;
-      align-items: center;
-
-      padding: 0 9px;
-
-      border-radius: 999px;
-
-      font-size: .57rem;
-      font-weight: 900;
-      letter-spacing: .09em;
-
-      text-transform: uppercase;
-    }
-
-    .badge-public {
-      background: #e6f4ea;
-      color: #1f6f43;
-    }
-
-    .badge-guests {
-      background: #fff0dc;
-      color: #945000;
-    }
-
-    .badge-private {
-      background: #eee9ff;
-      color: #5f43a4;
     }
 
     .event-meta {
-      width: 100%;
-
+      margin-top: 6px;
       display: flex;
+      gap: 7px 10px;
       flex-wrap: wrap;
-
-      gap: 8px 14px;
-
-      color: var(--grey);
-
-      font-size: .86rem;
+      color: #756e67;
+      font-size: .68rem;
     }
 
-    .event-note {
-      color: #4b4742;
-
-      font-size: .84rem;
+    .pill {
+      min-height: 23px;
+      padding: 0 8px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      background: #eee9e2;
+      font-size: .52rem;
+      font-weight: 900;
+      text-transform: uppercase;
     }
 
-    .event-links {
-      display: flex;
-      flex-wrap: wrap;
-
-      gap: 10px;
+    .pill.public {
+      background: rgba(35,133,90,.12);
+      color: #17613f;
     }
 
-    .event-link {
-      color: var(--orange);
+    .pill.guests {
+      background: rgba(255,106,0,.13);
+      color: #9d4300;
+    }
 
-      font-size: .76rem;
-      font-weight: 800;
+    .pill.private {
+      background: rgba(17,16,15,.09);
+      color: #3e3934;
     }
 
     .event-actions {
       display: flex;
-      align-items: center;
+      gap: 6px;
+    }
 
+    .circle-button {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--black);
+      transition: .2s ease;
+    }
+
+    .circle-button:hover {
+      background: var(--black);
+      color: #fff;
+    }
+
+    .circle-button.delete:hover {
+      background: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .toolbar {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filters {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .filter-button {
+      min-height: 35px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: #6e6760;
+      font-size: .6rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .filter-button.active {
+      background: var(--black);
+      border-color: var(--black);
+      color: #fff;
+    }
+
+    .search-input {
+      min-width: min(330px, 100%);
+      height: 39px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      outline: none;
+    }
+
+    .messages-grid {
+      min-height: 590px;
+      display: grid;
+      grid-template-columns: minmax(290px, .8fr) minmax(0, 1.2fr);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .message-list-pane {
+      border-right: 1px solid var(--line);
+    }
+
+    .message-list {
+      max-height: 670px;
+      overflow: auto;
+    }
+
+    .message-item {
+      position: relative;
+      width: 100%;
+      padding: 15px 16px 15px 22px;
+      display: block;
+      text-align: left;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+      color: var(--black);
+    }
+
+    .message-item:hover,
+    .message-item.active {
+      background: #faf6ef;
+    }
+
+    .message-item.unread::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 19px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+
+    .message-head {
+      display: flex;
+      justify-content: space-between;
       gap: 8px;
     }
 
-    .event-actions .btn {
-      min-height: 38px;
-
-      padding-inline: 13px;
-
-      font-size: .64rem;
+    .message-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: .8rem;
+      font-weight: 900;
     }
 
-    .empty {
-      padding: 30px;
-
-      border: 1px solid var(--line);
-
-      background: white;
-      color: var(--grey);
+    .message-time {
+      flex: 0 0 auto;
+      color: #99918a;
+      font-size: .58rem;
     }
 
-
-    /* =====================================================
-       TABLET
-    ===================================================== */
-
-    @media (max-width: 900px) {
-
-      .page {
-        width: 100%;
-        max-width: 100%;
-
-        padding:
-          30px
-          clamp(18px, 4vw, 32px)
-          75px;
-      }
-
-      h1 {
-        font-size: clamp(3.2rem, 9vw, 5rem);
-      }
-
-      .panel {
-        padding: 24px;
-      }
-
-      form {
-        gap: 16px;
-      }
+    .message-tags {
+      margin-top: 6px;
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
     }
 
+    .message-tag {
+      min-height: 20px;
+      padding: 0 7px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      background: #efebe5;
+      color: #69625b;
+      font-size: .5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
 
-    /* =====================================================
-       MOBILE
-    ===================================================== */
+    .message-tag.intent {
+      background: rgba(255,106,0,.12);
+      color: #a54800;
+    }
 
-    @media (max-width: 760px) {
+    .message-preview {
+      margin-top: 7px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      color: #756e67;
+      font-size: .7rem;
+      line-height: 1.45;
+    }
 
-      .page {
-        width: 100%;
-        max-width: 100%;
+    .message-detail {
+      min-width: 0;
+      padding: clamp(21px,4vw,40px);
+      background:
+        radial-gradient(circle at 100% 0, rgba(255,106,0,.08), transparent 28%),
+        #fff;
+    }
 
-        margin: 0;
+    .empty-detail {
+      min-height: 480px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: #8e8780;
+    }
 
-        padding:
-          24px
-          16px
-          65px;
+    .empty-detail strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--black);
+      font-size: 1.2rem;
+    }
+
+    .detail-kicker {
+      color: var(--orange);
+      font-size: .58rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .detail-name {
+      margin-top: 7px;
+      font-size: clamp(2rem,4vw,3.3rem);
+      font-weight: 900;
+      line-height: .95;
+      letter-spacing: -.055em;
+    }
+
+    .detail-email {
+      margin-top: 9px;
+      color: #6d665f;
+      font-size: .8rem;
+      word-break: break-all;
+    }
+
+    .detail-meta {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 8px;
+    }
+
+    .detail-meta-box {
+      padding: 11px;
+      border-radius: 10px;
+      background: #f6f2ec;
+    }
+
+    .detail-meta-box small {
+      color: #8a827a;
+      font-size: .51rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .detail-meta-box strong {
+      display: block;
+      margin-top: 5px;
+      font-size: .72rem;
+    }
+
+    .detail-label {
+      margin-top: 24px;
+      color: #8a827a;
+      font-size: .54rem;
+      font-weight: 900;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .detail-message {
+      margin-top: 9px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: .92rem;
+      line-height: 1.65;
+    }
+
+    .detail-actions {
+      margin-top: 26px;
+      padding-top: 17px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+    }
+
+    .empty-list {
+      padding: 45px 20px;
+      text-align: center;
+      color: #8e8780;
+      font-size: .76rem;
+      line-height: 1.5;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 200;
+      max-width: min(350px, calc(100vw - 36px));
+      padding: 13px 15px;
+      border-radius: 11px;
+      background: var(--black);
+      color: #fff;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: .2s ease;
+      pointer-events: none;
+      font-size: .72rem;
+      box-shadow: var(--shadow);
+    }
+
+    .toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.error {
+      background: #8b2525;
+    }
+
+    .mobile-detail-close {
+      display: none;
+    }
+
+    @media (max-width: 950px) {
+      .app {
+        grid-template-columns: 1fr;
       }
 
-
-      /* HEADER */
-
-      .topbar {
-        width: 100%;
-
-        flex-direction: column;
-        align-items: stretch;
-
-        gap: 24px;
-
-        margin-bottom: 30px;
+      .sidebar {
+        display: none;
       }
 
-      h1 {
-        width: 100%;
+      .mobile-header {
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        min-height: 68px;
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        background: var(--black);
+      }
 
-        font-size: clamp(2.9rem, 12vw, 4rem);
-        line-height: .88;
+      .mobile-header img {
+        width: 68px;
+        height: 44px;
+        object-fit: contain;
+      }
 
-        white-space: nowrap;
+      .mobile-tabs {
+        display: flex;
+        gap: 6px;
+      }
+
+      .mobile-tab {
+        position: relative;
+        min-height: 36px;
+        padding: 0 10px;
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 999px;
+        background: transparent;
+        color: #fff;
+        font-size: .57rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .mobile-tab.active {
+        background: var(--orange);
+        border-color: var(--orange);
+        color: var(--black);
+      }
+
+      .mobile-badge {
+        position: absolute;
+        top: -5px;
+        right: -4px;
+        min-width: 19px;
+        height: 19px;
+        padding: 0 5px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background: #fff;
+        color: var(--black);
+        font-size: .5rem;
+      }
+
+      .mobile-badge.visible {
+        display: inline-flex;
+      }
+
+      .main {
+        padding: 22px 15px 48px;
       }
 
       .top-actions {
-        width: 100%;
-
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-
-        gap: 10px;
+        display: none;
       }
 
-      .top-actions .btn {
-        width: 100%;
-        min-width: 0;
-        min-height: 46px;
-
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-
-
-      /* STATS */
-
-      .stats {
-        width: 100%;
-
-        grid-template-columns: 1fr 1fr;
-
-        gap: 10px;
-
-        margin-bottom: 34px;
-      }
-
-      .stat-card {
-        width: 100%;
-
-        padding: 17px;
-      }
-
-      .stat-number {
-        font-size: 2rem;
-      }
-
-
-      /* TOOLBAR */
-
-      .toolbar {
-        width: 100%;
-
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-
-        gap: 18px;
-      }
-
-      .tabs {
-        width: 100%;
-
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-
-        padding: 4px;
-      }
-
-      .tab {
-        width: 100%;
-
-        padding-left: 5px;
-        padding-right: 5px;
-
-        text-align: center;
-      }
-
-      #newShowButton {
-        width: auto;
-
-        align-self: flex-start;
-      }
-
-
-      /* PANEL */
-
-      .panel {
-        width: 100%;
-        max-width: 100%;
-
-        padding: 22px 16px;
-
-        margin-left: 0;
-        margin-right: 0;
-
-        overflow: hidden;
-      }
-
-      .panel-header {
-        align-items: flex-start;
-        flex-direction: column;
-
-        margin-bottom: 26px;
-      }
-
-
-      /* FORM */
-
-      form {
-        width: 100%;
-        max-width: 100%;
-
-        display: grid;
-        grid-template-columns: minmax(0, 1fr);
-
-        gap: 18px;
-      }
-
-      .field,
-      .field.full,
-      .field-row,
-      .type-picker,
-      .form-actions {
-        grid-column: 1 / -1;
-
-        width: 100%;
-        max-width: 100%;
-      }
-
-      .field-row {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr);
-
-        gap: 18px;
-      }
-
-      input,
-      textarea,
-      select {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-
-        padding: 14px 13px;
-
-        font-size: 16px;
-      }
-
-
-      /* EVENT TYPES */
-
-      .type-options {
-        width: 100%;
-
-        display: grid;
-        grid-template-columns: minmax(0, 1fr);
-
-        gap: 9px;
-      }
-
-      .type-option {
-        width: 100%;
-      }
-
-      .type-option label {
-        width: 100%;
-
-        min-height: 68px;
-
-        padding: 13px;
-      }
-
-
-      /* FORM ACTIONS */
-
-      .form-actions {
-        display: grid;
+      .events-grid,
+      .messages-grid {
         grid-template-columns: 1fr;
-
-        gap: 9px;
       }
 
-      .form-actions .btn {
-        width: 100%;
+      .message-list-pane {
+        border-right: 0;
       }
 
+      .message-list {
+        max-height: none;
+      }
 
-      /* EVENT CARDS */
+      .message-detail {
+        display: none;
+      }
+
+      .message-detail.mobile-open {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: block;
+        overflow: auto;
+        padding: 22px 16px 48px;
+        background: var(--cream);
+      }
+
+      .mobile-detail-close {
+        display: inline-flex;
+        margin-bottom: 18px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page-title {
+        font-size: 2.5rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stats-grid .stat-card:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
 
       .event-card {
-        width: 100%;
-
-        grid-template-columns:
-          62px
-          minmax(0, 1fr);
-
-        gap: 14px;
-
-        padding: 17px 14px;
-      }
-
-      .event-main {
-        width: 100%;
-      }
-
-      .event-meta {
-        width: 100%;
-
-        flex-direction: column;
-
-        gap: 4px;
+        grid-template-columns: 54px minmax(0,1fr);
       }
 
       .event-actions {
-        grid-column: 1 / -1;
-
-        width: 100%;
-
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-
-        gap: 8px;
-
-        margin-top: 4px;
+        grid-column: 2;
       }
 
-      .event-actions .btn {
-        width: 100%;
-      }
-    }
-
-
-    @media (max-width: 390px) {
-
-      .page {
-        padding-left: 12px;
-        padding-right: 12px;
-      }
-
-      h1 {
-        font-size: clamp(2.65rem, 11.5vw, 3.3rem);
-      }
-
-      .top-actions {
+      .detail-meta {
         grid-template-columns: 1fr;
       }
 
-      .panel {
-        padding-left: 14px;
-        padding-right: 14px;
+      .search-input {
+        width: 100%;
+        min-width: 0;
       }
     }
   </style>
@@ -1084,1587 +963,1829 @@
 
 <body>
 
+  <div class="mobile-header">
+    <img src="/images/logo-white.png" alt="Orange May">
 
-<div class="page">
-
-
-  <!-- ===================================================
-       HEADER
-  ==================================================== -->
-
-  <header class="topbar">
-
-    <div>
-
-      <div class="eyebrow">
-        Orange May
-      </div>
-
-      <h1>
-        Admin <span>Panel</span>
-      </h1>
-
-    </div>
-
-
-    <div class="top-actions">
-
-      <a
-        href="/"
-        class="btn btn-light"
-      >
-        View website
-      </a>
-
-      <button
-        id="logoutButton"
-        class="btn btn-dark"
-        type="button"
-      >
-        Logout
+    <div class="mobile-tabs">
+      <button class="mobile-tab active" data-view="events">
+        Date
       </button>
 
-    </div>
-
-  </header>
-
-
-  <!-- ===================================================
-       STATS
-  ==================================================== -->
-
-  <section class="stats">
-
-    <div class="stat-card">
-
-      <div class="stat-label">
-        Upcoming
-      </div>
-
-      <div
-        id="upcomingCount"
-        class="stat-number"
-      >
-        0
-      </div>
-
-    </div>
-
-
-    <div class="stat-card">
-
-      <div class="stat-label">
-        Past
-      </div>
-
-      <div
-        id="pastCount"
-        class="stat-number"
-      >
-        0
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- ===================================================
-       TOOLBAR
-  ==================================================== -->
-
-  <div class="toolbar">
-
-    <div class="tabs">
-
-      <button
-        class="tab active"
-        data-filter="upcoming"
-      >
-        Upcoming
+      <button class="mobile-tab" data-view="messages">
+        Messaggi
+        <span id="mobileUnreadBadge" class="mobile-badge">0</span>
       </button>
-
-      <button
-        class="tab"
-        data-filter="past"
-      >
-        Past
-      </button>
-
-      <button
-        class="tab"
-        data-filter="all"
-      >
-        All
-      </button>
-
     </div>
+  </div>
 
+  <div class="app">
 
-    <button
-      id="newShowButton"
-      class="btn btn-primary"
-      type="button"
-    >
-      + Add show
-    </button>
+    <aside class="sidebar">
+
+      <div class="brand">
+        <img src="/images/logo-white.png" alt="Orange May">
+
+        <div>
+          <strong>Admin</strong>
+          <small>Orange May</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+
+        <button class="nav-button active" data-view="events">
+          <span class="nav-left">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+              <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+              <path d="M8 3V7M16 3V7M3 10H21"></path>
+            </svg>
+            Date
+          </span>
+        </button>
+
+        <button class="nav-button" data-view="messages">
+          <span class="nav-left">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="M4 7L12 13L20 7"></path>
+            </svg>
+            Messaggi
+          </span>
+
+          <span id="unreadBadge" class="badge">0</span>
+        </button>
+
+      </nav>
+
+      <div class="sidebar-bottom">
+
+        <a class="sidebar-link" href="/" target="_blank">
+          <span>Apri sito</span>
+          <span>↗</span>
+        </a>
+
+        <button id="logoutButton" class="sidebar-action" type="button">
+          <span>Logout</span>
+          <span>→</span>
+        </button>
+
+      </div>
+
+    </aside>
+
+    <main class="main">
+
+      <header class="topbar">
+
+        <div>
+          <div class="eyebrow">
+            Orange May Admin
+          </div>
+
+          <h1 id="pageTitle" class="page-title">
+            Date
+          </h1>
+        </div>
+
+        <div class="top-actions">
+          <a href="/" target="_blank" class="button">
+            Apri sito
+          </a>
+
+          <button id="topLogoutButton" class="button" type="button">
+            Logout
+          </button>
+        </div>
+
+      </header>
+
+      <section id="eventsView" class="view active">
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+            <small>Prossime date</small>
+            <strong id="futureEventsCount" class="stat-value">—</strong>
+          </div>
+
+          <div class="stat-card">
+            <small>Eventi totali</small>
+            <strong id="totalEventsCount" class="stat-value">—</strong>
+          </div>
+
+          <div class="stat-card">
+            <small>Nuovi messaggi</small>
+            <strong id="eventsUnreadCount" class="stat-value orange">0</strong>
+          </div>
+
+        </div>
+
+        <div class="events-grid">
+
+          <div class="panel">
+
+            <div class="panel-header">
+              <div id="eventFormTitle" class="panel-title">
+                Nuova data
+              </div>
+            </div>
+
+            <form id="eventForm" class="event-form">
+
+              <div class="field">
+                <label for="eventDate">Data</label>
+                <input id="eventDate" type="date" required>
+              </div>
+
+              <div class="field">
+                <label for="venue">Venue / struttura</label>
+                <input id="venue" type="text" required>
+              </div>
+
+              <div class="field">
+                <label for="location">Luogo</label>
+                <input id="location" type="text" required>
+              </div>
+
+              <div class="field">
+                <label for="locationUrl">Link indicazioni</label>
+                <input id="locationUrl" type="url" placeholder="https://maps.google.com/...">
+              </div>
+
+              <div class="form-row">
+
+                <div class="field">
+                  <label for="startTime">Ora inizio</label>
+                  <input id="startTime" type="time">
+                </div>
+
+                <div class="field">
+                  <label for="endTime">Ora fine</label>
+                  <input id="endTime" type="time">
+                </div>
+
+              </div>
+
+              <div class="field">
+                <label for="eventType">Tipo evento</label>
+
+                <select id="eventType">
+                  <option value="PUBLIC">Pubblico</option>
+                  <option value="GUESTS_ONLY">Solo ospiti</option>
+                  <option value="PRIVATE">Privato</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="publicUrl">Link info pubblico</label>
+                <input id="publicUrl" type="url" placeholder="https://...">
+              </div>
+
+              <div class="field">
+                <label for="note">Nota</label>
+                <textarea id="note"></textarea>
+              </div>
+
+              <div class="form-actions">
+
+                <button class="button primary" type="submit">
+                  Salva data
+                </button>
+
+                <button id="cancelEditButton" class="button" type="button" hidden>
+                  Annulla
+                </button>
+
+              </div>
+
+              <div id="eventFormStatus" class="form-status"></div>
+
+            </form>
+
+          </div>
+
+          <div class="panel">
+
+            <div class="panel-header">
+              <div class="panel-title">
+                Date inserite
+              </div>
+
+              <button id="refreshEventsButton" class="button small" type="button">
+                Aggiorna
+              </button>
+            </div>
+
+            <div id="eventsList">
+              <div class="empty-list">
+                Caricamento date...
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <section id="messagesView" class="view">
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+            <small>Non letti</small>
+            <strong id="messageUnreadStat" class="stat-value orange">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <small>Messaggi totali</small>
+            <strong id="messageTotalStat" class="stat-value">—</strong>
+          </div>
+
+          <div class="stat-card">
+            <small>Archiviati</small>
+            <strong id="messageArchivedStat" class="stat-value">—</strong>
+          </div>
+
+        </div>
+
+        <div class="toolbar">
+
+          <div class="filters">
+
+            <button class="filter-button active" data-filter="ALL">
+              Tutti
+            </button>
+
+            <button class="filter-button" data-filter="UNREAD">
+              Non letti
+            </button>
+
+            <button class="filter-button" data-filter="READ">
+              Letti
+            </button>
+
+            <button class="filter-button" data-filter="ARCHIVED">
+              Archiviati
+            </button>
+
+          </div>
+
+          <input
+            id="messageSearch"
+            class="search-input"
+            type="search"
+            placeholder="Cerca nome, email o messaggio..."
+          >
+
+        </div>
+
+        <div class="messages-grid">
+
+          <div class="message-list-pane">
+
+            <div class="panel-header">
+
+              <div class="panel-title">
+                Messaggi ricevuti
+              </div>
+
+              <button id="refreshMessagesButton" class="button small" type="button">
+                Aggiorna
+              </button>
+
+            </div>
+
+            <div id="messageList" class="message-list">
+
+              <div class="empty-list">
+                Caricamento messaggi...
+              </div>
+
+            </div>
+
+          </div>
+
+          <div id="messageDetail" class="message-detail">
+
+            <div class="empty-detail">
+
+              <div>
+                <strong>Seleziona un messaggio</strong>
+                Qui vedrai tutti i dettagli della richiesta ricevuta.
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
 
   </div>
 
+  <div id="toast" class="toast"></div>
 
-  <!-- ===================================================
-       FORM
-  ==================================================== -->
+  <script>
+    let events = [];
+    let editingEventId = null;
 
-  <section
-    id="formPanel"
-    class="panel"
-  >
+    let messages = [];
+    let selectedMessageId = null;
+    let messageFilter = "ALL";
+    let messageSearchTerm = "";
 
-    <div class="panel-header">
+    const $ = id =>
+      document.getElementById(id);
 
-      <div>
+    const pageTitle =
+      $("pageTitle");
 
-        <h2 id="formTitle">
-          Add show
-        </h2>
+    const unreadBadge =
+      $("unreadBadge");
 
-        <div class="panel-subtitle">
-          Add a new Orange May date.
-        </div>
+    const mobileUnreadBadge =
+      $("mobileUnreadBadge");
 
-      </div>
+    const eventsUnreadCount =
+      $("eventsUnreadCount");
 
-    </div>
+    const futureEventsCount =
+      $("futureEventsCount");
 
+    const totalEventsCount =
+      $("totalEventsCount");
 
-    <form id="eventForm">
+    const eventForm =
+      $("eventForm");
 
+    const eventFormTitle =
+      $("eventFormTitle");
 
-      <input
-        type="hidden"
-        id="eventId"
-      >
+    const eventDate =
+      $("eventDate");
 
+    const venue =
+      $("venue");
 
-      <!-- DATE -->
+    const locationInput =
+      $("location");
 
-      <div class="field">
+    const locationUrl =
+      $("locationUrl");
 
-        <label for="eventDate">
-          Date
-        </label>
+    const startTime =
+      $("startTime");
 
-        <input
-          id="eventDate"
-          type="date"
-          required
-        >
+    const endTime =
+      $("endTime");
 
-      </div>
+    const eventType =
+      $("eventType");
 
+    const publicUrl =
+      $("publicUrl");
 
-      <!-- VENUE -->
+    const note =
+      $("note");
 
-      <div class="field">
+    const cancelEditButton =
+      $("cancelEditButton");
 
-        <label for="venue">
-          Venue
-        </label>
+    const eventFormStatus =
+      $("eventFormStatus");
 
-        <input
-          id="venue"
-          type="text"
-          required
-        >
+    const eventsList =
+      $("eventsList");
 
-      </div>
+    const messageList =
+      $("messageList");
 
+    const messageDetail =
+      $("messageDetail");
 
-      <!-- LOCATION -->
+    const messageUnreadStat =
+      $("messageUnreadStat");
 
-      <div class="field full">
+    const messageTotalStat =
+      $("messageTotalStat");
 
-        <label for="location">
-          Location
-        </label>
+    const messageArchivedStat =
+      $("messageArchivedStat");
 
-        <input
-          id="location"
-          type="text"
-          placeholder="Riva del Garda"
-          required
-        >
+    const messageSearch =
+      $("messageSearch");
 
-      </div>
+    const toast =
+      $("toast");
 
-
-      <!-- LOCATION URL -->
-
-      <div class="field full">
-
-        <label for="locationUrl">
-          Location link
-        </label>
-
-        <input
-          id="locationUrl"
-          type="url"
-          placeholder="https://maps.google.com/..."
-        >
-
-        <div class="field-help">
-          Optional — Google Maps or Apple Maps link to the venue.
-        </div>
-
-      </div>
-
-
-      <!-- TIMES -->
-
-      <div class="field-row">
-
-        <div class="field">
-
-          <label for="startTime">
-            Start time
-          </label>
-
-          <input
-            id="startTime"
-            type="time"
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="endTime">
-            End time
-          </label>
-
-          <input
-            id="endTime"
-            type="time"
-          >
-
-        </div>
-
-      </div>
-
-
-      <!-- EVENT TYPE -->
-
-      <div class="type-picker">
-
-        <label>
-          Event type
-        </label>
-
-
-        <div class="type-options">
-
-
-          <div class="type-option">
-
-            <input
-              id="typePublic"
-              type="radio"
-              name="eventType"
-              value="PUBLIC"
-              checked
-            >
-
-            <label for="typePublic">
-
-              <strong>
-                Public
-              </strong>
-
-              <span>
-                Open to everyone.
-              </span>
-
-            </label>
-
-          </div>
-
-
-          <div class="type-option">
-
-            <input
-              id="typeGuests"
-              type="radio"
-              name="eventType"
-              value="GUESTS_ONLY"
-            >
-
-            <label for="typeGuests">
-
-              <strong>
-                Guests only
-              </strong>
-
-              <span>
-                Visible online, but not open to the public.
-              </span>
-
-            </label>
-
-          </div>
-
-
-          <div class="type-option">
-
-            <input
-              id="typePrivate"
-              type="radio"
-              name="eventType"
-              value="PRIVATE"
-            >
-
-            <label for="typePrivate">
-
-              <strong>
-                Private event
-              </strong>
-
-              <span>
-                Wedding, private party or private booking.
-              </span>
-
-            </label>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- PUBLIC URL -->
-
-      <div class="field full">
-
-        <label for="publicUrl">
-          Event / public link
-        </label>
-
-        <input
-          id="publicUrl"
-          type="url"
-          placeholder="https://..."
-        >
-
-        <div class="field-help">
-          Optional — website, event page, booking page or other public information.
-        </div>
-
-      </div>
-
-
-      <!-- NOTE -->
-
-      <div class="field full">
-
-        <label for="note">
-          Note
-        </label>
-
-        <textarea
-          id="note"
-          placeholder="Optional information about the event"
-        ></textarea>
-
-      </div>
-
-
-      <!-- ACTIONS -->
-
-      <div class="form-actions">
-
-        <button
-          type="submit"
-          class="btn btn-primary"
-        >
-          Save show
-        </button>
-
-        <button
-          type="button"
-          id="cancelEdit"
-          class="btn btn-light"
-          hidden
-        >
-          Cancel edit
-        </button>
-
-      </div>
-
-    </form>
-
-
-    <div
-      id="status"
-      class="status"
-      aria-live="polite"
-    ></div>
-
-  </section>
-
-
-  <!-- ===================================================
-       EVENTS
-  ==================================================== -->
-
-  <section>
-
-    <h2
-      id="eventsSectionTitle"
-      class="events-section-title"
-    >
-      Upcoming shows
-    </h2>
-
-
-    <div
-      id="eventsList"
-      class="events-list"
-    >
-
-      <div class="empty">
-        Loading...
-      </div>
-
-    </div>
-
-  </section>
-
-</div>
-
-
-<script>
-
-  const form =
-    document.getElementById(
-      "eventForm"
-    );
-
-  const eventsList =
-    document.getElementById(
-      "eventsList"
-    );
-
-  const status =
-    document.getElementById(
-      "status"
-    );
-
-  const cancelEdit =
-    document.getElementById(
-      "cancelEdit"
-    );
-
-  const formTitle =
-    document.getElementById(
-      "formTitle"
-    );
-
-  const upcomingCount =
-    document.getElementById(
-      "upcomingCount"
-    );
-
-  const pastCount =
-    document.getElementById(
-      "pastCount"
-    );
-
-  const eventsSectionTitle =
-    document.getElementById(
-      "eventsSectionTitle"
-    );
-
-  const newShowButton =
-    document.getElementById(
-      "newShowButton"
-    );
-
-  const formPanel =
-    document.getElementById(
-      "formPanel"
-    );
-
-
-  let allEvents = [];
-
-  let currentFilter =
-    "upcoming";
-
-
-  /* =====================================================
-     LOAD EVENTS
-  ===================================================== */
-
-  async function loadEvents() {
-
-    try {
-
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function showToast(message, isError = false) {
+      toast.textContent =
+        message;
+
+      toast.classList.toggle(
+        "error",
+        isError
+      );
+
+      toast.classList.add(
+        "visible"
+      );
+
+      clearTimeout(
+        showToast.timer
+      );
+
+      showToast.timer =
+        setTimeout(
+          () => {
+            toast.classList.remove(
+              "visible"
+            );
+          },
+          2600
+        );
+    }
+
+    async function apiRequest(
+      url,
+      options = {}
+    ) {
       const response =
         await fetch(
-          "/api/admin/events"
+          url,
+          options
         );
 
-
-      if (
-        response.status === 401
-      ) {
-
+      if (response.status === 401) {
         window.location.href =
           "/login";
+
+        throw new Error(
+          "Sessione scaduta."
+        );
+      }
+
+      const result =
+        await response
+          .json()
+          .catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(
+          result.error ||
+          "Si è verificato un errore."
+        );
+      }
+
+      return result;
+    }
+
+    function getEventTypeLabel(value) {
+      if (value === "PUBLIC") {
+        return "Pubblico";
+      }
+
+      if (value === "GUESTS_ONLY") {
+        return "Solo ospiti";
+      }
+
+      return "Privato";
+    }
+
+    function getEventTypeClass(value) {
+      if (value === "PUBLIC") {
+        return "public";
+      }
+
+      if (value === "GUESTS_ONLY") {
+        return "guests";
+      }
+
+      return "private";
+    }
+
+    function getIntentLabel(value) {
+      const labels = {
+        BOOKING: "Booking",
+        INFO: "Informazioni",
+        COLLABORATION: "Collaborazione",
+        HELLO: "Solo un saluto"
+      };
+
+      return labels[value] || "";
+    }
+
+    function getBookingTypeLabel(value) {
+      const labels = {
+        HOTEL: "Hotel",
+        VENUE: "Locale",
+        WEDDING: "Matrimonio",
+        PRIVATE_EVENT: "Evento privato",
+        OTHER: "Altro"
+      };
+
+      return labels[value] || "";
+    }
+
+    function parseEventDate(value) {
+      if (!value) {
+        return {
+          day: "—",
+          month: ""
+        };
+      }
+
+      const [, month, day] =
+        value.split("-");
+
+      const months = [
+        "GEN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAG",
+        "GIU",
+        "LUG",
+        "AGO",
+        "SET",
+        "OTT",
+        "NOV",
+        "DIC"
+      ];
+
+      return {
+        day,
+        month:
+          months[
+            Number(month) - 1
+          ] || ""
+      };
+    }
+
+    function formatItalianDate(value) {
+      if (!value) {
+        return "—";
+      }
+
+      const [year, month, day] =
+        value.split("-");
+
+      return `${day}/${month}/${year}`;
+    }
+
+    function formatEventTime(event) {
+      if (
+        event.start_time &&
+        event.end_time
+      ) {
+        return `${event.start_time} — ${event.end_time}`;
+      }
+
+      return event.start_time || "";
+    }
+
+    function parseSqliteDate(value) {
+      if (!value) {
+        return null;
+      }
+
+      let normalized =
+        String(value);
+
+      if (
+        /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/
+          .test(normalized)
+      ) {
+        normalized =
+          normalized
+            .replace(
+              " ",
+              "T"
+            ) + "Z";
+      }
+
+      const date =
+        new Date(normalized);
+
+      return Number.isNaN(
+        date.getTime()
+      )
+        ? null
+        : date;
+    }
+
+    function formatReceivedDate(value) {
+      const date =
+        parseSqliteDate(value);
+
+      if (!date) {
+        return "";
+      }
+
+      const now =
+        new Date();
+
+      const today =
+        new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate()
+        );
+
+      const messageDay =
+        new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate()
+        );
+
+      const diffDays =
+        Math.round(
+          (today - messageDay) /
+          86400000
+        );
+
+      if (diffDays === 0) {
+        return date
+          .toLocaleTimeString(
+            "it-IT",
+            {
+              hour: "2-digit",
+              minute: "2-digit"
+            }
+          );
+      }
+
+      if (diffDays === 1) {
+        return "Ieri";
+      }
+
+      return date
+        .toLocaleDateString(
+          "it-IT",
+          {
+            day: "2-digit",
+            month: "2-digit"
+          }
+        );
+    }
+
+    function formatFullReceivedDate(value) {
+      const date =
+        parseSqliteDate(value);
+
+      if (!date) {
+        return value || "—";
+      }
+
+      return date
+        .toLocaleString(
+          "it-IT",
+          {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+          }
+        );
+    }
+
+    document
+      .querySelectorAll("[data-view]")
+      .forEach(button => {
+        button.addEventListener(
+          "click",
+          () => {
+            switchView(
+              button.dataset.view
+            );
+          }
+        );
+      });
+
+    function switchView(viewName) {
+      document
+        .querySelectorAll(".view")
+        .forEach(view => {
+          view.classList.remove(
+            "active"
+          );
+        });
+
+      document
+        .querySelectorAll("[data-view]")
+        .forEach(button => {
+          button.classList.toggle(
+            "active",
+            button.dataset.view ===
+              viewName
+          );
+        });
+
+      if (viewName === "messages") {
+        $("messagesView")
+          .classList
+          .add("active");
+
+        pageTitle.textContent =
+          "Messaggi";
+
+        loadMessages();
+
+      } else {
+        $("eventsView")
+          .classList
+          .add("active");
+
+        pageTitle.textContent =
+          "Date";
+      }
+    }
+
+    async function loadEvents() {
+      eventsList.innerHTML =
+        '<div class="empty-list">Caricamento date...</div>';
+
+      try {
+        events =
+          await apiRequest(
+            "/api/admin/events"
+          );
+
+        renderEvents();
+        updateEventStats();
+
+      } catch (error) {
+        eventsList.innerHTML =
+          '<div class="empty-list">Errore durante il caricamento delle date.</div>';
+
+        showToast(
+          error.message,
+          true
+        );
+      }
+    }
+
+    function renderEvents() {
+      if (!events.length) {
+        eventsList.innerHTML =
+          '<div class="empty-list">Nessuna data inserita.</div>';
 
         return;
       }
 
+      const sorted =
+        [...events].sort(
+          (a, b) => {
+            const aKey =
+              `${a.event_date || ""} ${a.start_time || ""}`;
 
-      if (!response.ok) {
-        throw new Error();
-      }
+            const bKey =
+              `${b.event_date || ""} ${b.start_time || ""}`;
 
-
-      allEvents =
-        await response.json();
-
-
-      updateStats();
-
-      renderEvents();
-
-
-    } catch {
-
-      eventsList.innerHTML =
-        `
-          <div class="empty">
-            Unable to load shows.
-          </div>
-        `;
-    }
-  }
-
-
-  /* =====================================================
-     STATS
-  ===================================================== */
-
-  function updateStats() {
-
-    const now =
-      new Date();
-
-
-    const upcoming =
-      allEvents.filter(
-        event =>
-          getEventEnd(event) >= now
-      );
-
-
-    const past =
-      allEvents.filter(
-        event =>
-          getEventEnd(event) < now
-      );
-
-
-    upcomingCount.textContent =
-      upcoming.length;
-
-
-    pastCount.textContent =
-      past.length;
-  }
-
-
-  /* =====================================================
-     RENDER EVENTS
-  ===================================================== */
-
-  function renderEvents() {
-
-    const now =
-      new Date();
-
-
-    let events =
-      [...allEvents];
-
-
-    if (
-      currentFilter === "upcoming"
-    ) {
-
-      events =
-        events.filter(
-          event =>
-            getEventEnd(event) >= now
+            return aKey.localeCompare(
+              bKey
+            );
+          }
         );
 
-
-      eventsSectionTitle.textContent =
-        "Upcoming shows";
-    }
-
-
-    if (
-      currentFilter === "past"
-    ) {
-
-      events =
-        events
-          .filter(
-            event =>
-              getEventEnd(event) < now
-          )
-          .sort(
-            (a, b) =>
-              getEventEnd(b) -
-              getEventEnd(a)
-          );
-
-
-      eventsSectionTitle.textContent =
-        "Past shows";
-    }
-
-
-    if (
-      currentFilter === "all"
-    ) {
-
-      eventsSectionTitle.textContent =
-        "All shows";
-    }
-
-
-    if (!events.length) {
-
       eventsList.innerHTML =
-        `
-          <div class="empty">
-            No shows found.
-          </div>
-        `;
+        sorted
+          .map(event => {
+            const date =
+              parseEventDate(
+                event.event_date
+              );
 
-      return;
-    }
+            const time =
+              formatEventTime(
+                event
+              );
 
+            return `
+              <div class="event-card">
 
-    eventsList.innerHTML =
-      events
-        .map(
-          event =>
-            createEventCard(
-              event,
-              getEventEnd(event) < now
-            )
-        )
-        .join("");
-  }
+                <div class="event-date">
 
-
-  /* =====================================================
-     EVENT CARD
-  ===================================================== */
-
-  function createEventCard(
-    event,
-    isPast
-  ) {
-
-    const date =
-      new Date(
-        event.event_date +
-        "T12:00:00"
-      );
-
-
-    const day =
-      String(
-        date.getDate()
-      ).padStart(
-        2,
-        "0"
-      );
-
-
-    const month =
-      date
-        .toLocaleString(
-          "en",
-          {
-            month:
-              "short"
-          }
-        )
-        .toUpperCase();
-
-
-    const year =
-      date.getFullYear();
-
-
-    const type =
-      event.event_type ||
-      "PUBLIC";
-
-
-    const badge =
-      getBadge(type);
-
-
-    const time =
-      event.start_time
-        ? event.end_time
-          ? `${
-              event.start_time
-            } – ${
-              event.end_time
-            }`
-          : event.start_time
-        : "";
-
-
-    return `
-      <article
-        class="
-          event-card
-          ${
-            isPast
-              ? "past"
-              : ""
-          }
-        "
-      >
-
-        <div class="date-box">
-
-          <span class="date-day">
-            ${day}
-          </span>
-
-          <span class="date-month">
-            ${month}
-          </span>
-
-          <span class="date-year">
-            ${year}
-          </span>
-
-        </div>
-
-
-        <div class="event-main">
-
-          <div class="event-title-row">
-
-            <div class="event-venue">
-              ${
-                escapeHtml(
-                  event.venue
-                )
-              }
-            </div>
-
-            ${badge}
-
-          </div>
-
-
-          <div class="event-meta">
-
-            <span>
-              ${
-                escapeHtml(
-                  event.location || ""
-                )
-              }
-            </span>
-
-            ${
-              time
-                ? `
-                    <span>
-                      ${
-                        escapeHtml(
-                          time
-                        )
-                      }
-                    </span>
-                  `
-                : ""
-            }
-
-          </div>
-
-
-          ${
-            event.note
-              ? `
-                  <div class="event-note">
-                    ${
-                      escapeHtml(
-                        event.note
-                      )
-                    }
+                  <div class="event-day">
+                    ${escapeHtml(date.day)}
                   </div>
-                `
-              : ""
+
+                  <div class="event-month">
+                    ${escapeHtml(date.month)}
+                  </div>
+
+                </div>
+
+                <div>
+
+                  <div class="event-venue">
+                    ${escapeHtml(event.venue || "")}
+                  </div>
+
+                  <div class="event-meta">
+
+                    <span>
+                      ${escapeHtml(event.location || "")}
+                    </span>
+
+                    ${
+                      time
+                        ? `<span>${escapeHtml(time)}</span>`
+                        : ""
+                    }
+
+                    <span class="pill ${getEventTypeClass(event.event_type)}">
+                      ${escapeHtml(getEventTypeLabel(event.event_type))}
+                    </span>
+
+                  </div>
+
+                  ${
+                    event.note
+                      ? `
+                        <div class="event-meta">
+                          <span>${escapeHtml(event.note)}</span>
+                        </div>
+                      `
+                      : ""
+                  }
+
+                </div>
+
+                <div class="event-actions">
+
+                  <button
+                    class="circle-button"
+                    type="button"
+                    title="Modifica"
+                    onclick="editEvent(${Number(event.id)})"
+                  >
+                    ✎
+                  </button>
+
+                  <button
+                    class="circle-button delete"
+                    type="button"
+                    title="Elimina"
+                    onclick="deleteEvent(${Number(event.id)})"
+                  >
+                    ×
+                  </button>
+
+                </div>
+
+              </div>
+            `;
+          })
+          .join("");
+    }
+
+    function updateEventStats() {
+      const today =
+        new Date();
+
+      today.setHours(
+        0,
+        0,
+        0,
+        0
+      );
+
+      const futureCount =
+        events.filter(event => {
+          if (!event.event_date) {
+            return false;
           }
 
+          const date =
+            new Date(
+              `${event.event_date}T00:00:00`
+            );
 
-          <div class="event-links">
+          return date >= today;
+        }).length;
 
-            ${
-              event.location_url
-                ? `
-                    <a
-                      href="${
-                        escapeAttribute(
-                          event.location_url
-                        )
-                      }"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="event-link"
-                    >
-                      Directions ↗
-                    </a>
-                  `
-                : ""
-            }
+      futureEventsCount.textContent =
+        futureCount;
 
-            ${
-              event.public_url
-                ? `
-                    <a
-                      href="${
-                        escapeAttribute(
-                          event.public_url
-                        )
-                      }"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="event-link"
-                    >
-                      Public link ↗
-                    </a>
-                  `
-                : ""
-            }
-
-          </div>
-
-        </div>
-
-
-        <div class="event-actions">
-
-          <button
-            class="btn btn-light"
-            type="button"
-            onclick="editEvent(${event.id})"
-          >
-            Edit
-          </button>
-
-          <button
-            class="btn btn-danger"
-            type="button"
-            onclick="deleteEvent(${event.id})"
-          >
-            Delete
-          </button>
-
-        </div>
-
-      </article>
-    `;
-  }
-
-
-  /* =====================================================
-     BADGES
-  ===================================================== */
-
-  function getBadge(type) {
-
-    if (
-      type === "PRIVATE"
-    ) {
-
-      return `
-        <span
-          class="
-            badge
-            badge-private
-          "
-        >
-          Private event
-        </span>
-      `;
+      totalEventsCount.textContent =
+        events.length;
     }
 
+    eventForm.addEventListener(
+      "submit",
+      async event => {
+        event.preventDefault();
 
-    if (
-      type === "GUESTS_ONLY"
-    ) {
+        eventFormStatus.textContent =
+          "Salvataggio...";
 
-      return `
-        <span
-          class="
-            badge
-            badge-guests
-          "
-        >
-          Guests only
-        </span>
-      `;
-    }
+        const payload = {
+          event_date:
+            eventDate.value,
 
+          venue:
+            venue.value.trim(),
 
-    return `
-      <span
-        class="
-          badge
-          badge-public
-        "
-      >
-        Public
-      </span>
-    `;
-  }
+          location:
+            locationInput.value.trim(),
 
+          location_url:
+            locationUrl.value.trim(),
 
-  /* =====================================================
-     EVENT END
-  ===================================================== */
+          start_time:
+            startTime.value,
 
-  function getEventEnd(event) {
+          end_time:
+            endTime.value,
 
-    const endTime =
-      event.end_time ||
-      event.start_time ||
-      "23:59";
+          note:
+            note.value.trim(),
 
+          event_type:
+            eventType.value,
 
-    return new Date(
-      `${
-        event.event_date
-      }T${
-        endTime
-      }:00`
-    );
-  }
+          public_url:
+            publicUrl.value.trim()
+        };
 
+        try {
+          const url =
+            editingEventId
+              ? `/api/admin/events/${editingEventId}`
+              : "/api/admin/events";
 
-  /* =====================================================
-     SAVE EVENT
-  ===================================================== */
+          const method =
+            editingEventId
+              ? "PUT"
+              : "POST";
 
-  form.addEventListener(
-    "submit",
-    async event => {
-
-      event.preventDefault();
-
-
-      clearStatus();
-
-
-      const id =
-        document
-          .getElementById(
-            "eventId"
-          )
-          .value;
-
-
-      const selectedType =
-        document.querySelector(
-          'input[name="eventType"]:checked'
-        )?.value ||
-        "PUBLIC";
-
-
-      const data = {
-
-        event_date:
-          document
-            .getElementById(
-              "eventDate"
-            )
-            .value,
-
-        venue:
-          document
-            .getElementById(
-              "venue"
-            )
-            .value,
-
-        location:
-          document
-            .getElementById(
-              "location"
-            )
-            .value,
-
-        location_url:
-          document
-            .getElementById(
-              "locationUrl"
-            )
-            .value
-            .trim(),
-
-        start_time:
-          document
-            .getElementById(
-              "startTime"
-            )
-            .value,
-
-        end_time:
-          document
-            .getElementById(
-              "endTime"
-            )
-            .value,
-
-        event_type:
-          selectedType,
-
-        public_url:
-          document
-            .getElementById(
-              "publicUrl"
-            )
-            .value
-            .trim(),
-
-        note:
-          document
-            .getElementById(
-              "note"
-            )
-            .value
-      };
-
-
-      status.textContent =
-        "Saving...";
-
-
-      try {
-
-        const response =
-          await fetch(
-
-            id
-              ? `/api/admin/events/${id}`
-              : "/api/admin/events",
-
+          await apiRequest(
+            url,
             {
-
-              method:
-                id
-                  ? "PUT"
-                  : "POST",
-
+              method,
               headers: {
                 "Content-Type":
                   "application/json"
               },
-
               body:
                 JSON.stringify(
-                  data
+                  payload
                 )
             }
-
           );
 
+          showToast(
+            editingEventId
+              ? "Data aggiornata."
+              : "Data creata."
+          );
 
-        if (
-          response.status === 401
-        ) {
+          resetEventForm();
+          await loadEvents();
 
-          window.location.href =
-            "/login";
+        } catch (error) {
+          eventFormStatus.textContent =
+            error.message;
 
-          return;
-        }
-
-
-        if (!response.ok) {
-
-          const result =
-            await response
-              .json()
-              .catch(
-                () => ({})
-              );
-
-
-          throw new Error(
-            result.error ||
-            "Unable to save show"
+          showToast(
+            error.message,
+            true
           );
         }
+      }
+    );
 
+    function editEvent(id) {
+      const event =
+        events.find(
+          item =>
+            Number(item.id) ===
+            Number(id)
+        );
 
-        status.className =
-          "status success";
-
-
-        status.textContent =
-          id
-            ? "Show updated successfully."
-            : "Show added successfully.";
-
-
-        resetForm();
-
-
-        await loadEvents();
-
-
-      } catch (error) {
-
-        status.className =
-          "status error";
-
-
-        status.textContent =
-          error.message;
+      if (!event) {
+        return;
       }
 
-    }
-  );
+      editingEventId =
+        Number(event.id);
 
-
-  /* =====================================================
-     EDIT EVENT
-  ===================================================== */
-
-  function editEvent(id) {
-
-    const event =
-      allEvents.find(
-        item =>
-          Number(item.id) ===
-          Number(id)
-      );
-
-
-    if (!event) {
-      return;
-    }
-
-
-    document
-      .getElementById(
-        "eventId"
-      )
-      .value =
-        event.id;
-
-
-    document
-      .getElementById(
-        "eventDate"
-      )
-      .value =
+      eventDate.value =
         event.event_date || "";
 
-
-    document
-      .getElementById(
-        "venue"
-      )
-      .value =
+      venue.value =
         event.venue || "";
 
-
-    document
-      .getElementById(
-        "location"
-      )
-      .value =
+      locationInput.value =
         event.location || "";
 
-
-    document
-      .getElementById(
-        "locationUrl"
-      )
-      .value =
+      locationUrl.value =
         event.location_url || "";
 
-
-    document
-      .getElementById(
-        "startTime"
-      )
-      .value =
+      startTime.value =
         event.start_time || "";
 
-
-    document
-      .getElementById(
-        "endTime"
-      )
-      .value =
+      endTime.value =
         event.end_time || "";
 
-
-    document
-      .getElementById(
-        "publicUrl"
-      )
-      .value =
-        event.public_url || "";
-
-
-    document
-      .getElementById(
-        "note"
-      )
-      .value =
+      note.value =
         event.note || "";
 
+      eventType.value =
+        event.event_type || "PUBLIC";
 
-    const type =
-      event.event_type ||
-      "PUBLIC";
+      publicUrl.value =
+        event.public_url || "";
 
+      eventFormTitle.textContent =
+        "Modifica data";
 
-    const radio =
-      document.querySelector(
-        `input[name="eventType"][value="${type}"]`
-      );
+      cancelEditButton.hidden =
+        false;
 
+      eventFormStatus.textContent =
+        "";
 
-    if (radio) {
-      radio.checked = true;
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     }
 
+    function resetEventForm() {
+      editingEventId = null;
 
-    formTitle.textContent =
-      "Edit show";
+      eventForm.reset();
 
+      eventType.value =
+        "PUBLIC";
 
-    cancelEdit.hidden =
-      false;
+      eventFormTitle.textContent =
+        "Nuova data";
 
+      cancelEditButton.hidden =
+        true;
 
-    formPanel.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
-
-
-  /* =====================================================
-     DELETE
-  ===================================================== */
-
-  async function deleteEvent(id) {
-
-    const event =
-      allEvents.find(
-        item =>
-          Number(item.id) ===
-          Number(id)
-      );
-
-
-    const name =
-      event?.venue ||
-      "this show";
-
-
-    const confirmed =
-      confirm(
-        `Delete "${name}"?`
-      );
-
-
-    if (!confirmed) {
-      return;
+      eventFormStatus.textContent =
+        "";
     }
 
+    cancelEditButton.addEventListener(
+      "click",
+      resetEventForm
+    );
 
-    try {
+    async function deleteEvent(id) {
+      const event =
+        events.find(
+          item =>
+            Number(item.id) ===
+            Number(id)
+        );
 
-      const response =
-        await fetch(
+      const confirmed =
+        window.confirm(
+          `Eliminare definitivamente ${event?.venue || "questa data"}?`
+        );
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        await apiRequest(
           `/api/admin/events/${id}`,
           {
-            method:
-              "DELETE"
+            method: "DELETE"
           }
         );
 
+        showToast(
+          "Data eliminata."
+        );
 
-      if (
-        response.status === 401
-      ) {
+        await loadEvents();
 
-        window.location.href =
-          "/login";
+      } catch (error) {
+        showToast(
+          error.message,
+          true
+        );
+      }
+    }
+
+    $("refreshEventsButton")
+      .addEventListener(
+        "click",
+        loadEvents
+      );
+
+    function updateUnreadBadges(count) {
+      const value =
+        Number(count || 0);
+
+      unreadBadge.textContent =
+        value;
+
+      unreadBadge.classList.toggle(
+        "visible",
+        value > 0
+      );
+
+      mobileUnreadBadge.textContent =
+        value;
+
+      mobileUnreadBadge.classList.toggle(
+        "visible",
+        value > 0
+      );
+
+      eventsUnreadCount.textContent =
+        value;
+
+      messageUnreadStat.textContent =
+        value;
+    }
+
+    async function loadUnreadCount() {
+      try {
+        const result =
+          await apiRequest(
+            "/api/admin/messages/unread-count"
+          );
+
+        updateUnreadBadges(
+          result.count
+        );
+
+      } catch (error) {
+        console.error(
+          "Unread count error:",
+          error
+        );
+      }
+    }
+
+    async function loadMessages() {
+      messageList.innerHTML =
+        '<div class="empty-list">Caricamento messaggi...</div>';
+
+      try {
+        messages =
+          await apiRequest(
+            "/api/admin/messages"
+          );
+
+        updateMessageStats();
+        renderMessages();
+
+        if (
+          selectedMessageId &&
+          !messages.some(
+            message =>
+              Number(message.id) ===
+              Number(selectedMessageId)
+          )
+        ) {
+          selectedMessageId = null;
+          renderEmptyMessageDetail();
+        }
+
+      } catch (error) {
+        messageList.innerHTML =
+          '<div class="empty-list">Errore durante il caricamento dei messaggi.</div>';
+
+        showToast(
+          error.message,
+          true
+        );
+      }
+    }
+
+    function updateMessageStats() {
+      const unread =
+        messages.filter(
+          message =>
+            message.status === "UNREAD"
+        ).length;
+
+      const archived =
+        messages.filter(
+          message =>
+            message.status === "ARCHIVED"
+        ).length;
+
+      messageUnreadStat.textContent =
+        unread;
+
+      messageTotalStat.textContent =
+        messages.length;
+
+      messageArchivedStat.textContent =
+        archived;
+
+      updateUnreadBadges(
+        unread
+      );
+    }
+
+    function getFilteredMessages() {
+      return messages.filter(
+        message => {
+          const matchesFilter =
+            messageFilter === "ALL" ||
+            message.status ===
+              messageFilter;
+
+          if (!matchesFilter) {
+            return false;
+          }
+
+          if (!messageSearchTerm) {
+            return true;
+          }
+
+          const haystack =
+            [
+              message.name,
+              message.email,
+              message.subject,
+              message.message,
+              message.contact_intent,
+              message.booking_type
+            ]
+              .filter(Boolean)
+              .join(" ")
+              .toLowerCase();
+
+          return haystack.includes(
+            messageSearchTerm
+          );
+        }
+      );
+    }
+
+    function renderMessages() {
+      const filtered =
+        getFilteredMessages();
+
+      if (!filtered.length) {
+        messageList.innerHTML =
+          '<div class="empty-list">Nessun messaggio con questi filtri.</div>';
 
         return;
       }
 
+      messageList.innerHTML =
+        filtered
+          .map(message => {
+            const intent =
+              getIntentLabel(
+                message.contact_intent
+              );
 
-      if (!response.ok) {
-        throw new Error();
+            const booking =
+              getBookingTypeLabel(
+                message.booking_type
+              );
+
+            return `
+              <button
+                type="button"
+                class="message-item
+                  ${message.status === "UNREAD" ? "unread" : ""}
+                  ${Number(message.id) === Number(selectedMessageId) ? "active" : ""}"
+                onclick="openMessage(${Number(message.id)})"
+              >
+
+                <div class="message-head">
+
+                  <div class="message-name">
+                    ${escapeHtml(message.name || "Senza nome")}
+                  </div>
+
+                  <div class="message-time">
+                    ${escapeHtml(formatReceivedDate(message.created_at))}
+                  </div>
+
+                </div>
+
+                <div class="message-tags">
+
+                  ${
+                    intent
+                      ? `
+                        <span class="message-tag intent">
+                          ${escapeHtml(intent)}
+                        </span>
+                      `
+                      : ""
+                  }
+
+                  ${
+                    booking
+                      ? `
+                        <span class="message-tag">
+                          ${escapeHtml(booking)}
+                        </span>
+                      `
+                      : ""
+                  }
+
+                  ${
+                    message.status === "ARCHIVED"
+                      ? `
+                        <span class="message-tag">
+                          Archiviato
+                        </span>
+                      `
+                      : ""
+                  }
+
+                </div>
+
+                <div class="message-preview">
+                  ${escapeHtml(message.message || "")}
+                </div>
+
+              </button>
+            `;
+          })
+          .join("");
+    }
+
+    async function openMessage(id) {
+      selectedMessageId =
+        Number(id);
+
+      let message =
+        messages.find(
+          item =>
+            Number(item.id) ===
+            Number(id)
+        );
+
+      if (!message) {
+        return;
       }
 
+      if (message.status === "UNREAD") {
+        try {
+          await setMessageStatus(
+            id,
+            "READ",
+            false
+          );
 
-      await loadEvents();
+          message =
+            messages.find(
+              item =>
+                Number(item.id) ===
+                Number(id)
+            );
 
+        } catch (error) {
+          console.error(error);
+        }
+      }
 
-    } catch {
-
-      alert(
-        "Unable to delete show."
+      renderMessages();
+      renderMessageDetail(
+        message
       );
+
+      if (
+        window.matchMedia(
+          "(max-width: 950px)"
+        ).matches
+      ) {
+        messageDetail
+          .classList
+          .add("mobile-open");
+      }
     }
-  }
 
+    function renderMessageDetail(message) {
+      if (!message) {
+        renderEmptyMessageDetail();
+        return;
+      }
 
-  /* =====================================================
-     RESET FORM
-  ===================================================== */
+      const statusLabel =
+        message.status === "UNREAD"
+          ? "Non letto"
+          : message.status === "READ"
+            ? "Letto"
+            : "Archiviato";
 
-  function resetForm() {
+      const intent =
+        getIntentLabel(
+          message.contact_intent
+        ) || "—";
 
-    form.reset();
+      const booking =
+        getBookingTypeLabel(
+          message.booking_type
+        ) || "—";
 
-
-    document
-      .getElementById(
-        "eventId"
-      )
-      .value = "";
-
-
-    document
-      .getElementById(
-        "typePublic"
-      )
-      .checked = true;
-
-
-    formTitle.textContent =
-      "Add show";
-
-
-    cancelEdit.hidden =
-      true;
-  }
-
-
-  function clearStatus() {
-
-    status.className =
-      "status";
-
-
-    status.textContent =
-      "";
-  }
-
-
-  cancelEdit.addEventListener(
-    "click",
-    () => {
-
-      resetForm();
-
-      clearStatus();
-    }
-  );
-
-
-  /* =====================================================
-     ADD SHOW BUTTON
-  ===================================================== */
-
-  newShowButton.addEventListener(
-    "click",
-    () => {
-
-      resetForm();
-
-      clearStatus();
-
-
-      formPanel.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-
-
-      setTimeout(
-        () => {
-
-          document
-            .getElementById(
-              "eventDate"
+      const eventDateText =
+        message.event_date
+          ? formatItalianDate(
+              message.event_date
             )
-            .focus();
+          : "—";
 
-        },
-        400
-      );
+      messageDetail.innerHTML = `
+        <button
+          type="button"
+          class="button small mobile-detail-close"
+          onclick="closeMobileMessage()"
+        >
+          ← Torna ai messaggi
+        </button>
 
+        <div style="padding-bottom:18px;border-bottom:1px solid var(--line)">
+
+          <div class="detail-kicker">
+            ${escapeHtml(statusLabel)}
+          </div>
+
+          <div class="detail-name">
+            ${escapeHtml(message.name || "Senza nome")}
+          </div>
+
+          <div class="detail-email">
+            ${escapeHtml(message.email || "")}
+          </div>
+
+          <div class="detail-meta">
+
+            <div class="detail-meta-box">
+              <small>Richiesta</small>
+              <strong>${escapeHtml(intent)}</strong>
+            </div>
+
+            <div class="detail-meta-box">
+              <small>Evento</small>
+              <strong>${escapeHtml(booking)}</strong>
+            </div>
+
+            <div class="detail-meta-box">
+              <small>Data evento</small>
+              <strong>${escapeHtml(eventDateText)}</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+        ${
+          message.subject
+            ? `
+              <div class="detail-label">
+                Oggetto
+              </div>
+
+              <div class="detail-message">
+                ${escapeHtml(message.subject)}
+              </div>
+            `
+            : ""
+        }
+
+        <div class="detail-label">
+          Messaggio
+        </div>
+
+        <div class="detail-message">
+          ${escapeHtml(message.message || "")}
+        </div>
+
+        <div class="detail-label">
+          Ricevuto
+        </div>
+
+        <div class="detail-message">
+          ${escapeHtml(formatFullReceivedDate(message.created_at))}
+        </div>
+
+        <div class="detail-actions">
+
+          <a
+            class="button primary small"
+            href="mailto:${escapeHtml(message.email || "")}?subject=${encodeURIComponent("Re: Orange May")}"
+          >
+            Rispondi via email
+          </a>
+
+          ${
+            message.status !== "UNREAD"
+              ? `
+                <button
+                  class="button small"
+                  type="button"
+                  onclick="setMessageStatus(${Number(message.id)}, 'UNREAD')"
+                >
+                  Segna non letto
+                </button>
+              `
+              : ""
+          }
+
+          ${
+            message.status !== "ARCHIVED"
+              ? `
+                <button
+                  class="button small"
+                  type="button"
+                  onclick="setMessageStatus(${Number(message.id)}, 'ARCHIVED')"
+                >
+                  Archivia
+                </button>
+              `
+              : `
+                <button
+                  class="button small"
+                  type="button"
+                  onclick="setMessageStatus(${Number(message.id)}, 'READ')"
+                >
+                  Ripristina
+                </button>
+              `
+          }
+
+          <button
+            class="button danger small"
+            type="button"
+            onclick="deleteMessage(${Number(message.id)})"
+          >
+            Elimina
+          </button>
+
+        </div>
+      `;
     }
-  );
 
+    function renderEmptyMessageDetail() {
+      messageDetail.innerHTML = `
+        <div class="empty-detail">
+          <div>
+            <strong>Seleziona un messaggio</strong>
+            Qui vedrai tutti i dettagli della richiesta ricevuta.
+          </div>
+        </div>
+      `;
+    }
 
-  /* =====================================================
-     FILTERS
-  ===================================================== */
+    function closeMobileMessage() {
+      messageDetail
+        .classList
+        .remove("mobile-open");
+    }
 
-  document
-    .querySelectorAll(
-      ".tab"
-    )
-    .forEach(
-      button => {
+    async function setMessageStatus(
+      id,
+      status,
+      showFeedback = true
+    ) {
+      try {
+        await apiRequest(
+          `/api/admin/messages/${id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+            body:
+              JSON.stringify({
+                status
+              })
+          }
+        );
 
+        const message =
+          messages.find(
+            item =>
+              Number(item.id) ===
+              Number(id)
+          );
+
+        if (message) {
+          message.status =
+            status;
+
+          if (status === "UNREAD") {
+            message.read_at = null;
+            message.archived_at = null;
+          }
+
+          if (status === "READ") {
+            message.read_at =
+              message.read_at ||
+              new Date().toISOString();
+
+            message.archived_at = null;
+          }
+
+          if (status === "ARCHIVED") {
+            message.read_at =
+              message.read_at ||
+              new Date().toISOString();
+
+            message.archived_at =
+              new Date().toISOString();
+          }
+        }
+
+        updateMessageStats();
+        renderMessages();
+
+        if (
+          Number(selectedMessageId) ===
+          Number(id)
+        ) {
+          renderMessageDetail(
+            message
+          );
+        }
+
+        if (showFeedback) {
+          const labels = {
+            UNREAD:
+              "Messaggio segnato come non letto.",
+
+            READ:
+              "Messaggio segnato come letto.",
+
+            ARCHIVED:
+              "Messaggio archiviato."
+          };
+
+          showToast(
+            labels[status] ||
+            "Messaggio aggiornato."
+          );
+        }
+
+      } catch (error) {
+        if (showFeedback) {
+          showToast(
+            error.message,
+            true
+          );
+        }
+
+        throw error;
+      }
+    }
+
+    async function deleteMessage(id) {
+      const message =
+        messages.find(
+          item =>
+            Number(item.id) ===
+            Number(id)
+        );
+
+      const confirmed =
+        window.confirm(
+          `Eliminare definitivamente il messaggio di ${message?.name || "questo contatto"}?`
+        );
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        await apiRequest(
+          `/api/admin/messages/${id}`,
+          {
+            method: "DELETE"
+          }
+        );
+
+        messages =
+          messages.filter(
+            item =>
+              Number(item.id) !==
+              Number(id)
+          );
+
+        selectedMessageId = null;
+
+        updateMessageStats();
+        renderMessages();
+        renderEmptyMessageDetail();
+        closeMobileMessage();
+
+        showToast(
+          "Messaggio eliminato."
+        );
+
+      } catch (error) {
+        showToast(
+          error.message,
+          true
+        );
+      }
+    }
+
+    document
+      .querySelectorAll(
+        ".filter-button[data-filter]"
+      )
+      .forEach(button => {
         button.addEventListener(
           "click",
           () => {
+            messageFilter =
+              button.dataset.filter;
 
             document
               .querySelectorAll(
-                ".tab"
+                ".filter-button[data-filter]"
               )
-              .forEach(
-                item =>
-                  item
-                    .classList
-                    .remove(
-                      "active"
-                    )
-              );
+              .forEach(item => {
+                item.classList.toggle(
+                  "active",
+                  item === button
+                );
+              });
 
-
-            button.classList.add(
-              "active"
-            );
-
-
-            currentFilter =
-              button.dataset.filter;
-
-
-            renderEvents();
-
+            renderMessages();
           }
         );
+      });
 
+    messageSearch.addEventListener(
+      "input",
+      () => {
+        messageSearchTerm =
+          messageSearch.value
+            .trim()
+            .toLowerCase();
+
+        renderMessages();
       }
     );
 
+    $("refreshMessagesButton")
+      .addEventListener(
+        "click",
+        loadMessages
+      );
 
-  /* =====================================================
-     LOGOUT
-  ===================================================== */
-
-  document
-    .getElementById(
-      "logoutButton"
-    )
-    .addEventListener(
-      "click",
-      async () => {
-
+    async function logout() {
+      try {
         await fetch(
           "/api/auth/logout",
           {
-            method:
-              "POST"
+            method: "POST"
           }
         );
-
-
+      } finally {
         window.location.href =
           "/login";
       }
-    );
+    }
 
-
-  /* =====================================================
-     ESCAPE
-  ===================================================== */
-
-  function escapeHtml(
-    value = ""
-  ) {
-
-    return String(value)
-
-      .replaceAll(
-        "&",
-        "&amp;"
-      )
-
-      .replaceAll(
-        "<",
-        "&lt;"
-      )
-
-      .replaceAll(
-        ">",
-        "&gt;"
-      )
-
-      .replaceAll(
-        '"',
-        "&quot;"
-      )
-
-      .replaceAll(
-        "'",
-        "&#039;"
+    $("logoutButton")
+      .addEventListener(
+        "click",
+        logout
       );
-  }
 
+    $("topLogoutButton")
+      .addEventListener(
+        "click",
+        logout
+      );
 
-  function escapeAttribute(
-    value = ""
-  ) {
+    loadEvents();
+    loadUnreadCount();
 
-    return escapeHtml(
-      value
+    setInterval(
+      loadUnreadCount,
+      30000
     );
-  }
-
-
-  /* =====================================================
-     START
-  ===================================================== */
-
-  loadEvents();
-
-</script>
+  </script>
 
 </body>
 </html>
