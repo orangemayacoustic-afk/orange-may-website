@@ -14,8 +14,10 @@
     "binding": "ASSETS",
     "run_worker_first": [
       "/admin",
-      "/api/admin/*",
-      "/api/auth/*"
+      "/admin/*",
+      "/login",
+      "/login/*",
+      "/api/*"
     ]
   },
 
