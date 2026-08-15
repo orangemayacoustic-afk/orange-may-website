@@ -1,1159 +1,1038 @@
+/* ============================================================
+   ORANGE MAY WEBSITE
+   Cloudflare Worker Backend
+
+   Gestisce:
+   - sito statico
+   - login admin
+   - eventi
+   - venue salvate
+   - form contatti
+   - messaggi admin
+============================================================ */
+
 export default {
+
   async fetch(request, env) {
-    const url = new URL(request.url);
-    const pathname = url.pathname;
-    const method = request.method;
 
     try {
 
-      // =====================================================
-      // AUTH - LOGIN
-      // =====================================================
-
-      if (
-        pathname === "/api/auth/login" &&
-        method === "POST"
-      ) {
-        const body = await request.json();
-
-        const password =
-          String(body.password || "");
-
-        if (
-          !password ||
-          password !== env.ADMIN_PASSWORD
-        ) {
-          return json(
-            { error: "Invalid password" },
-            401
-          );
-        }
-
-        const response = json({
-          success: true
-        });
-
-        response.headers.append(
-          "Set-Cookie",
-          createSessionCookie(
-            env.ADMIN_SESSION_TOKEN
-          )
-        );
-
-        return response;
-      }
-
-
-      // =====================================================
-      // AUTH - LOGOUT
-      // =====================================================
-
-      if (
-        pathname === "/api/auth/logout" &&
-        method === "POST"
-      ) {
-        const response = json({
-          success: true
-        });
-
-        response.headers.append(
-          "Set-Cookie",
-          clearSessionCookie()
-        );
-
-        return response;
-      }
-
-
-      // =====================================================
-      // ADMIN PAGE
-      // =====================================================
-
-      if (pathname === "/admin") {
-        if (
-          !isAdminAuthenticated(
-            request,
-            env
-          )
-        ) {
-          return Response.redirect(
-            new URL("/login", request.url),
-            302
-          );
-        }
-
-        return env.ASSETS.fetch(request);
-      }
-
-
-      // =====================================================
-      // PROTECT ADMIN API ROUTES
-      // =====================================================
-
-      if (
-        pathname.startsWith(
-          "/api/admin/"
-        )
-      ) {
-        if (
-          !isAdminAuthenticated(
-            request,
-            env
-          )
-        ) {
-          return json(
-            { error: "Unauthorized" },
-            401
-          );
-        }
-      }
-
-
-      // =====================================================
-      // PUBLIC EVENTS
-      // =====================================================
-
-      if (
-        pathname === "/api/events" &&
-        method === "GET"
-      ) {
-        const { results } =
-          await env.DB
-            .prepare(`
-              SELECT
-                id,
-                event_date,
-                venue,
-                location,
-                location_url,
-                start_time,
-                end_time,
-                note,
-                event_type,
-                public_url,
-                created_at
-              FROM events
-              WHERE event_date >= date('now')
-              ORDER BY event_date ASC, start_time ASC
-            `)
-            .all();
-
-        return json(results);
-      }
-
-
-      // =====================================================
-      // PUBLIC - CONTACT FORM
-      // =====================================================
-
-      if (
-        pathname === "/api/contact" &&
-        method === "POST"
-      ) {
-        const body =
-          await request.json();
-
-        const name =
-          String(
-            body.name || ""
-          ).trim();
-
-        const email =
-          String(
-            body.email || ""
-          ).trim();
-
-        const message =
-          String(
-            body.message || ""
-          ).trim();
-
-        const contactIntent =
-          normalizeContactIntent(
-            body.contact_intent
-          );
-
-        const bookingType =
-          normalizeBookingType(
-            body.booking_type
-          );
-
-        const eventDate =
-          cleanOptional(
-            body.event_date
-          );
-
-
-        // REQUIRED FIELDS
-
-        if (
-          !name ||
-          !email ||
-          !message
-        ) {
-          return json(
-            {
-              error:
-                "Missing required fields"
-            },
-            400
-          );
-        }
-
-
-        // EMAIL
-
-        if (!isValidEmail(email)) {
-          return json(
-            {
-              error:
-                "Invalid email address"
-            },
-            400
-          );
-        }
-
-
-        // LENGTH LIMITS
-
-        if (name.length > 150) {
-          return json(
-            {
-              error:
-                "Name is too long"
-            },
-            400
-          );
-        }
-
-        if (email.length > 254) {
-          return json(
-            {
-              error:
-                "Email is too long"
-            },
-            400
-          );
-        }
-
-        if (message.length > 10000) {
-          return json(
-            {
-              error:
-                "Message is too long"
-            },
-            400
-          );
-        }
-
-
-        // OPTIONAL EVENT DATE
-
-        if (
-          eventDate &&
-          !isValidDate(eventDate)
-        ) {
-          return json(
-            {
-              error:
-                "Invalid event date"
-            },
-            400
-          );
-        }
-
-
-        const result =
-          await env.DB
-            .prepare(`
-              INSERT INTO contact_messages
-              (
-                name,
-                email,
-                subject,
-                message,
-                contact_intent,
-                booking_type,
-                event_date,
-                status
-              )
-              VALUES (?, ?, ?, ?, ?, ?, ?, 'UNREAD')
-            `)
-            .bind(
-              name,
-              email,
-              "",
-              message,
-              contactIntent,
-              bookingType,
-              eventDate
-            )
-            .run();
-
-
-        return json(
-          {
-            success: true,
-            id:
-              result.meta
-                ?.last_row_id ||
-              null
-          },
-          201
-        );
-      }
-
-
-      // =====================================================
-      // ADMIN - MESSAGES LIST
-      // =====================================================
-
-      if (
-        pathname ===
-          "/api/admin/messages" &&
-        method === "GET"
-      ) {
-        const { results } =
-          await env.DB
-            .prepare(`
-              SELECT
-                id,
-                name,
-                email,
-                subject,
-                message,
-                contact_intent,
-                booking_type,
-                event_date,
-                status,
-                created_at,
-                read_at,
-                archived_at
-              FROM contact_messages
-              ORDER BY
-                CASE
-                  WHEN status = 'UNREAD'
-                  THEN 0
-                  WHEN status = 'READ'
-                  THEN 1
-                  ELSE 2
-                END,
-                created_at DESC,
-                id DESC
-            `)
-            .all();
-
-        return json(results);
-      }
-
-
-      // =====================================================
-      // ADMIN - UNREAD MESSAGE COUNT
-      // =====================================================
-
-      if (
-        pathname ===
-          "/api/admin/messages/unread-count" &&
-        method === "GET"
-      ) {
-        const result =
-          await env.DB
-            .prepare(`
-              SELECT
-                COUNT(*) AS count
-              FROM contact_messages
-              WHERE status = 'UNREAD'
-            `)
-            .first();
-
-        return json({
-          count:
-            Number(
-              result?.count || 0
-            )
-        });
-      }
-
-
-      // =====================================================
-      // ADMIN - MESSAGE BY ID
-      // =====================================================
-
-      const adminMessageMatch =
-        pathname.match(
-          /^\/api\/admin\/messages\/(\d+)$/
-        );
-
-
-      if (adminMessageMatch) {
-
-        const id =
-          Number(
-            adminMessageMatch[1]
-          );
-
-
-        if (
-          !Number.isInteger(id) ||
-          id <= 0
-        ) {
-          return json(
-            {
-              error:
-                "Invalid message ID"
-            },
-            400
-          );
-        }
-
-
-        // -------------------------------------------------
-        // GET MESSAGE
-        // -------------------------------------------------
-
-        if (method === "GET") {
-
-          const message =
-            await env.DB
-              .prepare(`
-                SELECT
-                  id,
-                  name,
-                  email,
-                  subject,
-                  message,
-                  contact_intent,
-                  booking_type,
-                  event_date,
-                  status,
-                  created_at,
-                  read_at,
-                  archived_at
-                FROM contact_messages
-                WHERE id = ?
-              `)
-              .bind(id)
-              .first();
-
-
-          if (!message) {
-            return json(
-              {
-                error:
-                  "Message not found"
-              },
-              404
-            );
-          }
-
-
-          return json(message);
-        }
-
-
-        // -------------------------------------------------
-        // UPDATE MESSAGE STATUS
-        // -------------------------------------------------
-
-        if (method === "PATCH") {
-
-          const body =
-            await request.json();
-
-          const status =
-            normalizeMessageStatus(
-              body.status
-            );
-
-
-          if (!status) {
-            return json(
-              {
-                error:
-                  "Invalid message status"
-              },
-              400
-            );
-          }
-
-
-          const existing =
-            await env.DB
-              .prepare(`
-                SELECT id
-                FROM contact_messages
-                WHERE id = ?
-              `)
-              .bind(id)
-              .first();
-
-
-          if (!existing) {
-            return json(
-              {
-                error:
-                  "Message not found"
-              },
-              404
-            );
-          }
-
-
-          if (status === "UNREAD") {
-
-            await env.DB
-              .prepare(`
-                UPDATE contact_messages
-                SET
-                  status = 'UNREAD',
-                  read_at = NULL,
-                  archived_at = NULL
-                WHERE id = ?
-              `)
-              .bind(id)
-              .run();
-
-          } else if (
-            status === "READ"
-          ) {
-
-            await env.DB
-              .prepare(`
-                UPDATE contact_messages
-                SET
-                  status = 'READ',
-                  read_at =
-                    COALESCE(
-                      read_at,
-                      CURRENT_TIMESTAMP
-                    ),
-                  archived_at = NULL
-                WHERE id = ?
-              `)
-              .bind(id)
-              .run();
-
-          } else if (
-            status === "ARCHIVED"
-          ) {
-
-            await env.DB
-              .prepare(`
-                UPDATE contact_messages
-                SET
-                  status = 'ARCHIVED',
-                  read_at =
-                    COALESCE(
-                      read_at,
-                      CURRENT_TIMESTAMP
-                    ),
-                  archived_at =
-                    CURRENT_TIMESTAMP
-                WHERE id = ?
-              `)
-              .bind(id)
-              .run();
-          }
-
-
-          return json({
-            success: true,
-            status
-          });
-        }
-
-
-        // -------------------------------------------------
-        // DELETE MESSAGE
-        // -------------------------------------------------
-
-        if (method === "DELETE") {
-
-          const existing =
-            await env.DB
-              .prepare(`
-                SELECT id
-                FROM contact_messages
-                WHERE id = ?
-              `)
-              .bind(id)
-              .first();
-
-
-          if (!existing) {
-            return json(
-              {
-                error:
-                  "Message not found"
-              },
-              404
-            );
-          }
-
-
-          await env.DB
-            .prepare(`
-              DELETE FROM contact_messages
-              WHERE id = ?
-            `)
-            .bind(id)
-            .run();
-
-
-          return json({
-            success: true
-          });
-        }
-      }
-
-
-      // =====================================================
-      // ADMIN - GET ALL EVENTS
-      // =====================================================
-
-      if (
-        pathname === "/api/admin/events" &&
-        method === "GET"
-      ) {
-        const { results } =
-          await env.DB
-            .prepare(`
-              SELECT
-                id,
-                event_date,
-                venue,
-                location,
-                location_url,
-                start_time,
-                end_time,
-                note,
-                event_type,
-                public_url,
-                created_at
-              FROM events
-              ORDER BY event_date ASC, start_time ASC
-            `)
-            .all();
-
-        return json(results);
-      }
-
-
-      // =====================================================
-      // ADMIN - CREATE EVENT
-      // =====================================================
-
-      if (
-        pathname === "/api/admin/events" &&
-        method === "POST"
-      ) {
-        const body =
-          await request.json();
-
-        const validation =
-          validateEvent(body);
-
-        if (!validation.ok) {
-          return json(
-            {
-              error:
-                validation.error
-            },
-            400
-          );
-        }
-
-
-        const result =
-          await env.DB
-            .prepare(`
-              INSERT INTO events
-              (
-                event_date,
-                venue,
-                location,
-                location_url,
-                start_time,
-                end_time,
-                note,
-                event_type,
-                public_url
-              )
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            `)
-            .bind(
-              validation.data.event_date,
-              validation.data.venue,
-              validation.data.location,
-              validation.data.location_url,
-              validation.data.start_time,
-              validation.data.end_time,
-              validation.data.note,
-              validation.data.event_type,
-              validation.data.public_url
-            )
-            .run();
-
-
-        return json(
-          {
-            success: true,
-            id:
-              result.meta
-                ?.last_row_id
-          },
-          201
-        );
-      }
-
-
-      // =====================================================
-      // ADMIN - EVENT BY ID
-      // =====================================================
-
-      const adminEventMatch =
-        pathname.match(
-          /^\/api\/admin\/events\/(\d+)$/
-        );
-
-
-      if (adminEventMatch) {
-
-        const id =
-          Number(
-            adminEventMatch[1]
-          );
-
-
-        if (
-          !Number.isInteger(id) ||
-          id <= 0
-        ) {
-          return json(
-            {
-              error:
-                "Invalid event ID"
-            },
-            400
-          );
-        }
-
-
-        // -------------------------------------------------
-        // UPDATE EVENT
-        // -------------------------------------------------
-
-        if (method === "PUT") {
-
-          const body =
-            await request.json();
-
-          const validation =
-            validateEvent(body);
-
-
-          if (!validation.ok) {
-            return json(
-              {
-                error:
-                  validation.error
-              },
-              400
-            );
-          }
-
-
-          const existing =
-            await env.DB
-              .prepare(`
-                SELECT id
-                FROM events
-                WHERE id = ?
-              `)
-              .bind(id)
-              .first();
-
-
-          if (!existing) {
-            return json(
-              {
-                error:
-                  "Event not found"
-              },
-              404
-            );
-          }
-
-
-          await env.DB
-            .prepare(`
-              UPDATE events
-              SET
-                event_date = ?,
-                venue = ?,
-                location = ?,
-                location_url = ?,
-                start_time = ?,
-                end_time = ?,
-                note = ?,
-                event_type = ?,
-                public_url = ?
-              WHERE id = ?
-            `)
-            .bind(
-              validation.data.event_date,
-              validation.data.venue,
-              validation.data.location,
-              validation.data.location_url,
-              validation.data.start_time,
-              validation.data.end_time,
-              validation.data.note,
-              validation.data.event_type,
-              validation.data.public_url,
-              id
-            )
-            .run();
-
-
-          return json({
-            success: true
-          });
-        }
-
-
-        // -------------------------------------------------
-        // DELETE EVENT
-        // -------------------------------------------------
-
-        if (method === "DELETE") {
-
-          const existing =
-            await env.DB
-              .prepare(`
-                SELECT id
-                FROM events
-                WHERE id = ?
-              `)
-              .bind(id)
-              .first();
-
-
-          if (!existing) {
-            return json(
-              {
-                error:
-                  "Event not found"
-              },
-              404
-            );
-          }
-
-
-          await env.DB
-            .prepare(`
-              DELETE FROM events
-              WHERE id = ?
-            `)
-            .bind(id)
-            .run();
-
-
-          return json({
-            success: true
-          });
-        }
-      }
-
-
-      // =====================================================
-      // STATIC WEBSITE
-      // =====================================================
-
-      return env.ASSETS.fetch(
-        request
+      return await handleRequest(
+        request,
+        env
       );
-
 
     } catch (error) {
 
       console.error(
-        "Worker error:",
+        "Unhandled Worker error:",
         error
       );
 
-      return json(
+      return jsonResponse(
         {
           error:
             "Internal server error"
         },
         500
       );
+
     }
+
   }
+
 };
 
 
-// =========================================================
-// AUTH
-// =========================================================
+/* ============================================================
+   MAIN ROUTER
+============================================================ */
 
-function isAdminAuthenticated(
+async function handleRequest(
   request,
   env
 ) {
-  if (!env.ADMIN_SESSION_TOKEN) {
-    return false;
+
+  const url =
+    new URL(request.url);
+
+  const path =
+    normalizePath(
+      url.pathname
+    );
+
+  const method =
+    request.method.toUpperCase();
+
+
+  /* ==========================================================
+     OPTIONS
+  ========================================================== */
+
+  if (method === "OPTIONS") {
+
+    return new Response(
+      null,
+      {
+        status: 204
+      }
+    );
+
   }
 
-  const cookies =
-    parseCookies(
-      request.headers.get(
-        "Cookie"
-      ) || ""
+
+  /* ==========================================================
+     PUBLIC API
+  ========================================================== */
+
+  if (
+    path === "/api/events" &&
+    method === "GET"
+  ) {
+
+    return getPublicEvents(
+      env
     );
 
-  return (
-    cookies.orange_may_admin ===
-    env.ADMIN_SESSION_TOKEN
-  );
-}
+  }
 
 
-function createSessionCookie(token) {
-  return [
-    `orange_may_admin=${token}`,
-    "Path=/",
-    "HttpOnly",
-    "Secure",
-    "SameSite=Strict",
-    "Max-Age=28800"
-  ].join("; ");
-}
+  if (
+    path === "/api/contact" &&
+    method === "POST"
+  ) {
+
+    return createContactMessage(
+      request,
+      env
+    );
+
+  }
 
 
-function clearSessionCookie() {
-  return [
-    "orange_may_admin=",
-    "Path=/",
-    "HttpOnly",
-    "Secure",
-    "SameSite=Strict",
-    "Max-Age=0"
-  ].join("; ");
-}
+  /* ==========================================================
+     AUTH
+  ========================================================== */
+
+  if (
+    path === "/api/auth/login" &&
+    method === "POST"
+  ) {
+
+    return loginAdmin(
+      request,
+      env
+    );
+
+  }
 
 
-function parseCookies(
-  cookieHeader
-) {
-  const cookies = {};
+  if (
+    path === "/api/auth/logout" &&
+    method === "POST"
+  ) {
 
-  cookieHeader
-    .split(";")
-    .forEach(cookie => {
+    return logoutAdmin();
 
-      const separator =
-        cookie.indexOf("=");
+  }
 
-      if (separator === -1) {
-        return;
-      }
 
-      const key =
-        cookie
-          .slice(0, separator)
-          .trim();
+  if (
+    path === "/api/auth/check" &&
+    method === "GET"
+  ) {
 
-      const value =
-        cookie
-          .slice(separator + 1)
-          .trim();
+    const authenticated =
+      await isAuthenticated(
+        request,
+        env
+      );
 
-      cookies[key] = value;
+    return jsonResponse({
+      authenticated
     });
 
-  return cookies;
+  }
+
+
+  /* ==========================================================
+     ADMIN PAGE
+  ========================================================== */
+
+  if (
+    path === "/admin" ||
+    path === "/admin/"
+  ) {
+
+    const authenticated =
+      await isAuthenticated(
+        request,
+        env
+      );
+
+
+    if (!authenticated) {
+
+      return redirectResponse(
+        "/login"
+      );
+
+    }
+
+
+    return serveAsset(
+      request,
+      env,
+      "/admin.html"
+    );
+
+  }
+
+
+  /* ==========================================================
+     LOGIN PAGE
+  ========================================================== */
+
+  if (
+    path === "/login" ||
+    path === "/login/"
+  ) {
+
+    const authenticated =
+      await isAuthenticated(
+        request,
+        env
+      );
+
+
+    if (authenticated) {
+
+      return redirectResponse(
+        "/admin"
+      );
+
+    }
+
+
+    return serveAsset(
+      request,
+      env,
+      "/login.html"
+    );
+
+  }
+
+
+  /* ==========================================================
+     ADMIN API AUTH CHECK
+  ========================================================== */
+
+  if (
+    path.startsWith(
+      "/api/admin/"
+    )
+  ) {
+
+    const authenticated =
+      await isAuthenticated(
+        request,
+        env
+      );
+
+
+    if (!authenticated) {
+
+      return jsonResponse(
+        {
+          error:
+            "Unauthorized"
+        },
+        401
+      );
+
+    }
+
+  }
+
+
+  /* ==========================================================
+     ADMIN EVENTS
+  ========================================================== */
+
+  if (
+    path === "/api/admin/events" &&
+    method === "GET"
+  ) {
+
+    return getAdminEvents(
+      env
+    );
+
+  }
+
+
+  if (
+    path === "/api/admin/events" &&
+    method === "POST"
+  ) {
+
+    return createEvent(
+      request,
+      env
+    );
+
+  }
+
+
+  const eventMatch =
+    path.match(
+      /^\/api\/admin\/events\/(\d+)$/
+    );
+
+
+  if (eventMatch) {
+
+    const id =
+      Number(
+        eventMatch[1]
+      );
+
+
+    if (method === "GET") {
+
+      return getEvent(
+        id,
+        env
+      );
+
+    }
+
+
+    if (
+      method === "PUT" ||
+      method === "PATCH"
+    ) {
+
+      return updateEvent(
+        id,
+        request,
+        env
+      );
+
+    }
+
+
+    if (method === "DELETE") {
+
+      return deleteEvent(
+        id,
+        env
+      );
+
+    }
+
+  }
+
+
+  /* ==========================================================
+     ADMIN VENUES
+  ========================================================== */
+
+  if (
+    path === "/api/admin/venues" &&
+    method === "GET"
+  ) {
+
+    return getVenues(
+      env
+    );
+
+  }
+
+
+  if (
+    path === "/api/admin/venues" &&
+    method === "POST"
+  ) {
+
+    return createVenue(
+      request,
+      env
+    );
+
+  }
+
+
+  const venueMatch =
+    path.match(
+      /^\/api\/admin\/venues\/(\d+)$/
+    );
+
+
+  if (venueMatch) {
+
+    const id =
+      Number(
+        venueMatch[1]
+      );
+
+
+    if (method === "GET") {
+
+      return getVenue(
+        id,
+        env
+      );
+
+    }
+
+
+    if (
+      method === "PUT" ||
+      method === "PATCH"
+    ) {
+
+      return updateVenue(
+        id,
+        request,
+        env
+      );
+
+    }
+
+
+    if (method === "DELETE") {
+
+      return deleteVenue(
+        id,
+        env
+      );
+
+    }
+
+  }
+
+
+  /* ==========================================================
+     ADMIN MESSAGES
+  ========================================================== */
+
+  if (
+    path ===
+      "/api/admin/messages/unread-count" &&
+    method === "GET"
+  ) {
+
+    return getUnreadMessageCount(
+      env
+    );
+
+  }
+
+
+  if (
+    path === "/api/admin/messages" &&
+    method === "GET"
+  ) {
+
+    return getMessages(
+      env
+    );
+
+  }
+
+
+  const messageMatch =
+    path.match(
+      /^\/api\/admin\/messages\/(\d+)$/
+    );
+
+
+  if (messageMatch) {
+
+    const id =
+      Number(
+        messageMatch[1]
+      );
+
+
+    if (method === "GET") {
+
+      return getMessage(
+        id,
+        env
+      );
+
+    }
+
+
+    if (method === "PATCH") {
+
+      return updateMessage(
+        id,
+        request,
+        env
+      );
+
+    }
+
+
+    if (method === "DELETE") {
+
+      return deleteMessage(
+        id,
+        env
+      );
+
+    }
+
+  }
+
+
+  /* ==========================================================
+     STATIC WEBSITE
+  ========================================================== */
+
+  if (env.ASSETS) {
+
+    return env.ASSETS.fetch(
+      request
+    );
+
+  }
+
+
+  return new Response(
+    "Not found",
+    {
+      status: 404
+    }
+  );
+
 }
 
 
-// =========================================================
-// EVENT VALIDATION
-// =========================================================
+/* ============================================================
+   PUBLIC EVENTS
+============================================================ */
 
-function validateEvent(body) {
+async function getPublicEvents(
+  env
+) {
 
-  const event_date =
-    String(
-      body.event_date || ""
-    ).trim();
+  const result =
+    await env.DB
+      .prepare(`
+        SELECT
+          id,
+          event_date,
+          venue,
+          location,
+          location_url,
+          start_time,
+          end_time,
+          note,
+          event_type,
+          public_url,
+          created_at
+        FROM events
+        WHERE event_date >= date('now', '-1 day')
+        ORDER BY
+          event_date ASC,
+          CASE
+            WHEN start_time IS NULL
+            OR start_time = ''
+            THEN '23:59'
+            ELSE start_time
+          END ASC,
+          id ASC
+      `)
+      .all();
+
+
+  return jsonResponse(
+    result.results || []
+  );
+
+}
+
+
+/* ============================================================
+   ADMIN EVENTS
+============================================================ */
+
+async function getAdminEvents(
+  env
+) {
+
+  const result =
+    await env.DB
+      .prepare(`
+        SELECT
+          id,
+          event_date,
+          venue,
+          location,
+          location_url,
+          start_time,
+          end_time,
+          note,
+          event_type,
+          public_url,
+          created_at
+        FROM events
+        ORDER BY
+          event_date ASC,
+          CASE
+            WHEN start_time IS NULL
+            OR start_time = ''
+            THEN '23:59'
+            ELSE start_time
+          END ASC,
+          id ASC
+      `)
+      .all();
+
+
+  return jsonResponse(
+    result.results || []
+  );
+
+}
+
+
+async function getEvent(
+  id,
+  env
+) {
+
+  const event =
+    await env.DB
+      .prepare(`
+        SELECT
+          id,
+          event_date,
+          venue,
+          location,
+          location_url,
+          start_time,
+          end_time,
+          note,
+          event_type,
+          public_url,
+          created_at
+        FROM events
+        WHERE id = ?
+        LIMIT 1
+      `)
+      .bind(id)
+      .first();
+
+
+  if (!event) {
+
+    return jsonResponse(
+      {
+        error:
+          "Event not found"
+      },
+      404
+    );
+
+  }
+
+
+  return jsonResponse(
+    event
+  );
+
+}
+
+
+async function createEvent(
+  request,
+  env
+) {
+
+  const body =
+    await readJsonBody(
+      request
+    );
+
+
+  const validation =
+    validateEvent(
+      body
+    );
+
+
+  if (!validation.valid) {
+
+    return jsonResponse(
+      {
+        error:
+          validation.error
+      },
+      400
+    );
+
+  }
+
+
+  const data =
+    validation.data;
+
+
+  const result =
+    await env.DB
+      .prepare(`
+        INSERT INTO events (
+          event_date,
+          venue,
+          location,
+          location_url,
+          start_time,
+          end_time,
+          note,
+          event_type,
+          public_url
+        )
+        VALUES (
+          ?,
+          ?,
+          ?,
+          ?,
+          ?,
+          ?,
+          ?,
+          ?,
+          ?
+        )
+      `)
+      .bind(
+        data.event_date,
+        data.venue,
+        data.location,
+        data.location_url,
+        data.start_time,
+        data.end_time,
+        data.note,
+        data.event_type,
+        data.public_url
+      )
+      .run();
+
+
+  return jsonResponse(
+    {
+      success: true,
+
+      id:
+        result.meta
+          ?.last_row_id
+    },
+    201
+  );
+
+}
+
+
+async function updateEvent(
+  id,
+  request,
+  env
+) {
+
+  const existing =
+    await env.DB
+      .prepare(`
+        SELECT id
+        FROM events
+        WHERE id = ?
+        LIMIT 1
+      `)
+      .bind(id)
+      .first();
+
+
+  if (!existing) {
+
+    return jsonResponse(
+      {
+        error:
+          "Event not found"
+      },
+      404
+    );
+
+  }
+
+
+  const body =
+    await readJsonBody(
+      request
+    );
+
+
+  const validation =
+    validateEvent(
+      body
+    );
+
+
+  if (!validation.valid) {
+
+    return jsonResponse(
+      {
+        error:
+          validation.error
+      },
+      400
+    );
+
+  }
+
+
+  const data =
+    validation.data;
+
+
+  await env.DB
+    .prepare(`
+      UPDATE events
+
+      SET
+        event_date = ?,
+        venue = ?,
+        location = ?,
+        location_url = ?,
+        start_time = ?,
+        end_time = ?,
+        note = ?,
+        event_type = ?,
+        public_url = ?
+
+      WHERE id = ?
+    `)
+    .bind(
+      data.event_date,
+      data.venue,
+      data.location,
+      data.location_url,
+      data.start_time,
+      data.end_time,
+      data.note,
+      data.event_type,
+      data.public_url,
+      id
+    )
+    .run();
+
+
+  return jsonResponse({
+    success: true
+  });
+
+}
+
+
+async function deleteEvent(
+  id,
+  env
+) {
+
+  const existing =
+    await env.DB
+      .prepare(`
+        SELECT id
+        FROM events
+        WHERE id = ?
+        LIMIT 1
+      `)
+      .bind(id)
+      .first();
+
+
+  if (!existing) {
+
+    return jsonResponse(
+      {
+        error:
+          "Event not found"
+      },
+      404
+    );
+
+  }
+
+
+  await env.DB
+    .prepare(`
+      DELETE FROM events
+      WHERE id = ?
+    `)
+    .bind(id)
+    .run();
+
+
+  return jsonResponse({
+    success: true
+  });
+
+}
+
+
+/* ============================================================
+   EVENT VALIDATION
+============================================================ */
+
+function validateEvent(
+  body
+) {
+
+  const eventDate =
+    cleanString(
+      body.event_date,
+      20
+    );
+
 
   const venue =
-    String(
-      body.venue || ""
-    ).trim();
+    cleanString(
+      body.venue,
+      250
+    );
+
 
   const location =
-    String(
-      body.location || ""
-    ).trim();
-
-  const location_url =
-    cleanOptional(
-      body.location_url
+    cleanString(
+      body.location,
+      300
     );
 
-  const start_time =
-    cleanOptional(
-      body.start_time
+
+  const locationUrl =
+    cleanOptionalString(
+      body.location_url,
+      1500
     );
 
-  const end_time =
-    cleanOptional(
-      body.end_time
+
+  const startTime =
+    cleanOptionalString(
+      body.start_time,
+      10
     );
+
+
+  const endTime =
+    cleanOptionalString(
+      body.end_time,
+      10
+    );
+
 
   const note =
-    cleanOptional(
-      body.note
-    );
-
-  const event_type =
-    normalizeEventType(
-      body.event_type
-    );
-
-  const public_url =
-    cleanOptional(
-      body.public_url
+    cleanOptionalString(
+      body.note,
+      2000
     );
 
 
-  if (!event_date) {
+  const eventType =
+    cleanString(
+      body.event_type ||
+      "PUBLIC",
+      30
+    )
+      .toUpperCase();
+
+
+  const publicUrl =
+    cleanOptionalString(
+      body.public_url,
+      1500
+    );
+
+
+  if (!eventDate) {
+
     return {
-      ok: false,
+      valid: false,
       error:
-        "Date is required"
+        "La data è obbligatoria."
     };
+
+  }
+
+
+  if (
+    !/^\d{4}-\d{2}-\d{2}$/
+      .test(eventDate)
+  ) {
+
+    return {
+      valid: false,
+      error:
+        "Formato data non valido."
+    };
+
   }
 
 
   if (!venue) {
+
     return {
-      ok: false,
+      valid: false,
       error:
-        "Venue is required"
+        "La venue è obbligatoria."
     };
+
   }
 
 
   if (!location) {
-    return {
-      ok: false,
-      error:
-        "Location is required"
-    };
-  }
 
-
-  if (!isValidDate(event_date)) {
     return {
-      ok: false,
+      valid: false,
       error:
-        "Invalid date"
+        "Il luogo è obbligatorio."
     };
+
   }
 
 
   if (
-    start_time &&
-    !/^\d{2}:\d{2}$/
-      .test(start_time)
-  ) {
-    return {
-      ok: false,
-      error:
-        "Invalid start time"
-    };
-  }
-
-
-  if (
-    end_time &&
-    !/^\d{2}:\d{2}$/
-      .test(end_time)
-  ) {
-    return {
-      ok: false,
-      error:
-        "Invalid end time"
-    };
-  }
-
-
-  if (
-    start_time &&
-    end_time &&
-    end_time < start_time
-  ) {
-    return {
-      ok: false,
-      error:
-        "End time cannot be earlier than start time"
-    };
-  }
-
-
-  if (
-    location_url &&
-    !isValidHttpUrl(
-      location_url
+    startTime &&
+    !isValidTime(
+      startTime
     )
   ) {
+
     return {
-      ok: false,
+      valid: false,
       error:
-        "Invalid location URL"
+        "Ora di inizio non valida."
     };
+
   }
 
 
   if (
-    public_url &&
-    !isValidHttpUrl(
-      public_url
+    endTime &&
+    !isValidTime(
+      endTime
     )
   ) {
+
     return {
-      ok: false,
+      valid: false,
       error:
-        "Invalid public URL"
+        "Ora di fine non valida."
     };
+
   }
 
-
-  return {
-    ok: true,
-
-    data: {
-      event_date,
-      venue,
-      location,
-      location_url,
-      start_time,
-      end_time,
-      note,
-      event_type,
-      public_url
-    }
-  };
-}
-
-
-// =========================================================
-// EVENT TYPE
-// =========================================================
-
-function normalizeEventType(value) {
 
   const allowedTypes = [
     "PUBLIC",
@@ -1161,60 +1040,683 @@ function normalizeEventType(value) {
     "PRIVATE"
   ];
 
-  const type =
-    String(
-      value || "PUBLIC"
-    )
-      .trim()
-      .toUpperCase();
 
-  return allowedTypes.includes(type)
-    ? type
-    : "PUBLIC";
+  if (
+    !allowedTypes.includes(
+      eventType
+    )
+  ) {
+
+    return {
+      valid: false,
+      error:
+        "Tipo di evento non valido."
+    };
+
+  }
+
+
+  if (
+    locationUrl &&
+    !isValidHttpUrl(
+      locationUrl
+    )
+  ) {
+
+    return {
+      valid: false,
+      error:
+        "Il link indicazioni non è valido."
+    };
+
+  }
+
+
+  if (
+    publicUrl &&
+    !isValidHttpUrl(
+      publicUrl
+    )
+  ) {
+
+    return {
+      valid: false,
+      error:
+        "Il link pubblico non è valido."
+    };
+
+  }
+
+
+  return {
+
+    valid: true,
+
+    data: {
+
+      event_date:
+        eventDate,
+
+      venue,
+
+      location,
+
+      location_url:
+        locationUrl,
+
+      start_time:
+        startTime,
+
+      end_time:
+        endTime,
+
+      note,
+
+      event_type:
+        eventType,
+
+      public_url:
+        publicUrl
+
+    }
+
+  };
+
 }
 
 
-// =========================================================
-// CONTACT
-// =========================================================
+/* ============================================================
+   VENUES
+============================================================ */
 
-function normalizeContactIntent(
-  value
+async function getVenues(
+  env
 ) {
 
-  if (!value) {
-    return null;
+  const result =
+    await env.DB
+      .prepare(`
+        SELECT
+          id,
+          name,
+          location,
+          location_url,
+          created_at,
+          updated_at
+        FROM venues
+        ORDER BY
+          name COLLATE NOCASE ASC,
+          id ASC
+      `)
+      .all();
+
+
+  return jsonResponse(
+    result.results || []
+  );
+
+}
+
+
+async function getVenue(
+  id,
+  env
+) {
+
+  const venue =
+    await env.DB
+      .prepare(`
+        SELECT
+          id,
+          name,
+          location,
+          location_url,
+          created_at,
+          updated_at
+        FROM venues
+        WHERE id = ?
+        LIMIT 1
+      `)
+      .bind(id)
+      .first();
+
+
+  if (!venue) {
+
+    return jsonResponse(
+      {
+        error:
+          "Venue not found"
+      },
+      404
+    );
+
   }
 
-  const allowed = [
+
+  return jsonResponse(
+    venue
+  );
+
+}
+
+
+async function createVenue(
+  request,
+  env
+) {
+
+  const body =
+    await readJsonBody(
+      request
+    );
+
+
+  const validation =
+    validateVenue(
+      body
+    );
+
+
+  if (!validation.valid) {
+
+    return jsonResponse(
+      {
+        error:
+          validation.error
+      },
+      400
+    );
+
+  }
+
+
+  const data =
+    validation.data;
+
+
+  /*
+    Impediamo di creare accidentalmente
+    due venue completamente identiche.
+  */
+
+  const duplicate =
+    await env.DB
+      .prepare(`
+        SELECT id
+        FROM venues
+
+        WHERE
+          lower(trim(name)) =
+            lower(trim(?))
+
+        AND
+          lower(trim(location)) =
+            lower(trim(?))
+
+        LIMIT 1
+      `)
+      .bind(
+        data.name,
+        data.location
+      )
+      .first();
+
+
+  if (duplicate) {
+
+    return jsonResponse(
+      {
+        error:
+          "Questa venue è già salvata."
+      },
+      409
+    );
+
+  }
+
+
+  const result =
+    await env.DB
+      .prepare(`
+        INSERT INTO venues (
+          name,
+          location,
+          location_url
+        )
+        VALUES (
+          ?,
+          ?,
+          ?
+        )
+      `)
+      .bind(
+        data.name,
+        data.location,
+        data.location_url
+      )
+      .run();
+
+
+  return jsonResponse(
+    {
+      success: true,
+
+      id:
+        result.meta
+          ?.last_row_id
+    },
+    201
+  );
+
+}
+
+
+async function updateVenue(
+  id,
+  request,
+  env
+) {
+
+  const existing =
+    await env.DB
+      .prepare(`
+        SELECT id
+        FROM venues
+        WHERE id = ?
+        LIMIT 1
+      `)
+      .bind(id)
+      .first();
+
+
+  if (!existing) {
+
+    return jsonResponse(
+      {
+        error:
+          "Venue not found"
+      },
+      404
+    );
+
+  }
+
+
+  const body =
+    await readJsonBody(
+      request
+    );
+
+
+  const validation =
+    validateVenue(
+      body
+    );
+
+
+  if (!validation.valid) {
+
+    return jsonResponse(
+      {
+        error:
+          validation.error
+      },
+      400
+    );
+
+  }
+
+
+  const data =
+    validation.data;
+
+
+  const duplicate =
+    await env.DB
+      .prepare(`
+        SELECT id
+        FROM venues
+
+        WHERE
+          id != ?
+
+        AND
+          lower(trim(name)) =
+            lower(trim(?))
+
+        AND
+          lower(trim(location)) =
+            lower(trim(?))
+
+        LIMIT 1
+      `)
+      .bind(
+        id,
+        data.name,
+        data.location
+      )
+      .first();
+
+
+  if (duplicate) {
+
+    return jsonResponse(
+      {
+        error:
+          "Esiste già una venue con questo nome e luogo."
+      },
+      409
+    );
+
+  }
+
+
+  await env.DB
+    .prepare(`
+      UPDATE venues
+
+      SET
+        name = ?,
+        location = ?,
+        location_url = ?,
+        updated_at = CURRENT_TIMESTAMP
+
+      WHERE id = ?
+    `)
+    .bind(
+      data.name,
+      data.location,
+      data.location_url,
+      id
+    )
+    .run();
+
+
+  return jsonResponse({
+    success: true
+  });
+
+}
+
+
+async function deleteVenue(
+  id,
+  env
+) {
+
+  const existing =
+    await env.DB
+      .prepare(`
+        SELECT
+          id,
+          name
+        FROM venues
+        WHERE id = ?
+        LIMIT 1
+      `)
+      .bind(id)
+      .first();
+
+
+  if (!existing) {
+
+    return jsonResponse(
+      {
+        error:
+          "Venue not found"
+      },
+      404
+    );
+
+  }
+
+
+  /*
+    Nessun evento viene eliminato o modificato.
+
+    La tabella events contiene già una copia
+    di venue/location/location_url, quindi
+    cancellare una venue dalla rubrica non
+    modifica le date esistenti.
+  */
+
+  await env.DB
+    .prepare(`
+      DELETE FROM venues
+      WHERE id = ?
+    `)
+    .bind(id)
+    .run();
+
+
+  return jsonResponse({
+    success: true
+  });
+
+}
+
+
+function validateVenue(
+  body
+) {
+
+  const name =
+    cleanString(
+      body.name,
+      250
+    );
+
+
+  const location =
+    cleanString(
+      body.location,
+      300
+    );
+
+
+  const locationUrl =
+    cleanOptionalString(
+      body.location_url,
+      1500
+    );
+
+
+  if (!name) {
+
+    return {
+      valid: false,
+      error:
+        "Il nome della venue è obbligatorio."
+    };
+
+  }
+
+
+  if (!location) {
+
+    return {
+      valid: false,
+      error:
+        "Il luogo è obbligatorio."
+    };
+
+  }
+
+
+  if (
+    locationUrl &&
+    !isValidHttpUrl(
+      locationUrl
+    )
+  ) {
+
+    return {
+      valid: false,
+      error:
+        "Il link della posizione non è valido."
+    };
+
+  }
+
+
+  return {
+
+    valid: true,
+
+    data: {
+
+      name,
+
+      location,
+
+      location_url:
+        locationUrl
+
+    }
+
+  };
+
+}
+
+
+/* ============================================================
+   PUBLIC CONTACT FORM
+============================================================ */
+
+async function createContactMessage(
+  request,
+  env
+) {
+
+  const body =
+    await readJsonBody(
+      request
+    );
+
+
+  const name =
+    cleanString(
+      body.name,
+      120
+    );
+
+
+  const email =
+    cleanString(
+      body.email,
+      180
+    )
+      .toLowerCase();
+
+
+  const message =
+    cleanString(
+      body.message,
+      4000
+    );
+
+
+  const contactIntent =
+    cleanOptionalString(
+      body.contact_intent,
+      50
+    );
+
+
+  const bookingType =
+    cleanOptionalString(
+      body.booking_type,
+      50
+    );
+
+
+  const eventDate =
+    cleanOptionalString(
+      body.event_date,
+      20
+    );
+
+
+  if (!name) {
+
+    return jsonResponse(
+      {
+        error:
+          "Name is required."
+      },
+      400
+    );
+
+  }
+
+
+  if (
+    !email ||
+    !isValidEmail(
+      email
+    )
+  ) {
+
+    return jsonResponse(
+      {
+        error:
+          "A valid email is required."
+      },
+      400
+    );
+
+  }
+
+
+  if (!message) {
+
+    return jsonResponse(
+      {
+        error:
+          "Message is required."
+      },
+      400
+    );
+
+  }
+
+
+  const allowedIntents = [
+    "",
     "BOOKING",
     "INFO",
     "COLLABORATION",
     "HELLO"
   ];
 
-  const normalized =
-    String(value)
-      .trim()
+
+  const normalizedIntent =
+    (
+      contactIntent || ""
+    )
       .toUpperCase();
 
-  return allowed.includes(
-    normalized
-  )
-    ? normalized
-    : null;
-}
 
+  if (
+    !allowedIntents.includes(
+      normalizedIntent
+    )
+  ) {
 
-function normalizeBookingType(
-  value
-) {
+    return jsonResponse(
+      {
+        error:
+          "Invalid contact type."
+      },
+      400
+    );
 
-  if (!value) {
-    return null;
   }
 
-  const allowed = [
+
+  const allowedBookingTypes = [
+    "",
     "HOTEL",
     "VENUE",
     "WEDDING",
@@ -1222,88 +1724,802 @@ function normalizeBookingType(
     "OTHER"
   ];
 
-  const normalized =
-    String(value)
-      .trim()
+
+  const normalizedBookingType =
+    (
+      bookingType || ""
+    )
       .toUpperCase();
 
-  return allowed.includes(
-    normalized
-  )
-    ? normalized
-    : null;
+
+  if (
+    !allowedBookingTypes.includes(
+      normalizedBookingType
+    )
+  ) {
+
+    return jsonResponse(
+      {
+        error:
+          "Invalid booking type."
+      },
+      400
+    );
+
+  }
+
+
+  if (
+    eventDate &&
+    !/^\d{4}-\d{2}-\d{2}$/
+      .test(eventDate)
+  ) {
+
+    return jsonResponse(
+      {
+        error:
+          "Invalid event date."
+      },
+      400
+    );
+
+  }
+
+
+  const result =
+    await env.DB
+      .prepare(`
+        INSERT INTO contact_messages (
+          name,
+          email,
+          subject,
+          message,
+          contact_intent,
+          booking_type,
+          event_date,
+          status
+        )
+        VALUES (
+          ?,
+          ?,
+          NULL,
+          ?,
+          ?,
+          ?,
+          ?,
+          'UNREAD'
+        )
+      `)
+      .bind(
+        name,
+        email,
+        message,
+        normalizedIntent || null,
+        normalizedBookingType || null,
+        eventDate || null
+      )
+      .run();
+
+
+  return jsonResponse(
+    {
+      success: true,
+
+      id:
+        result.meta
+          ?.last_row_id
+    },
+    201
+  );
+
 }
 
 
-function normalizeMessageStatus(
-  value
+/* ============================================================
+   ADMIN MESSAGES
+============================================================ */
+
+async function getMessages(
+  env
 ) {
 
-  const allowed = [
+  const result =
+    await env.DB
+      .prepare(`
+        SELECT
+          id,
+          name,
+          email,
+          subject,
+          message,
+          contact_intent,
+          booking_type,
+          event_date,
+          status,
+          created_at,
+          read_at,
+          archived_at
+        FROM contact_messages
+        ORDER BY
+          datetime(created_at) DESC,
+          id DESC
+      `)
+      .all();
+
+
+  return jsonResponse(
+    result.results || []
+  );
+
+}
+
+
+async function getMessage(
+  id,
+  env
+) {
+
+  const message =
+    await env.DB
+      .prepare(`
+        SELECT
+          id,
+          name,
+          email,
+          subject,
+          message,
+          contact_intent,
+          booking_type,
+          event_date,
+          status,
+          created_at,
+          read_at,
+          archived_at
+        FROM contact_messages
+        WHERE id = ?
+        LIMIT 1
+      `)
+      .bind(id)
+      .first();
+
+
+  if (!message) {
+
+    return jsonResponse(
+      {
+        error:
+          "Message not found"
+      },
+      404
+    );
+
+  }
+
+
+  return jsonResponse(
+    message
+  );
+
+}
+
+
+async function getUnreadMessageCount(
+  env
+) {
+
+  const result =
+    await env.DB
+      .prepare(`
+        SELECT
+          COUNT(*) AS count
+        FROM contact_messages
+        WHERE status = 'UNREAD'
+      `)
+      .first();
+
+
+  return jsonResponse({
+    count:
+      Number(
+        result?.count || 0
+      )
+  });
+
+}
+
+
+async function updateMessage(
+  id,
+  request,
+  env
+) {
+
+  const existing =
+    await env.DB
+      .prepare(`
+        SELECT
+          id,
+          status
+        FROM contact_messages
+        WHERE id = ?
+        LIMIT 1
+      `)
+      .bind(id)
+      .first();
+
+
+  if (!existing) {
+
+    return jsonResponse(
+      {
+        error:
+          "Message not found"
+      },
+      404
+    );
+
+  }
+
+
+  const body =
+    await readJsonBody(
+      request
+    );
+
+
+  const status =
+    cleanString(
+      body.status,
+      20
+    )
+      .toUpperCase();
+
+
+  const allowedStatuses = [
     "UNREAD",
     "READ",
     "ARCHIVED"
   ];
 
-  const normalized =
-    String(
-      value || ""
-    )
-      .trim()
-      .toUpperCase();
-
-  return allowed.includes(
-    normalized
-  )
-    ? normalized
-    : null;
-}
-
-
-// =========================================================
-// EMAIL VALIDATION
-// =========================================================
-
-function isValidEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    .test(value);
-}
-
-
-// =========================================================
-// DATE VALIDATION
-// =========================================================
-
-function isValidDate(value) {
 
   if (
-    !/^\d{4}-\d{2}-\d{2}$/
-      .test(value)
+    !allowedStatuses.includes(
+      status
+    )
   ) {
+
+    return jsonResponse(
+      {
+        error:
+          "Invalid message status."
+      },
+      400
+    );
+
+  }
+
+
+  if (status === "UNREAD") {
+
+    await env.DB
+      .prepare(`
+        UPDATE contact_messages
+
+        SET
+          status = 'UNREAD',
+          read_at = NULL,
+          archived_at = NULL
+
+        WHERE id = ?
+      `)
+      .bind(id)
+      .run();
+
+  }
+
+
+  if (status === "READ") {
+
+    await env.DB
+      .prepare(`
+        UPDATE contact_messages
+
+        SET
+          status = 'READ',
+
+          read_at =
+            COALESCE(
+              read_at,
+              CURRENT_TIMESTAMP
+            ),
+
+          archived_at = NULL
+
+        WHERE id = ?
+      `)
+      .bind(id)
+      .run();
+
+  }
+
+
+  if (status === "ARCHIVED") {
+
+    await env.DB
+      .prepare(`
+        UPDATE contact_messages
+
+        SET
+          status = 'ARCHIVED',
+
+          read_at =
+            COALESCE(
+              read_at,
+              CURRENT_TIMESTAMP
+            ),
+
+          archived_at =
+            CURRENT_TIMESTAMP
+
+        WHERE id = ?
+      `)
+      .bind(id)
+      .run();
+
+  }
+
+
+  return jsonResponse({
+    success: true,
+    status
+  });
+
+}
+
+
+async function deleteMessage(
+  id,
+  env
+) {
+
+  const existing =
+    await env.DB
+      .prepare(`
+        SELECT id
+        FROM contact_messages
+        WHERE id = ?
+        LIMIT 1
+      `)
+      .bind(id)
+      .first();
+
+
+  if (!existing) {
+
+    return jsonResponse(
+      {
+        error:
+          "Message not found"
+      },
+      404
+    );
+
+  }
+
+
+  await env.DB
+    .prepare(`
+      DELETE FROM contact_messages
+      WHERE id = ?
+    `)
+    .bind(id)
+    .run();
+
+
+  return jsonResponse({
+    success: true
+  });
+
+}
+
+
+/* ============================================================
+   ADMIN LOGIN
+============================================================ */
+
+async function loginAdmin(
+  request,
+  env
+) {
+
+  const body =
+    await readJsonBody(
+      request
+    );
+
+
+  const password =
+    String(
+      body.password || ""
+    );
+
+
+  if (!password) {
+
+    return jsonResponse(
+      {
+        error:
+          "Password required"
+      },
+      400
+    );
+
+  }
+
+
+  if (!env.ADMIN_PASSWORD) {
+
+    console.error(
+      "ADMIN_PASSWORD secret is missing"
+    );
+
+    return jsonResponse(
+      {
+        error:
+          "Admin authentication is not configured."
+      },
+      500
+    );
+
+  }
+
+
+  const valid =
+    await secureStringCompare(
+      password,
+      env.ADMIN_PASSWORD
+    );
+
+
+  if (!valid) {
+
+    return jsonResponse(
+      {
+        error:
+          "Password non corretta."
+      },
+      401
+    );
+
+  }
+
+
+  const token =
+    await createAdminToken(
+      env
+    );
+
+
+  const cookie = [
+    `om_admin=${token}`,
+    "Path=/",
+    "HttpOnly",
+    "Secure",
+    "SameSite=Lax",
+    `Max-Age=${60 * 60 * 24 * 30}`
+  ]
+    .join("; ");
+
+
+  return jsonResponse(
+    {
+      success: true
+    },
+    200,
+    {
+      "Set-Cookie":
+        cookie
+    }
+  );
+
+}
+
+
+function logoutAdmin() {
+
+  return jsonResponse(
+    {
+      success: true
+    },
+    200,
+    {
+      "Set-Cookie":
+        [
+          "om_admin=",
+          "Path=/",
+          "HttpOnly",
+          "Secure",
+          "SameSite=Lax",
+          "Max-Age=0"
+        ]
+          .join("; ")
+    }
+  );
+
+}
+
+
+async function isAuthenticated(
+  request,
+  env
+) {
+
+  if (!env.ADMIN_PASSWORD) {
     return false;
   }
 
-  const date =
-    new Date(
-      `${value}T00:00:00`
+
+  const cookies =
+    parseCookies(
+      request.headers
+        .get("Cookie") ||
+      ""
     );
 
-  return !Number.isNaN(
-    date.getTime()
+
+  const suppliedToken =
+    cookies.om_admin;
+
+
+  if (!suppliedToken) {
+    return false;
+  }
+
+
+  const expectedToken =
+    await createAdminToken(
+      env
+    );
+
+
+  return secureStringCompare(
+    suppliedToken,
+    expectedToken
   );
+
 }
 
 
-// =========================================================
-// URL VALIDATION
-// =========================================================
+async function createAdminToken(
+  env
+) {
 
-function isValidHttpUrl(value) {
+  /*
+    Il cookie non contiene la password.
+
+    Il token viene derivato dalla password
+    segreta del Worker.
+  */
+
+  const source =
+    `orange-may-admin-v2:${env.ADMIN_PASSWORD}`;
+
+
+  return sha256Hex(
+    source
+  );
+
+}
+
+
+/* ============================================================
+   STATIC ASSETS
+============================================================ */
+
+async function serveAsset(
+  request,
+  env,
+  pathname
+) {
+
+  if (!env.ASSETS) {
+
+    return new Response(
+      "Assets binding not available",
+      {
+        status: 500
+      }
+    );
+
+  }
+
+
+  const url =
+    new URL(
+      request.url
+    );
+
+
+  url.pathname =
+    pathname;
+
+
+  const assetRequest =
+    new Request(
+      url.toString(),
+      request
+    );
+
+
+  return env.ASSETS.fetch(
+    assetRequest
+  );
+
+}
+
+
+/* ============================================================
+   JSON HELPERS
+============================================================ */
+
+async function readJsonBody(
+  request
+) {
+
+  try {
+
+    const body =
+      await request.json();
+
+
+    if (
+      !body ||
+      typeof body !== "object" ||
+      Array.isArray(body)
+    ) {
+
+      throw new Error();
+
+    }
+
+
+    return body;
+
+  } catch {
+
+    throw new HttpError(
+      400,
+      "Invalid JSON body."
+    );
+
+  }
+
+}
+
+
+function jsonResponse(
+  data,
+  status = 200,
+  extraHeaders = {}
+) {
+
+  return new Response(
+    JSON.stringify(data),
+    {
+      status,
+
+      headers: {
+
+        "Content-Type":
+          "application/json; charset=utf-8",
+
+        "Cache-Control":
+          "no-store",
+
+        ...extraHeaders
+
+      }
+    }
+  );
+
+}
+
+
+function redirectResponse(
+  location
+) {
+
+  return new Response(
+    null,
+    {
+      status: 302,
+
+      headers: {
+        Location:
+          location
+      }
+    }
+  );
+
+}
+
+
+/* ============================================================
+   VALIDATION HELPERS
+============================================================ */
+
+function cleanString(
+  value,
+  maxLength = 1000
+) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
+    return "";
+
+  }
+
+
+  return String(value)
+    .trim()
+    .slice(
+      0,
+      maxLength
+    );
+
+}
+
+
+function cleanOptionalString(
+  value,
+  maxLength = 1000
+) {
+
+  const cleaned =
+    cleanString(
+      value,
+      maxLength
+    );
+
+
+  return cleaned ||
+    null;
+
+}
+
+
+function isValidTime(
+  value
+) {
+
+  return /^([01]\d|2[0-3]):[0-5]\d$/
+    .test(value);
+
+}
+
+
+function isValidEmail(
+  email
+) {
+
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    .test(email);
+
+}
+
+
+function isValidHttpUrl(
+  value
+) {
 
   try {
 
     const url =
       new URL(value);
+
 
     return (
       url.protocol === "http:" ||
@@ -1313,42 +2529,174 @@ function isValidHttpUrl(value) {
   } catch {
 
     return false;
+
   }
+
 }
 
 
-// =========================================================
-// HELPERS
-// =========================================================
+/* ============================================================
+   COOKIE HELPERS
+============================================================ */
 
-function cleanOptional(value) {
-
-  const result =
-    String(
-      value || ""
-    ).trim();
-
-  return result || null;
-}
-
-
-function json(
-  data,
-  status = 200
+function parseCookies(
+  cookieHeader
 ) {
 
-  return new Response(
-    JSON.stringify(data),
-    {
-      status,
+  const cookies = {};
 
-      headers: {
-        "Content-Type":
-          "application/json; charset=utf-8",
 
-        "Cache-Control":
-          "no-store"
+  cookieHeader
+    .split(";")
+    .forEach(part => {
+
+      const index =
+        part.indexOf("=");
+
+
+      if (index === -1) {
+        return;
       }
-    }
-  );
+
+
+      const key =
+        part
+          .slice(
+            0,
+            index
+          )
+          .trim();
+
+
+      const value =
+        part
+          .slice(
+            index + 1
+          )
+          .trim();
+
+
+      if (key) {
+
+        cookies[key] =
+          value;
+
+      }
+
+    });
+
+
+  return cookies;
+
+}
+
+
+/* ============================================================
+   CRYPTO HELPERS
+============================================================ */
+
+async function sha256Hex(
+  value
+) {
+
+  const data =
+    new TextEncoder()
+      .encode(value);
+
+
+  const digest =
+    await crypto.subtle.digest(
+      "SHA-256",
+      data
+    );
+
+
+  return Array.from(
+    new Uint8Array(
+      digest
+    )
+  )
+    .map(
+      byte =>
+        byte
+          .toString(16)
+          .padStart(2,"0")
+    )
+    .join("");
+
+}
+
+
+async function secureStringCompare(
+  a,
+  b
+) {
+
+  const hashA =
+    await sha256Hex(
+      String(a)
+    );
+
+
+  const hashB =
+    await sha256Hex(
+      String(b)
+    );
+
+
+  return hashA === hashB;
+
+}
+
+
+/* ============================================================
+   PATH
+============================================================ */
+
+function normalizePath(
+  pathname
+) {
+
+  if (!pathname) {
+    return "/";
+  }
+
+
+  if (
+    pathname.length > 1 &&
+    pathname.endsWith("/")
+  ) {
+
+    return pathname.slice(
+      0,
+      -1
+    );
+
+  }
+
+
+  return pathname;
+
+}
+
+
+/* ============================================================
+   CUSTOM ERROR
+============================================================ */
+
+class HttpError
+  extends Error {
+
+  constructor(
+    status,
+    message
+  ) {
+
+    super(message);
+
+    this.status =
+      status;
+
+  }
+
 }
