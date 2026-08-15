@@ -1,2791 +1,4228 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex,nofollow">
-  <title>Orange May Admin</title>
-
-  <style>
-    :root {
-      --orange: #ff6a00;
-      --cream: #f5f0e8;
-      --black: #11100f;
-      --white: #ffffff;
-      --muted: #817a73;
-      --line: rgba(17, 16, 15, 0.14);
-      --danger: #d63c3c;
-      --success: #23855a;
-      --radius: 18px;
-      --shadow: 0 18px 60px rgba(0, 0, 0, 0.14);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      background: var(--black);
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--black);
-      background: var(--cream);
-    }
-
-    button,
-    input,
-    textarea,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    .app {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 250px minmax(0, 1fr);
-    }
-
-    .sidebar {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      padding: 22px 18px;
-      display: flex;
-      flex-direction: column;
-      background: var(--black);
-      color: var(--white);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 0 6px 22px;
-      border-bottom: 1px solid rgba(255,255,255,.12);
-    }
-
-    .brand img {
-      width: 82px;
-      height: 54px;
-      object-fit: contain;
-    }
-
-    .brand strong {
-      display: block;
-      font-size: .72rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-
-    .brand small {
-      display: block;
-      margin-top: 5px;
-      color: #8e8881;
-      font-size: .62rem;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    .nav {
-      margin-top: 22px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .nav-button {
-      width: 100%;
-      min-height: 48px;
-      padding: 0 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      border: 1px solid transparent;
-      border-radius: 13px;
-      background: transparent;
-      color: #d9d4ce;
-      font-size: .72rem;
-      font-weight: 900;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      transition: .2s ease;
-    }
-
-    .nav-button:hover {
-      background: rgba(255,255,255,.05);
-    }
-
-    .nav-button.active {
-      background: var(--orange);
-      color: var(--black);
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-icon {
-      width: 18px;
-      height: 18px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .badge {
-      min-width: 25px;
-      height: 25px;
-      padding: 0 7px;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      background: #fff;
-      color: var(--black);
-      font-size: .64rem;
-      font-weight: 900;
-    }
-
-    .badge.visible {
-      display: inline-flex;
-    }
-
-    .nav-button:not(.active) .badge {
-      background: var(--orange);
-    }
-
-    .sidebar-bottom {
-      margin-top: auto;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255,255,255,.12);
-    }
-
-    .sidebar-link,
-    .sidebar-action {
-      width: 100%;
-      min-height: 42px;
-      padding: 0 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border: 0;
-      background: transparent;
-      color: #aaa39d;
-      text-decoration: none;
-      font-size: .68rem;
-      font-weight: 800;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-
-    .sidebar-link:hover,
-    .sidebar-action:hover {
-      color: #fff;
-    }
-
-    .mobile-header {
-      display: none;
-    }
-
-    .main {
-      min-width: 0;
-      padding: 30px clamp(20px, 4vw, 58px) 60px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 20px;
-      padding-bottom: 22px;
-      margin-bottom: 26px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .eyebrow {
-      color: var(--orange);
-      font-size: .68rem;
-      font-weight: 900;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-    }
-
-    .page-title {
-      margin: 7px 0 0;
-      font-size: clamp(2.4rem, 5vw, 4.6rem);
-      line-height: .9;
-      letter-spacing: -.06em;
-      text-transform: uppercase;
-    }
-
-    .top-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .button {
-      min-height: 40px;
-      padding: 0 14px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: 1px solid var(--black);
-      border-radius: 999px;
-      background: transparent;
-      color: var(--black);
-      text-decoration: none;
-      font-size: .64rem;
-      font-weight: 900;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      transition: .2s ease;
-    }
-
-    .button:hover {
-      background: var(--black);
-      color: #fff;
-    }
-
-    .button.primary {
-      background: var(--orange);
-      border-color: var(--orange);
-      color: var(--black);
-    }
-
-    .button.primary:hover {
-      background: var(--black);
-      border-color: var(--black);
-      color: #fff;
-    }
-
-    .button.danger {
-      border-color: #d9a0a0;
-      color: #a32727;
-    }
-
-    .button.danger:hover {
-      background: var(--danger);
-      border-color: var(--danger);
-      color: #fff;
-    }
-
-    .button.small {
-      min-height: 35px;
-      padding: 0 12px;
-      font-size: .58rem;
-    }
-
-    .view {
-      display: none;
-    }
-
-    .view.active {
-      display: block;
-    }
-
-    .stats-grid {
-      margin-bottom: 20px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .stat-card {
-      padding: 19px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fff;
-    }
-
-    .stat-card small {
-      color: var(--muted);
-      font-size: .61rem;
-      font-weight: 900;
-      letter-spacing: .09em;
-      text-transform: uppercase;
-    }
-
-    .stat-value {
-      display: block;
-      margin-top: 8px;
-      font-size: 2rem;
-      font-weight: 900;
-      letter-spacing: -.05em;
-    }
-
-    .stat-value.orange {
-      color: var(--orange);
-    }
-
-    .panel {
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fff;
-    }
-
-    .panel-header {
-      padding: 17px 19px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .panel-title {
-      font-size: .7rem;
-      font-weight: 900;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    .events-grid {
-      display: grid;
-      grid-template-columns: minmax(300px, .75fr) minmax(0, 1.25fr);
-      gap: 20px;
-      align-items: start;
-    }
-
-    .event-form {
-      padding: 19px;
-      display: grid;
-      gap: 13px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 11px;
-    }
-
-    .field {
-      display: grid;
-      gap: 6px;
-    }
-
-    .field label {
-      color: var(--muted);
-      font-size: .57rem;
-      font-weight: 900;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    .field input,
-    .field textarea,
-    .field select {
-      width: 100%;
-      min-height: 42px;
-      padding: 9px 11px;
-      border: 1px solid #d7d0c9;
-      border-radius: 10px;
-      background: #fbf9f5;
-      color: var(--black);
-      outline: none;
-    }
-
-    .field textarea {
-      min-height: 82px;
-      resize: vertical;
-    }
-
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus {
-      border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(255,106,0,.08);
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .form-status {
-      min-height: 17px;
-      color: var(--muted);
-      font-size: .7rem;
-    }
-
-    .event-card {
-      padding: 16px 18px;
-      display: grid;
-      grid-template-columns: 66px minmax(0, 1fr) auto;
-      gap: 14px;
-      align-items: center;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .event-card:last-child {
-      border-bottom: 0;
-    }
-
-    .event-date {
-      padding-right: 12px;
-      text-align: center;
-      border-right: 1px solid var(--line);
-    }
-
-    .event-day {
-      font-size: 1.8rem;
-      font-weight: 900;
-      line-height: 1;
-    }
-
-    .event-month {
-      margin-top: 4px;
-      color: var(--orange);
-      font-size: .57rem;
-      font-weight: 900;
-    }
-
-    .event-venue {
-      font-weight: 900;
-    }
-
-    .event-meta {
-      margin-top: 6px;
-      display: flex;
-      gap: 7px 10px;
-      flex-wrap: wrap;
-      color: #756e67;
-      font-size: .68rem;
-    }
-
-    .pill {
-      min-height: 23px;
-      padding: 0 8px;
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
-      background: #eee9e2;
-      font-size: .52rem;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-
-    .pill.public {
-      background: rgba(35,133,90,.12);
-      color: #17613f;
-    }
-
-    .pill.guests {
-      background: rgba(255,106,0,.13);
-      color: #9d4300;
-    }
-
-    .pill.private {
-      background: rgba(17,16,15,.09);
-      color: #3e3934;
-    }
-
-    .event-actions {
-      display: flex;
-      gap: 6px;
-    }
-
-    .circle-button {
-      width: 36px;
-      height: 36px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--line);
-      border-radius: 50%;
-      background: transparent;
-      color: var(--black);
-      transition: .2s ease;
-    }
-
-    .circle-button:hover {
-      background: var(--black);
-      color: #fff;
-    }
-
-    .circle-button.delete:hover {
-      background: var(--danger);
-      border-color: var(--danger);
-    }
-
-    .toolbar {
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .filters {
-      display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
-    }
-
-    .filter-button {
-      min-height: 35px;
-      padding: 0 12px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-      color: #6e6760;
-      font-size: .6rem;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-
-    .filter-button.active {
-      background: var(--black);
-      border-color: var(--black);
-      color: #fff;
-    }
-
-    .search-input {
-      min-width: min(330px, 100%);
-      height: 39px;
-      padding: 0 13px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-      outline: none;
-    }
-
-    .messages-grid {
-      min-height: 590px;
-      display: grid;
-      grid-template-columns: minmax(290px, .8fr) minmax(0, 1.2fr);
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fff;
-    }
-
-    .message-list-pane {
-      border-right: 1px solid var(--line);
-    }
-
-    .message-list {
-      max-height: 670px;
-      overflow: auto;
-    }
-
-    .message-item {
-      position: relative;
-      width: 100%;
-      padding: 15px 16px 15px 22px;
-      display: block;
-      text-align: left;
-      border: 0;
-      border-bottom: 1px solid var(--line);
-      background: #fff;
-      color: var(--black);
-    }
-
-    .message-item:hover,
-    .message-item.active {
-      background: #faf6ef;
-    }
-
-    .message-item.unread::before {
-      content: "";
-      position: absolute;
-      left: 8px;
-      top: 19px;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--orange);
-    }
-
-    .message-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .message-name {
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: .8rem;
-      font-weight: 900;
-    }
-
-    .message-time {
-      flex: 0 0 auto;
-      color: #99918a;
-      font-size: .58rem;
-    }
-
-    .message-tags {
-      margin-top: 6px;
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-    }
-
-    .message-tag {
-      min-height: 20px;
-      padding: 0 7px;
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
-      background: #efebe5;
-      color: #69625b;
-      font-size: .5rem;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-
-    .message-tag.intent {
-      background: rgba(255,106,0,.12);
-      color: #a54800;
-    }
-
-    .message-preview {
-      margin-top: 7px;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      color: #756e67;
-      font-size: .7rem;
-      line-height: 1.45;
-    }
-
-    .message-detail {
-      min-width: 0;
-      padding: clamp(21px,4vw,40px);
-      background:
-        radial-gradient(circle at 100% 0, rgba(255,106,0,.08), transparent 28%),
-        #fff;
-    }
-
-    .empty-detail {
-      min-height: 480px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      color: #8e8780;
-    }
-
-    .empty-detail strong {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--black);
-      font-size: 1.2rem;
-    }
-
-    .detail-kicker {
-      color: var(--orange);
-      font-size: .58rem;
-      font-weight: 900;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
-
-    .detail-name {
-      margin-top: 7px;
-      font-size: clamp(2rem,4vw,3.3rem);
-      font-weight: 900;
-      line-height: .95;
-      letter-spacing: -.055em;
-    }
-
-    .detail-email {
-      margin-top: 9px;
-      color: #6d665f;
-      font-size: .8rem;
-      word-break: break-all;
-    }
-
-    .detail-meta {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 8px;
-    }
-
-    .detail-meta-box {
-      padding: 11px;
-      border-radius: 10px;
-      background: #f6f2ec;
-    }
-
-    .detail-meta-box small {
-      color: #8a827a;
-      font-size: .51rem;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-
-    .detail-meta-box strong {
-      display: block;
-      margin-top: 5px;
-      font-size: .72rem;
-    }
-
-    .detail-label {
-      margin-top: 24px;
-      color: #8a827a;
-      font-size: .54rem;
-      font-weight: 900;
-      letter-spacing: .09em;
-      text-transform: uppercase;
-    }
-
-    .detail-message {
-      margin-top: 9px;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      font-size: .92rem;
-      line-height: 1.65;
-    }
-
-    .detail-actions {
-      margin-top: 26px;
-      padding-top: 17px;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      border-top: 1px solid var(--line);
-    }
-
-    .empty-list {
-      padding: 45px 20px;
-      text-align: center;
-      color: #8e8780;
-      font-size: .76rem;
-      line-height: 1.5;
-    }
-
-    .toast {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 200;
-      max-width: min(350px, calc(100vw - 36px));
-      padding: 13px 15px;
-      border-radius: 11px;
-      background: var(--black);
-      color: #fff;
-      opacity: 0;
-      transform: translateY(15px);
-      transition: .2s ease;
-      pointer-events: none;
-      font-size: .72rem;
-      box-shadow: var(--shadow);
-    }
-
-    .toast.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .toast.error {
-      background: #8b2525;
-    }
-
-    .mobile-detail-close {
-      display: none;
-    }
-
-    @media (max-width: 950px) {
-      .app {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        display: none;
-      }
-
-      .mobile-header {
-        position: sticky;
-        top: 0;
-        z-index: 60;
-        min-height: 68px;
-        padding: 10px 14px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        background: var(--black);
-      }
-
-      .mobile-header img {
-        width: 68px;
-        height: 44px;
-        object-fit: contain;
-      }
-
-      .mobile-tabs {
-        display: flex;
-        gap: 6px;
-      }
-
-      .mobile-tab {
-        position: relative;
-        min-height: 36px;
-        padding: 0 10px;
-        border: 1px solid rgba(255,255,255,.2);
-        border-radius: 999px;
-        background: transparent;
-        color: #fff;
-        font-size: .57rem;
-        font-weight: 900;
-        text-transform: uppercase;
-      }
-
-      .mobile-tab.active {
-        background: var(--orange);
-        border-color: var(--orange);
-        color: var(--black);
-      }
-
-      .mobile-badge {
-        position: absolute;
-        top: -5px;
-        right: -4px;
-        min-width: 19px;
-        height: 19px;
-        padding: 0 5px;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        border-radius: 999px;
-        background: #fff;
-        color: var(--black);
-        font-size: .5rem;
-      }
-
-      .mobile-badge.visible {
-        display: inline-flex;
-      }
-
-      .main {
-        padding: 22px 15px 48px;
-      }
-
-      .top-actions {
-        display: none;
-      }
-
-      .events-grid,
-      .messages-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .message-list-pane {
-        border-right: 0;
-      }
-
-      .message-list {
-        max-height: none;
-      }
-
-      .message-detail {
-        display: none;
-      }
-
-      .message-detail.mobile-open {
-        position: fixed;
-        inset: 0;
-        z-index: 100;
-        display: block;
-        overflow: auto;
-        padding: 22px 16px 48px;
-        background: var(--cream);
-      }
-
-      .mobile-detail-close {
-        display: inline-flex;
-        margin-bottom: 18px;
-      }
-    }
-
-    @media (max-width: 620px) {
-      .page-title {
-        font-size: 2.5rem;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .stats-grid .stat-card:last-child {
-        grid-column: 1 / -1;
-      }
-
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-
-      .event-card {
-        grid-template-columns: 54px minmax(0,1fr);
-      }
-
-      .event-actions {
-        grid-column: 2;
-      }
-
-      .detail-meta {
-        grid-template-columns: 1fr;
-      }
-
-      .search-input {
-        width: 100%;
-        min-width: 0;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Orange May Admin</title>
+
+<style>
+:root{
+  --orange:#ff6a00;
+  --cream:#f5f0e8;
+  --black:#11100f;
+  --white:#fff;
+  --muted:#817a73;
+  --line:rgba(17,16,15,.14);
+  --danger:#d63c3c;
+  --success:#23855a;
+  --radius:18px;
+  --shadow:0 18px 60px rgba(0,0,0,.14);
+}
+
+*{box-sizing:border-box}
+
+html{background:var(--black)}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--black);
+  background:var(--cream);
+}
+
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+
+.app{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:250px minmax(0,1fr);
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+  position:sticky;
+  top:0;
+  height:100vh;
+  padding:22px 18px;
+  display:flex;
+  flex-direction:column;
+  background:var(--black);
+  color:white;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 6px 22px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+.brand img{
+  width:82px;
+  height:54px;
+  object-fit:contain;
+}
+
+.brand strong{
+  display:block;
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.brand small{
+  display:block;
+  margin-top:5px;
+  color:#8e8881;
+  font-size:.62rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.nav{
+  margin-top:22px;
+  display:grid;
+  gap:8px;
+}
+
+.nav-button{
+  width:100%;
+  min-height:48px;
+  padding:0 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border:1px solid transparent;
+  border-radius:13px;
+  background:transparent;
+  color:#d9d4ce;
+  font-size:.72rem;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  transition:.2s ease;
+}
+
+.nav-button:hover{
+  background:rgba(255,255,255,.05);
+}
+
+.nav-button.active{
+  background:var(--orange);
+  color:var(--black);
+}
+
+.nav-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.nav-icon{
+  width:18px;
+  height:18px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.badge{
+  min-width:25px;
+  height:25px;
+  padding:0 7px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  background:white;
+  color:var(--black);
+  font-size:.64rem;
+  font-weight:900;
+}
+
+.badge.visible{display:inline-flex}
+
+.nav-button:not(.active) .badge{
+  background:var(--orange);
+}
+
+.sidebar-bottom{
+  margin-top:auto;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.12);
+}
+
+.sidebar-link,
+.sidebar-action{
+  width:100%;
+  min-height:42px;
+  padding:0 10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border:0;
+  background:transparent;
+  color:#aaa39d;
+  text-decoration:none;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+.sidebar-link:hover,
+.sidebar-action:hover{
+  color:white;
+}
+
+/* ================= MOBILE HEADER ================= */
+
+.mobile-header{display:none}
+
+/* ================= MAIN ================= */
+
+.main{
+  min-width:0;
+  padding:30px clamp(20px,4vw,58px) 60px;
+}
+
+.topbar{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+  padding-bottom:22px;
+  margin-bottom:26px;
+  border-bottom:1px solid var(--line);
+}
+
+.eyebrow{
+  color:var(--orange);
+  font-size:.68rem;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.page-title{
+  margin:7px 0 0;
+  font-size:clamp(2.4rem,5vw,4.6rem);
+  line-height:.9;
+  letter-spacing:-.06em;
+  text-transform:uppercase;
+}
+
+.top-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.button{
+  min-height:40px;
+  padding:0 14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:1px solid var(--black);
+  border-radius:999px;
+  background:transparent;
+  color:var(--black);
+  text-decoration:none;
+  font-size:.64rem;
+  font-weight:900;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  transition:.2s ease;
+}
+
+.button:hover{
+  background:var(--black);
+  color:white;
+}
+
+.button.primary{
+  background:var(--orange);
+  border-color:var(--orange);
+}
+
+.button.primary:hover{
+  background:var(--black);
+  border-color:var(--black);
+  color:white;
+}
+
+.button.danger{
+  border-color:#d9a0a0;
+  color:#a32727;
+}
+
+.button.danger:hover{
+  background:var(--danger);
+  border-color:var(--danger);
+  color:white;
+}
+
+.button.small{
+  min-height:35px;
+  padding:0 12px;
+  font-size:.58rem;
+}
+
+.view{display:none}
+.view.active{display:block}
+
+/* ================= STATS ================= */
+
+.stats-grid{
+  margin-bottom:20px;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+.stat-card{
+  padding:19px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:white;
+}
+
+.stat-card small{
+  color:var(--muted);
+  font-size:.61rem;
+  font-weight:900;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+
+.stat-value{
+  display:block;
+  margin-top:8px;
+  font-size:2rem;
+  font-weight:900;
+  letter-spacing:-.05em;
+}
+
+.stat-value.orange{color:var(--orange)}
+
+/* ================= PANELS ================= */
+
+.panel{
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:white;
+}
+
+.panel-header{
+  padding:17px 19px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid var(--line);
+}
+
+.panel-title{
+  font-size:.7rem;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+/* ================= FORMS ================= */
+
+.events-grid,
+.venues-grid{
+  display:grid;
+  grid-template-columns:minmax(300px,.75fr) minmax(0,1.25fr);
+  gap:20px;
+  align-items:start;
+}
+
+.admin-form{
+  padding:19px;
+  display:grid;
+  gap:13px;
+}
+
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
+}
+
+.field{
+  display:grid;
+  gap:6px;
+}
+
+.field label{
+  color:var(--muted);
+  font-size:.57rem;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  min-height:42px;
+  padding:9px 11px;
+  border:1px solid #d7d0c9;
+  border-radius:10px;
+  background:#fbf9f5;
+  color:var(--black);
+  outline:none;
+}
+
+.field textarea{
+  min-height:82px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus{
+  border-color:var(--orange);
+  box-shadow:0 0 0 3px rgba(255,106,0,.08);
+}
+
+.saved-venue-field{
+  padding:13px;
+  border-radius:12px;
+  background:#f3eee6;
+  border:1px dashed rgba(17,16,15,.18);
+}
+
+.saved-venue-field label{
+  color:var(--orange);
+}
+
+.saved-venue-help{
+  margin-top:2px;
+  color:#827a72;
+  font-size:.64rem;
+  line-height:1.45;
+}
+
+.form-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.form-status{
+  min-height:17px;
+  color:var(--muted);
+  font-size:.7rem;
+}
+
+/* ================= EVENTS ================= */
+
+.event-card{
+  padding:16px 18px;
+  display:grid;
+  grid-template-columns:66px minmax(0,1fr) auto;
+  gap:14px;
+  align-items:center;
+  border-bottom:1px solid var(--line);
+}
+
+.event-card:last-child{border-bottom:0}
+
+.event-date{
+  padding-right:12px;
+  text-align:center;
+  border-right:1px solid var(--line);
+}
+
+.event-day{
+  font-size:1.8rem;
+  font-weight:900;
+  line-height:1;
+}
+
+.event-month{
+  margin-top:4px;
+  color:var(--orange);
+  font-size:.57rem;
+  font-weight:900;
+}
+
+.event-venue{font-weight:900}
+
+.event-meta{
+  margin-top:6px;
+  display:flex;
+  gap:7px 10px;
+  flex-wrap:wrap;
+  color:#756e67;
+  font-size:.68rem;
+}
+
+.pill{
+  min-height:23px;
+  padding:0 8px;
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  background:#eee9e2;
+  font-size:.52rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.pill.public{
+  background:rgba(35,133,90,.12);
+  color:#17613f;
+}
+
+.pill.guests{
+  background:rgba(255,106,0,.13);
+  color:#9d4300;
+}
+
+.pill.private{
+  background:rgba(17,16,15,.09);
+  color:#3e3934;
+}
+
+/* ================= VENUES ================= */
+
+.venue-card{
+  padding:18px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:18px;
+  align-items:center;
+  border-bottom:1px solid var(--line);
+}
+
+.venue-card:last-child{border-bottom:0}
+
+.venue-name{
+  font-size:1rem;
+  font-weight:900;
+}
+
+.venue-location{
+  margin-top:5px;
+  color:#716a63;
+  font-size:.72rem;
+}
+
+.venue-location-link{
+  margin-top:8px;
+  display:inline-flex;
+  color:var(--orange);
+  font-size:.62rem;
+  font-weight:900;
+  text-decoration:none;
+  text-transform:uppercase;
+}
+
+.venue-location-link:hover{
+  text-decoration:underline;
+}
+
+.event-actions,
+.venue-actions{
+  display:flex;
+  gap:6px;
+}
+
+.circle-button{
+  width:36px;
+  height:36px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--line);
+  border-radius:50%;
+  background:transparent;
+  color:var(--black);
+  transition:.2s ease;
+}
+
+.circle-button:hover{
+  background:var(--black);
+  color:white;
+}
+
+.circle-button.delete:hover{
+  background:var(--danger);
+  border-color:var(--danger);
+}
+
+/* ================= MESSAGES ================= */
+
+.toolbar{
+  margin-bottom:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.filters{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.filter-button{
+  min-height:35px;
+  padding:0 12px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:white;
+  color:#6e6760;
+  font-size:.6rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.filter-button.active{
+  background:var(--black);
+  border-color:var(--black);
+  color:white;
+}
+
+.search-input{
+  min-width:min(330px,100%);
+  height:39px;
+  padding:0 13px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:white;
+  outline:none;
+}
+
+.messages-grid{
+  min-height:590px;
+  display:grid;
+  grid-template-columns:minmax(290px,.8fr) minmax(0,1.2fr);
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:white;
+}
+
+.message-list-pane{
+  border-right:1px solid var(--line);
+}
+
+.message-list{
+  max-height:670px;
+  overflow:auto;
+}
+
+.message-item{
+  position:relative;
+  width:100%;
+  padding:15px 16px 15px 22px;
+  display:block;
+  text-align:left;
+  border:0;
+  border-bottom:1px solid var(--line);
+  background:white;
+  color:var(--black);
+}
+
+.message-item:hover,
+.message-item.active{
+  background:#faf6ef;
+}
+
+.message-item.unread::before{
+  content:"";
+  position:absolute;
+  left:8px;
+  top:19px;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--orange);
+}
+
+.message-head{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.message-name{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:.8rem;
+  font-weight:900;
+}
+
+.message-time{
+  flex:0 0 auto;
+  color:#99918a;
+  font-size:.58rem;
+}
+
+.message-tags{
+  margin-top:6px;
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+}
+
+.message-tag{
+  min-height:20px;
+  padding:0 7px;
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  background:#efebe5;
+  color:#69625b;
+  font-size:.5rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.message-tag.intent{
+  background:rgba(255,106,0,.12);
+  color:#a54800;
+}
+
+.message-preview{
+  margin-top:7px;
+  overflow:hidden;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  color:#756e67;
+  font-size:.7rem;
+  line-height:1.45;
+}
+
+.message-detail{
+  min-width:0;
+  padding:clamp(21px,4vw,40px);
+  background:
+    radial-gradient(circle at 100% 0,rgba(255,106,0,.08),transparent 28%),
+    white;
+}
+
+.empty-detail{
+  min-height:480px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  color:#8e8780;
+}
+
+.empty-detail strong{
+  display:block;
+  margin-bottom:8px;
+  color:var(--black);
+  font-size:1.2rem;
+}
+
+.detail-kicker{
+  color:var(--orange);
+  font-size:.58rem;
+  font-weight:900;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.detail-name{
+  margin-top:7px;
+  font-size:clamp(2rem,4vw,3.3rem);
+  font-weight:900;
+  line-height:.95;
+  letter-spacing:-.055em;
+}
+
+.detail-email{
+  margin-top:9px;
+  color:#6d665f;
+  font-size:.8rem;
+  word-break:break-all;
+}
+
+.detail-meta{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+
+.detail-meta-box{
+  padding:11px;
+  border-radius:10px;
+  background:#f6f2ec;
+}
+
+.detail-meta-box small{
+  color:#8a827a;
+  font-size:.51rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.detail-meta-box strong{
+  display:block;
+  margin-top:5px;
+  font-size:.72rem;
+}
+
+.detail-label{
+  margin-top:24px;
+  color:#8a827a;
+  font-size:.54rem;
+  font-weight:900;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+
+.detail-message{
+  margin-top:9px;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  font-size:.92rem;
+  line-height:1.65;
+}
+
+.detail-actions{
+  margin-top:26px;
+  padding-top:17px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  border-top:1px solid var(--line);
+}
+
+/* ================= EMPTY / TOAST ================= */
+
+.empty-list{
+  padding:45px 20px;
+  text-align:center;
+  color:#8e8780;
+  font-size:.76rem;
+  line-height:1.5;
+}
+
+.toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:200;
+  max-width:min(350px,calc(100vw - 36px));
+  padding:13px 15px;
+  border-radius:11px;
+  background:var(--black);
+  color:white;
+  opacity:0;
+  transform:translateY(15px);
+  transition:.2s ease;
+  pointer-events:none;
+  font-size:.72rem;
+  box-shadow:var(--shadow);
+}
+
+.toast.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.toast.error{background:#8b2525}
+
+.mobile-detail-close{display:none}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:950px){
+
+  .app{grid-template-columns:1fr}
+
+  .sidebar{display:none}
+
+  .mobile-header{
+    position:sticky;
+    top:0;
+    z-index:60;
+    min-height:68px;
+    padding:10px 14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    background:var(--black);
+  }
+
+  .mobile-header img{
+    width:68px;
+    height:44px;
+    object-fit:contain;
+  }
+
+  .mobile-tabs{
+    display:flex;
+    gap:5px;
+  }
+
+  .mobile-tab{
+    position:relative;
+    min-height:36px;
+    padding:0 9px;
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:999px;
+    background:transparent;
+    color:white;
+    font-size:.53rem;
+    font-weight:900;
+    text-transform:uppercase;
+  }
+
+  .mobile-tab.active{
+    background:var(--orange);
+    border-color:var(--orange);
+    color:var(--black);
+  }
+
+  .mobile-badge{
+    position:absolute;
+    top:-5px;
+    right:-4px;
+    min-width:19px;
+    height:19px;
+    padding:0 5px;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    border-radius:999px;
+    background:white;
+    color:var(--black);
+    font-size:.5rem;
+  }
+
+  .mobile-badge.visible{display:inline-flex}
+
+  .main{
+    padding:22px 15px 48px;
+  }
+
+  .top-actions{display:none}
+
+  .events-grid,
+  .venues-grid,
+  .messages-grid{
+    grid-template-columns:1fr;
+  }
+
+  .message-list-pane{
+    border-right:0;
+  }
+
+  .message-list{
+    max-height:none;
+  }
+
+  .message-detail{
+    display:none;
+  }
+
+  .message-detail.mobile-open{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:block;
+    overflow:auto;
+    padding:22px 16px 48px;
+    background:var(--cream);
+  }
+
+  .mobile-detail-close{
+    display:inline-flex;
+    margin-bottom:18px;
+  }
+}
+
+@media(max-width:620px){
+
+  .page-title{
+    font-size:2.5rem;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stats-grid .stat-card:last-child{
+    grid-column:1/-1;
+  }
+
+  .form-row{
+    grid-template-columns:1fr;
+  }
+
+  .event-card{
+    grid-template-columns:54px minmax(0,1fr);
+  }
+
+  .event-actions{
+    grid-column:2;
+  }
+
+  .venue-card{
+    grid-template-columns:1fr;
+  }
+
+  .venue-actions{
+    justify-content:flex-start;
+  }
+
+  .detail-meta{
+    grid-template-columns:1fr;
+  }
+
+  .search-input{
+    width:100%;
+    min-width:0;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="mobile-header">
-    <img src="/images/logo-white.png" alt="Orange May">
+<!-- =========================================================
+     MOBILE HEADER
+========================================================= -->
 
-    <div class="mobile-tabs">
-      <button class="mobile-tab active" data-view="events">
-        Date
-      </button>
+<div class="mobile-header">
 
-      <button class="mobile-tab" data-view="messages">
-        Messaggi
-        <span id="mobileUnreadBadge" class="mobile-badge">0</span>
-      </button>
-    </div>
+  <img src="/images/logo-white.png" alt="Orange May">
+
+  <div class="mobile-tabs">
+
+    <button class="mobile-tab active" data-view="events">
+      Date
+    </button>
+
+    <button class="mobile-tab" data-view="venues">
+      Venue
+    </button>
+
+    <button class="mobile-tab" data-view="messages">
+      Messaggi
+      <span id="mobileUnreadBadge" class="mobile-badge">0</span>
+    </button>
+
   </div>
 
-  <div class="app">
+</div>
 
-    <aside class="sidebar">
 
-      <div class="brand">
-        <img src="/images/logo-white.png" alt="Orange May">
+<div class="app">
 
-        <div>
-          <strong>Admin</strong>
-          <small>Orange May</small>
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+  <div class="brand">
+
+    <img src="/images/logo-white.png" alt="Orange May">
+
+    <div>
+      <strong>Admin</strong>
+      <small>Orange May</small>
+    </div>
+
+  </div>
+
+
+  <nav class="nav">
+
+    <button class="nav-button active" data-view="events">
+
+      <span class="nav-left">
+
+        <svg class="nav-icon" viewBox="0 0 24 24">
+          <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+          <path d="M8 3V7M16 3V7M3 10H21"></path>
+        </svg>
+
+        Date
+
+      </span>
+
+    </button>
+
+
+    <button class="nav-button" data-view="venues">
+
+      <span class="nav-left">
+
+        <svg class="nav-icon" viewBox="0 0 24 24">
+          <path d="M12 21s7-6 7-12a7 7 0 1 0-14 0c0 6 7 12 7 12z"></path>
+          <circle cx="12" cy="9" r="2"></circle>
+        </svg>
+
+        Venue
+
+      </span>
+
+    </button>
+
+
+    <button class="nav-button" data-view="messages">
+
+      <span class="nav-left">
+
+        <svg class="nav-icon" viewBox="0 0 24 24">
+          <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+          <path d="M4 7L12 13L20 7"></path>
+        </svg>
+
+        Messaggi
+
+      </span>
+
+      <span id="unreadBadge" class="badge">0</span>
+
+    </button>
+
+  </nav>
+
+
+  <div class="sidebar-bottom">
+
+    <a class="sidebar-link" href="/" target="_blank">
+      <span>Apri sito</span>
+      <span>↗</span>
+    </a>
+
+    <button id="logoutButton" class="sidebar-action" type="button">
+      <span>Logout</span>
+      <span>→</span>
+    </button>
+
+  </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+  <div>
+
+    <div class="eyebrow">
+      Orange May Admin
+    </div>
+
+    <h1 id="pageTitle" class="page-title">
+      Date
+    </h1>
+
+  </div>
+
+
+  <div class="top-actions">
+
+    <a href="/" target="_blank" class="button">
+      Apri sito
+    </a>
+
+    <button id="topLogoutButton" class="button" type="button">
+      Logout
+    </button>
+
+  </div>
+
+</header>
+
+
+<!-- =========================================================
+     DATE
+========================================================= -->
+
+<section id="eventsView" class="view active">
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <small>Prossime date</small>
+      <strong id="futureEventsCount" class="stat-value">—</strong>
+    </div>
+
+    <div class="stat-card">
+      <small>Eventi totali</small>
+      <strong id="totalEventsCount" class="stat-value">—</strong>
+    </div>
+
+    <div class="stat-card">
+      <small>Nuovi messaggi</small>
+      <strong id="eventsUnreadCount" class="stat-value orange">0</strong>
+    </div>
+
+  </div>
+
+
+  <div class="events-grid">
+
+    <!-- FORM EVENTO -->
+
+    <div class="panel">
+
+      <div class="panel-header">
+
+        <div id="eventFormTitle" class="panel-title">
+          Nuova data
         </div>
+
       </div>
 
-      <nav class="nav">
 
-        <button class="nav-button active" data-view="events">
-          <span class="nav-left">
-            <svg class="nav-icon" viewBox="0 0 24 24">
-              <rect x="3" y="5" width="18" height="16" rx="2"></rect>
-              <path d="M8 3V7M16 3V7M3 10H21"></path>
-            </svg>
-            Date
-          </span>
-        </button>
+      <form id="eventForm" class="admin-form">
 
-        <button class="nav-button" data-view="messages">
-          <span class="nav-left">
-            <svg class="nav-icon" viewBox="0 0 24 24">
-              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-              <path d="M4 7L12 13L20 7"></path>
-            </svg>
-            Messaggi
-          </span>
+        <div class="field">
 
-          <span id="unreadBadge" class="badge">0</span>
-        </button>
-
-      </nav>
-
-      <div class="sidebar-bottom">
-
-        <a class="sidebar-link" href="/" target="_blank">
-          <span>Apri sito</span>
-          <span>↗</span>
-        </a>
-
-        <button id="logoutButton" class="sidebar-action" type="button">
-          <span>Logout</span>
-          <span>→</span>
-        </button>
-
-      </div>
-
-    </aside>
-
-    <main class="main">
-
-      <header class="topbar">
-
-        <div>
-          <div class="eyebrow">
-            Orange May Admin
-          </div>
-
-          <h1 id="pageTitle" class="page-title">
-            Date
-          </h1>
-        </div>
-
-        <div class="top-actions">
-          <a href="/" target="_blank" class="button">
-            Apri sito
-          </a>
-
-          <button id="topLogoutButton" class="button" type="button">
-            Logout
-          </button>
-        </div>
-
-      </header>
-
-      <section id="eventsView" class="view active">
-
-        <div class="stats-grid">
-
-          <div class="stat-card">
-            <small>Prossime date</small>
-            <strong id="futureEventsCount" class="stat-value">—</strong>
-          </div>
-
-          <div class="stat-card">
-            <small>Eventi totali</small>
-            <strong id="totalEventsCount" class="stat-value">—</strong>
-          </div>
-
-          <div class="stat-card">
-            <small>Nuovi messaggi</small>
-            <strong id="eventsUnreadCount" class="stat-value orange">0</strong>
-          </div>
-
-        </div>
-
-        <div class="events-grid">
-
-          <div class="panel">
-
-            <div class="panel-header">
-              <div id="eventFormTitle" class="panel-title">
-                Nuova data
-              </div>
-            </div>
-
-            <form id="eventForm" class="event-form">
-
-              <div class="field">
-                <label for="eventDate">Data</label>
-                <input id="eventDate" type="date" required>
-              </div>
-
-              <div class="field">
-                <label for="venue">Venue / struttura</label>
-                <input id="venue" type="text" required>
-              </div>
-
-              <div class="field">
-                <label for="location">Luogo</label>
-                <input id="location" type="text" required>
-              </div>
-
-              <div class="field">
-                <label for="locationUrl">Link indicazioni</label>
-                <input id="locationUrl" type="url" placeholder="https://maps.google.com/...">
-              </div>
-
-              <div class="form-row">
-
-                <div class="field">
-                  <label for="startTime">Ora inizio</label>
-                  <input id="startTime" type="time">
-                </div>
-
-                <div class="field">
-                  <label for="endTime">Ora fine</label>
-                  <input id="endTime" type="time">
-                </div>
-
-              </div>
-
-              <div class="field">
-                <label for="eventType">Tipo evento</label>
-
-                <select id="eventType">
-                  <option value="PUBLIC">Pubblico</option>
-                  <option value="GUESTS_ONLY">Solo ospiti</option>
-                  <option value="PRIVATE">Privato</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="publicUrl">Link info pubblico</label>
-                <input id="publicUrl" type="url" placeholder="https://...">
-              </div>
-
-              <div class="field">
-                <label for="note">Nota</label>
-                <textarea id="note"></textarea>
-              </div>
-
-              <div class="form-actions">
-
-                <button class="button primary" type="submit">
-                  Salva data
-                </button>
-
-                <button id="cancelEditButton" class="button" type="button" hidden>
-                  Annulla
-                </button>
-
-              </div>
-
-              <div id="eventFormStatus" class="form-status"></div>
-
-            </form>
-
-          </div>
-
-          <div class="panel">
-
-            <div class="panel-header">
-              <div class="panel-title">
-                Date inserite
-              </div>
-
-              <button id="refreshEventsButton" class="button small" type="button">
-                Aggiorna
-              </button>
-            </div>
-
-            <div id="eventsList">
-              <div class="empty-list">
-                Caricamento date...
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-      <section id="messagesView" class="view">
-
-        <div class="stats-grid">
-
-          <div class="stat-card">
-            <small>Non letti</small>
-            <strong id="messageUnreadStat" class="stat-value orange">0</strong>
-          </div>
-
-          <div class="stat-card">
-            <small>Messaggi totali</small>
-            <strong id="messageTotalStat" class="stat-value">—</strong>
-          </div>
-
-          <div class="stat-card">
-            <small>Archiviati</small>
-            <strong id="messageArchivedStat" class="stat-value">—</strong>
-          </div>
-
-        </div>
-
-        <div class="toolbar">
-
-          <div class="filters">
-
-            <button class="filter-button active" data-filter="ALL">
-              Tutti
-            </button>
-
-            <button class="filter-button" data-filter="UNREAD">
-              Non letti
-            </button>
-
-            <button class="filter-button" data-filter="READ">
-              Letti
-            </button>
-
-            <button class="filter-button" data-filter="ARCHIVED">
-              Archiviati
-            </button>
-
-          </div>
+          <label for="eventDate">
+            Data
+          </label>
 
           <input
-            id="messageSearch"
-            class="search-input"
-            type="search"
-            placeholder="Cerca nome, email o messaggio..."
+            id="eventDate"
+            type="date"
+            required
           >
 
         </div>
 
-        <div class="messages-grid">
 
-          <div class="message-list-pane">
+        <!-- VENUE SALVATA -->
 
-            <div class="panel-header">
+        <div class="field saved-venue-field">
 
-              <div class="panel-title">
-                Messaggi ricevuti
-              </div>
+          <label for="savedVenueSelect">
+            Venue salvata
+          </label>
 
-              <button id="refreshMessagesButton" class="button small" type="button">
-                Aggiorna
-              </button>
+          <select id="savedVenueSelect">
 
-            </div>
+            <option value="">
+              — Inserimento manuale —
+            </option>
 
-            <div id="messageList" class="message-list">
+          </select>
 
-              <div class="empty-list">
-                Caricamento messaggi...
-              </div>
+          <div class="saved-venue-help">
+            Seleziona una venue ricorrente per compilare automaticamente
+            nome, luogo e link indicazioni.
+          </div>
 
-            </div>
+        </div>
+
+
+        <div class="field">
+
+          <label for="venue">
+            Venue / struttura
+          </label>
+
+          <input
+            id="venue"
+            type="text"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="location">
+            Luogo
+          </label>
+
+          <input
+            id="location"
+            type="text"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="locationUrl">
+            Link indicazioni
+          </label>
+
+          <input
+            id="locationUrl"
+            type="url"
+            placeholder="https://maps.google.com/..."
+          >
+
+        </div>
+
+
+        <div class="form-row">
+
+          <div class="field">
+
+            <label for="startTime">
+              Ora inizio
+            </label>
+
+            <input
+              id="startTime"
+              type="time"
+            >
 
           </div>
 
-          <div id="messageDetail" class="message-detail">
 
-            <div class="empty-detail">
+          <div class="field">
 
-              <div>
-                <strong>Seleziona un messaggio</strong>
-                Qui vedrai tutti i dettagli della richiesta ricevuta.
-              </div>
+            <label for="endTime">
+              Ora fine
+            </label>
 
-            </div>
+            <input
+              id="endTime"
+              type="time"
+            >
 
           </div>
 
         </div>
 
-      </section>
 
-    </main>
+        <div class="field">
+
+          <label for="eventType">
+            Tipo evento
+          </label>
+
+          <select id="eventType">
+
+            <option value="PUBLIC">
+              Pubblico
+            </option>
+
+            <option value="GUESTS_ONLY">
+              Solo ospiti
+            </option>
+
+            <option value="PRIVATE">
+              Privato
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="publicUrl">
+            Link info pubblico
+          </label>
+
+          <input
+            id="publicUrl"
+            type="url"
+            placeholder="https://..."
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="note">
+            Nota
+          </label>
+
+          <textarea id="note"></textarea>
+
+        </div>
+
+
+        <div class="form-actions">
+
+          <button
+            class="button primary"
+            type="submit"
+          >
+            Salva data
+          </button>
+
+          <button
+            id="cancelEditButton"
+            class="button"
+            type="button"
+            hidden
+          >
+            Annulla
+          </button>
+
+        </div>
+
+
+        <div
+          id="eventFormStatus"
+          class="form-status"
+        ></div>
+
+      </form>
+
+    </div>
+
+
+    <!-- LISTA DATE -->
+
+    <div class="panel">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+          Date inserite
+        </div>
+
+        <button
+          id="refreshEventsButton"
+          class="button small"
+          type="button"
+        >
+          Aggiorna
+        </button>
+
+      </div>
+
+      <div id="eventsList">
+
+        <div class="empty-list">
+          Caricamento date...
+        </div>
+
+      </div>
+
+    </div>
 
   </div>
 
-  <div id="toast" class="toast"></div>
+</section>
 
-  <script>
-    let events = [];
-    let editingEventId = null;
 
-    let messages = [];
-    let selectedMessageId = null;
-    let messageFilter = "ALL";
-    let messageSearchTerm = "";
+<!-- =========================================================
+     VENUE
+========================================================= -->
 
-    const $ = id =>
-      document.getElementById(id);
+<section id="venuesView" class="view">
 
-    const pageTitle =
-      $("pageTitle");
+  <div class="stats-grid">
 
-    const unreadBadge =
-      $("unreadBadge");
+    <div class="stat-card">
 
-    const mobileUnreadBadge =
-      $("mobileUnreadBadge");
+      <small>Venue salvate</small>
 
-    const eventsUnreadCount =
-      $("eventsUnreadCount");
+      <strong
+        id="totalVenuesCount"
+        class="stat-value orange"
+      >
+        —
+      </strong>
 
-    const futureEventsCount =
-      $("futureEventsCount");
+    </div>
 
-    const totalEventsCount =
-      $("totalEventsCount");
 
-    const eventForm =
-      $("eventForm");
+    <div class="stat-card">
 
-    const eventFormTitle =
-      $("eventFormTitle");
+      <small>Utilizzo</small>
 
-    const eventDate =
-      $("eventDate");
+      <strong class="stat-value">
+        Auto
+      </strong>
 
-    const venue =
-      $("venue");
+    </div>
 
-    const locationInput =
-      $("location");
 
-    const locationUrl =
-      $("locationUrl");
+    <div class="stat-card">
 
-    const startTime =
-      $("startTime");
+      <small>Inserimento manuale</small>
 
-    const endTime =
-      $("endTime");
+      <strong class="stat-value">
+        ✓
+      </strong>
 
-    const eventType =
-      $("eventType");
+    </div>
 
-    const publicUrl =
-      $("publicUrl");
+  </div>
 
-    const note =
-      $("note");
 
-    const cancelEditButton =
-      $("cancelEditButton");
+  <div class="venues-grid">
 
-    const eventFormStatus =
-      $("eventFormStatus");
+    <!-- FORM VENUE -->
 
-    const eventsList =
-      $("eventsList");
+    <div class="panel">
 
-    const messageList =
-      $("messageList");
+      <div class="panel-header">
 
-    const messageDetail =
-      $("messageDetail");
+        <div
+          id="venueFormTitle"
+          class="panel-title"
+        >
+          Nuova venue
+        </div>
 
-    const messageUnreadStat =
-      $("messageUnreadStat");
+      </div>
 
-    const messageTotalStat =
-      $("messageTotalStat");
 
-    const messageArchivedStat =
-      $("messageArchivedStat");
+      <form
+        id="venueForm"
+        class="admin-form"
+      >
 
-    const messageSearch =
-      $("messageSearch");
+        <div class="field">
 
-    const toast =
-      $("toast");
+          <label for="savedVenueName">
+            Nome venue
+          </label>
 
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
+          <input
+            id="savedVenueName"
+            type="text"
+            placeholder="Hotel, locale, struttura..."
+            required
+          >
 
-    function showToast(message, isError = false) {
-      toast.textContent =
-        message;
+        </div>
 
-      toast.classList.toggle(
-        "error",
-        isError
-      );
 
-      toast.classList.add(
-        "visible"
-      );
+        <div class="field">
 
-      clearTimeout(
-        showToast.timer
-      );
+          <label for="savedVenueLocation">
+            Luogo
+          </label>
 
-      showToast.timer =
-        setTimeout(
-          () => {
-            toast.classList.remove(
-              "visible"
-            );
-          },
-          2600
-        );
-    }
+          <input
+            id="savedVenueLocation"
+            type="text"
+            placeholder="Riva del Garda, TN"
+            required
+          >
 
-    async function apiRequest(
+        </div>
+
+
+        <div class="field">
+
+          <label for="savedVenueUrl">
+            Link posizione
+          </label>
+
+          <input
+            id="savedVenueUrl"
+            type="url"
+            placeholder="https://maps.google.com/..."
+          >
+
+        </div>
+
+
+        <div class="form-actions">
+
+          <button
+            class="button primary"
+            type="submit"
+          >
+            Salva venue
+          </button>
+
+          <button
+            id="cancelVenueEditButton"
+            class="button"
+            type="button"
+            hidden
+          >
+            Annulla
+          </button>
+
+        </div>
+
+
+        <div
+          id="venueFormStatus"
+          class="form-status"
+        ></div>
+
+      </form>
+
+    </div>
+
+
+    <!-- LISTA VENUE -->
+
+    <div class="panel">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+          Venue salvate
+        </div>
+
+        <button
+          id="refreshVenuesButton"
+          class="button small"
+          type="button"
+        >
+          Aggiorna
+        </button>
+
+      </div>
+
+
+      <div id="venuesList">
+
+        <div class="empty-list">
+          Caricamento venue...
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     MESSAGGI
+========================================================= -->
+
+<section id="messagesView" class="view">
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+
+      <small>Non letti</small>
+
+      <strong
+        id="messageUnreadStat"
+        class="stat-value orange"
+      >
+        0
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <small>Messaggi totali</small>
+
+      <strong
+        id="messageTotalStat"
+        class="stat-value"
+      >
+        —
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <small>Archiviati</small>
+
+      <strong
+        id="messageArchivedStat"
+        class="stat-value"
+      >
+        —
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <div class="toolbar">
+
+    <div class="filters">
+
+      <button
+        class="filter-button active"
+        data-filter="ALL"
+      >
+        Tutti
+      </button>
+
+      <button
+        class="filter-button"
+        data-filter="UNREAD"
+      >
+        Non letti
+      </button>
+
+      <button
+        class="filter-button"
+        data-filter="READ"
+      >
+        Letti
+      </button>
+
+      <button
+        class="filter-button"
+        data-filter="ARCHIVED"
+      >
+        Archiviati
+      </button>
+
+    </div>
+
+
+    <input
+      id="messageSearch"
+      class="search-input"
+      type="search"
+      placeholder="Cerca nome, email o messaggio..."
+    >
+
+  </div>
+
+
+  <div class="messages-grid">
+
+    <div class="message-list-pane">
+
+      <div class="panel-header">
+
+        <div class="panel-title">
+          Messaggi ricevuti
+        </div>
+
+        <button
+          id="refreshMessagesButton"
+          class="button small"
+          type="button"
+        >
+          Aggiorna
+        </button>
+
+      </div>
+
+
+      <div
+        id="messageList"
+        class="message-list"
+      >
+
+        <div class="empty-list">
+          Caricamento messaggi...
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="messageDetail"
+      class="message-detail"
+    >
+
+      <div class="empty-detail">
+
+        <div>
+
+          <strong>
+            Seleziona un messaggio
+          </strong>
+
+          Qui vedrai tutti i dettagli della richiesta ricevuta.
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+<script>
+
+/* ============================================================
+   STATE
+============================================================ */
+
+let events = [];
+let editingEventId = null;
+
+let venues = [];
+let editingVenueId = null;
+
+let messages = [];
+let selectedMessageId = null;
+let messageFilter = "ALL";
+let messageSearchTerm = "";
+
+
+/* ============================================================
+   DOM
+============================================================ */
+
+const $ =
+  id =>
+    document.getElementById(id);
+
+
+const pageTitle =
+  $("pageTitle");
+
+const unreadBadge =
+  $("unreadBadge");
+
+const mobileUnreadBadge =
+  $("mobileUnreadBadge");
+
+const eventsUnreadCount =
+  $("eventsUnreadCount");
+
+
+/* EVENTS */
+
+const futureEventsCount =
+  $("futureEventsCount");
+
+const totalEventsCount =
+  $("totalEventsCount");
+
+const eventForm =
+  $("eventForm");
+
+const eventFormTitle =
+  $("eventFormTitle");
+
+const eventDate =
+  $("eventDate");
+
+const savedVenueSelect =
+  $("savedVenueSelect");
+
+const venue =
+  $("venue");
+
+const locationInput =
+  $("location");
+
+const locationUrl =
+  $("locationUrl");
+
+const startTime =
+  $("startTime");
+
+const endTime =
+  $("endTime");
+
+const eventType =
+  $("eventType");
+
+const publicUrl =
+  $("publicUrl");
+
+const note =
+  $("note");
+
+const cancelEditButton =
+  $("cancelEditButton");
+
+const eventFormStatus =
+  $("eventFormStatus");
+
+const eventsList =
+  $("eventsList");
+
+
+/* VENUES */
+
+const totalVenuesCount =
+  $("totalVenuesCount");
+
+const venueForm =
+  $("venueForm");
+
+const venueFormTitle =
+  $("venueFormTitle");
+
+const savedVenueName =
+  $("savedVenueName");
+
+const savedVenueLocation =
+  $("savedVenueLocation");
+
+const savedVenueUrl =
+  $("savedVenueUrl");
+
+const cancelVenueEditButton =
+  $("cancelVenueEditButton");
+
+const venueFormStatus =
+  $("venueFormStatus");
+
+const venuesList =
+  $("venuesList");
+
+
+/* MESSAGES */
+
+const messageList =
+  $("messageList");
+
+const messageDetail =
+  $("messageDetail");
+
+const messageUnreadStat =
+  $("messageUnreadStat");
+
+const messageTotalStat =
+  $("messageTotalStat");
+
+const messageArchivedStat =
+  $("messageArchivedStat");
+
+const messageSearch =
+  $("messageSearch");
+
+const toast =
+  $("toast");
+
+
+/* ============================================================
+   HELPERS
+============================================================ */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function showToast(
+  message,
+  isError=false
+){
+
+  toast.textContent =
+    message;
+
+  toast.classList.toggle(
+    "error",
+    isError
+  );
+
+  toast.classList.add(
+    "visible"
+  );
+
+  clearTimeout(
+    showToast.timer
+  );
+
+  showToast.timer =
+    setTimeout(
+      () =>
+        toast.classList.remove(
+          "visible"
+        ),
+      2600
+    );
+
+}
+
+
+async function apiRequest(
+  url,
+  options={}
+){
+
+  const response =
+    await fetch(
       url,
-      options = {}
-    ) {
-      const response =
-        await fetch(
-          url,
-          options
+      options
+    );
+
+  if(
+    response.status === 401
+  ){
+
+    window.location.href =
+      "/login";
+
+    throw new Error(
+      "Sessione scaduta."
+    );
+
+  }
+
+  const result =
+    await response
+      .json()
+      .catch(
+        () => ({})
+      );
+
+  if(!response.ok){
+
+    throw new Error(
+      result.error ||
+      "Si è verificato un errore."
+    );
+
+  }
+
+  return result;
+
+}
+
+
+function getEventTypeLabel(value){
+
+  if(value === "PUBLIC"){
+    return "Pubblico";
+  }
+
+  if(value === "GUESTS_ONLY"){
+    return "Solo ospiti";
+  }
+
+  return "Privato";
+
+}
+
+
+function getEventTypeClass(value){
+
+  if(value === "PUBLIC"){
+    return "public";
+  }
+
+  if(value === "GUESTS_ONLY"){
+    return "guests";
+  }
+
+  return "private";
+
+}
+
+
+function getIntentLabel(value){
+
+  const labels = {
+    BOOKING:"Booking",
+    INFO:"Informazioni",
+    COLLABORATION:"Collaborazione",
+    HELLO:"Solo un saluto"
+  };
+
+  return labels[value] || "";
+
+}
+
+
+function getBookingTypeLabel(value){
+
+  const labels = {
+    HOTEL:"Hotel",
+    VENUE:"Locale",
+    WEDDING:"Matrimonio",
+    PRIVATE_EVENT:"Evento privato",
+    OTHER:"Altro"
+  };
+
+  return labels[value] || "";
+
+}
+
+
+function parseEventDate(value){
+
+  if(!value){
+
+    return{
+      day:"—",
+      month:""
+    };
+
+  }
+
+  const [,month,day] =
+    value.split("-");
+
+  const months = [
+    "GEN","FEB","MAR","APR",
+    "MAG","GIU","LUG","AGO",
+    "SET","OTT","NOV","DIC"
+  ];
+
+  return{
+    day,
+    month:
+      months[
+        Number(month)-1
+      ] || ""
+  };
+
+}
+
+
+function formatItalianDate(value){
+
+  if(!value){
+    return "—";
+  }
+
+  const [year,month,day] =
+    value.split("-");
+
+  return `${day}/${month}/${year}`;
+
+}
+
+
+function formatEventTime(event){
+
+  if(
+    event.start_time &&
+    event.end_time
+  ){
+
+    return `${event.start_time} — ${event.end_time}`;
+
+  }
+
+  return event.start_time || "";
+
+}
+
+
+function parseSqliteDate(value){
+
+  if(!value){
+    return null;
+  }
+
+  let normalized =
+    String(value);
+
+  if(
+    /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/
+      .test(normalized)
+  ){
+
+    normalized =
+      normalized.replace(
+        " ",
+        "T"
+      ) + "Z";
+
+  }
+
+  const date =
+    new Date(normalized);
+
+  return Number.isNaN(
+    date.getTime()
+  )
+    ? null
+    : date;
+
+}
+
+
+function formatReceivedDate(value){
+
+  const date =
+    parseSqliteDate(value);
+
+  if(!date){
+    return "";
+  }
+
+  const now =
+    new Date();
+
+  const today =
+    new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+
+  const messageDay =
+    new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
+
+  const diffDays =
+    Math.round(
+      (today-messageDay) /
+      86400000
+    );
+
+  if(diffDays === 0){
+
+    return date
+      .toLocaleTimeString(
+        "it-IT",
+        {
+          hour:"2-digit",
+          minute:"2-digit"
+        }
+      );
+
+  }
+
+  if(diffDays === 1){
+    return "Ieri";
+  }
+
+  return date
+    .toLocaleDateString(
+      "it-IT",
+      {
+        day:"2-digit",
+        month:"2-digit"
+      }
+    );
+
+}
+
+
+function formatFullReceivedDate(value){
+
+  const date =
+    parseSqliteDate(value);
+
+  if(!date){
+    return value || "—";
+  }
+
+  return date
+    .toLocaleString(
+      "it-IT",
+      {
+        day:"2-digit",
+        month:"long",
+        year:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    );
+
+}
+
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+
+document
+  .querySelectorAll(
+    "[data-view]"
+  )
+  .forEach(button=>{
+
+    button.addEventListener(
+      "click",
+      () =>
+        switchView(
+          button.dataset.view
+        )
+    );
+
+  });
+
+
+function switchView(viewName){
+
+  document
+    .querySelectorAll(
+      ".view"
+    )
+    .forEach(view=>{
+
+      view.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  document
+    .querySelectorAll(
+      "[data-view]"
+    )
+    .forEach(button=>{
+
+      button.classList.toggle(
+        "active",
+        button.dataset.view ===
+          viewName
+      );
+
+    });
+
+
+  if(viewName === "venues"){
+
+    $("venuesView")
+      .classList
+      .add("active");
+
+    pageTitle.textContent =
+      "Venue";
+
+    loadVenues();
+
+    return;
+
+  }
+
+
+  if(viewName === "messages"){
+
+    $("messagesView")
+      .classList
+      .add("active");
+
+    pageTitle.textContent =
+      "Messaggi";
+
+    loadMessages();
+
+    return;
+
+  }
+
+
+  $("eventsView")
+    .classList
+    .add("active");
+
+  pageTitle.textContent =
+    "Date";
+
+}
+
+
+/* ============================================================
+   VENUES
+============================================================ */
+
+async function loadVenues(){
+
+  try{
+
+    venues =
+      await apiRequest(
+        "/api/admin/venues"
+      );
+
+    renderVenues();
+
+    populateSavedVenueSelect();
+
+    totalVenuesCount.textContent =
+      venues.length;
+
+  }catch(error){
+
+    venuesList.innerHTML =
+      '<div class="empty-list">Errore durante il caricamento delle venue.</div>';
+
+    showToast(
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+function populateSavedVenueSelect(){
+
+  const selectedValue =
+    savedVenueSelect.value;
+
+  savedVenueSelect.innerHTML = `
+    <option value="">
+      — Inserimento manuale —
+    </option>
+
+    ${
+      venues
+        .map(item=>`
+          <option value="${Number(item.id)}">
+            ${escapeHtml(item.name)} — ${escapeHtml(item.location)}
+          </option>
+        `)
+        .join("")
+    }
+  `;
+
+
+  if(
+    selectedValue &&
+    venues.some(
+      item =>
+        Number(item.id) ===
+        Number(selectedValue)
+    )
+  ){
+
+    savedVenueSelect.value =
+      selectedValue;
+
+  }
+
+}
+
+
+savedVenueSelect
+  .addEventListener(
+    "change",
+    () => {
+
+      const id =
+        Number(
+          savedVenueSelect.value
         );
 
-      if (response.status === 401) {
-        window.location.href =
-          "/login";
-
-        throw new Error(
-          "Sessione scaduta."
-        );
+      if(!id){
+        return;
       }
 
-      const result =
-        await response
-          .json()
-          .catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(
-          result.error ||
-          "Si è verificato un errore."
-        );
-      }
-
-      return result;
-    }
-
-    function getEventTypeLabel(value) {
-      if (value === "PUBLIC") {
-        return "Pubblico";
-      }
-
-      if (value === "GUESTS_ONLY") {
-        return "Solo ospiti";
-      }
-
-      return "Privato";
-    }
-
-    function getEventTypeClass(value) {
-      if (value === "PUBLIC") {
-        return "public";
-      }
-
-      if (value === "GUESTS_ONLY") {
-        return "guests";
-      }
-
-      return "private";
-    }
-
-    function getIntentLabel(value) {
-      const labels = {
-        BOOKING: "Booking",
-        INFO: "Informazioni",
-        COLLABORATION: "Collaborazione",
-        HELLO: "Solo un saluto"
-      };
-
-      return labels[value] || "";
-    }
-
-    function getBookingTypeLabel(value) {
-      const labels = {
-        HOTEL: "Hotel",
-        VENUE: "Locale",
-        WEDDING: "Matrimonio",
-        PRIVATE_EVENT: "Evento privato",
-        OTHER: "Altro"
-      };
-
-      return labels[value] || "";
-    }
-
-    function parseEventDate(value) {
-      if (!value) {
-        return {
-          day: "—",
-          month: ""
-        };
-      }
-
-      const [, month, day] =
-        value.split("-");
-
-      const months = [
-        "GEN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAG",
-        "GIU",
-        "LUG",
-        "AGO",
-        "SET",
-        "OTT",
-        "NOV",
-        "DIC"
-      ];
-
-      return {
-        day,
-        month:
-          months[
-            Number(month) - 1
-          ] || ""
-      };
-    }
-
-    function formatItalianDate(value) {
-      if (!value) {
-        return "—";
-      }
-
-      const [year, month, day] =
-        value.split("-");
-
-      return `${day}/${month}/${year}`;
-    }
-
-    function formatEventTime(event) {
-      if (
-        event.start_time &&
-        event.end_time
-      ) {
-        return `${event.start_time} — ${event.end_time}`;
-      }
-
-      return event.start_time || "";
-    }
-
-    function parseSqliteDate(value) {
-      if (!value) {
-        return null;
-      }
-
-      let normalized =
-        String(value);
-
-      if (
-        /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/
-          .test(normalized)
-      ) {
-        normalized =
-          normalized
-            .replace(
-              " ",
-              "T"
-            ) + "Z";
-      }
-
-      const date =
-        new Date(normalized);
-
-      return Number.isNaN(
-        date.getTime()
-      )
-        ? null
-        : date;
-    }
-
-    function formatReceivedDate(value) {
-      const date =
-        parseSqliteDate(value);
-
-      if (!date) {
-        return "";
-      }
-
-      const now =
-        new Date();
-
-      const today =
-        new Date(
-          now.getFullYear(),
-          now.getMonth(),
-          now.getDate()
+      const selectedVenue =
+        venues.find(
+          item =>
+            Number(item.id) === id
         );
 
-      const messageDay =
-        new Date(
-          date.getFullYear(),
-          date.getMonth(),
-          date.getDate()
-        );
+      if(!selectedVenue){
+        return;
+      }
 
-      const diffDays =
-        Math.round(
-          (today - messageDay) /
-          86400000
-        );
+      venue.value =
+        selectedVenue.name || "";
 
-      if (diffDays === 0) {
-        return date
-          .toLocaleTimeString(
-            "it-IT",
-            {
-              hour: "2-digit",
-              minute: "2-digit"
+      locationInput.value =
+        selectedVenue.location || "";
+
+      locationUrl.value =
+        selectedVenue.location_url || "";
+
+    }
+  );
+
+
+function renderVenues(){
+
+  if(!venues.length){
+
+    venuesList.innerHTML =
+      `
+        <div class="empty-list">
+          Nessuna venue salvata.<br>
+          Aggiungi qui le strutture in cui suonate più spesso.
+        </div>
+      `;
+
+    return;
+
+  }
+
+
+  const sorted =
+    [...venues]
+      .sort(
+        (a,b) =>
+          String(a.name)
+            .localeCompare(
+              String(b.name),
+              "it",
+              {
+                sensitivity:"base"
+              }
+            )
+      );
+
+
+  venuesList.innerHTML =
+    sorted
+      .map(item=>`
+        <div class="venue-card">
+
+          <div>
+
+            <div class="venue-name">
+              ${escapeHtml(item.name || "")}
+            </div>
+
+            <div class="venue-location">
+              ${escapeHtml(item.location || "")}
+            </div>
+
+            ${
+              item.location_url
+                ? `
+                  <a
+                    class="venue-location-link"
+                    href="${escapeHtml(item.location_url)}"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Apri posizione ↗
+                  </a>
+                `
+                : ""
             }
-          );
-      }
 
-      if (diffDays === 1) {
-        return "Ieri";
-      }
+          </div>
 
-      return date
-        .toLocaleDateString(
-          "it-IT",
+
+          <div class="venue-actions">
+
+            <button
+              class="circle-button"
+              type="button"
+              title="Modifica"
+              onclick="editVenue(${Number(item.id)})"
+            >
+              ✎
+            </button>
+
+            <button
+              class="circle-button delete"
+              type="button"
+              title="Elimina"
+              onclick="deleteVenue(${Number(item.id)})"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+      `)
+      .join("");
+
+}
+
+
+venueForm
+  .addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      venueFormStatus.textContent =
+        "Salvataggio...";
+
+
+      const payload = {
+
+        name:
+          savedVenueName
+            .value
+            .trim(),
+
+        location:
+          savedVenueLocation
+            .value
+            .trim(),
+
+        location_url:
+          savedVenueUrl
+            .value
+            .trim()
+
+      };
+
+
+      try{
+
+        const url =
+          editingVenueId
+            ? `/api/admin/venues/${editingVenueId}`
+            : "/api/admin/venues";
+
+
+        const method =
+          editingVenueId
+            ? "PUT"
+            : "POST";
+
+
+        await apiRequest(
+          url,
           {
-            day: "2-digit",
-            month: "2-digit"
+            method,
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify(
+                payload
+              )
           }
         );
-    }
 
-    function formatFullReceivedDate(value) {
-      const date =
-        parseSqliteDate(value);
 
-      if (!date) {
-        return value || "—";
-      }
-
-      return date
-        .toLocaleString(
-          "it-IT",
-          {
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
-          }
+        showToast(
+          editingVenueId
+            ? "Venue aggiornata."
+            : "Venue salvata."
         );
-    }
 
-    document
-      .querySelectorAll("[data-view]")
-      .forEach(button => {
-        button.addEventListener(
-          "click",
-          () => {
-            switchView(
-              button.dataset.view
-            );
-          }
-        );
-      });
 
-    function switchView(viewName) {
-      document
-        .querySelectorAll(".view")
-        .forEach(view => {
-          view.classList.remove(
-            "active"
-          );
-        });
+        resetVenueForm();
 
-      document
-        .querySelectorAll("[data-view]")
-        .forEach(button => {
-          button.classList.toggle(
-            "active",
-            button.dataset.view ===
-              viewName
-          );
-        });
+        await loadVenues();
 
-      if (viewName === "messages") {
-        $("messagesView")
-          .classList
-          .add("active");
+      }catch(error){
 
-        pageTitle.textContent =
-          "Messaggi";
-
-        loadMessages();
-
-      } else {
-        $("eventsView")
-          .classList
-          .add("active");
-
-        pageTitle.textContent =
-          "Date";
-      }
-    }
-
-    async function loadEvents() {
-      eventsList.innerHTML =
-        '<div class="empty-list">Caricamento date...</div>';
-
-      try {
-        events =
-          await apiRequest(
-            "/api/admin/events"
-          );
-
-        renderEvents();
-        updateEventStats();
-
-      } catch (error) {
-        eventsList.innerHTML =
-          '<div class="empty-list">Errore durante il caricamento delle date.</div>';
+        venueFormStatus.textContent =
+          error.message;
 
         showToast(
           error.message,
           true
         );
-      }
-    }
 
-    function renderEvents() {
-      if (!events.length) {
-        eventsList.innerHTML =
-          '<div class="empty-list">Nessuna data inserita.</div>';
-
-        return;
       }
 
-      const sorted =
-        [...events].sort(
-          (a, b) => {
-            const aKey =
-              `${a.event_date || ""} ${a.start_time || ""}`;
+    }
+  );
 
-            const bKey =
-              `${b.event_date || ""} ${b.start_time || ""}`;
 
-            return aKey.localeCompare(
-              bKey
-            );
-          }
-        );
+function editVenue(id){
 
-      eventsList.innerHTML =
-        sorted
-          .map(event => {
-            const date =
-              parseEventDate(
-                event.event_date
-              );
+  const item =
+    venues.find(
+      venue =>
+        Number(venue.id) ===
+        Number(id)
+    );
 
-            const time =
-              formatEventTime(
-                event
-              );
+  if(!item){
+    return;
+  }
 
-            return `
-              <div class="event-card">
 
-                <div class="event-date">
+  editingVenueId =
+    Number(item.id);
 
-                  <div class="event-day">
-                    ${escapeHtml(date.day)}
-                  </div>
 
-                  <div class="event-month">
-                    ${escapeHtml(date.month)}
-                  </div>
+  savedVenueName.value =
+    item.name || "";
 
-                </div>
+  savedVenueLocation.value =
+    item.location || "";
 
-                <div>
+  savedVenueUrl.value =
+    item.location_url || "";
 
-                  <div class="event-venue">
-                    ${escapeHtml(event.venue || "")}
-                  </div>
 
-                  <div class="event-meta">
+  venueFormTitle.textContent =
+    "Modifica venue";
 
-                    <span>
-                      ${escapeHtml(event.location || "")}
-                    </span>
+  cancelVenueEditButton.hidden =
+    false;
 
-                    ${
-                      time
-                        ? `<span>${escapeHtml(time)}</span>`
-                        : ""
-                    }
+  venueFormStatus.textContent =
+    "";
 
-                    <span class="pill ${getEventTypeClass(event.event_type)}">
-                      ${escapeHtml(getEventTypeLabel(event.event_type))}
-                    </span>
 
-                  </div>
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
-                  ${
-                    event.note
-                      ? `
-                        <div class="event-meta">
-                          <span>${escapeHtml(event.note)}</span>
-                        </div>
-                      `
-                      : ""
-                  }
+}
 
-                </div>
 
-                <div class="event-actions">
+function resetVenueForm(){
 
-                  <button
-                    class="circle-button"
-                    type="button"
-                    title="Modifica"
-                    onclick="editEvent(${Number(event.id)})"
-                  >
-                    ✎
-                  </button>
+  editingVenueId =
+    null;
 
-                  <button
-                    class="circle-button delete"
-                    type="button"
-                    title="Elimina"
-                    onclick="deleteEvent(${Number(event.id)})"
-                  >
-                    ×
-                  </button>
+  venueForm.reset();
 
-                </div>
+  venueFormTitle.textContent =
+    "Nuova venue";
 
-              </div>
-            `;
-          })
-          .join("");
+  cancelVenueEditButton.hidden =
+    true;
+
+  venueFormStatus.textContent =
+    "";
+
+}
+
+
+cancelVenueEditButton
+  .addEventListener(
+    "click",
+    resetVenueForm
+  );
+
+
+async function deleteVenue(id){
+
+  const item =
+    venues.find(
+      venue =>
+        Number(venue.id) ===
+        Number(id)
+    );
+
+
+  const confirmed =
+    window.confirm(
+      `Eliminare "${item?.name || "questa venue"}" dalle venue salvate?
+
+Le date già inserite NON verranno eliminate.`
+    );
+
+
+  if(!confirmed){
+    return;
+  }
+
+
+  try{
+
+    await apiRequest(
+      `/api/admin/venues/${id}`,
+      {
+        method:"DELETE"
+      }
+    );
+
+
+    showToast(
+      "Venue eliminata."
+    );
+
+
+    if(
+      Number(editingVenueId) ===
+      Number(id)
+    ){
+
+      resetVenueForm();
+
     }
 
-    function updateEventStats() {
-      const today =
-        new Date();
 
-      today.setHours(
-        0,
-        0,
-        0,
-        0
+    await loadVenues();
+
+  }catch(error){
+
+    showToast(
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+$("refreshVenuesButton")
+  .addEventListener(
+    "click",
+    loadVenues
+  );
+
+
+/* ============================================================
+   EVENTS
+============================================================ */
+
+async function loadEvents(){
+
+  eventsList.innerHTML =
+    '<div class="empty-list">Caricamento date...</div>';
+
+
+  try{
+
+    events =
+      await apiRequest(
+        "/api/admin/events"
       );
 
-      const futureCount =
-        events.filter(event => {
-          if (!event.event_date) {
-            return false;
-          }
+    renderEvents();
 
-          const date =
-            new Date(
-              `${event.event_date}T00:00:00`
-            );
+    updateEventStats();
 
-          return date >= today;
-        }).length;
+  }catch(error){
 
-      futureEventsCount.textContent =
-        futureCount;
+    eventsList.innerHTML =
+      '<div class="empty-list">Errore durante il caricamento delle date.</div>';
 
-      totalEventsCount.textContent =
-        events.length;
-    }
+    showToast(
+      error.message,
+      true
+    );
 
-    eventForm.addEventListener(
-      "submit",
-      async event => {
-        event.preventDefault();
+  }
 
-        eventFormStatus.textContent =
-          "Salvataggio...";
+}
 
-        const payload = {
-          event_date:
-            eventDate.value,
 
-          venue:
-            venue.value.trim(),
+function renderEvents(){
 
-          location:
-            locationInput.value.trim(),
+  if(!events.length){
 
-          location_url:
-            locationUrl.value.trim(),
+    eventsList.innerHTML =
+      '<div class="empty-list">Nessuna data inserita.</div>';
 
-          start_time:
-            startTime.value,
+    return;
 
-          end_time:
-            endTime.value,
+  }
 
-          note:
-            note.value.trim(),
 
-          event_type:
-            eventType.value,
+  const sorted =
+    [...events]
+      .sort(
+        (a,b)=>{
 
-          public_url:
-            publicUrl.value.trim()
-        };
+          const aKey =
+            `${a.event_date || ""} ${a.start_time || ""}`;
 
-        try {
-          const url =
-            editingEventId
-              ? `/api/admin/events/${editingEventId}`
-              : "/api/admin/events";
+          const bKey =
+            `${b.event_date || ""} ${b.start_time || ""}`;
 
-          const method =
-            editingEventId
-              ? "PUT"
-              : "POST";
-
-          await apiRequest(
-            url,
-            {
-              method,
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-              body:
-                JSON.stringify(
-                  payload
-                )
-            }
+          return aKey.localeCompare(
+            bKey
           );
 
-          showToast(
-            editingEventId
-              ? "Data aggiornata."
-              : "Data creata."
-          );
-
-          resetEventForm();
-          await loadEvents();
-
-        } catch (error) {
-          eventFormStatus.textContent =
-            error.message;
-
-          showToast(
-            error.message,
-            true
-          );
         }
-      }
-    );
+      );
 
-    function editEvent(id) {
-      const event =
-        events.find(
-          item =>
-            Number(item.id) ===
-            Number(id)
+
+  eventsList.innerHTML =
+    sorted
+      .map(event=>{
+
+        const date =
+          parseEventDate(
+            event.event_date
+          );
+
+        const time =
+          formatEventTime(
+            event
+          );
+
+
+        return `
+          <div class="event-card">
+
+            <div class="event-date">
+
+              <div class="event-day">
+                ${escapeHtml(date.day)}
+              </div>
+
+              <div class="event-month">
+                ${escapeHtml(date.month)}
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <div class="event-venue">
+                ${escapeHtml(event.venue || "")}
+              </div>
+
+              <div class="event-meta">
+
+                <span>
+                  ${escapeHtml(event.location || "")}
+                </span>
+
+                ${
+                  time
+                    ? `<span>${escapeHtml(time)}</span>`
+                    : ""
+                }
+
+                <span class="pill ${getEventTypeClass(event.event_type)}">
+                  ${escapeHtml(getEventTypeLabel(event.event_type))}
+                </span>
+
+              </div>
+
+              ${
+                event.note
+                  ? `
+                    <div class="event-meta">
+                      <span>${escapeHtml(event.note)}</span>
+                    </div>
+                  `
+                  : ""
+              }
+
+            </div>
+
+
+            <div class="event-actions">
+
+              <button
+                class="circle-button"
+                type="button"
+                title="Modifica"
+                onclick="editEvent(${Number(event.id)})"
+              >
+                ✎
+              </button>
+
+              <button
+                class="circle-button delete"
+                type="button"
+                title="Elimina"
+                onclick="deleteEvent(${Number(event.id)})"
+              >
+                ×
+              </button>
+
+            </div>
+
+          </div>
+        `;
+
+      })
+      .join("");
+
+}
+
+
+function updateEventStats(){
+
+  const today =
+    new Date();
+
+  today.setHours(
+    0,0,0,0
+  );
+
+
+  const futureCount =
+    events.filter(event=>{
+
+      if(!event.event_date){
+        return false;
+      }
+
+      const date =
+        new Date(
+          `${event.event_date}T00:00:00`
         );
 
-      if (!event) {
-        return;
-      }
+      return date >= today;
 
-      editingEventId =
-        Number(event.id);
+    }).length;
 
-      eventDate.value =
-        event.event_date || "";
 
-      venue.value =
-        event.venue || "";
+  futureEventsCount.textContent =
+    futureCount;
 
-      locationInput.value =
-        event.location || "";
+  totalEventsCount.textContent =
+    events.length;
 
-      locationUrl.value =
-        event.location_url || "";
+}
 
-      startTime.value =
-        event.start_time || "";
 
-      endTime.value =
-        event.end_time || "";
+eventForm
+  .addEventListener(
+    "submit",
+    async event => {
 
-      note.value =
-        event.note || "";
-
-      eventType.value =
-        event.event_type || "PUBLIC";
-
-      publicUrl.value =
-        event.public_url || "";
-
-      eventFormTitle.textContent =
-        "Modifica data";
-
-      cancelEditButton.hidden =
-        false;
+      event.preventDefault();
 
       eventFormStatus.textContent =
-        "";
+        "Salvataggio...";
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
 
-    function resetEventForm() {
-      editingEventId = null;
+      const payload = {
 
-      eventForm.reset();
+        event_date:
+          eventDate.value,
 
-      eventType.value =
-        "PUBLIC";
+        venue:
+          venue.value.trim(),
 
-      eventFormTitle.textContent =
-        "Nuova data";
+        location:
+          locationInput.value.trim(),
 
-      cancelEditButton.hidden =
-        true;
+        location_url:
+          locationUrl.value.trim(),
 
-      eventFormStatus.textContent =
-        "";
-    }
+        start_time:
+          startTime.value,
 
-    cancelEditButton.addEventListener(
-      "click",
-      resetEventForm
-    );
+        end_time:
+          endTime.value,
 
-    async function deleteEvent(id) {
-      const event =
-        events.find(
-          item =>
-            Number(item.id) ===
-            Number(id)
-        );
+        note:
+          note.value.trim(),
 
-      const confirmed =
-        window.confirm(
-          `Eliminare definitivamente ${event?.venue || "questa data"}?`
-        );
+        event_type:
+          eventType.value,
 
-      if (!confirmed) {
-        return;
-      }
+        public_url:
+          publicUrl.value.trim()
 
-      try {
+      };
+
+
+      try{
+
+        const url =
+          editingEventId
+            ? `/api/admin/events/${editingEventId}`
+            : "/api/admin/events";
+
+
+        const method =
+          editingEventId
+            ? "PUT"
+            : "POST";
+
+
         await apiRequest(
-          `/api/admin/events/${id}`,
+          url,
           {
-            method: "DELETE"
+            method,
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify(
+                payload
+              )
           }
         );
+
 
         showToast(
-          "Data eliminata."
+          editingEventId
+            ? "Data aggiornata."
+            : "Data creata."
         );
+
+
+        resetEventForm();
 
         await loadEvents();
 
-      } catch (error) {
-        showToast(
-          error.message,
-          true
-        );
-      }
-    }
+      }catch(error){
 
-    $("refreshEventsButton")
-      .addEventListener(
-        "click",
-        loadEvents
-      );
-
-    function updateUnreadBadges(count) {
-      const value =
-        Number(count || 0);
-
-      unreadBadge.textContent =
-        value;
-
-      unreadBadge.classList.toggle(
-        "visible",
-        value > 0
-      );
-
-      mobileUnreadBadge.textContent =
-        value;
-
-      mobileUnreadBadge.classList.toggle(
-        "visible",
-        value > 0
-      );
-
-      eventsUnreadCount.textContent =
-        value;
-
-      messageUnreadStat.textContent =
-        value;
-    }
-
-    async function loadUnreadCount() {
-      try {
-        const result =
-          await apiRequest(
-            "/api/admin/messages/unread-count"
-          );
-
-        updateUnreadBadges(
-          result.count
-        );
-
-      } catch (error) {
-        console.error(
-          "Unread count error:",
-          error
-        );
-      }
-    }
-
-    async function loadMessages() {
-      messageList.innerHTML =
-        '<div class="empty-list">Caricamento messaggi...</div>';
-
-      try {
-        messages =
-          await apiRequest(
-            "/api/admin/messages"
-          );
-
-        updateMessageStats();
-        renderMessages();
-
-        if (
-          selectedMessageId &&
-          !messages.some(
-            message =>
-              Number(message.id) ===
-              Number(selectedMessageId)
-          )
-        ) {
-          selectedMessageId = null;
-          renderEmptyMessageDetail();
-        }
-
-      } catch (error) {
-        messageList.innerHTML =
-          '<div class="empty-list">Errore durante il caricamento dei messaggi.</div>';
+        eventFormStatus.textContent =
+          error.message;
 
         showToast(
           error.message,
           true
         );
-      }
-    }
 
-    function updateMessageStats() {
-      const unread =
-        messages.filter(
-          message =>
-            message.status === "UNREAD"
-        ).length;
-
-      const archived =
-        messages.filter(
-          message =>
-            message.status === "ARCHIVED"
-        ).length;
-
-      messageUnreadStat.textContent =
-        unread;
-
-      messageTotalStat.textContent =
-        messages.length;
-
-      messageArchivedStat.textContent =
-        archived;
-
-      updateUnreadBadges(
-        unread
-      );
-    }
-
-    function getFilteredMessages() {
-      return messages.filter(
-        message => {
-          const matchesFilter =
-            messageFilter === "ALL" ||
-            message.status ===
-              messageFilter;
-
-          if (!matchesFilter) {
-            return false;
-          }
-
-          if (!messageSearchTerm) {
-            return true;
-          }
-
-          const haystack =
-            [
-              message.name,
-              message.email,
-              message.subject,
-              message.message,
-              message.contact_intent,
-              message.booking_type
-            ]
-              .filter(Boolean)
-              .join(" ")
-              .toLowerCase();
-
-          return haystack.includes(
-            messageSearchTerm
-          );
-        }
-      );
-    }
-
-    function renderMessages() {
-      const filtered =
-        getFilteredMessages();
-
-      if (!filtered.length) {
-        messageList.innerHTML =
-          '<div class="empty-list">Nessun messaggio con questi filtri.</div>';
-
-        return;
       }
 
-      messageList.innerHTML =
-        filtered
-          .map(message => {
-            const intent =
-              getIntentLabel(
-                message.contact_intent
-              );
-
-            const booking =
-              getBookingTypeLabel(
-                message.booking_type
-              );
-
-            return `
-              <button
-                type="button"
-                class="message-item
-                  ${message.status === "UNREAD" ? "unread" : ""}
-                  ${Number(message.id) === Number(selectedMessageId) ? "active" : ""}"
-                onclick="openMessage(${Number(message.id)})"
-              >
-
-                <div class="message-head">
-
-                  <div class="message-name">
-                    ${escapeHtml(message.name || "Senza nome")}
-                  </div>
-
-                  <div class="message-time">
-                    ${escapeHtml(formatReceivedDate(message.created_at))}
-                  </div>
-
-                </div>
-
-                <div class="message-tags">
-
-                  ${
-                    intent
-                      ? `
-                        <span class="message-tag intent">
-                          ${escapeHtml(intent)}
-                        </span>
-                      `
-                      : ""
-                  }
-
-                  ${
-                    booking
-                      ? `
-                        <span class="message-tag">
-                          ${escapeHtml(booking)}
-                        </span>
-                      `
-                      : ""
-                  }
-
-                  ${
-                    message.status === "ARCHIVED"
-                      ? `
-                        <span class="message-tag">
-                          Archiviato
-                        </span>
-                      `
-                      : ""
-                  }
-
-                </div>
-
-                <div class="message-preview">
-                  ${escapeHtml(message.message || "")}
-                </div>
-
-              </button>
-            `;
-          })
-          .join("");
     }
+  );
 
-    async function openMessage(id) {
+
+function editEvent(id){
+
+  const event =
+    events.find(
+      item =>
+        Number(item.id) ===
+        Number(id)
+    );
+
+  if(!event){
+    return;
+  }
+
+
+  editingEventId =
+    Number(event.id);
+
+
+  eventDate.value =
+    event.event_date || "";
+
+  venue.value =
+    event.venue || "";
+
+  locationInput.value =
+    event.location || "";
+
+  locationUrl.value =
+    event.location_url || "";
+
+  startTime.value =
+    event.start_time || "";
+
+  endTime.value =
+    event.end_time || "";
+
+  note.value =
+    event.note || "";
+
+  eventType.value =
+    event.event_type || "PUBLIC";
+
+  publicUrl.value =
+    event.public_url || "";
+
+
+  /*
+    Se i dati dell'evento coincidono con
+    una venue salvata, la selezioniamo.
+    Altrimenti resta "Inserimento manuale".
+  */
+
+  const matchingVenue =
+    venues.find(item =>
+
+      String(item.name || "").trim() ===
+        String(event.venue || "").trim()
+
+      &&
+
+      String(item.location || "").trim() ===
+        String(event.location || "").trim()
+
+    );
+
+
+  savedVenueSelect.value =
+    matchingVenue
+      ? String(matchingVenue.id)
+      : "";
+
+
+  eventFormTitle.textContent =
+    "Modifica data";
+
+  cancelEditButton.hidden =
+    false;
+
+  eventFormStatus.textContent =
+    "";
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function resetEventForm(){
+
+  editingEventId =
+    null;
+
+  eventForm.reset();
+
+  savedVenueSelect.value =
+    "";
+
+  eventType.value =
+    "PUBLIC";
+
+  eventFormTitle.textContent =
+    "Nuova data";
+
+  cancelEditButton.hidden =
+    true;
+
+  eventFormStatus.textContent =
+    "";
+
+}
+
+
+cancelEditButton
+  .addEventListener(
+    "click",
+    resetEventForm
+  );
+
+
+async function deleteEvent(id){
+
+  const event =
+    events.find(
+      item =>
+        Number(item.id) ===
+        Number(id)
+    );
+
+
+  const confirmed =
+    window.confirm(
+      `Eliminare definitivamente ${event?.venue || "questa data"}?`
+    );
+
+
+  if(!confirmed){
+    return;
+  }
+
+
+  try{
+
+    await apiRequest(
+      `/api/admin/events/${id}`,
+      {
+        method:"DELETE"
+      }
+    );
+
+
+    showToast(
+      "Data eliminata."
+    );
+
+
+    await loadEvents();
+
+  }catch(error){
+
+    showToast(
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+$("refreshEventsButton")
+  .addEventListener(
+    "click",
+    loadEvents
+  );
+
+
+/* ============================================================
+   MESSAGE BADGES
+============================================================ */
+
+function updateUnreadBadges(count){
+
+  const value =
+    Number(
+      count || 0
+    );
+
+
+  unreadBadge.textContent =
+    value;
+
+  unreadBadge.classList.toggle(
+    "visible",
+    value > 0
+  );
+
+
+  mobileUnreadBadge.textContent =
+    value;
+
+  mobileUnreadBadge.classList.toggle(
+    "visible",
+    value > 0
+  );
+
+
+  eventsUnreadCount.textContent =
+    value;
+
+  messageUnreadStat.textContent =
+    value;
+
+}
+
+
+async function loadUnreadCount(){
+
+  try{
+
+    const result =
+      await apiRequest(
+        "/api/admin/messages/unread-count"
+      );
+
+    updateUnreadBadges(
+      result.count
+    );
+
+  }catch(error){
+
+    console.error(
+      "Unread count error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   MESSAGES
+============================================================ */
+
+async function loadMessages(){
+
+  messageList.innerHTML =
+    '<div class="empty-list">Caricamento messaggi...</div>';
+
+
+  try{
+
+    messages =
+      await apiRequest(
+        "/api/admin/messages"
+      );
+
+
+    updateMessageStats();
+
+    renderMessages();
+
+
+    if(
+      selectedMessageId &&
+      !messages.some(
+        message =>
+          Number(message.id) ===
+          Number(selectedMessageId)
+      )
+    ){
+
       selectedMessageId =
-        Number(id);
+        null;
 
-      let message =
+      renderEmptyMessageDetail();
+
+    }
+
+  }catch(error){
+
+    messageList.innerHTML =
+      '<div class="empty-list">Errore durante il caricamento dei messaggi.</div>';
+
+    showToast(
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+function updateMessageStats(){
+
+  const unread =
+    messages.filter(
+      message =>
+        message.status ===
+        "UNREAD"
+    ).length;
+
+
+  const archived =
+    messages.filter(
+      message =>
+        message.status ===
+        "ARCHIVED"
+    ).length;
+
+
+  messageUnreadStat.textContent =
+    unread;
+
+  messageTotalStat.textContent =
+    messages.length;
+
+  messageArchivedStat.textContent =
+    archived;
+
+
+  updateUnreadBadges(
+    unread
+  );
+
+}
+
+
+function getFilteredMessages(){
+
+  return messages.filter(
+    message => {
+
+      const matchesFilter =
+        messageFilter === "ALL" ||
+        message.status ===
+          messageFilter;
+
+
+      if(!matchesFilter){
+        return false;
+      }
+
+
+      if(!messageSearchTerm){
+        return true;
+      }
+
+
+      const haystack =
+        [
+          message.name,
+          message.email,
+          message.subject,
+          message.message,
+          message.contact_intent,
+          message.booking_type
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+
+
+      return haystack.includes(
+        messageSearchTerm
+      );
+
+    }
+  );
+
+}
+
+
+function renderMessages(){
+
+  const filtered =
+    getFilteredMessages();
+
+
+  if(!filtered.length){
+
+    messageList.innerHTML =
+      '<div class="empty-list">Nessun messaggio con questi filtri.</div>';
+
+    return;
+
+  }
+
+
+  messageList.innerHTML =
+    filtered
+      .map(message=>{
+
+        const intent =
+          getIntentLabel(
+            message.contact_intent
+          );
+
+        const booking =
+          getBookingTypeLabel(
+            message.booking_type
+          );
+
+
+        return `
+          <button
+            type="button"
+            class="message-item
+              ${message.status === "UNREAD" ? "unread" : ""}
+              ${Number(message.id) === Number(selectedMessageId) ? "active" : ""}"
+            onclick="openMessage(${Number(message.id)})"
+          >
+
+            <div class="message-head">
+
+              <div class="message-name">
+                ${escapeHtml(message.name || "Senza nome")}
+              </div>
+
+              <div class="message-time">
+                ${escapeHtml(formatReceivedDate(message.created_at))}
+              </div>
+
+            </div>
+
+
+            <div class="message-tags">
+
+              ${
+                intent
+                  ? `
+                    <span class="message-tag intent">
+                      ${escapeHtml(intent)}
+                    </span>
+                  `
+                  : ""
+              }
+
+              ${
+                booking
+                  ? `
+                    <span class="message-tag">
+                      ${escapeHtml(booking)}
+                    </span>
+                  `
+                  : ""
+              }
+
+              ${
+                message.status === "ARCHIVED"
+                  ? `
+                    <span class="message-tag">
+                      Archiviato
+                    </span>
+                  `
+                  : ""
+              }
+
+            </div>
+
+
+            <div class="message-preview">
+              ${escapeHtml(message.message || "")}
+            </div>
+
+          </button>
+        `;
+
+      })
+      .join("");
+
+}
+
+
+async function openMessage(id){
+
+  selectedMessageId =
+    Number(id);
+
+
+  let message =
+    messages.find(
+      item =>
+        Number(item.id) ===
+        Number(id)
+    );
+
+
+  if(!message){
+    return;
+  }
+
+
+  if(
+    message.status ===
+    "UNREAD"
+  ){
+
+    try{
+
+      await setMessageStatus(
+        id,
+        "READ",
+        false
+      );
+
+
+      message =
         messages.find(
           item =>
             Number(item.id) ===
             Number(id)
         );
 
-      if (!message) {
-        return;
+    }catch(error){
+
+      console.error(error);
+
+    }
+
+  }
+
+
+  renderMessages();
+
+  renderMessageDetail(
+    message
+  );
+
+
+  if(
+    window.matchMedia(
+      "(max-width:950px)"
+    ).matches
+  ){
+
+    messageDetail
+      .classList
+      .add(
+        "mobile-open"
+      );
+
+  }
+
+}
+
+
+function renderMessageDetail(message){
+
+  if(!message){
+
+    renderEmptyMessageDetail();
+    return;
+
+  }
+
+
+  const statusLabel =
+    message.status === "UNREAD"
+      ? "Non letto"
+      : message.status === "READ"
+        ? "Letto"
+        : "Archiviato";
+
+
+  const intent =
+    getIntentLabel(
+      message.contact_intent
+    ) || "—";
+
+
+  const booking =
+    getBookingTypeLabel(
+      message.booking_type
+    ) || "—";
+
+
+  const eventDateText =
+    message.event_date
+      ? formatItalianDate(
+          message.event_date
+        )
+      : "—";
+
+
+  messageDetail.innerHTML = `
+
+    <button
+      type="button"
+      class="button small mobile-detail-close"
+      onclick="closeMobileMessage()"
+    >
+      ← Torna ai messaggi
+    </button>
+
+
+    <div style="padding-bottom:18px;border-bottom:1px solid var(--line)">
+
+      <div class="detail-kicker">
+        ${escapeHtml(statusLabel)}
+      </div>
+
+      <div class="detail-name">
+        ${escapeHtml(message.name || "Senza nome")}
+      </div>
+
+      <div class="detail-email">
+        ${escapeHtml(message.email || "")}
+      </div>
+
+
+      <div class="detail-meta">
+
+        <div class="detail-meta-box">
+
+          <small>
+            Richiesta
+          </small>
+
+          <strong>
+            ${escapeHtml(intent)}
+          </strong>
+
+        </div>
+
+
+        <div class="detail-meta-box">
+
+          <small>
+            Evento
+          </small>
+
+          <strong>
+            ${escapeHtml(booking)}
+          </strong>
+
+        </div>
+
+
+        <div class="detail-meta-box">
+
+          <small>
+            Data evento
+          </small>
+
+          <strong>
+            ${escapeHtml(eventDateText)}
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    ${
+      message.subject
+        ? `
+          <div class="detail-label">
+            Oggetto
+          </div>
+
+          <div class="detail-message">
+            ${escapeHtml(message.subject)}
+          </div>
+        `
+        : ""
+    }
+
+
+    <div class="detail-label">
+      Messaggio
+    </div>
+
+    <div class="detail-message">
+      ${escapeHtml(message.message || "")}
+    </div>
+
+
+    <div class="detail-label">
+      Ricevuto
+    </div>
+
+    <div class="detail-message">
+      ${escapeHtml(formatFullReceivedDate(message.created_at))}
+    </div>
+
+
+    <div class="detail-actions">
+
+      <a
+        class="button primary small"
+        href="mailto:${escapeHtml(message.email || "")}?subject=${encodeURIComponent("Re: Orange May")}"
+      >
+        Rispondi via email
+      </a>
+
+
+      ${
+        message.status !== "UNREAD"
+          ? `
+            <button
+              class="button small"
+              type="button"
+              onclick="setMessageStatus(${Number(message.id)},'UNREAD')"
+            >
+              Segna non letto
+            </button>
+          `
+          : ""
       }
 
-      if (message.status === "UNREAD") {
-        try {
-          await setMessageStatus(
-            id,
-            "READ",
-            false
-          );
 
-          message =
-            messages.find(
-              item =>
-                Number(item.id) ===
-                Number(id)
-            );
-
-        } catch (error) {
-          console.error(error);
-        }
+      ${
+        message.status !== "ARCHIVED"
+          ? `
+            <button
+              class="button small"
+              type="button"
+              onclick="setMessageStatus(${Number(message.id)},'ARCHIVED')"
+            >
+              Archivia
+            </button>
+          `
+          : `
+            <button
+              class="button small"
+              type="button"
+              onclick="setMessageStatus(${Number(message.id)},'READ')"
+            >
+              Ripristina
+            </button>
+          `
       }
 
-      renderMessages();
+
+      <button
+        class="button danger small"
+        type="button"
+        onclick="deleteMessage(${Number(message.id)})"
+      >
+        Elimina
+      </button>
+
+    </div>
+  `;
+
+}
+
+
+function renderEmptyMessageDetail(){
+
+  messageDetail.innerHTML = `
+    <div class="empty-detail">
+
+      <div>
+
+        <strong>
+          Seleziona un messaggio
+        </strong>
+
+        Qui vedrai tutti i dettagli della richiesta ricevuta.
+
+      </div>
+
+    </div>
+  `;
+
+}
+
+
+function closeMobileMessage(){
+
+  messageDetail
+    .classList
+    .remove(
+      "mobile-open"
+    );
+
+}
+
+
+async function setMessageStatus(
+  id,
+  status,
+  showFeedback=true
+){
+
+  try{
+
+    await apiRequest(
+      `/api/admin/messages/${id}`,
+      {
+        method:"PATCH",
+
+        headers:{
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify({
+            status
+          })
+      }
+    );
+
+
+    const message =
+      messages.find(
+        item =>
+          Number(item.id) ===
+          Number(id)
+      );
+
+
+    if(message){
+
+      message.status =
+        status;
+
+
+      if(status === "UNREAD"){
+
+        message.read_at =
+          null;
+
+        message.archived_at =
+          null;
+
+      }
+
+
+      if(status === "READ"){
+
+        message.read_at =
+          message.read_at ||
+          new Date()
+            .toISOString();
+
+        message.archived_at =
+          null;
+
+      }
+
+
+      if(status === "ARCHIVED"){
+
+        message.read_at =
+          message.read_at ||
+          new Date()
+            .toISOString();
+
+        message.archived_at =
+          new Date()
+            .toISOString();
+
+      }
+
+    }
+
+
+    updateMessageStats();
+
+    renderMessages();
+
+
+    if(
+      Number(selectedMessageId) ===
+      Number(id)
+    ){
+
       renderMessageDetail(
         message
       );
 
-      if (
-        window.matchMedia(
-          "(max-width: 950px)"
-        ).matches
-      ) {
-        messageDetail
-          .classList
-          .add("mobile-open");
+    }
+
+
+    if(showFeedback){
+
+      const labels = {
+
+        UNREAD:
+          "Messaggio segnato come non letto.",
+
+        READ:
+          "Messaggio segnato come letto.",
+
+        ARCHIVED:
+          "Messaggio archiviato."
+
+      };
+
+
+      showToast(
+        labels[status] ||
+        "Messaggio aggiornato."
+      );
+
+    }
+
+  }catch(error){
+
+    if(showFeedback){
+
+      showToast(
+        error.message,
+        true
+      );
+
+    }
+
+    throw error;
+
+  }
+
+}
+
+
+async function deleteMessage(id){
+
+  const message =
+    messages.find(
+      item =>
+        Number(item.id) ===
+        Number(id)
+    );
+
+
+  const confirmed =
+    window.confirm(
+      `Eliminare definitivamente il messaggio di ${message?.name || "questo contatto"}?`
+    );
+
+
+  if(!confirmed){
+    return;
+  }
+
+
+  try{
+
+    await apiRequest(
+      `/api/admin/messages/${id}`,
+      {
+        method:"DELETE"
       }
-    }
+    );
 
-    function renderMessageDetail(message) {
-      if (!message) {
-        renderEmptyMessageDetail();
-        return;
-      }
 
-      const statusLabel =
-        message.status === "UNREAD"
-          ? "Non letto"
-          : message.status === "READ"
-            ? "Letto"
-            : "Archiviato";
-
-      const intent =
-        getIntentLabel(
-          message.contact_intent
-        ) || "—";
-
-      const booking =
-        getBookingTypeLabel(
-          message.booking_type
-        ) || "—";
-
-      const eventDateText =
-        message.event_date
-          ? formatItalianDate(
-              message.event_date
-            )
-          : "—";
-
-      messageDetail.innerHTML = `
-        <button
-          type="button"
-          class="button small mobile-detail-close"
-          onclick="closeMobileMessage()"
-        >
-          ← Torna ai messaggi
-        </button>
-
-        <div style="padding-bottom:18px;border-bottom:1px solid var(--line)">
-
-          <div class="detail-kicker">
-            ${escapeHtml(statusLabel)}
-          </div>
-
-          <div class="detail-name">
-            ${escapeHtml(message.name || "Senza nome")}
-          </div>
-
-          <div class="detail-email">
-            ${escapeHtml(message.email || "")}
-          </div>
-
-          <div class="detail-meta">
-
-            <div class="detail-meta-box">
-              <small>Richiesta</small>
-              <strong>${escapeHtml(intent)}</strong>
-            </div>
-
-            <div class="detail-meta-box">
-              <small>Evento</small>
-              <strong>${escapeHtml(booking)}</strong>
-            </div>
-
-            <div class="detail-meta-box">
-              <small>Data evento</small>
-              <strong>${escapeHtml(eventDateText)}</strong>
-            </div>
-
-          </div>
-
-        </div>
-
-        ${
-          message.subject
-            ? `
-              <div class="detail-label">
-                Oggetto
-              </div>
-
-              <div class="detail-message">
-                ${escapeHtml(message.subject)}
-              </div>
-            `
-            : ""
-        }
-
-        <div class="detail-label">
-          Messaggio
-        </div>
-
-        <div class="detail-message">
-          ${escapeHtml(message.message || "")}
-        </div>
-
-        <div class="detail-label">
-          Ricevuto
-        </div>
-
-        <div class="detail-message">
-          ${escapeHtml(formatFullReceivedDate(message.created_at))}
-        </div>
-
-        <div class="detail-actions">
-
-          <a
-            class="button primary small"
-            href="mailto:${escapeHtml(message.email || "")}?subject=${encodeURIComponent("Re: Orange May")}"
-          >
-            Rispondi via email
-          </a>
-
-          ${
-            message.status !== "UNREAD"
-              ? `
-                <button
-                  class="button small"
-                  type="button"
-                  onclick="setMessageStatus(${Number(message.id)}, 'UNREAD')"
-                >
-                  Segna non letto
-                </button>
-              `
-              : ""
-          }
-
-          ${
-            message.status !== "ARCHIVED"
-              ? `
-                <button
-                  class="button small"
-                  type="button"
-                  onclick="setMessageStatus(${Number(message.id)}, 'ARCHIVED')"
-                >
-                  Archivia
-                </button>
-              `
-              : `
-                <button
-                  class="button small"
-                  type="button"
-                  onclick="setMessageStatus(${Number(message.id)}, 'READ')"
-                >
-                  Ripristina
-                </button>
-              `
-          }
-
-          <button
-            class="button danger small"
-            type="button"
-            onclick="deleteMessage(${Number(message.id)})"
-          >
-            Elimina
-          </button>
-
-        </div>
-      `;
-    }
-
-    function renderEmptyMessageDetail() {
-      messageDetail.innerHTML = `
-        <div class="empty-detail">
-          <div>
-            <strong>Seleziona un messaggio</strong>
-            Qui vedrai tutti i dettagli della richiesta ricevuta.
-          </div>
-        </div>
-      `;
-    }
-
-    function closeMobileMessage() {
-      messageDetail
-        .classList
-        .remove("mobile-open");
-    }
-
-    async function setMessageStatus(
-      id,
-      status,
-      showFeedback = true
-    ) {
-      try {
-        await apiRequest(
-          `/api/admin/messages/${id}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type":
-                "application/json"
-            },
-            body:
-              JSON.stringify({
-                status
-              })
-          }
-        );
-
-        const message =
-          messages.find(
-            item =>
-              Number(item.id) ===
-              Number(id)
-          );
-
-        if (message) {
-          message.status =
-            status;
-
-          if (status === "UNREAD") {
-            message.read_at = null;
-            message.archived_at = null;
-          }
-
-          if (status === "READ") {
-            message.read_at =
-              message.read_at ||
-              new Date().toISOString();
-
-            message.archived_at = null;
-          }
-
-          if (status === "ARCHIVED") {
-            message.read_at =
-              message.read_at ||
-              new Date().toISOString();
-
-            message.archived_at =
-              new Date().toISOString();
-          }
-        }
-
-        updateMessageStats();
-        renderMessages();
-
-        if (
-          Number(selectedMessageId) ===
+    messages =
+      messages.filter(
+        item =>
+          Number(item.id) !==
           Number(id)
-        ) {
-          renderMessageDetail(
-            message
-          );
-        }
+      );
 
-        if (showFeedback) {
-          const labels = {
-            UNREAD:
-              "Messaggio segnato come non letto.",
 
-            READ:
-              "Messaggio segnato come letto.",
+    selectedMessageId =
+      null;
 
-            ARCHIVED:
-              "Messaggio archiviato."
-          };
 
-          showToast(
-            labels[status] ||
-            "Messaggio aggiornato."
-          );
-        }
+    updateMessageStats();
 
-      } catch (error) {
-        if (showFeedback) {
-          showToast(
-            error.message,
-            true
-          );
-        }
+    renderMessages();
 
-        throw error;
-      }
-    }
+    renderEmptyMessageDetail();
 
-    async function deleteMessage(id) {
-      const message =
-        messages.find(
-          item =>
-            Number(item.id) ===
-            Number(id)
-        );
+    closeMobileMessage();
 
-      const confirmed =
-        window.confirm(
-          `Eliminare definitivamente il messaggio di ${message?.name || "questo contatto"}?`
-        );
 
-      if (!confirmed) {
-        return;
-      }
+    showToast(
+      "Messaggio eliminato."
+    );
 
-      try {
-        await apiRequest(
-          `/api/admin/messages/${id}`,
-          {
-            method: "DELETE"
-          }
-        );
+  }catch(error){
 
-        messages =
-          messages.filter(
-            item =>
-              Number(item.id) !==
-              Number(id)
-          );
+    showToast(
+      error.message,
+      true
+    );
 
-        selectedMessageId = null;
+  }
 
-        updateMessageStats();
-        renderMessages();
-        renderEmptyMessageDetail();
-        closeMobileMessage();
+}
 
-        showToast(
-          "Messaggio eliminato."
-        );
 
-      } catch (error) {
-        showToast(
-          error.message,
-          true
-        );
-      }
-    }
+/* MESSAGE FILTERS */
 
-    document
-      .querySelectorAll(
-        ".filter-button[data-filter]"
-      )
-      .forEach(button => {
-        button.addEventListener(
-          "click",
-          () => {
-            messageFilter =
-              button.dataset.filter;
+document
+  .querySelectorAll(
+    ".filter-button[data-filter]"
+  )
+  .forEach(button=>{
 
-            document
-              .querySelectorAll(
-                ".filter-button[data-filter]"
-              )
-              .forEach(item => {
-                item.classList.toggle(
-                  "active",
-                  item === button
-                );
-              });
-
-            renderMessages();
-          }
-        );
-      });
-
-    messageSearch.addEventListener(
-      "input",
+    button.addEventListener(
+      "click",
       () => {
-        messageSearchTerm =
-          messageSearch.value
-            .trim()
-            .toLowerCase();
+
+        messageFilter =
+          button.dataset.filter;
+
+
+        document
+          .querySelectorAll(
+            ".filter-button[data-filter]"
+          )
+          .forEach(item=>{
+
+            item.classList.toggle(
+              "active",
+              item === button
+            );
+
+          });
+
 
         renderMessages();
+
       }
     );
 
-    $("refreshMessagesButton")
-      .addEventListener(
-        "click",
-        loadMessages
-      );
+  });
 
-    async function logout() {
-      try {
-        await fetch(
-          "/api/auth/logout",
-          {
-            method: "POST"
-          }
-        );
-      } finally {
-        window.location.href =
-          "/login";
-      }
+
+messageSearch
+  .addEventListener(
+    "input",
+    () => {
+
+      messageSearchTerm =
+        messageSearch
+          .value
+          .trim()
+          .toLowerCase();
+
+      renderMessages();
+
     }
+  );
 
-    $("logoutButton")
-      .addEventListener(
-        "click",
-        logout
-      );
 
-    $("topLogoutButton")
-      .addEventListener(
-        "click",
-        logout
-      );
+$("refreshMessagesButton")
+  .addEventListener(
+    "click",
+    loadMessages
+  );
 
-    loadEvents();
-    loadUnreadCount();
 
-    setInterval(
-      loadUnreadCount,
-      30000
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+async function logout(){
+
+  try{
+
+    await fetch(
+      "/api/auth/logout",
+      {
+        method:"POST"
+      }
     );
-  </script>
+
+  }finally{
+
+    window.location.href =
+      "/login";
+
+  }
+
+}
+
+
+$("logoutButton")
+  .addEventListener(
+    "click",
+    logout
+  );
+
+
+$("topLogoutButton")
+  .addEventListener(
+    "click",
+    logout
+  );
+
+
+/* ============================================================
+   INITIAL LOAD
+============================================================ */
+
+/*
+  Carichiamo subito sia eventi sia venue.
+
+  È importante perché il menu delle venue salvate
+  deve essere già disponibile nella schermata DATE.
+*/
+
+Promise.all([
+  loadVenues(),
+  loadEvents(),
+  loadUnreadCount()
+]);
+
+
+setInterval(
+  loadUnreadCount,
+  30000
+);
+
+</script>
 
 </body>
 </html>
