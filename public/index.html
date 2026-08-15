@@ -100,6 +100,167 @@
 
 
     /* =====================================================
+       CSS ARROWS — NO EMOJI
+    ===================================================== */
+
+    .css-arrow {
+      position: relative;
+
+      display: inline-block;
+
+      width: 14px;
+      height: 14px;
+
+      flex-shrink: 0;
+    }
+
+    .css-arrow::before,
+    .css-arrow::after {
+      content: "";
+
+      position: absolute;
+
+      display: block;
+
+      background: currentColor;
+    }
+
+
+    /* UP RIGHT */
+
+    .css-arrow-up-right::before {
+      width: 9px;
+      height: 2px;
+
+      right: 1px;
+      top: 2px;
+
+      transform: rotate(-45deg);
+
+      transform-origin: right center;
+    }
+
+    .css-arrow-up-right::after {
+      width: 7px;
+      height: 7px;
+
+      right: 0;
+      top: 0;
+
+      background: transparent;
+
+      border-top: 2px solid currentColor;
+      border-right: 2px solid currentColor;
+    }
+
+
+    /* DOWN RIGHT */
+
+    .css-arrow-down-right::before {
+      width: 9px;
+      height: 2px;
+
+      right: 1px;
+      bottom: 2px;
+
+      transform: rotate(45deg);
+
+      transform-origin: right center;
+    }
+
+    .css-arrow-down-right::after {
+      width: 7px;
+      height: 7px;
+
+      right: 0;
+      bottom: 0;
+
+      background: transparent;
+
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+    }
+
+
+    /* RIGHT */
+
+    .css-arrow-right::before {
+      width: 12px;
+      height: 2px;
+
+      left: 0;
+      top: 6px;
+    }
+
+    .css-arrow-right::after {
+      width: 7px;
+      height: 7px;
+
+      right: 0;
+      top: 3px;
+
+      background: transparent;
+
+      border-top: 2px solid currentColor;
+      border-right: 2px solid currentColor;
+
+      transform: rotate(45deg);
+    }
+
+
+    /* DOWN */
+
+    .css-arrow-down::before {
+      width: 2px;
+      height: 12px;
+
+      left: 6px;
+      top: 0;
+    }
+
+    .css-arrow-down::after {
+      width: 7px;
+      height: 7px;
+
+      left: 3px;
+      bottom: 0;
+
+      background: transparent;
+
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+
+      transform: rotate(45deg);
+    }
+
+
+    /* UP */
+
+    .css-arrow-up::before {
+      width: 2px;
+      height: 12px;
+
+      left: 6px;
+      top: 1px;
+    }
+
+    .css-arrow-up::after {
+      width: 7px;
+      height: 7px;
+
+      left: 3px;
+      top: 0;
+
+      background: transparent;
+
+      border-left: 2px solid currentColor;
+      border-top: 2px solid currentColor;
+
+      transform: rotate(45deg);
+    }
+
+
+    /* =====================================================
        REVEAL
     ===================================================== */
 
@@ -410,6 +571,11 @@
       text-transform: uppercase;
     }
 
+    .mobile-menu-links .css-arrow {
+      width: 18px;
+      height: 18px;
+    }
+
     .mobile-menu-footer {
       margin-top: auto;
 
@@ -425,6 +591,12 @@
       letter-spacing: .08em;
 
       text-transform: uppercase;
+    }
+
+    .inline-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
     }
 
 
@@ -693,16 +865,15 @@
       text-transform: uppercase;
     }
 
-    .social-arrow {
-      flex-shrink: 0;
-
-      font-size: clamp(1.9rem,3.5vw,3.4rem);
+    .social-link .css-arrow {
+      width: 22px;
+      height: 22px;
 
       transition:
         transform .3s cubic-bezier(.2,.8,.2,1);
     }
 
-    .social-link:hover .social-arrow {
+    .social-link:hover .css-arrow {
       transform: translate(5px,-5px);
     }
 
@@ -1085,6 +1256,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+
+      gap: 8px;
 
       padding:
         0
@@ -2458,8 +2631,8 @@
       object-fit: cover;
 
       filter:
-        brightness(.74)
-        saturate(.9);
+        brightness(.80)
+        saturate(.92);
 
       transform:
         scale(1.01);
@@ -2475,7 +2648,7 @@
         scale(1.05);
 
       filter:
-        brightness(.93)
+        brightness(.96)
         saturate(1);
     }
 
@@ -2732,9 +2905,9 @@
 
       font-size:
         clamp(
-          3.8rem,
-          7.2vw,
-          7.6rem
+          3.5rem,
+          6.6vw,
+          6.9rem
         );
 
       font-weight: 900;
@@ -2762,6 +2935,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+
+      gap: 10px;
 
       padding:
         0
@@ -2791,6 +2966,11 @@
     }
 
     .final-cta-secondary {
+      display: inline-flex;
+      align-items: center;
+
+      gap: 7px;
+
       font-size: .62rem;
       font-weight: 900;
       letter-spacing: .09em;
@@ -2858,7 +3038,7 @@
 
       gap: 10px;
 
-      min-width: 190px;
+      min-width: 210px;
     }
 
     .footer-nav a {
@@ -2869,7 +3049,7 @@
       gap: 20px;
 
       padding:
-        10px
+        11px
         0;
 
       border-bottom:
@@ -2889,7 +3069,7 @@
           .76
         );
 
-      font-size: .66rem;
+      font-size: .7rem;
       font-weight: 900;
       letter-spacing: .10em;
 
@@ -2949,6 +3129,11 @@
     }
 
     .back-to-top {
+      display: inline-flex;
+      align-items: center;
+
+      gap: 7px;
+
       color: white;
 
       transition:
@@ -3140,6 +3325,11 @@
             8.5vw,
             2.7rem
           );
+      }
+
+      .social-link .css-arrow {
+        width: 18px;
+        height: 18px;
       }
 
       .ticker-content {
@@ -3712,7 +3902,7 @@
           scale(1.01);
 
         filter:
-          brightness(.83)
+          brightness(.86)
           saturate(.95);
       }
 
@@ -3762,12 +3952,12 @@
 
         font-size:
           clamp(
-            3.1rem,
-            14.5vw,
-            4.7rem
+            2.9rem,
+            13vw,
+            4.2rem
           );
 
-        line-height: .82;
+        line-height: .84;
       }
 
       .final-cta-actions {
@@ -4067,7 +4257,10 @@
           Social
         </span>
 
-        <span>↘</span>
+        <span
+          class="css-arrow css-arrow-down-right"
+          aria-hidden="true"
+        ></span>
 
       </a>
 
@@ -4084,7 +4277,10 @@
           Shows
         </span>
 
-        <span>↘</span>
+        <span
+          class="css-arrow css-arrow-down-right"
+          aria-hidden="true"
+        ></span>
 
       </a>
 
@@ -4101,7 +4297,10 @@
           Contact
         </span>
 
-        <span>↘</span>
+        <span
+          class="css-arrow css-arrow-down-right"
+          aria-hidden="true"
+        ></span>
 
       </a>
 
@@ -4118,7 +4317,10 @@
           Our Story
         </span>
 
-        <span>↘</span>
+        <span
+          class="css-arrow css-arrow-down-right"
+          aria-hidden="true"
+        ></span>
 
       </a>
 
@@ -4132,16 +4334,32 @@
         href="https://www.instagram.com/orangemay_acoustic/"
         target="_blank"
         rel="noopener noreferrer"
+        class="inline-link"
       >
-        Instagram ↗
+        <span>
+          Instagram
+        </span>
+
+        <span
+          class="css-arrow css-arrow-up-right"
+          aria-hidden="true"
+        ></span>
       </a>
 
       <a
         href="https://www.facebook.com/p/Orange-May-100092238015144/"
         target="_blank"
         rel="noopener noreferrer"
+        class="inline-link"
       >
-        Facebook ↗
+        <span>
+          Facebook
+        </span>
+
+        <span
+          class="css-arrow css-arrow-up-right"
+          aria-hidden="true"
+        ></span>
       </a>
 
     </div>
@@ -4202,10 +4420,18 @@
             <a
               href="#shows"
               class="btn btn-white"
-              data-en="Next shows ↓"
-              data-it="Prossime date ↓"
             >
-              Next shows ↓
+              <span
+                data-en="Next shows"
+                data-it="Prossime date"
+              >
+                Next shows
+              </span>
+
+              <span
+                class="css-arrow css-arrow-down"
+                aria-hidden="true"
+              ></span>
             </a>
 
           </div>
@@ -4281,9 +4507,10 @@
               Instagram
             </span>
 
-            <span class="social-arrow">
-              ↗
-            </span>
+            <span
+              class="css-arrow css-arrow-up-right"
+              aria-hidden="true"
+            ></span>
 
           </a>
 
@@ -4299,9 +4526,10 @@
               Facebook
             </span>
 
-            <span class="social-arrow">
-              ↗
-            </span>
+            <span
+              class="css-arrow css-arrow-up-right"
+              aria-hidden="true"
+            ></span>
 
           </a>
 
@@ -4498,10 +4726,18 @@
               target="_blank"
               rel="noopener noreferrer"
               class="btn btn-orange"
-              data-en="Message us on WhatsApp ↗"
-              data-it="Scrivici su WhatsApp ↗"
             >
-              Message us on WhatsApp ↗
+              <span
+                data-en="Message us on WhatsApp"
+                data-it="Scrivici su WhatsApp"
+              >
+                Message us on WhatsApp
+              </span>
+
+              <span
+                class="css-arrow css-arrow-up-right"
+                aria-hidden="true"
+              ></span>
             </a>
 
 
@@ -4773,10 +5009,18 @@
             <button
               type="submit"
               class="btn btn-orange contact-submit"
-              data-en="Send message →"
-              data-it="Invia messaggio →"
             >
-              Send message →
+              <span
+                data-en="Send message"
+                data-it="Invia messaggio"
+              >
+                Send message
+              </span>
+
+              <span
+                class="css-arrow css-arrow-right"
+                aria-hidden="true"
+              ></span>
             </button>
 
 
@@ -5278,20 +5522,36 @@
           <a
             href="#shows"
             class="btn-dark"
-            data-en="Upcoming shows ↓"
-            data-it="Prossime date ↓"
           >
-            Upcoming shows ↓
+            <span
+              data-en="Upcoming shows"
+              data-it="Prossime date"
+            >
+              Upcoming shows
+            </span>
+
+            <span
+              class="css-arrow css-arrow-down"
+              aria-hidden="true"
+            ></span>
           </a>
 
 
           <a
             href="#contact"
             class="final-cta-secondary"
-            data-en="Or get in touch →"
-            data-it="Oppure scrivici →"
           >
-            Or get in touch →
+            <span
+              data-en="Or get in touch"
+              data-it="Oppure scrivici"
+            >
+              Or get in touch
+            </span>
+
+            <span
+              class="css-arrow css-arrow-right"
+              aria-hidden="true"
+            ></span>
           </a>
 
 
@@ -5335,9 +5595,10 @@
                 Instagram
               </span>
 
-              <span>
-                ↗
-              </span>
+              <span
+                class="css-arrow css-arrow-up-right"
+                aria-hidden="true"
+              ></span>
             </a>
 
 
@@ -5350,9 +5611,10 @@
                 Facebook
               </span>
 
-              <span>
-                ↗
-              </span>
+              <span
+                class="css-arrow css-arrow-up-right"
+                aria-hidden="true"
+              ></span>
             </a>
 
 
@@ -5365,9 +5627,10 @@
                 WhatsApp
               </span>
 
-              <span>
-                ↗
-              </span>
+              <span
+                class="css-arrow css-arrow-up-right"
+                aria-hidden="true"
+              ></span>
             </a>
 
 
@@ -5378,9 +5641,10 @@
                 Email
               </span>
 
-              <span>
-                ↗
-              </span>
+              <span
+                class="css-arrow css-arrow-up-right"
+                aria-hidden="true"
+              ></span>
             </a>
 
 
@@ -5417,10 +5681,18 @@
           <a
             href="#top"
             class="back-to-top"
-            data-en="Back to top ↑"
-            data-it="Torna su ↑"
           >
-            Back to top ↑
+            <span
+              data-en="Back to top"
+              data-it="Torna su"
+            >
+              Back to top
+            </span>
+
+            <span
+              class="css-arrow css-arrow-up"
+              aria-hidden="true"
+            ></span>
           </a>
 
 
@@ -6306,9 +6578,10 @@
                   }
                 </span>
 
-                <span class="show-more-arrow">
-                  ↓
-                </span>
+                <span
+                  class="css-arrow css-arrow-down show-more-arrow"
+                  aria-hidden="true"
+                ></span>
 
               </button>
 
@@ -6484,6 +6757,15 @@
         );
 
 
+      const arrow =
+        `
+          <span
+            class="css-arrow css-arrow-up-right"
+            aria-hidden="true"
+          ></span>
+        `;
+
+
       const directions =
         (
           !isPrivate &&
@@ -6500,11 +6782,15 @@
                 rel="noopener noreferrer"
                 class="show-action"
               >
-                ${
-                  currentLanguage === "it"
-                    ? "Indicazioni ↗"
-                    : "Directions ↗"
-                }
+                <span>
+                  ${
+                    currentLanguage === "it"
+                      ? "Indicazioni"
+                      : "Directions"
+                  }
+                </span>
+
+                ${arrow}
               </a>
             `
           : "";
@@ -6526,11 +6812,15 @@
                 rel="noopener noreferrer"
                 class="show-action"
               >
-                ${
-                  currentLanguage === "it"
-                    ? "Info ↗"
-                    : "More info ↗"
-                }
+                <span>
+                  ${
+                    currentLanguage === "it"
+                      ? "Info"
+                      : "More info"
+                  }
+                </span>
+
+                ${arrow}
               </a>
             `
           : "";
@@ -6759,6 +7049,15 @@
         );
 
 
+      const arrow =
+        `
+          <span
+            class="css-arrow css-arrow-up-right"
+            aria-hidden="true"
+          ></span>
+        `;
+
+
       const directions =
         (
           !isPrivate &&
@@ -6775,11 +7074,15 @@
                 rel="noopener noreferrer"
                 class="show-action"
               >
-                ${
-                  currentLanguage === "it"
-                    ? "Indicazioni ↗"
-                    : "Directions ↗"
-                }
+                <span>
+                  ${
+                    currentLanguage === "it"
+                      ? "Indicazioni"
+                      : "Directions"
+                  }
+                </span>
+
+                ${arrow}
               </a>
             `
           : "";
@@ -6801,11 +7104,15 @@
                 rel="noopener noreferrer"
                 class="show-action"
               >
-                ${
-                  currentLanguage === "it"
-                    ? "Info ↗"
-                    : "More info ↗"
-                }
+                <span>
+                  ${
+                    currentLanguage === "it"
+                      ? "Info"
+                      : "More info"
+                  }
+                </span>
+
+                ${arrow}
               </a>
             `
           : "";
