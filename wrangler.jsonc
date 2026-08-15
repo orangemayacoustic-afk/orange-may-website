@@ -14,14 +14,7 @@
     "directory": "./public",
     "binding": "ASSETS",
     "html_handling": "none",
-    "run_worker_first": [
-      "/",
-      "/admin",
-      "/admin/*",
-      "/login",
-      "/login/*",
-      "/api/*"
-    ]
+    "run_worker_first": true
   },
 
   "d1_databases": [
