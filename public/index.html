@@ -394,6 +394,24 @@
     }
 
 
+    /* Keep only the close button above the open overlay */
+    body.menu-open header {
+      z-index: 1200;
+      pointer-events: none;
+    }
+
+    body.menu-open .menu-toggle {
+      pointer-events: auto;
+    }
+
+    body.menu-open .nav-logo,
+    body.menu-open .language-switcher {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+
     /* MENU OVERLAY */
 
     .mobile-menu {
@@ -615,6 +633,19 @@
       letter-spacing: .08em;
 
       text-transform: uppercase;
+    }
+
+
+    .mobile-menu-socials a {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .mobile-menu-social-icon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
     }
 
     .mobile-menu-socials a::after {
@@ -3323,7 +3354,21 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          Instagram ↗
+          <span>Instagram</span>
+          <svg
+          class="mobile-menu-social-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M7 17L17 7M9 7H17V15"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
         </a>
 
         <a
@@ -3331,7 +3376,21 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          Facebook ↗
+          <span>Facebook</span>
+          <svg
+          class="mobile-menu-social-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M7 17L17 7M9 7H17V15"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
         </a>
 
       </div>
