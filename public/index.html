@@ -1402,27 +1402,6 @@
       line-height: 1.55;
     }
 
-    .direct-contact {
-      margin-top: 46px;
-
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-
-      gap: 14px;
-    }
-
-    .email-link {
-      color: rgba(255,255,255,.7);
-
-      padding-bottom: 3px;
-
-      border-bottom: 1px solid rgba(255,255,255,.32);
-
-      font-size: .82rem;
-    }
-
-
     /* CONTACT PANEL */
 
     .contact-panel {
@@ -2261,12 +2240,30 @@
       /* HEADER */
 
       .nav {
-        height: 68px;
+        height: 64px;
+        transition: height .28s ease;
       }
 
       .nav-logo {
-        width: 92px;
-        height: 46px;
+        width: 88px;
+        height: 42px;
+        transition:
+          width .28s ease,
+          height .28s ease;
+      }
+
+      header.scrolled .nav {
+        height: 58px;
+      }
+
+      header.scrolled .nav-logo {
+        width: 80px;
+        height: 38px;
+      }
+
+      header.scrolled .menu-toggle {
+        width: 38px;
+        height: 38px;
       }
 
       .nav-links {
@@ -2349,7 +2346,7 @@
       /* SOCIAL */
 
       #social {
-        padding: 70px 0;
+        padding: 58px 0;
       }
 
       .social-top {
@@ -2367,7 +2364,7 @@
       }
 
       .social-copy {
-        margin-top: 30px;
+        margin-top: 24px;
       }
 
       .social-copy p {
@@ -2375,11 +2372,11 @@
       }
 
       .social-links {
-        margin-top: 36px;
+        margin-top: 28px;
       }
 
       .social-link {
-        min-height: 74px;
+        min-height: 66px;
       }
 
       .social-link:hover {
@@ -2395,12 +2392,12 @@
       /* SHOWS */
 
       #shows {
-        padding: 68px 0 78px;
+        padding: 60px 0 68px;
       }
 
       .shows-header {
         display: block;
-        margin-bottom: 30px;
+        margin-bottom: 26px;
       }
 
       .shows-title {
@@ -2414,7 +2411,7 @@
 
         min-height: 0;
 
-        padding: 22px 17px;
+        padding: 19px 16px;
       }
 
       .next-show-label {
@@ -2423,7 +2420,7 @@
         top: auto;
         left: auto;
 
-        margin-bottom: 30px;
+        margin-bottom: 22px;
       }
 
       .next-show-date {
@@ -2443,7 +2440,7 @@
       }
 
       .next-show-content {
-        margin-top: 28px;
+        margin-top: 22px;
       }
 
       .next-show-venue {
@@ -2453,9 +2450,9 @@
       .next-show-right {
         width: 100%;
 
-        margin-top: 25px;
+        margin-top: 20px;
 
-        padding-top: 16px;
+        padding-top: 14px;
 
         border-top: 1px solid rgba(255,255,255,.18);
 
@@ -2463,7 +2460,7 @@
       }
 
       .more-shows-wrapper {
-        margin-top: 32px;
+        margin-top: 28px;
       }
 
       .more-events {
@@ -2479,7 +2476,7 @@
 
         min-height: 0;
 
-        padding: 15px 0;
+        padding: 14px 0;
 
         border-top: 1px solid rgba(17,16,15,.14);
 
@@ -2571,7 +2568,7 @@
       /* CONTACT */
 
       #contact {
-        padding: 78px 0;
+        padding: 62px 0;
       }
 
       .contact-grid {
@@ -2583,21 +2580,40 @@
       }
 
       .contact-copy {
+        margin-top: 22px;
         font-size: .95rem;
       }
 
-      .direct-contact {
-        margin-top: 34px;
-      }
-
       .contact-panel {
-        margin-top: 55px;
+        margin-top: 36px;
 
-        padding: 25px 18px;
+        padding: 22px 16px;
       }
 
       .contact-panel-heading {
+        margin-bottom: 22px;
         font-size: 2rem;
+      }
+
+      .contact-intents {
+        margin-bottom: 22px;
+      }
+
+      .booking-details.open {
+        margin-bottom: 22px;
+      }
+
+      .contact-form {
+        gap: 15px;
+      }
+
+      .field input,
+      .field textarea {
+        padding: 13px 0;
+      }
+
+      .field textarea {
+        min-height: 96px;
       }
 
       .booking-row {
@@ -2608,7 +2624,7 @@
       /* STORY */
 
       #about {
-        padding: 78px 0 84px;
+        padding: 66px 0 72px;
       }
 
       #about::after {
@@ -2619,7 +2635,7 @@
         display: flex;
         flex-direction: column;
 
-        gap: 48px;
+        gap: 40px;
       }
 
       .story-content {
@@ -2634,7 +2650,24 @@
       }
 
       .story-heading {
+        margin-bottom: 32px;
         font-size: clamp(2.75rem,12.8vw,4rem);
+      }
+
+      .story-lead {
+        margin-bottom: 30px;
+      }
+
+      .story-text {
+        gap: 22px;
+      }
+
+      .story-dna {
+        margin-top: 42px;
+      }
+
+      .story-ending {
+        margin-top: 42px;
       }
 
       .story-dna-item {
@@ -2662,7 +2695,7 @@
       }
 
       .image-strip figure {
-        height: 68svh;
+        height: 62svh;
         flex: none;
       }
 
@@ -2683,7 +2716,7 @@
       /* CTA */
 
       .final-cta {
-        padding: 72px 0 68px;
+        padding: 58px 0 56px;
       }
 
       .final-cta-inner {
@@ -2695,7 +2728,7 @@
       }
 
       .final-cta-actions {
-        margin-top: 34px;
+        margin-top: 26px;
         align-items: stretch;
       }
 
@@ -2703,7 +2736,7 @@
       /* FOOTER */
 
       footer {
-        padding: 50px 0 28px;
+        padding: 38px 0 24px;
       }
 
       .footer-top {
@@ -2715,11 +2748,11 @@
       }
 
       .footer-nav {
-        margin-top: 42px;
+        margin-top: 30px;
       }
 
       .footer-bottom {
-        margin-top: 48px;
+        margin-top: 34px;
 
         flex-direction: column;
         align-items: flex-start;
@@ -3295,44 +3328,13 @@
 
           <p
             class="contact-copy"
-            data-en="Want to book us, ask something, work together or simply say hi? We'd love to hear from you."
-            data-it="Vuoi prenotare una serata, chiederci qualcosa, collaborare o semplicemente salutarci? Scrivici."
+            data-en="Want to book us, ask something, work together or simply say hi? Fill in the form and we'll get back to you."
+            data-it="Vuoi prenotare una serata, chiederci qualcosa, collaborare o semplicemente salutarci? Compila il form e ti risponderemo."
           >
             Want to book us, ask something, work together or simply say hi?
-            We'd love to hear from you.
+            Fill in the form and we'll get back to you.
           </p>
 
-
-          <div class="direct-contact">
-
-            <a
-              id="whatsappLink"
-              href="https://wa.me/393421670308"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn btn-orange"
-            >
-
-              <span
-                data-en="Message us on WhatsApp"
-                data-it="Scrivici su WhatsApp"
-              >
-                Message us on WhatsApp
-              </span>
-
-              ↗
-
-            </a>
-
-
-            <a
-              href="mailto:orangemayacoustic@gmail.com"
-              class="email-link"
-            >
-              orangemayacoustic@gmail.com
-            </a>
-
-          </div>
 
         </div>
 
@@ -4215,8 +4217,6 @@
       );
 
 
-      updateWhatsApp();
-
       if (cachedEvents.length) {
         renderEvents();
       }
@@ -4329,10 +4329,6 @@
     const eventDateContact =
       document.getElementById("eventDateContact");
 
-    const whatsappLink =
-      document.getElementById("whatsappLink");
-
-
     document
       .querySelectorAll(".contact-intent")
       .forEach(button => {
@@ -4379,9 +4375,7 @@
             }
 
 
-            updateWhatsApp();
-
-          }
+                }
         );
 
       });
@@ -4422,18 +4416,10 @@
             }
 
 
-            updateWhatsApp();
-
-          }
+                }
         );
 
       });
-
-
-    eventDateContact.addEventListener(
-      "change",
-      updateWhatsApp
-    );
 
 
     function getIntentLabel(value) {
@@ -4499,119 +4485,6 @@
 
 
       return labels[value] || value;
-
-    }
-
-
-    function formatContactDate(value) {
-
-      if (!value) {
-        return "";
-      }
-
-
-      const parts =
-        value.split("-");
-
-
-      if (parts.length !== 3) {
-        return value;
-      }
-
-
-      return `${parts[2]}/${parts[1]}/${parts[0]}`;
-
-    }
-
-
-    function updateWhatsApp() {
-
-      let message = "";
-
-      const date =
-        eventDateContact.value;
-
-
-      if (currentLanguage === "it") {
-
-        if (selectedContactIntent === "BOOKING") {
-
-          message =
-            "Ciao Orange May! Vorrei avere informazioni per prenotarvi per un evento.";
-
-        } else if (selectedContactIntent === "INFO") {
-
-          message =
-            "Ciao Orange May! Avrei bisogno di alcune informazioni.";
-
-        } else if (selectedContactIntent === "COLLABORATION") {
-
-          message =
-            "Ciao Orange May! Vorrei parlarvi di una possibile collaborazione.";
-
-        } else {
-
-          message =
-            "Ciao Orange May!";
-
-        }
-
-      } else {
-
-        if (selectedContactIntent === "BOOKING") {
-
-          message =
-            "Hi Orange May! I'd like some information about booking you for an event.";
-
-        } else if (selectedContactIntent === "INFO") {
-
-          message =
-            "Hi Orange May! I have a question for you.";
-
-        } else if (selectedContactIntent === "COLLABORATION") {
-
-          message =
-            "Hi Orange May! I'd like to talk about a possible collaboration.";
-
-        } else {
-
-          message =
-            "Hi Orange May!";
-
-        }
-
-      }
-
-
-      if (
-        selectedContactIntent === "BOOKING" &&
-        selectedBookingType
-      ) {
-
-        message +=
-          currentLanguage === "it"
-            ? ` Tipo di evento: ${getBookingTypeLabel(selectedBookingType)}.`
-            : ` Event type: ${getBookingTypeLabel(selectedBookingType)}.`;
-
-      }
-
-
-      if (
-        selectedContactIntent === "BOOKING" &&
-        date
-      ) {
-
-        message +=
-          currentLanguage === "it"
-            ? ` Data: ${formatContactDate(date)}.`
-            : ` Date: ${formatContactDate(date)}.`;
-
-      }
-
-
-      whatsappLink.href =
-        "https://wa.me/393421670308?text=" +
-        encodeURIComponent(message);
 
     }
 
@@ -4770,9 +4643,7 @@
               : "Message sent. Thank you!";
 
 
-          updateWhatsApp();
-
-        } catch (error) {
+            } catch (error) {
 
           console.error(
             "Contact form submit failed:",
@@ -5791,9 +5662,6 @@
     changeLanguage(
       currentLanguage
     );
-
-
-    updateWhatsApp();
 
 
     loadEvents();
