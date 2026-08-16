@@ -363,59 +363,8 @@
       top: 23px;
     }
 
-    .menu-toggle.active {
-      position: fixed;
-
-      top: max(14px, env(safe-area-inset-top));
-      right: 18px;
-
-      width: 46px;
-      height: 46px;
-
-      border-color: var(--black);
-
-      background: var(--black);
-      color: var(--orange);
-    }
-
-    .menu-toggle.active span {
-      left: 13px;
-      width: 18px;
-    }
-
-    .menu-toggle.active span:first-child {
-      top: 21px;
-      transform: rotate(45deg);
-    }
-
-    .menu-toggle.active span:last-child {
-      top: 21px;
-      transform: rotate(-45deg);
-    }
-
-
-    /* Keep only the close button above the open overlay */
-    body.menu-open header {
-      z-index: 1200;
-      pointer-events: none;
-
-      background: transparent !important;
-      border-bottom: 0 !important;
-
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-    }
-
-    body.menu-open .menu-toggle {
-      pointer-events: auto;
-    }
-
-    body.menu-open .nav-logo,
-    body.menu-open .language-switcher {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
+    /* The hamburger only opens the menu.
+       The close button lives independently inside the overlay. */
 
 
     /* MENU OVERLAY */
@@ -424,7 +373,7 @@
       position: fixed;
       inset: 0;
 
-      z-index: 1100;
+      z-index: 2000;
 
       display: flex;
       flex-direction: column;
@@ -436,6 +385,12 @@
 
       overflow-y: auto;
       overscroll-behavior: contain;
+
+      height: 100dvh;
+      max-height: 100dvh;
+
+      scrollbar-width: none;
+      -ms-overflow-style: none;
 
       background: var(--orange);
       color: var(--black);
@@ -458,6 +413,11 @@
     }
 
 
+    .mobile-menu::-webkit-scrollbar {
+      display: none;
+    }
+
+
     /* MENU TOP */
 
     .mobile-menu-top {
@@ -469,7 +429,7 @@
 
       gap: 20px;
 
-      margin-bottom: clamp(30px, 5vh, 50px);
+      margin-bottom: clamp(22px, 3.5vh, 36px);
     }
 
     .mobile-menu-brand {
@@ -495,10 +455,43 @@
       object-fit: contain;
     }
 
-    .mobile-menu-top-space {
+    .mobile-menu-close {
       width: 46px;
       height: 46px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
       flex-shrink: 0;
+
+      border: 0;
+      border-radius: 50%;
+
+      background: var(--black);
+      color: var(--orange);
+
+      opacity: 0;
+      transform: scale(.92);
+
+      transition:
+        opacity .28s ease .05s,
+        transform .28s ease .05s,
+        background .2s ease;
+    }
+
+    .mobile-menu.open .mobile-menu-close {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .mobile-menu-close:active {
+      transform: scale(.94);
+    }
+
+    .mobile-menu-close svg {
+      width: 20px;
+      height: 20px;
     }
 
 
@@ -511,7 +504,7 @@
     .mobile-menu-links a {
       position: relative;
 
-      min-height: 92px;
+      min-height: 82px;
 
       display: grid;
 
@@ -600,7 +593,7 @@
     .mobile-menu-footer {
       margin-top: auto;
 
-      padding: 18px 18px 16px;
+      padding: 15px 15px 13px;
 
       border-radius: 16px;
 
@@ -640,7 +633,7 @@
     }
 
     .mobile-menu-socials a {
-      min-height: 44px;
+      min-height: 40px;
 
       display: flex;
       align-items: center;
@@ -691,7 +684,7 @@
       }
 
       .mobile-menu-links a {
-        min-height: 82px;
+        min-height: 76px;
 
         grid-template-columns:
           29px
@@ -3261,7 +3254,25 @@
         >
       </a>
 
-      <div class="mobile-menu-top-space"></div>
+      <button
+        type="button"
+        id="mobileMenuClose"
+        class="mobile-menu-close"
+        aria-label="Close menu"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M6 6L18 18M18 6L6 18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.4"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
 
     </div>
 
@@ -4661,21 +4672,17 @@
     const mobileMenu =
       document.getElementById("mobileMenu");
 
+    const mobileMenuClose =
+      document.getElementById("mobileMenuClose");
+
 
     function openMobileMenu() {
-
-      menuToggle.classList.add("active");
 
       mobileMenu.classList.add("open");
 
       mobileMenu.setAttribute(
         "aria-hidden",
         "false"
-      );
-
-      menuToggle.setAttribute(
-        "aria-label",
-        "Close menu"
       );
 
       document.body.classList.add(
@@ -4687,18 +4694,11 @@
 
     function closeMobileMenu() {
 
-      menuToggle.classList.remove("active");
-
       mobileMenu.classList.remove("open");
 
       mobileMenu.setAttribute(
         "aria-hidden",
         "true"
-      );
-
-      menuToggle.setAttribute(
-        "aria-label",
-        "Open menu"
       );
 
       document.body.classList.remove(
@@ -4710,18 +4710,13 @@
 
     menuToggle.addEventListener(
       "click",
-      () => {
+      openMobileMenu
+    );
 
-        const isOpen =
-          mobileMenu.classList.contains("open");
 
-        if (isOpen) {
-          closeMobileMenu();
-        } else {
-          openMobileMenu();
-        }
-
-      }
+    mobileMenuClose.addEventListener(
+      "click",
+      closeMobileMenu
     );
 
 
@@ -4745,7 +4740,9 @@
           event.key === "Escape" &&
           mobileMenu.classList.contains("open")
         ) {
+
           closeMobileMenu();
+
         }
 
       }
