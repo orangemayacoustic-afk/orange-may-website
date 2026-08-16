@@ -421,7 +421,7 @@
     /* MENU TOP */
 
     .mobile-menu-top {
-      min-height: 64px;
+      min-height: 58px;
 
       display: flex;
       align-items: center;
@@ -429,11 +429,11 @@
 
       gap: 20px;
 
-      margin-bottom: clamp(22px, 3.5vh, 36px);
+      margin-bottom: clamp(18px, 2.8vh, 28px);
     }
 
     .mobile-menu-brand {
-      width: 106px;
+      width: 98px;
       display: block;
 
       opacity: 0;
@@ -456,8 +456,8 @@
     }
 
     .mobile-menu-close {
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
 
       display: inline-flex;
       align-items: center;
@@ -498,13 +498,13 @@
     /* MENU LINKS */
 
     .mobile-menu-links {
-      border-top: 2px solid var(--black);
+      border-top: 1.5px solid var(--black);
     }
 
     .mobile-menu-links a {
       position: relative;
 
-      min-height: 82px;
+      min-height: 76px;
 
       display: grid;
 
@@ -517,7 +517,7 @@
 
       gap: 12px;
 
-      border-bottom: 2px solid var(--black);
+      border-bottom: 1.5px solid var(--black);
 
       opacity: 0;
       transform: translateY(16px);
@@ -552,15 +552,15 @@
     .mobile-menu-number {
       align-self: start;
 
-      padding-top: 20px;
+      padding-top: 16px;
 
-      font-size: .55rem;
+      font-size: .52rem;
       font-weight: 900;
       letter-spacing: .14em;
     }
 
     .mobile-menu-name {
-      font-size: clamp(2.25rem, 10.5vw, 3.35rem);
+      font-size: clamp(2.05rem, 9.3vw, 3rem);
       font-weight: 900;
       line-height: .88;
       letter-spacing: -.055em;
@@ -568,15 +568,22 @@
       text-transform: uppercase;
     }
 
+
+    html[lang="it"] .mobile-menu-name.menu-story-name {
+      font-size: clamp(1.72rem, 7.5vw, 2.35rem);
+      line-height: .92;
+      white-space: nowrap;
+    }
+
     .mobile-menu-arrow {
-      width: 34px;
-      height: 20px;
+      width: 30px;
+      height: 18px;
 
       display: flex;
       align-items: center;
       justify-content: flex-end;
 
-      font-size: 2rem;
+      font-size: 1.72rem;
       font-weight: 400;
       line-height: 1;
 
@@ -593,9 +600,9 @@
     .mobile-menu-footer {
       margin-top: auto;
 
-      padding: 15px 15px 13px;
+      padding: 17px 18px 15px;
 
-      border-radius: 16px;
+      border-radius: 18px;
 
       background: var(--black);
       color: white;
@@ -618,7 +625,7 @@
 
       color: var(--orange);
 
-      font-size: .53rem;
+      font-size: .51rem;
       font-weight: 900;
       letter-spacing: .18em;
 
@@ -629,22 +636,17 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
 
-      gap: 10px;
+      border-top: 1px solid rgba(255,255,255,.18);
     }
 
     .mobile-menu-socials a {
-      min-height: 40px;
+      min-height: 48px;
 
       display: flex;
       align-items: center;
       justify-content: space-between;
 
       gap: 10px;
-
-      padding: 0 12px;
-
-      border: 1px solid rgba(255,255,255,.16);
-      border-radius: 10px;
 
       color: white;
 
@@ -653,6 +655,15 @@
       letter-spacing: .07em;
 
       text-transform: uppercase;
+    }
+
+    .mobile-menu-socials a:first-child {
+      padding-right: 16px;
+      border-right: 1px solid rgba(255,255,255,.18);
+    }
+
+    .mobile-menu-socials a:last-child {
+      padding-left: 16px;
     }
 
     .mobile-menu-social-icon {
@@ -680,11 +691,11 @@
       }
 
       .mobile-menu-top {
-        margin-bottom: clamp(26px, 4vh, 40px);
+        margin-bottom: clamp(18px, 2.8vh, 26px);
       }
 
       .mobile-menu-links a {
-        min-height: 76px;
+        min-height: 72px;
 
         grid-template-columns:
           29px
@@ -695,15 +706,19 @@
       }
 
       .mobile-menu-number {
-        padding-top: 17px;
+        padding-top: 15px;
       }
 
       .mobile-menu-name {
-        font-size: clamp(2.15rem, 10vw, 3.05rem);
+        font-size: clamp(2rem, 9vw, 2.75rem);
+      }
+
+      html[lang="it"] .mobile-menu-name.menu-story-name {
+        font-size: clamp(1.62rem, 7.2vw, 2.15rem);
       }
 
       .mobile-menu-arrow {
-        font-size: 1.8rem;
+        font-size: 1.62rem;
       }
 
       .mobile-menu-footer {
@@ -3338,7 +3353,7 @@
         <span class="mobile-menu-number">04</span>
 
         <span
-          class="mobile-menu-name"
+          class="mobile-menu-name menu-story-name"
           data-en="Our Story"
           data-it="La nostra storia"
         >
