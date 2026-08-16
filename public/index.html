@@ -2185,34 +2185,36 @@
     }
 
     .story-ending {
-      margin-top: 52px;
+      margin-top: 34px;
 
-      padding-top: 29px;
+      padding-top: 18px;
 
       border-top: 1px solid rgba(17,16,15,.25);
     }
 
     .story-ending-small {
-      margin-bottom: 12px;
+      display: none;
+    }
 
-      color: var(--grey);
+    .story-ending-main {
+      max-width: none;
 
-      font-size: .59rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+
+      gap: .22em;
+
+      font-size: clamp(1.35rem,2.15vw,2.15rem);
       font-weight: 900;
-      letter-spacing: .16em;
+      line-height: 1;
+      letter-spacing: -.038em;
 
       text-transform: uppercase;
     }
 
-    .story-ending-main {
-      max-width: 650px;
-
-      font-size: clamp(2.15rem,3.55vw,3.8rem);
-      font-weight: 900;
-      line-height: .9;
-      letter-spacing: -.052em;
-
-      text-transform: uppercase;
+    .story-ending-main br {
+      display: none;
     }
 
     .story-ending-main .orange {
@@ -2997,7 +2999,24 @@
       }
 
       .story-ending {
-        margin-top: 42px;
+        margin-top: 28px;
+        padding-top: 17px;
+      }
+
+      .story-ending-main {
+        display: block;
+
+        font-size: clamp(1.45rem,7vw,2.05rem);
+        line-height: .98;
+      }
+
+      .story-ending-main br {
+        display: block;
+      }
+
+      .story-ending-main .orange {
+        display: block;
+        margin-top: 5px;
       }
 
       .story-dna-item {
