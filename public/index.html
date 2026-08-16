@@ -316,7 +316,7 @@
 
     .menu-toggle {
       position: relative;
-      z-index: 1200;
+      z-index: 1300;
 
       display: none;
 
@@ -328,6 +328,16 @@
 
       background: transparent;
       color: inherit;
+
+      transition:
+        background .25s ease,
+        color .25s ease,
+        border-color .25s ease,
+        transform .25s ease;
+    }
+
+    .menu-toggle:hover {
+      transform: scale(1.04);
     }
 
     .menu-toggle span {
@@ -340,8 +350,9 @@
       background: currentColor;
 
       transition:
-        transform .25s ease,
-        top .25s ease;
+        transform .28s ease,
+        top .28s ease,
+        background .28s ease;
     }
 
     .menu-toggle span:first-child {
@@ -352,15 +363,38 @@
       top: 23px;
     }
 
+    .menu-toggle.active {
+      position: fixed;
+
+      top: max(14px, env(safe-area-inset-top));
+      right: 18px;
+
+      width: 46px;
+      height: 46px;
+
+      border-color: var(--black);
+
+      background: var(--black);
+      color: var(--orange);
+    }
+
+    .menu-toggle.active span {
+      left: 13px;
+      width: 18px;
+    }
+
     .menu-toggle.active span:first-child {
-      top: 20px;
+      top: 21px;
       transform: rotate(45deg);
     }
 
     .menu-toggle.active span:last-child {
-      top: 20px;
+      top: 21px;
       transform: rotate(-45deg);
     }
+
+
+    /* MENU OVERLAY */
 
     .mobile-menu {
       position: fixed;
@@ -371,7 +405,10 @@
       display: flex;
       flex-direction: column;
 
-      padding: 115px 24px 28px;
+      padding:
+        max(26px, env(safe-area-inset-top))
+        24px
+        max(28px, env(safe-area-inset-bottom));
 
       background: var(--orange);
       color: var(--black);
@@ -379,12 +416,12 @@
       opacity: 0;
       visibility: hidden;
 
-      transform: translateY(-10px);
+      transform: translateY(-14px);
 
       transition:
-        opacity .25s ease,
-        visibility .25s ease,
-        transform .25s ease;
+        opacity .28s ease,
+        visibility .28s ease,
+        transform .35s cubic-bezier(.2,.8,.2,1);
     }
 
     .mobile-menu.open {
@@ -393,40 +430,282 @@
       transform: translateY(0);
     }
 
-    .mobile-menu-links {
-      border-top: 2px solid var(--black);
-    }
 
-    .mobile-menu-links a {
-      min-height: 72px;
+    /* MENU TOP */
+
+    .mobile-menu-top {
+      min-height: 64px;
 
       display: flex;
       align-items: center;
       justify-content: space-between;
 
+      gap: 20px;
+
+      margin-bottom: clamp(42px, 8vh, 78px);
+    }
+
+    .mobile-menu-brand {
+      width: 106px;
+      display: block;
+
+      opacity: 0;
+      transform: translateY(-8px);
+
+      transition:
+        opacity .35s ease .04s,
+        transform .35s ease .04s;
+    }
+
+    .mobile-menu.open .mobile-menu-brand {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mobile-menu-brand img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .mobile-menu-top-space {
+      width: 46px;
+      height: 46px;
+      flex-shrink: 0;
+    }
+
+
+    /* MENU LINKS */
+
+    .mobile-menu-links {
+      border-top: 2px solid var(--black);
+    }
+
+    .mobile-menu-links a {
+      position: relative;
+
+      min-height: 92px;
+
+      display: grid;
+
+      grid-template-columns:
+        34px
+        minmax(0,1fr)
+        auto;
+
+      align-items: center;
+
+      gap: 12px;
+
       border-bottom: 2px solid var(--black);
 
-      font-size: clamp(2rem, 10vw, 3.3rem);
+      opacity: 0;
+      transform: translateY(16px);
+
+      transition:
+        opacity .42s ease,
+        transform .42s ease,
+        padding .25s ease;
+    }
+
+    .mobile-menu.open .mobile-menu-links a {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mobile-menu.open .mobile-menu-links a:nth-child(1) {
+      transition-delay: .05s;
+    }
+
+    .mobile-menu.open .mobile-menu-links a:nth-child(2) {
+      transition-delay: .10s;
+    }
+
+    .mobile-menu.open .mobile-menu-links a:nth-child(3) {
+      transition-delay: .15s;
+    }
+
+    .mobile-menu.open .mobile-menu-links a:nth-child(4) {
+      transition-delay: .20s;
+    }
+
+    .mobile-menu-number {
+      align-self: start;
+
+      padding-top: 20px;
+
+      font-size: .55rem;
       font-weight: 900;
-      line-height: 1;
-      letter-spacing: -.045em;
+      letter-spacing: .14em;
+    }
+
+    .mobile-menu-name {
+      font-size: clamp(2.25rem, 10.5vw, 3.35rem);
+      font-weight: 900;
+      line-height: .88;
+      letter-spacing: -.055em;
 
       text-transform: uppercase;
     }
 
+    .mobile-menu-arrow {
+      width: 34px;
+      height: 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1;
+
+      transition: transform .25s ease;
+    }
+
+    .mobile-menu-links a:active .mobile-menu-arrow {
+      transform: translateX(5px);
+    }
+
+
+    /* MENU FOOTER */
+
     .mobile-menu-footer {
       margin-top: auto;
 
+      padding-top: 30px;
+
+      opacity: 0;
+      transform: translateY(12px);
+
+      transition:
+        opacity .4s ease .24s,
+        transform .4s ease .24s;
+    }
+
+    .mobile-menu.open .mobile-menu-footer {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mobile-menu-footer-label {
+      margin-bottom: 12px;
+
+      font-size: .55rem;
+      font-weight: 900;
+      letter-spacing: .17em;
+
+      text-transform: uppercase;
+    }
+
+    .mobile-menu-socials {
       display: flex;
       flex-wrap: wrap;
 
-      gap: 12px 28px;
+      gap: 15px 30px;
+    }
 
-      font-size: .72rem;
+    .mobile-menu-socials a {
+      position: relative;
+
+      padding-bottom: 3px;
+
+      font-size: .76rem;
       font-weight: 900;
       letter-spacing: .08em;
 
       text-transform: uppercase;
+    }
+
+    .mobile-menu-socials a::after {
+      content: "";
+
+      position: absolute;
+
+      left: 0;
+      bottom: 0;
+
+      width: 100%;
+      height: 1px;
+
+      background: var(--black);
+
+      transform: scaleX(0);
+      transform-origin: right;
+
+      transition: transform .25s ease;
+    }
+
+    .mobile-menu-socials a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+
+    /* MOBILE MENU — SMALL SCREENS */
+
+    @media (max-width: 700px) {
+
+      .mobile-menu {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .mobile-menu-top {
+        margin-bottom: clamp(34px, 6vh, 58px);
+      }
+
+      .mobile-menu-links a {
+        min-height: 82px;
+
+        grid-template-columns:
+          29px
+          minmax(0,1fr)
+          auto;
+
+        gap: 9px;
+      }
+
+      .mobile-menu-number {
+        padding-top: 17px;
+      }
+
+      .mobile-menu-name {
+        font-size: clamp(2.15rem, 10vw, 3.05rem);
+      }
+
+      .mobile-menu-arrow {
+        font-size: 1.8rem;
+      }
+
+      .mobile-menu-footer {
+        padding-top: 24px;
+      }
+
+    }
+
+    @media (max-height: 700px) {
+
+      .mobile-menu-top {
+        margin-bottom: 24px;
+      }
+
+      .mobile-menu-links a {
+        min-height: 68px;
+      }
+
+      .mobile-menu-number {
+        padding-top: 14px;
+      }
+
+      .mobile-menu-name {
+        font-size: clamp(1.9rem, 8vw, 2.6rem);
+      }
+
+      .mobile-menu-footer {
+        padding-top: 16px;
+      }
+
     }
 
 
@@ -2931,88 +3210,131 @@
   <div
     id="mobileMenu"
     class="mobile-menu"
+    aria-hidden="true"
   >
 
-    <div class="mobile-menu-links">
+    <div class="mobile-menu-top">
+
+      <a
+        href="#top"
+        class="mobile-menu-brand mobile-nav-link"
+        aria-label="Orange May"
+      >
+        <img
+          src="/images/logo.png"
+          alt="Orange May Acoustic"
+        >
+      </a>
+
+      <div class="mobile-menu-top-space"></div>
+
+    </div>
+
+
+    <nav
+      class="mobile-menu-links"
+      aria-label="Mobile navigation"
+    >
 
       <a href="#social" class="mobile-nav-link">
 
-        <span data-en="Social" data-it="Social">
+        <span class="mobile-menu-number">01</span>
+
+        <span
+          class="mobile-menu-name"
+          data-en="Social"
+          data-it="Social"
+        >
           Social
         </span>
 
-        <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
-          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
-          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
-        </svg>
+        <span class="mobile-menu-arrow" aria-hidden="true">→</span>
 
       </a>
 
 
       <a href="#shows" class="mobile-nav-link">
 
-        <span data-en="Shows" data-it="Date">
+        <span class="mobile-menu-number">02</span>
+
+        <span
+          class="mobile-menu-name"
+          data-en="Shows"
+          data-it="Date"
+        >
           Shows
         </span>
 
-        <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
-          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
-          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
-        </svg>
+        <span class="mobile-menu-arrow" aria-hidden="true">→</span>
 
       </a>
 
 
       <a href="#contact" class="mobile-nav-link">
 
-        <span data-en="Contact" data-it="Contatti">
+        <span class="mobile-menu-number">03</span>
+
+        <span
+          class="mobile-menu-name"
+          data-en="Contact"
+          data-it="Contatti"
+        >
           Contact
         </span>
 
-        <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
-          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
-          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
-        </svg>
+        <span class="mobile-menu-arrow" aria-hidden="true">→</span>
 
       </a>
 
 
       <a href="#about" class="mobile-nav-link">
 
+        <span class="mobile-menu-number">04</span>
+
         <span
+          class="mobile-menu-name"
           data-en="Our Story"
           data-it="La nostra storia"
         >
           Our Story
         </span>
 
-        <svg class="icon-arrow icon-arrow-big" viewBox="0 0 24 24">
-          <path d="M5 12H19" fill="none" stroke="currentColor" stroke-width="2"/>
-          <path d="M14 7L19 12L14 17" fill="none" stroke="currentColor" stroke-width="2"/>
-        </svg>
+        <span class="mobile-menu-arrow" aria-hidden="true">→</span>
 
       </a>
 
-    </div>
+    </nav>
 
 
     <div class="mobile-menu-footer">
 
-      <a
-        href="https://www.instagram.com/orangemay_acoustic/"
-        target="_blank"
-        rel="noopener noreferrer"
+      <div
+        class="mobile-menu-footer-label"
+        data-en="Follow Orange May"
+        data-it="Segui Orange May"
       >
-        Instagram ↗
-      </a>
+        Follow Orange May
+      </div>
 
-      <a
-        href="https://www.facebook.com/p/Orange-May-100092238015144/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Facebook ↗
-      </a>
+      <div class="mobile-menu-socials">
+
+        <a
+          href="https://www.instagram.com/orangemay_acoustic/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram ↗
+        </a>
+
+        <a
+          href="https://www.facebook.com/p/Orange-May-100092238015144/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Facebook ↗
+        </a>
+
+      </div>
 
     </div>
 
@@ -4277,11 +4599,48 @@
       document.getElementById("mobileMenu");
 
 
+    function openMobileMenu() {
+
+      menuToggle.classList.add("active");
+
+      mobileMenu.classList.add("open");
+
+      mobileMenu.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+      menuToggle.setAttribute(
+        "aria-label",
+        "Close menu"
+      );
+
+      document.body.classList.add(
+        "menu-open"
+      );
+
+    }
+
+
     function closeMobileMenu() {
 
       menuToggle.classList.remove("active");
+
       mobileMenu.classList.remove("open");
-      document.body.classList.remove("menu-open");
+
+      mobileMenu.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      menuToggle.setAttribute(
+        "aria-label",
+        "Open menu"
+      );
+
+      document.body.classList.remove(
+        "menu-open"
+      );
 
     }
 
@@ -4290,18 +4649,14 @@
       "click",
       () => {
 
-        const open =
-          mobileMenu.classList.toggle("open");
+        const isOpen =
+          mobileMenu.classList.contains("open");
 
-        menuToggle.classList.toggle(
-          "active",
-          open
-        );
-
-        document.body.classList.toggle(
-          "menu-open",
-          open
-        );
+        if (isOpen) {
+          closeMobileMenu();
+        } else {
+          openMobileMenu();
+        }
 
       }
     );
@@ -4317,6 +4672,21 @@
         );
 
       });
+
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Escape" &&
+          mobileMenu.classList.contains("open")
+        ) {
+          closeMobileMenu();
+        }
+
+      }
+    );
 
 
     /* =========================================================
