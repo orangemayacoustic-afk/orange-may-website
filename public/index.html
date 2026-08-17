@@ -2397,7 +2397,7 @@
     .final-cta {
       position: relative;
 
-      padding: 105px 0 100px;
+      padding: 82px 0 78px;
 
       overflow: hidden;
 
@@ -2412,10 +2412,10 @@
       display: grid;
 
       grid-template-columns:
-        1fr
+        minmax(0, 1fr)
         auto;
 
-      gap: 60px;
+      gap: 48px;
 
       align-items: end;
     }
@@ -2431,9 +2431,9 @@
     }
 
     .final-cta-title {
-      max-width: 930px;
+      max-width: 820px;
 
-      font-size: clamp(3.5rem, 6.6vw, 6.9rem);
+      font-size: clamp(3.25rem, 5.8vw, 5.9rem);
       font-weight: 900;
       line-height: .82;
       letter-spacing: -.065em;
@@ -2450,7 +2450,12 @@
       flex-direction: column;
       align-items: flex-end;
 
-      gap: 12px;
+      gap: 14px;
+    }
+
+    .final-cta-actions > a:not(.btn) {
+      font-size: .82rem;
+      font-weight: 600;
     }
 
 
@@ -2459,7 +2464,7 @@
     ========================================================= */
 
     footer {
-      padding: 64px 0 34px;
+      padding: 52px 0 28px;
 
       background: var(--black);
       color: white;
@@ -2469,10 +2474,10 @@
       display: grid;
 
       grid-template-columns:
-        1fr
-        auto;
+        minmax(0, 1fr)
+        250px;
 
-      gap: 60px;
+      gap: 56px;
 
       align-items: start;
     }
@@ -2480,7 +2485,7 @@
     .footer-logo {
       color: var(--orange);
 
-      font-size: clamp(4rem, 8.5vw, 8.6rem);
+      font-size: clamp(4rem, 7vw, 7rem);
       font-weight: 900;
       line-height: .78;
       letter-spacing: -.065em;
@@ -2489,7 +2494,7 @@
     }
 
     .footer-nav {
-      min-width: 210px;
+      min-width: 0;
       display: grid;
     }
 
@@ -2500,7 +2505,8 @@
 
       gap: 20px;
 
-      padding: 14px 0;
+      min-height: 44px;
+      padding: 11px 0;
 
       border-bottom: 1px solid rgba(255,255,255,.18);
 
@@ -2511,8 +2517,15 @@
       text-transform: uppercase;
     }
 
+    .footer-external-icon {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+    }
+
+
     .footer-bottom {
-      margin-top: 72px;
+      margin-top: 48px;
 
       display: flex;
       justify-content: space-between;
@@ -3065,7 +3078,7 @@
       /* CTA */
 
       .final-cta {
-        padding: 58px 0 56px;
+        padding: 46px 0 44px;
       }
 
       .final-cta-inner {
@@ -3073,19 +3086,34 @@
       }
 
       .final-cta-title {
-        font-size: clamp(2.9rem,13vw,4.2rem);
+        font-size: clamp(2.65rem,12vw,3.85rem);
+        line-height: .84;
       }
 
       .final-cta-actions {
-        margin-top: 26px;
+        margin-top: 22px;
         align-items: stretch;
+        gap: 14px;
+      }
+
+      .final-cta-actions .btn {
+        width: 100%;
+        min-height: 48px;
+      }
+
+      .final-cta-actions > a:not(.btn) {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+
+        font-size: .88rem;
       }
 
 
       /* FOOTER */
 
       footer {
-        padding: 38px 0 24px;
+        padding: 34px 0 22px;
       }
 
       .footer-top {
@@ -3093,15 +3121,20 @@
       }
 
       .footer-logo {
-        font-size: clamp(4rem,18vw,5.7rem);
+        font-size: clamp(3.7rem,16vw,5rem);
       }
 
       .footer-nav {
-        margin-top: 30px;
+        margin-top: 24px;
+      }
+
+      .footer-nav a {
+        min-height: 50px;
+        padding: 10px 0;
       }
 
       .footer-bottom {
-        margin-top: 34px;
+        margin-top: 28px;
 
         flex-direction: column;
         align-items: flex-start;
@@ -4514,7 +4547,42 @@
             rel="noopener noreferrer"
           >
             Instagram
-            <span>↗</span>
+            <svg
+              class="footer-external-icon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M7 17L17 7M9 7H17V15"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+
+          <a
+            href="https://www.facebook.com/p/Orange-May-100092238015144/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Facebook
+            <svg
+              class="footer-external-icon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M7 17L17 7M9 7H17V15"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </a>
 
         </div>
