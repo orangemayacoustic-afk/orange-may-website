@@ -2231,53 +2231,10 @@
       color: white;
     }
 
-    .live-section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 30px;
-
-      padding: 34px 0 28px;
-    }
-
-    .live-section-label {
-      display: flex;
-      align-items: center;
-
-      gap: 11px;
-
-      color: var(--orange);
-
-      font-size: .62rem;
-      font-weight: 900;
-      letter-spacing: .16em;
-
-      text-transform: uppercase;
-    }
-
-    .live-section-label::before {
-      content: "";
-
-      width: 34px;
-      height: 2px;
-
-      background: var(--orange);
-    }
-
-    .live-section-copy {
-      color: rgba(255,255,255,.5);
-
-      font-size: .61rem;
-      font-weight: 800;
-      letter-spacing: .12em;
-
-      text-transform: uppercase;
-    }
-
     .image-strip {
       width: 100%;
-      min-height: 72vh;
+      height: clamp(460px, 42vw, 580px);
+      min-height: 0;
 
       display: flex;
 
@@ -2297,11 +2254,11 @@
     }
 
     .image-strip:hover figure {
-      flex: .82;
+      flex: .94;
     }
 
     .image-strip figure:hover {
-      flex: 1.18;
+      flex: 1.06;
     }
 
     .image-strip img {
@@ -2319,8 +2276,17 @@
         filter .55s ease;
     }
 
+
+    .image-strip figure:first-child img {
+      object-position: center 38%;
+    }
+
+    .image-strip figure:last-child img {
+      object-position: center 34%;
+    }
+
     .image-strip figure:hover img {
-      transform: scale(1.05);
+      transform: scale(1.025);
       filter: brightness(.96) saturate(1);
     }
 
@@ -3051,19 +3017,15 @@
 
       /* LIVE */
 
-      .live-section-head {
-        display: block;
-
-        padding: 25px 0 21px;
-      }
-
-      .live-section-copy {
-        margin-top: 8px;
-      }
-
       .image-strip {
         display: block;
+        height: auto;
         min-height: 0;
+      }
+
+      .image-strip figure:first-child img,
+      .image-strip figure:last-child img {
+        object-position: center center;
       }
 
       .image-strip figure {
@@ -4325,31 +4287,6 @@
     ====================================================== -->
 
     <section class="live-section">
-
-      <div class="container">
-
-        <div class="live-section-head">
-
-          <div
-            class="live-section-label"
-            data-en="Orange May Live"
-            data-it="Orange May Live"
-          >
-            Orange May Live
-          </div>
-
-          <div
-            class="live-section-copy"
-            data-en="Two voices. One stage."
-            data-it="Due voci. Un palco."
-          >
-            Two voices. One stage.
-          </div>
-
-        </div>
-
-      </div>
-
 
       <div class="image-strip">
 
