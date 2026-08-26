@@ -3331,6 +3331,181 @@
       transform: translateY(8px) scale(.98);
     }
 
+
+    /* TIP MICRO POPUP */
+
+    .tip-popover {
+      position: fixed;
+      right: 24px;
+      bottom: max(88px, calc(env(safe-area-inset-bottom) + 82px));
+
+      z-index: 1499;
+
+      width: min(330px, calc(100vw - 48px));
+
+      padding: 18px 18px 16px;
+
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+
+      background: var(--black);
+      color: white;
+
+      box-shadow:
+        0 20px 48px rgba(0,0,0,.26),
+        0 5px 14px rgba(0,0,0,.13);
+
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+
+      transform: translateY(12px) scale(.97);
+
+      transition:
+        opacity .28s ease,
+        visibility .28s ease,
+        transform .38s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .tip-popover.is-visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+
+      transform: translateY(0) scale(1);
+    }
+
+    .tip-popover::after {
+      content: "";
+
+      position: absolute;
+      right: 28px;
+      bottom: -8px;
+
+      width: 16px;
+      height: 16px;
+
+      background: var(--black);
+
+      transform: rotate(45deg);
+    }
+
+    .tip-popover-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+
+      width: 28px;
+      height: 28px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 0;
+      border-radius: 50%;
+
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.74);
+
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .tip-popover-kicker {
+      margin-bottom: 7px;
+      padding-right: 32px;
+
+      color: var(--orange);
+
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .54rem;
+      font-weight: 900;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .tip-popover-title {
+      padding-right: 32px;
+
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.03em;
+      text-transform: uppercase;
+    }
+
+    .tip-popover-copy {
+      margin-top: 9px;
+
+      color: rgba(255,255,255,.68);
+
+      font-size: .87rem;
+      line-height: 1.42;
+    }
+
+    .tip-popover-link {
+      min-height: 37px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-top: 14px;
+      padding: 0 13px;
+
+      border-radius: 999px;
+
+      background: var(--orange);
+      color: var(--black);
+
+      font-size: .56rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    body.menu-open .tip-popover {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    @media (max-width: 700px) {
+
+      .tip-popover {
+        right: 14px;
+        bottom: max(76px, calc(env(safe-area-inset-bottom) + 72px));
+
+        width: min(290px, calc(100vw - 28px));
+
+        padding: 16px 16px 15px;
+
+        border-radius: 16px;
+      }
+
+      .tip-popover::after {
+        right: 25px;
+      }
+
+      .tip-popover-title {
+        font-size: 1.02rem;
+      }
+
+      .tip-popover-copy {
+        font-size: .82rem;
+      }
+
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tip-popover,
+      .tip-popover.is-visible {
+        transition: none;
+      }
+    }
+
     @media (max-width: 700px) {
 
       .tip-float {
@@ -4785,6 +4960,63 @@
 
   </footer>
 
+
+
+  <!-- =======================================================
+       TIP MICRO POPUP
+  ======================================================== -->
+
+  <aside
+    class="tip-popover"
+    id="tipPopover"
+    aria-live="polite"
+    aria-hidden="true"
+  >
+
+    <button
+      class="tip-popover-close"
+      type="button"
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+    <div
+      class="tip-popover-kicker"
+      data-en="A little support"
+      data-it="Un piccolo supporto"
+    >
+      A little support
+    </div>
+
+    <div
+      class="tip-popover-title"
+      data-en="Enjoying Orange May?"
+      data-it="Ti piace Orange May?"
+    >
+      Enjoying Orange May?
+    </div>
+
+    <p
+      class="tip-popover-copy"
+      data-en="You can leave a small tip to support the duo and our live music."
+      data-it="Puoi lasciare una piccola mancia per supportare il duo e la nostra musica live."
+    >
+      You can leave a small tip to support the duo and our live music.
+    </p>
+
+    <a
+      class="tip-popover-link"
+      href="https://buy.stripe.com/test_eVq7sL8x40YHcL28VegEg00"
+      target="_blank"
+      rel="noopener noreferrer"
+      data-en="Tip the duo"
+      data-it="Supporta il duo"
+    >
+      Tip the duo
+    </a>
+
+  </aside>
 
 
   <!-- =======================================================
@@ -6420,47 +6652,112 @@
 
   
     /* =========================================================
-       FLOATING TIP — SHOW AFTER HERO
+       FLOATING TIP — SHOW AFTER FIRST SCROLL
     ========================================================= */
 
     const tipFloat = document.querySelector(".tip-float");
-    const heroSection = document.querySelector(".hero");
+    const tipPopover = document.querySelector("#tipPopover");
+    const tipPopoverClose = document.querySelector(".tip-popover-close");
 
-    if (tipFloat && heroSection) {
+    if (tipFloat) {
+      let tipRevealed = false;
       let tipAttentionPlayed = false;
+      let tipPopoverTimer = null;
 
-      const updateTipVisibility = () => {
-        const heroBottom = heroSection.getBoundingClientRect().bottom;
-        const shouldShowTip = heroBottom <= 0;
+      const closeTipPopover = () => {
+        if (!tipPopover) return;
 
-        if (shouldShowTip) {
-          tipFloat.classList.add("is-visible");
+        tipPopover.classList.remove("is-visible");
+        tipPopover.setAttribute("aria-hidden", "true");
 
-          if (!tipAttentionPlayed) {
-            tipAttentionPlayed = true;
-
-            requestAnimationFrame(() => {
-              tipFloat.classList.add("tip-attention");
-            });
-
-            window.setTimeout(() => {
-              tipFloat.classList.remove("tip-attention");
-            }, 1200);
-          }
-        } else {
-          tipFloat.classList.remove("is-visible");
+        if (tipPopoverTimer) {
+          window.clearTimeout(tipPopoverTimer);
+          tipPopoverTimer = null;
         }
       };
 
-      updateTipVisibility();
+      const showTipPopoverOnce = () => {
+        if (!tipPopover) return;
 
-      window.addEventListener(
-        "scroll",
-        updateTipVisibility,
-        { passive: true }
-      );
+        let alreadyShown = false;
 
-      window.addEventListener("resize", updateTipVisibility);
+        try {
+          alreadyShown = sessionStorage.getItem("orangeMayTipPopoverShown") === "1";
+        } catch (error) {
+          alreadyShown = false;
+        }
+
+        if (alreadyShown) return;
+
+        try {
+          sessionStorage.setItem("orangeMayTipPopoverShown", "1");
+        } catch (error) {
+          /* sessionStorage unavailable: still show it once on this page */
+        }
+
+        window.setTimeout(() => {
+          tipPopover.classList.add("is-visible");
+          tipPopover.setAttribute("aria-hidden", "false");
+
+          tipPopoverTimer = window.setTimeout(() => {
+            closeTipPopover();
+          }, 5200);
+        }, 280);
+      };
+
+      const revealTip = () => {
+        if (tipRevealed) return;
+        if (window.scrollY < 36) return;
+
+        tipRevealed = true;
+
+        tipFloat.classList.add("is-visible");
+
+        if (!tipAttentionPlayed) {
+          tipAttentionPlayed = true;
+
+          requestAnimationFrame(() => {
+            tipFloat.classList.add("tip-attention");
+          });
+
+          window.setTimeout(() => {
+            tipFloat.classList.remove("tip-attention");
+          }, 1200);
+        }
+
+        showTipPopoverOnce();
+      };
+
+      if (window.scrollY >= 36) {
+        revealTip();
+      } else {
+        window.addEventListener(
+          "scroll",
+          revealTip,
+          { passive: true, once: true }
+        );
+      }
+
+      if (tipPopoverClose) {
+        tipPopoverClose.addEventListener("click", closeTipPopover);
+      }
+
+      if (tipPopover) {
+        tipPopover.addEventListener("mouseenter", () => {
+          if (tipPopoverTimer) {
+            window.clearTimeout(tipPopoverTimer);
+            tipPopoverTimer = null;
+          }
+        });
+
+        tipPopover.addEventListener("mouseleave", () => {
+          if (tipPopover.classList.contains("is-visible")) {
+            tipPopoverTimer = window.setTimeout(() => {
+              closeTipPopover();
+            }, 1800);
+          }
+        });
+      }
     }
 
   </script>
