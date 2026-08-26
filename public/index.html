@@ -6728,13 +6728,20 @@
         showTipPopoverOnce();
       };
 
-      if (window.scrollY >= 36) {
+      if (window.scrollY >= 1) {
         revealTip();
       } else {
+        const onFirstMeaningfulScroll = () => {
+          if (window.scrollY < 1) return;
+
+          revealTip();
+          window.removeEventListener("scroll", onFirstMeaningfulScroll);
+        };
+
         window.addEventListener(
           "scroll",
-          revealTip,
-          { passive: true, once: true }
+          onFirstMeaningfulScroll,
+          { passive: true }
         );
       }
 
