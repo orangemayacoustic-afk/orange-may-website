@@ -3225,6 +3225,11 @@
 
       z-index: 1500;
 
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(16px) scale(.96);
+
       min-height: 54px;
       max-width: calc(100vw - 48px);
 
@@ -3252,10 +3257,38 @@
       transform: translateZ(0);
 
       transition:
-        transform .25s ease,
+        transform .34s cubic-bezier(.2,.8,.2,1),
         box-shadow .25s ease,
         background .25s ease,
-        opacity .25s ease;
+        opacity .30s ease,
+        visibility .30s ease;
+    }
+
+    .tip-float.is-visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    .tip-float.is-visible.tip-attention {
+      animation: tipAttention .9s cubic-bezier(.2,.8,.2,1) .12s both;
+    }
+
+    @keyframes tipAttention {
+      0%   { transform: translateY(16px) scale(.94); }
+      36%  { transform: translateY(-7px) scale(1.045); }
+      56%  { transform: translateY(2px) scale(.99); }
+      72%  { transform: translateY(-3px) scale(1.015); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tip-float,
+      .tip-float.is-visible.tip-attention {
+        animation: none;
+        transition: none;
+      }
     }
 
     .tip-float:hover {
@@ -3293,8 +3326,9 @@
 
     body.menu-open .tip-float {
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
-      transform: translateY(8px);
+      transform: translateY(8px) scale(.98);
     }
 
     @media (max-width: 700px) {
@@ -6383,6 +6417,51 @@
 
 
     loadEvents();
+
+  
+    /* =========================================================
+       FLOATING TIP — SHOW AFTER HERO
+    ========================================================= */
+
+    const tipFloat = document.querySelector(".tip-float");
+    const heroSection = document.querySelector(".hero");
+
+    if (tipFloat && heroSection) {
+      let tipAttentionPlayed = false;
+
+      const updateTipVisibility = () => {
+        const heroBottom = heroSection.getBoundingClientRect().bottom;
+        const shouldShowTip = heroBottom <= 0;
+
+        if (shouldShowTip) {
+          tipFloat.classList.add("is-visible");
+
+          if (!tipAttentionPlayed) {
+            tipAttentionPlayed = true;
+
+            requestAnimationFrame(() => {
+              tipFloat.classList.add("tip-attention");
+            });
+
+            window.setTimeout(() => {
+              tipFloat.classList.remove("tip-attention");
+            }, 1200);
+          }
+        } else {
+          tipFloat.classList.remove("is-visible");
+        }
+      };
+
+      updateTipVisibility();
+
+      window.addEventListener(
+        "scroll",
+        updateTipVisibility,
+        { passive: true }
+      );
+
+      window.addEventListener("resize", updateTipVisibility);
+    }
 
   </script>
 
