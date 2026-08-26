@@ -6707,7 +6707,7 @@
 
       const revealTip = () => {
         if (tipRevealed) return;
-        if (window.scrollY < 36) return;
+        if (window.scrollY < 1) return;
 
         tipRevealed = true;
 
@@ -6735,7 +6735,10 @@
           if (window.scrollY < 1) return;
 
           revealTip();
-          window.removeEventListener("scroll", onFirstMeaningfulScroll);
+
+          if (tipRevealed) {
+            window.removeEventListener("scroll", onFirstMeaningfulScroll);
+          }
         };
 
         window.addEventListener(
