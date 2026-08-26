@@ -3213,6 +3213,131 @@
   }
 }
 
+
+    /* =========================================================
+       FLOATING TIP BUTTON
+    ========================================================= */
+
+    .tip-float {
+      position: fixed;
+      right: 24px;
+      bottom: max(24px, calc(env(safe-area-inset-bottom) + 18px));
+
+      z-index: 1500;
+
+      min-height: 54px;
+      max-width: calc(100vw - 48px);
+
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+
+      padding: 7px 16px 7px 7px;
+
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+
+      background: var(--black);
+      color: white;
+
+      box-shadow:
+        0 14px 36px rgba(0,0,0,.22),
+        0 3px 10px rgba(0,0,0,.12);
+
+      font-size: .67rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+
+      transform: translateZ(0);
+
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease,
+        opacity .25s ease;
+    }
+
+    .tip-float:hover {
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 18px 42px rgba(0,0,0,.26),
+        0 4px 12px rgba(0,0,0,.14);
+    }
+
+    .tip-float-icon {
+      width: 40px;
+      height: 40px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border-radius: 50%;
+
+      background: var(--orange);
+      color: var(--black);
+    }
+
+    .tip-float-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .tip-float-text {
+      white-space: nowrap;
+    }
+
+    body.menu-open .tip-float {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+    }
+
+    @media (max-width: 700px) {
+
+      .tip-float {
+        right: 16px;
+        bottom: max(18px, calc(env(safe-area-inset-bottom) + 14px));
+
+        min-height: 50px;
+        max-width: calc(100vw - 32px);
+
+        gap: 9px;
+
+        padding: 6px 13px 6px 6px;
+
+        font-size: .61rem;
+      }
+
+      .tip-float-icon {
+        width: 38px;
+        height: 38px;
+      }
+
+      .tip-float-icon svg {
+        width: 17px;
+        height: 17px;
+      }
+
+    }
+
+    @media (max-width: 390px) {
+
+      .tip-float {
+        right: 14px;
+        bottom: max(16px, calc(env(safe-area-inset-bottom) + 12px));
+
+        max-width: calc(100vw - 28px);
+
+        padding-right: 12px;
+      }
+
+    }
+
   </style>
 
 </head>
@@ -4597,6 +4722,43 @@
     </div>
 
   </footer>
+
+
+
+  <!-- =======================================================
+       FLOATING TIP BUTTON
+  ======================================================== -->
+
+  <a
+    class="tip-float"
+    href="https://buy.stripe.com/test_eVq7sL8x40YHcL28VegEg00"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Tip the duo"
+  >
+
+    <span class="tip-float-icon" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+      </svg>
+    </span>
+
+    <span
+      class="tip-float-text"
+      data-en="Tip the duo"
+      data-it="Supporta il duo"
+    >
+      Tip the duo
+    </span>
+
+  </a>
 
 
   <!-- =======================================================
